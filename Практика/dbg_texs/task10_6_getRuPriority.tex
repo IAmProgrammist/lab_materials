@@ -1,0 +1,212 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorICGEFLSTHCFBF}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontICGEFLSOHLDJCOH[Scale=0.392488, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorICGEFLSTHCFBF}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorICGEFLSRKMDGA}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorICGEFLSCONPFG}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.152307 cm, fill=colorICGEFLSRKMDGA, draw=none] (0.707536,0.002769) -- (2.230607,0.002769) -- (2.230607,-0.301845) -- (0.707536,-0.301845) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.152307 cm, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (0.707536,0.002769) -- (2.230607,0.002769) -- (2.230607,-0.301845) -- (0.707536,-0.301845) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(0.851625, -0.213130) {\verb|getRuPriority(a)|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (0.714459, -0.872997) -- (1.469071, -1.250303) -- (2.223684, -0.872997) -- (1.469071, -0.495690) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (0.714459, -0.872997) -- (1.469071, -1.250303) -- (2.223684, -0.872997) -- (1.469071, -0.495690) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(0.922190, -0.919974) {\verb|!a[0] or !a[1]|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (0.714459, -0.872997) -- (0.575998, -0.872997) -- (0.575998, -1.444148);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (-0.002769,-1.444148) -- (1.154765,-1.444148) -- (1.154765,-1.748763) -- (-0.002769,-1.748763) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (-0.002769,-1.444148) -- (1.154765,-1.444148) -- (1.154765,-1.748763) -- (-0.002769,-1.748763) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(0.064399, -1.660048) {\verb|priority := 0|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(0.575998, -0.789920) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (2.223684, -0.872997) -- (3.979231, -0.872997) -- (3.979231, -1.444148);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(3.873383, -0.789920) {\verb|-|};
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (3.095850,-1.444148) -- (4.862612,-1.444148) -- (4.862612,-1.748763) -- (3.095850,-1.748763) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (3.095850,-1.444148) -- (4.862612,-1.444148) -- (4.862612,-1.748763) -- (3.095850,-1.748763) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(3.167730, -1.660048) {\verb|aCode := getRuCode(a)|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (2.620928, -2.621759) -- (3.979231, -3.300910) -- (5.337533, -2.621759) -- (3.979231, -1.942608) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (2.620928, -2.621759) -- (3.979231, -3.300910) -- (5.337533, -2.621759) -- (3.979231, -1.942608) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(2.973675, -2.595352) {\verb|aCode ≥ getRuCode("А") and|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(3.132447, -2.744790) {\verb|aCode ≤ getRuCode("Е")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (2.620928, -2.621759) -- (2.482467, -2.621759) -- (2.482467, -3.494756);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (1.607532,-3.494756) -- (3.357402,-3.494756) -- (3.357402,-3.946139) -- (1.607532,-3.946139) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (1.607532,-3.494756) -- (3.357402,-3.494756) -- (3.357402,-3.946139) -- (1.607532,-3.946139) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (1.675240,-3.494756) -- (3.289695,-3.494756) -- (3.289695,-3.946139) -- (1.675240,-3.946139) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(1.759173, -3.710655) {\verb|priority := aCode -|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(1.794455, -3.860094) {\verb|getRuCode("А") + 1|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(2.482467, -2.538683) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (5.337533, -2.621759) -- (5.894147, -2.621759) -- (5.894147, -3.494756);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(5.788299, -2.538683) {\verb|-|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (4.834920, -4.024369) -- (5.894147, -4.553982) -- (6.953373, -4.024369) -- (5.894147, -3.494756) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (4.834920, -4.024369) -- (5.894147, -4.553982) -- (6.953373, -4.024369) -- (5.894147, -3.494756) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(5.047363, -4.071346) {\verb|aCode = getRuCode("Ë")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (4.834920, -4.024369) -- (4.696459, -4.024369) -- (4.696459, -4.747828);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (4.117692,-4.747828) -- (5.275226,-4.747828) -- (5.275226,-5.052442) -- (4.117692,-5.052442) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (4.117692,-4.747828) -- (5.275226,-4.747828) -- (5.275226,-5.052442) -- (4.117692,-5.052442) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(4.184860, -4.963727) {\verb|priority := 7|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(4.696459, -3.941293) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (6.953373, -4.024369) -- (8.404306, -4.024369) -- (8.404306, -4.747828);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(8.298458, -3.941293) {\verb|-|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (7.046004, -5.426979) -- (8.404306, -6.106130) -- (9.762609, -5.426979) -- (8.404306, -4.747828) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (7.046004, -5.426979) -- (8.404306, -6.106130) -- (9.762609, -5.426979) -- (8.404306, -4.747828) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(7.398750, -5.400572) {\verb|aCode ≥ getRuCode("Ж") and|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(7.557522, -5.550010) {\verb|aCode ≤ getRuCode("Я")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (7.046004, -5.426979) -- (6.907543, -5.426979) -- (6.907543, -6.299976);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (6.032608,-6.299976) -- (7.782478,-6.299976) -- (7.782478,-6.751359) -- (6.032608,-6.751359) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (6.032608,-6.299976) -- (7.782478,-6.299976) -- (7.782478,-6.751359) -- (6.032608,-6.751359) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (6.100315,-6.299976) -- (7.714770,-6.299976) -- (7.714770,-6.751359) -- (6.100315,-6.751359) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(6.184248, -6.515875) {\verb|priority := aCode -|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(6.219531, -6.665314) {\verb|getRuCode("Ж") + 8|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(6.907543, -5.343903) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (9.762609, -5.426979) -- (10.914466, -5.426979) -- (10.914466, -6.299976);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(10.808618, -5.343903) {\verb|-|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (9.556163, -6.979127) -- (10.914466, -7.658278) -- (12.272768, -6.979127) -- (10.914466, -6.299976) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (9.556163, -6.979127) -- (10.914466, -7.658278) -- (12.272768, -6.979127) -- (10.914466, -6.299976) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(9.908910, -6.952720) {\verb|aCode ≥ getRuCode("а") and|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(10.067682, -7.102158) {\verb|aCode ≤ getRuCode("е")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (9.556163, -6.979127) -- (9.417702, -6.979127) -- (9.417702, -7.852124);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (8.542767,-7.852124) -- (10.292637,-7.852124) -- (10.292637,-8.303507) -- (8.542767,-8.303507) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (8.542767,-7.852124) -- (10.292637,-7.852124) -- (10.292637,-8.303507) -- (8.542767,-8.303507) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (8.610475,-7.852124) -- (10.224930,-7.852124) -- (10.224930,-8.303507) -- (8.610475,-8.303507) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(8.694408, -8.068023) {\verb|priority := aCode -|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(8.694408, -8.217462) {\verb|getRuCode("а") + 34|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(9.417702, -6.896050) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (12.272768, -6.979127) -- (12.866766, -6.979127) -- (12.866766, -7.852124);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(12.760918, -6.896050) {\verb|-|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (11.807539, -8.381737) -- (12.866766, -8.911350) -- (13.925993, -8.381737) -- (12.866766, -7.852124) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (11.807539, -8.381737) -- (12.866766, -8.911350) -- (13.925993, -8.381737) -- (12.866766, -7.852124) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(12.019982, -8.428714) {\verb|aCode = getRuCode("ё")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (11.807539, -8.381737) -- (11.669078, -8.381737) -- (11.669078, -9.105196);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (11.052927,-9.105196) -- (12.285230,-9.105196) -- (12.285230,-9.409810) -- (11.052927,-9.409810) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (11.052927,-9.105196) -- (12.285230,-9.105196) -- (12.285230,-9.409810) -- (11.052927,-9.409810) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(11.122197, -9.321095) {\verb|priority := 40|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(11.669078, -8.298660) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (13.925993, -8.381737) -- (15.376925, -8.381737) -- (15.376925, -9.105196);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(15.271077, -8.298660) {\verb|-|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (14.018623, -9.784347) -- (15.376925, -10.463498) -- (16.735228, -9.784347) -- (15.376925, -9.105196) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (14.018623, -9.784347) -- (15.376925, -10.463498) -- (16.735228, -9.784347) -- (15.376925, -9.105196) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(14.371370, -9.757940) {\verb|aCode ≥ getRuCode("ж") and|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(14.530142, -9.907378) {\verb|aCode ≤ getRuCode("п")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (14.018623, -9.784347) -- (13.880162, -9.784347) -- (13.880162, -10.657344);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (13.005227,-10.657344) -- (14.755097,-10.657344) -- (14.755097,-11.108727) -- (13.005227,-11.108727) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (13.005227,-10.657344) -- (14.755097,-10.657344) -- (14.755097,-11.108727) -- (13.005227,-11.108727) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (13.072934,-10.657344) -- (14.687390,-10.657344) -- (14.687390,-11.108727) -- (13.072934,-11.108727) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(13.156867, -10.873243) {\verb|priority := aCode -|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(13.156867, -11.022682) {\verb|getRuCode("ж") + 41|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(13.880162, -9.701270) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (16.735228, -9.784347) -- (17.887085, -9.784347) -- (17.887085, -10.657344);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(17.781237, -9.701270) {\verb|-|};
+\draw[opacity=1.000000, fill=colorICGEFLSRKMDGA, draw=none] (16.528783, -11.336495) -- (17.887085, -12.015646) -- (19.245388, -11.336495) -- (17.887085, -10.657344) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (16.528783, -11.336495) -- (17.887085, -12.015646) -- (19.245388, -11.336495) -- (17.887085, -10.657344) --cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(16.881529, -11.310088) {\verb|aCode ≥ getRuCode("р") and|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(17.040301, -11.459526) {\verb|aCode ≤ getRuCode("я")|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (16.528783, -11.336495) -- (16.390322, -11.336495) -- (16.390322, -12.209492);
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (15.515386,-12.209492) -- (17.265257,-12.209492) -- (17.265257,-12.660874) -- (15.515386,-12.660874) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (15.515386,-12.209492) -- (17.265257,-12.209492) -- (17.265257,-12.660874) -- (15.515386,-12.660874) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (15.583094,-12.209492) -- (17.197549,-12.209492) -- (17.197549,-12.660874) -- (15.583094,-12.660874) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(15.667027, -12.425391) {\verb|priority := aCode -|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(15.667027, -12.574829) {\verb|getRuCode("р") + 51|};
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(16.390322, -11.253418) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (19.245388, -11.336495) -- (19.383849, -11.336495) -- (19.383849, -12.209492);
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(19.278001, -11.253418) {\verb|-|};
+\draw[fill=colorICGEFLSRKMDGA, draw=none, opacity=1.000000] (18.767697,-12.209492) -- (20.000000,-12.209492) -- (20.000000,-12.514106) -- (18.767697,-12.514106) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (18.767697,-12.209492) -- (20.000000,-12.209492) -- (20.000000,-12.514106) -- (18.767697,-12.514106) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(18.836967, -12.425391) {\verb|priority := 67|};
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (19.383849, -12.514106) -- (19.383849, -12.854720) -- (17.887085, -12.854720);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (16.390322, -12.660874) -- (16.390322, -12.854720) -- (17.887085, -12.854720);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (17.887085, -12.854720) -- (17.887085, -13.048565) -- (15.376925, -13.048565);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (13.880162, -11.108727) -- (13.880162, -13.048565) -- (15.376925, -13.048565);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (15.376925, -13.048565) -- (15.376925, -13.242411) -- (12.866766, -13.242411);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (11.669078, -9.409810) -- (11.669078, -13.242411) -- (12.866766, -13.242411);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (12.866766, -13.242411) -- (12.866766, -13.436256) -- (10.914466, -13.436256);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (9.417702, -8.303507) -- (9.417702, -13.436256) -- (10.914466, -13.436256);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (10.914466, -13.436256) -- (10.914466, -13.630101) -- (8.404306, -13.630101);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (6.907543, -6.751359) -- (6.907543, -13.630101) -- (8.404306, -13.630101);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (8.404306, -13.630101) -- (8.404306, -13.823947) -- (5.894147, -13.823947);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (4.696459, -5.052442) -- (4.696459, -13.823947) -- (5.894147, -13.823947);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (5.894147, -13.823947) -- (5.894147, -14.017792) -- (3.979231, -14.017792);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (2.482467, -3.946139) -- (2.482467, -14.017792) -- (3.979231, -14.017792);
+\draw[opacity=1.000000, fill=none, line width=0.013846 cm, colorICGEFLSCONPFG] (3.979231,-1.748763) -- (3.979231,-1.942608);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (3.979231, -14.017792) -- (3.979231, -14.211638) -- (1.469071, -14.211638);
+\draw[opacity=1.000000, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (0.575998, -1.748763) -- (0.575998, -14.211638) -- (1.469071, -14.211638);
+\draw[opacity=1.000000, fill=none, line width=0.013846 cm, colorICGEFLSCONPFG] (1.469071,-0.301845) -- (1.469071,-0.495690);
+\draw[opacity=1.000000, rounded corners=0.152307 cm, fill=colorICGEFLSRKMDGA, draw=none] (0.707536,-14.405483) -- (2.230607,-14.405483) -- (2.230607,-14.710097) -- (0.707536,-14.710097) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.152307 cm, fill=none, line width=0.013846cm, colorICGEFLSCONPFG] (0.707536,-14.405483) -- (2.230607,-14.405483) -- (2.230607,-14.710097) -- (0.707536,-14.710097) -- cycle;
+\verbatimfont{\normalsize\fontICGEFLSOHLDJCOH}
+\node[opacity=1.000000, above right, colorICGEFLSCONPFG] at(0.851625, -14.621383) {\verb|Вернуть priority|};
+\draw[opacity=1.000000, fill=none, line width=0.013846 cm, colorICGEFLSCONPFG] (1.469071,-14.211638) -- (1.469071,-14.405483);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

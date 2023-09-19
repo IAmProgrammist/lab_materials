@@ -1,0 +1,1 @@
+{"data":[{"data":"getRuCode(beg)","type":"bd_element_terminator"},{"data":"code := (beg[0] << 8) + beg[1]","type":"bd_element_process"},{"data":"Вернуть code","type":"bd_element_terminator"}],"type":"bd_element_container"}

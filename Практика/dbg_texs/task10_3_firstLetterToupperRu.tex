@@ -1,0 +1,121 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorPDRPQOQCHTOPBNP}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontPDRPQOQCREFQFK[Scale=0.609648, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorPDRPQOQCHTOPBNP}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorPDRPQOQCJQHRHS}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorPDRPQOQCIFPMMG}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.236577 cm, fill=colorPDRPQOQCJQHRHS, draw=none] (1.556894,0.004301) -- (4.989415,0.004301) -- (4.989415,-0.468853) -- (1.556894,-0.468853) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.236577 cm, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (1.556894,0.004301) -- (4.989415,0.004301) -- (4.989415,-0.468853) -- (1.556894,-0.468853) -- cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(1.791033, -0.358857) {\verb|firstLetterToupperRu(beg)|};
+\draw[fill=colorPDRPQOQCJQHRHS, draw=none, opacity=1.000000] (1.771964,-0.769952) -- (4.774345,-0.769952) -- (4.774345,-1.243106) -- (1.771964,-1.243106) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (1.771964,-0.769952) -- (4.774345,-0.769952) -- (4.774345,-1.243106) -- (1.771964,-1.243106) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (1.842937,-0.769952) -- (4.703372,-0.769952) -- (4.703372,-1.243106) -- (1.842937,-1.243106) -- cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(1.967476, -1.133110) {\verb|code := getRuCode(beg)|};
+\draw[opacity=1.000000, fill=none, line width=0.021507 cm, colorPDRPQOQCIFPMMG] (3.273155,-0.468853) -- (3.273155,-0.769952);
+\draw[opacity=1.000000, fill=colorPDRPQOQCJQHRHS, draw=none] (1.627867, -2.366848) -- (3.273155, -3.189492) -- (4.918442, -2.366848) -- (3.273155, -1.544205) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (1.627867, -2.366848) -- (3.273155, -3.189492) -- (4.918442, -2.366848) -- (3.273155, -1.544205) --cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(1.967476, -2.467621) {\verb|code = getRuCode("ё") |};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (1.627867, -2.366848) -- (1.412797, -2.366848) -- (1.412797, -3.490591);
+\draw[fill=colorPDRPQOQCJQHRHS, draw=none, opacity=1.000000] (-0.004301,-3.490591) -- (2.829895,-3.490591) -- (2.829895,-4.191720) -- (-0.004301,-4.191720) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (-0.004301,-3.490591) -- (2.829895,-3.490591) -- (2.829895,-4.191720) -- (-0.004301,-4.191720) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (0.100868,-3.490591) -- (2.724725,-3.490591) -- (2.724725,-4.191720) -- (0.100868,-4.191720) -- cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(0.336494, -3.853749) {\verb|writeRuCodeToChar(|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(0.212984, -4.113673) {\verb|getRuCode("Ë"), beg)|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(1.412797, -2.237806) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (4.918442, -2.366848) -- (7.503157, -2.366848) -- (7.503157, -3.490591);
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(7.362002, -2.237806) {\verb|-|};
+\draw[opacity=1.000000, fill=colorPDRPQOQCJQHRHS, draw=none] (5.451386, -4.516476) -- (7.503157, -5.542361) -- (9.554927, -4.516476) -- (7.503157, -3.490591) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (5.451386, -4.516476) -- (7.503157, -5.542361) -- (9.554927, -4.516476) -- (7.503157, -3.490591) --cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(6.021035, -4.503261) {\verb|code ≥ getRuCode("а") and|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(6.250411, -4.763186) {\verb|code ≤ getRuCode("п")|};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (5.451386, -4.516476) -- (5.236316, -4.516476) -- (5.236316, -5.843460);
+\draw[fill=colorPDRPQOQCJQHRHS, draw=none, opacity=1.000000] (3.488225,-5.843460) -- (6.984407,-5.843460) -- (6.984407,-6.772563) -- (3.488225,-6.772563) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (3.488225,-5.843460) -- (6.984407,-5.843460) -- (6.984407,-6.772563) -- (3.488225,-6.772563) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (3.627590,-5.843460) -- (6.845042,-5.843460) -- (6.845042,-6.772563) -- (3.627590,-6.772563) -- cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(4.160013, -6.206618) {\verb|writeRuCodeToChar(|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(3.754194, -6.466542) {\verb|code - (getRuCode("а") - |};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(3.983570, -6.726467) {\verb|getRuCode("А")), beg)|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(5.236316, -4.387434) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (9.554927, -4.516476) -- (11.733159, -4.516476) -- (11.733159, -5.843460);
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(11.592005, -4.387434) {\verb|-|};
+\draw[opacity=1.000000, fill=colorPDRPQOQCJQHRHS, draw=none] (9.681389, -6.869345) -- (11.733159, -7.895230) -- (13.784930, -6.869345) -- (11.733159, -5.843460) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (9.681389, -6.869345) -- (11.733159, -7.895230) -- (13.784930, -6.869345) -- (11.733159, -5.843460) --cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(10.251037, -6.856130) {\verb|code ≥ getRuCode("р") and|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(10.480413, -7.116055) {\verb|code ≤ getRuCode("я")|};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (9.681389, -6.869345) -- (9.466318, -6.869345) -- (9.466318, -8.196328);
+\draw[fill=colorPDRPQOQCJQHRHS, draw=none, opacity=1.000000] (7.718227,-8.196328) -- (11.214410,-8.196328) -- (11.214410,-9.125432) -- (7.718227,-9.125432) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (7.718227,-8.196328) -- (11.214410,-8.196328) -- (11.214410,-9.125432) -- (7.718227,-9.125432) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (7.857593,-8.196328) -- (11.075044,-8.196328) -- (11.075044,-9.125432) -- (7.857593,-9.125432) -- cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(8.390016, -8.559487) {\verb|writeRuCodeToChar(|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(7.984197, -8.819411) {\verb|code - (getRuCode("р") - |};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(8.213573, -9.079336) {\verb|getRuCode("Р")), beg)|};
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(9.466318, -6.740303) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (13.784930, -6.869345) -- (14.000000, -6.869345) -- (14.000000, -8.196328);
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(13.858846, -6.740303) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (14.000000, -8.196328) -- (14.000000, -9.426530) -- (11.733159, -9.426530);
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (9.466318, -9.125432) -- (9.466318, -9.426530) -- (11.733159, -9.426530);
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (11.733159, -9.426530) -- (11.733159, -9.727629) -- (7.503157, -9.727629);
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (5.236316, -6.772563) -- (5.236316, -9.727629) -- (7.503157, -9.727629);
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (7.503157, -9.727629) -- (7.503157, -10.028727) -- (3.273155, -10.028727);
+\draw[opacity=1.000000, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (1.412797, -4.191720) -- (1.412797, -10.028727) -- (3.273155, -10.028727);
+\draw[opacity=1.000000, fill=none, line width=0.021507 cm, colorPDRPQOQCIFPMMG] (3.273155,-1.243106) -- (3.273155,-1.544205);
+\draw[opacity=1.000000, rounded corners=0.236577 cm, fill=colorPDRPQOQCJQHRHS, draw=none] (2.326845,-10.329826) -- (4.219464,-10.329826) -- (4.219464,-10.802980) -- (2.326845,-10.802980) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.236577 cm, fill=none, line width=0.021507cm, colorPDRPQOQCIFPMMG] (2.326845,-10.329826) -- (4.219464,-10.329826) -- (4.219464,-10.802980) -- (2.326845,-10.802980) -- cycle;
+\verbatimfont{\normalsize\fontPDRPQOQCREFQFK}
+\node[opacity=1.000000, above right, colorPDRPQOQCIFPMMG] at(2.549738, -10.692984) {\verb|Вернуть code|};
+\draw[opacity=1.000000, fill=none, line width=0.021507 cm, colorPDRPQOQCIFPMMG] (3.273155,-10.028727) -- (3.273155,-10.329826);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

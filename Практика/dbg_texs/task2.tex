@@ -1,0 +1,95 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorIQMGDBHODPQINRE}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontIQMGDBHIEJNDTIF[Scale=0.635571, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorIQMGDBHODPQINRE}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorIQMGDBHHGJIEPC}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorIQMGDBHOOITRR}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.246637 cm, fill=colorIQMGDBHHGJIEPC, draw=none] (2.067265,0.004484) -- (7.865471,0.004484) -- (7.865471,-0.488789) -- (2.067265,-0.488789) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.246637 cm, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (2.067265,0.004484) -- (7.865471,0.004484) -- (7.865471,-0.488789) -- (2.067265,-0.488789) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(2.301701, -0.363647) {\verb|canPlaceTwoHousesInSquare(a, b, p, q, r, s)|};
+        \draw[fill=colorIQMGDBHHGJIEPC, draw=none, opacity=1.000000] (3.647982,-0.802691) -- (6.284753,-0.802691) -- (6.284753,-1.295964) -- (3.647982,-1.295964) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.647982,-0.802691) -- (6.284753,-0.802691) -- (6.284753,-1.295964) -- (3.647982,-1.295964) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.721973,-0.802691) -- (6.210762,-0.802691) -- (6.210762,-1.295964) -- (3.721973,-1.295964) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.854619, -1.170822) {\verb|maxPS := max(p, s)|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422 cm, colorIQMGDBHOOITRR] (4.966368,-0.488789) -- (4.966368,-0.802691);
+        \draw[fill=colorIQMGDBHHGJIEPC, draw=none, opacity=1.000000] (3.647982,-1.609865) -- (6.284753,-1.609865) -- (6.284753,-2.103139) -- (3.647982,-2.103139) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.647982,-1.609865) -- (6.284753,-1.609865) -- (6.284753,-2.103139) -- (3.647982,-2.103139) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.721973,-1.609865) -- (6.210762,-1.609865) -- (6.210762,-2.103139) -- (3.721973,-2.103139) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.854619, -1.977997) {\verb|maxPR := max(p, r)|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422 cm, colorIQMGDBHOOITRR] (4.966368,-1.295964) -- (4.966368,-1.609865);
+        \draw[fill=colorIQMGDBHHGJIEPC, draw=none, opacity=1.000000] (3.647982,-2.417040) -- (6.284753,-2.417040) -- (6.284753,-2.910314) -- (3.647982,-2.910314) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.647982,-2.417040) -- (6.284753,-2.417040) -- (6.284753,-2.910314) -- (3.647982,-2.910314) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.721973,-2.417040) -- (6.210762,-2.417040) -- (6.210762,-2.910314) -- (3.721973,-2.910314) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.854619, -2.785172) {\verb|maxQS := max(q, s)|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422 cm, colorIQMGDBHOOITRR] (4.966368,-2.103139) -- (4.966368,-2.417040);
+        \draw[fill=colorIQMGDBHHGJIEPC, draw=none, opacity=1.000000] (3.647982,-3.224215) -- (6.284753,-3.224215) -- (6.284753,-3.717489) -- (3.647982,-3.717489) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.647982,-3.224215) -- (6.284753,-3.224215) -- (6.284753,-3.717489) -- (3.647982,-3.717489) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.721973,-3.224215) -- (6.210762,-3.224215) -- (6.210762,-3.717489) -- (3.721973,-3.717489) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.854619, -3.592347) {\verb|maxQR := max(q, r)|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422 cm, colorIQMGDBHOOITRR] (4.966368,-2.910314) -- (4.966368,-3.224215);
+        \draw[opacity=1.000000, fill=colorIQMGDBHHGJIEPC, draw=none] (1.340807, -5.844170) -- (4.966368, -7.656951) -- (8.591928, -5.844170) -- (4.966368, -4.031390) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (1.340807, -5.844170) -- (4.966368, -7.656951) -- (8.591928, -5.844170) -- (4.966368, -4.031390) --cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -5.106921) {\verb|maxPS ≤ a and q + r ≤ b or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -5.367429) {\verb|maxPR ≤ a and q + s ≤ b or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -5.627937) {\verb|maxQS ≤ a and p + r ≤ b or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -5.888445) {\verb|maxQR ≤ a and p + s ≤ b or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -6.148953) {\verb|maxQR ≤ b and p + s ≤ a or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -6.409461) {\verb|maxQS ≤ b and p + r ≤ a or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.360509, -6.669969) {\verb|maxPR ≤ b and q + s ≤ a or|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.536977, -6.930477) {\verb|maxPS ≤ b and q + r ≤ a|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (1.340807, -5.844170) -- (1.116592, -5.844170) -- (1.116592, -7.970852);
+        \draw[fill=colorIQMGDBHHGJIEPC, draw=none, opacity=1.000000] (-0.004484,-7.970852) -- (2.237668,-7.970852) -- (2.237668,-8.464126) -- (-0.004484,-8.464126) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (-0.004484,-7.970852) -- (2.237668,-7.970852) -- (2.237668,-8.464126) -- (-0.004484,-8.464126) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(0.128371, -8.338983) {\verb|canPlace := true|};
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(1.116592, -5.709641) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (8.591928, -5.844170) -- (8.816143, -5.844170) -- (8.816143, -7.970852);
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(8.674969, -5.709641) {\verb|-|};
+        \draw[fill=colorIQMGDBHHGJIEPC, draw=none, opacity=1.000000] (7.632287,-7.970852) -- (10.000000,-7.970852) -- (10.000000,-8.464126) -- (7.632287,-8.464126) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (7.632287,-7.970852) -- (10.000000,-7.970852) -- (10.000000,-8.464126) -- (7.632287,-8.464126) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(7.757336, -8.338983) {\verb|canPlace := false|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (8.816143, -8.464126) -- (8.816143, -8.778027) -- (4.966368, -8.778027);
+        \draw[opacity=1.000000, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (1.116592, -8.464126) -- (1.116592, -8.778027) -- (4.966368, -8.778027);
+        \draw[opacity=1.000000, fill=none, line width=0.022422 cm, colorIQMGDBHOOITRR] (4.966368,-3.717489) -- (4.966368,-4.031390);
+        \draw[opacity=1.000000, rounded corners=0.246637 cm, fill=colorIQMGDBHHGJIEPC, draw=none] (3.733184,-9.091928) -- (6.199552,-9.091928) -- (6.199552,-9.585202) -- (3.733184,-9.585202) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.246637 cm, fill=none, line width=0.022422cm, colorIQMGDBHOOITRR] (3.733184,-9.091928) -- (6.199552,-9.091928) -- (6.199552,-9.585202) -- (3.733184,-9.585202) -- cycle;
+        \verbatimfont{\normalsize\fontIQMGDBHIEJNDTIF}
+        \node[opacity=1.000000, above right, colorIQMGDBHOOITRR] at(3.978147, -9.460060) {\verb|Вернуть canPlace|};
+        \draw[opacity=1.000000, fill=none, line width=0.022422 cm, colorIQMGDBHOOITRR] (4.966368,-8.778027) -- (4.966368,-9.091928);
+    \end{tikzpicture}
+\end{document}

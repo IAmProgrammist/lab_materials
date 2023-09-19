@@ -1,0 +1,71 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathletters]{ucs}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}	
+	\pagenumbering{gobble}
+	\noindent Мощность множества всех трёхэлементных подмножеств множества А равно 10.
+	
+	\begin{enumerate}[№1. ]
+		\item Чему равна мощность множества А?\bigbreak
+		"Множества всех трёхэлементных подмножеств множества" описывает комбинаторный объект "сочетания" \, где k = 3. Количество элементов в сочетании определяется по следующей формуле:\\
+		$C^k_n=\frac{n!}{(n-k)!k!}$\\
+		Подставим в формулу условие задания $k=3; C^k_n = 10$. Получим уравнение, где n - искомая мощность исходного множества A\\
+		$10=\frac{n!}{(n-3)!3!}$\\
+		$\frac{n!}{(n-3)!}=60$\\
+		$\frac{1\cdot2\cdot3\cdot...\cdot(n-4)\cdot(n-3)\cdot(n-2)\cdot(n-1)\cdot n}{1\cdot2\cdot3\cdot...\cdot(n-4)\cdot(n-3)}=60$\\
+		$(n-2)\cdot(n-1)\cdot n = 60$\\
+		При n = 5\\
+		$3\cdot4\cdot5=60$\\
+		$12\cdot5=60$\\
+		$60=60$\\
+		Равенство доказано, следовательно мощность множества A n = 5
+		
+		\textbf{Ответ:} 5
+		
+		\item Чему равна мощность множества всех размещений множества А по 3-м местам?
+		
+		Формула для вычисления количества размещений\\
+		$A^k_n=\frac{n!}{(n-k)!}$\\
+		$A^3_5=\frac{5!}{(5-3)!}=\frac{1\cdot2\cdot3\cdot4\cdot5}{1\cdot2}=3\cdot4\cdot5=60$\\
+		
+		\textbf{Ответ:} 60
+		
+	\end{enumerate}
+	
+	
+\end{document}

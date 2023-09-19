@@ -1,0 +1,117 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorRQGNQNIDIOFKOJKD}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontRQGNQNIDLQJFNJCN[Scale=0.707247, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorRQGNQNIDIOFKOJKD}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorRQGNQNIDSEDCAA}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorRQGNQNIDQSTOCFLA}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.406687 cm, fill=colorRQGNQNIDSEDCAA, draw=none] (-0.004990,0.004990) -- (10.000000,0.004990) -- (10.000000,-0.808383) -- (-0.004990,-0.808383) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.406687 cm, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (-0.004990,0.004990) -- (10.000000,0.004990) -- (10.000000,-0.808383) -- (-0.004990,-0.808383) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(0.391458, -0.412104) {\verb|processColumn(matrix, k, columnIndex, longestZeroSubsequenceBegin, |};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(1.485615, -0.709437) {\verb|longestZeroSubsequenceEnd, maxSubsequenceSize, buf)|};
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (2.158184,-1.157685) -- (7.836826,-1.157685) -- (7.836826,-1.706587) -- (2.158184,-1.706587) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (2.158184,-1.157685) -- (7.836826,-1.157685) -- (7.836826,-1.706587) -- (2.158184,-1.706587) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (2.240519,-1.157685) -- (7.754491,-1.157685) -- (7.754491,-1.706587) -- (2.240519,-1.706587) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(2.385647, -1.574778) {\verb|getColumn(matrix, k, columnIndex, buf)|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-0.808383) -- (4.997505,-1.157685);
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (3.817365,-2.055888) -- (6.177645,-2.055888) -- (6.177645,-2.604790) -- (3.817365,-2.604790) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (3.817365,-2.055888) -- (6.177645,-2.055888) -- (6.177645,-2.604790) -- (3.817365,-2.604790) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(3.956291, -2.472982) {\verb|indexBegin := 0|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-1.706587) -- (4.997505,-2.055888);
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (3.954591,-2.954092) -- (6.040419,-2.954092) -- (6.040419,-3.502994) -- (3.954591,-3.502994) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (3.954591,-2.954092) -- (6.040419,-2.954092) -- (6.040419,-3.502994) -- (3.954591,-3.502994) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(4.097473, -3.371185) {\verb|indexEnd := 0|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-2.604790) -- (4.997505,-2.954092);
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (0.923154,-3.852295) -- (9.071856,-3.852295) -- (9.071856,-4.401198) -- (0.923154,-4.401198) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (0.923154,-3.852295) -- (9.071856,-3.852295) -- (9.071856,-4.401198) -- (0.923154,-4.401198) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (1.005489,-3.852295) -- (8.989521,-3.852295) -- (8.989521,-4.401198) -- (1.005489,-4.401198) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(1.150308, -4.269389) {\verb|findLongestZeroSubsequence(buf, k, indexBegin, indexEnd)|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-3.502994) -- (4.997505,-3.852295);
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (2.103293,-4.750499) -- (7.891717,-4.750499) -- (7.891717,-5.299401) -- (2.103293,-5.299401) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (2.103293,-4.750499) -- (7.891717,-4.750499) -- (7.891717,-5.299401) -- (2.103293,-5.299401) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(2.244465, -5.167593) {\verb|subSequenceSize := indexEnd - indexBegin|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-4.401198) -- (4.997505,-4.750499);
+\draw[opacity=1.000000, fill=colorRQGNQNIDSEDCAA, draw=none] (3.098802, -6.598054) -- (4.997505, -7.547405) -- (6.896208, -6.598054) -- (4.997505, -5.648703) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (3.098802, -6.598054) -- (4.997505, -7.547405) -- (6.896208, -6.598054) -- (4.997505, -5.648703) --cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(3.762167, -6.578521) {\verb|subSequenceSize > |};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(3.762167, -6.875854) {\verb|maxSubsequenceSize|};
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (3.098802, -6.598054) -- (2.539920, -6.598054) -- (2.539920, -7.896707);
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (0.880739,-7.896707) -- (4.199102,-7.896707) -- (4.199102,-8.710080) -- (0.880739,-8.710080) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (0.880739,-7.896707) -- (4.199102,-7.896707) -- (4.199102,-8.710080) -- (0.880739,-8.710080) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(1.022219, -8.313800) {\verb|maxSubsequenceSize := |};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(1.498706, -8.611133) {\verb|subSequenceSize|};
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (0.331836,-9.059381) -- (4.748004,-9.059381) -- (4.748004,-9.872754) -- (0.331836,-9.872754) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (0.331836,-9.059381) -- (4.748004,-9.059381) -- (4.748004,-9.872754) -- (0.331836,-9.872754) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(0.475140, -9.476475) {\verb|longestZeroSubsequenceBegin = |};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(0.810446, -9.773808) {\verb|{indexBegin, columnIndex}|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (2.539920,-8.710080) -- (2.539920,-9.059381);
+\draw[fill=colorRQGNQNIDSEDCAA, draw=none, opacity=1.000000] (0.399202,-10.222056) -- (4.680639,-10.222056) -- (4.680639,-11.035429) -- (0.399202,-11.035429) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (0.399202,-10.222056) -- (4.680639,-10.222056) -- (4.680639,-11.035429) -- (0.399202,-11.035429) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(0.545731, -10.639149) {\verb|longestZeroSubsequenceEnd := |};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(0.686913, -10.936483) {\verb|{indexEnd - 1, columnIndex}|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (2.539920,-9.872754) -- (2.539920,-10.222056);
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(2.539920, -6.448353) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (6.896208, -6.598054) -- (7.145709, -6.598054) -- (7.145709, -7.896707);
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(7.004527, -6.448353) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (7.145709, -7.896707) -- (7.145709, -11.384731) -- (4.997505, -11.384731);
+\draw[opacity=1.000000, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (2.539920, -11.035429) -- (2.539920, -11.384731) -- (4.997505, -11.384731);
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-5.299401) -- (4.997505,-5.648703);
+\draw[opacity=1.000000, rounded corners=0.538922 cm, fill=colorRQGNQNIDSEDCAA, draw=none] (2.055888,-11.734032) -- (7.939122,-11.734032) -- (7.939122,-12.811876) -- (2.055888,-12.811876) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.538922 cm, fill=none, line width=0.024950cm, colorRQGNQNIDQSTOCFLA] (2.055888,-11.734032) -- (7.939122,-11.734032) -- (7.939122,-12.811876) -- (2.055888,-12.811876) -- cycle;
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(2.579771, -12.151126) {\verb|Выход (longestZeroSubsequenceBegin,|};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(3.197441, -12.448459) {\verb|longestZeroSubsequenceEnd,|};
+\verbatimfont{\normalsize\fontRQGNQNIDLQJFNJCN}
+\node[opacity=1.000000, above right, colorRQGNQNIDQSTOCFLA] at(3.691576, -12.745792) {\verb|maxSubsequenceSize)|};
+\draw[opacity=1.000000, fill=none, line width=0.024950 cm, colorRQGNQNIDQSTOCFLA] (4.997505,-11.384731) -- (4.997505,-11.734032);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

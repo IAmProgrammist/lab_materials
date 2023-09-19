@@ -1,0 +1,94 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+
+\usepackage{multirow}
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\usepackage{color,xcolor,colortbl}
+\begin{document}	
+	
+Ядро Квайна – это импликанты, не подлежащие исключению.
+
+\begin{tabular}{ |c|c|c|c|c|c| } 
+	\hline
+	\multirow{2}{*}{\specialcell{Простые\\ импликанты}} & \multicolumn{5}{|c|}{Конституенты}\\
+	\cline{2-6}
+	& 1000	&1001	&1010	&1101	&1111 \\ 
+	\hline
+	10-0&+&&+&&\\
+	\hline
+	100-&+&+&&&\\
+	\hline
+	1-01&&+&&+&\\
+	\hline
+	11-1&&&&+&+\\
+	\hline
+\end{tabular}\bigbreak
+
+Найдём в импликантной таблице столбцы, которые имеют один плюс. Соответствующие им простые импликанты называются \textit{базисными}, и они составляют \textit{ядро Квайна}. Ядро Квайна будет входить в минимальную тупиковую НФК. Отметим в таблице ядро, закрасив соответствующие столбцы и ряды.\bigbreak
+
+\begin{tabular}{ |c|c|c|c|c|c| } 
+	\hline
+	\multirow{2}{*}{\specialcell{Простые\\ импликанты}} & \multicolumn{5}{|c|}{Конституенты}\\
+	\cline{2-6}
+	& 1000	&1001	& \cellcolor{red}1010	&1101	&\cellcolor{red}1111 \\ 
+	\hline
+	\cellcolor{red} 10-0&\cellcolor{red}+&\cellcolor{red}&\cellcolor{red}+&\cellcolor{red}&\cellcolor{red}\\
+	\hline
+	100-&+&+&\cellcolor{red}&&\cellcolor{red}\\
+	\hline
+	1-01&&+&\cellcolor{red}&+&\cellcolor{red}\\
+	\hline
+	\cellcolor{red}11-1&\cellcolor{red}&\cellcolor{red}&\cellcolor{red}&\cellcolor{red}+&\cellcolor{red}+\\
+	\hline
+\end{tabular}\bigbreak
+
+Теперь осталось выбрать простую импликанту, покрывающую оставшиеся столбцы. В данном случае это может быть импликанта 100- или 1-01. Для вычисления второй требуется меньше операций, поэтому возьмём её. Таким образом нам пришлось выбирать не из 4, а из 2 простых импликант. Кроме того, мы сразу получили готовую комбинацию импликант.\\
+
+$a \cap c \cap d = A\cap\bar{B}\cap\bar{D}\cup A\cap\bar{C}\cap D\cup A\cap B\cap D$\bigbreak
+
+\begin{tabular}{ |c|c|c|c|c|c| } 
+	\hline
+	\multirow{2}{*}{\specialcell{Простые\\ импликанты}} & \multicolumn{5}{|c|}{Конституенты}\\
+	\cline{2-6}
+	& \cellcolor{yellow} 1000	&\cellcolor{yellow}1001	& \cellcolor{red}1010	&\cellcolor{yellow}1101	&\cellcolor{red}1111 \\ 
+	\hline
+	\cellcolor{red} 10-0&\cellcolor{red}+&\cellcolor{red}&\cellcolor{red}+&\cellcolor{red}&\cellcolor{red}\\
+	\hline
+	100-&+&+&\cellcolor{red}&&\cellcolor{red}\\
+	\hline
+	\cellcolor{yellow}1-01&\cellcolor{yellow}&\cellcolor{yellow}+&\cellcolor{red}&\cellcolor{yellow}+&\cellcolor{red}\\
+	\hline
+	\cellcolor{red}11-1&\cellcolor{red}&\cellcolor{red}&\cellcolor{red}&\cellcolor{red}+&\cellcolor{red}+\\
+	\hline
+\end{tabular}\bigbreak
+
+\end{document}

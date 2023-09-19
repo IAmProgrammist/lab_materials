@@ -1,0 +1,335 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathletters]{ucs}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}	
+	\pagenumbering{gobble}
+	\begin{center}
+		\small{
+			МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+			\bigbreak
+			ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+			\bigbreak
+			\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+			\bigbreak
+			Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+	\end{center}
+	
+	\vfill
+	\begin{center}
+		\large{
+			\textbf{
+				Лабораторная работа №1.4}}\\
+		\normalsize{
+			по дисциплине: Дискретная математика \\
+			тема: «Теоретико-множественные тождества»}
+	\end{center}
+	\vfill
+	\hfill\textbox{
+		Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+		\bigbreak
+		Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+		ст. пр. Бондаренко Татьяна Владимировна
+	}
+	\vfill\begin{center}
+		Белгород 2023 г.
+	\end{center}
+	\newpage
+	\begin{center}
+		\textbf{Лабораторная работа №1.4}\\
+		Теоретико-множественные тождества\\
+		Вариант 10
+	\end{center}
+	\textbf{Цель работы: }научиться решать теоретико-множественные уравнения с применением ЭВМ.
+	\begin{enumerate}[№1. ]
+		\item Преобразовать исходное уравнение $A\cap(B \cup X)∆C = A- (B\cap \overline{X})∆C \cap X$ в уравнение с пустой правой частью.\bigbreak
+		$(A\cap(B \cup X)∆C) ∆ (A- (B\cap \overline{X})∆C \cap X) =\varnothing$
+		\item Преобразовать левую часть уравнения к виду $\overline{X}\cap \varphi ^ \varnothing \cup X \cap \varphi ^ U$, используя разложение Шеннона по неизвестному множеству X.\bigbreak
+		$\varphi ^ \varnothing = (A\cap(B \cup \varnothing)∆C) ∆ (A- (B\cap \overline{\varnothing})∆C \cap \varnothing)$\\
+		$\varphi ^ U = (A\cap(B \cup U)∆C) ∆ (A- (B\cap \overline{U})∆C \cap U)$\\
+		$\overline{X}\cap ((A\cap(B \cup \varnothing)∆C) ∆ (A- (B\cap \overline{\varnothing})∆C \cap \varnothing)) \cup X \cap ((A\cap(B \cup U)∆C) ∆ (A- (B\cap \overline{U})∆C \cap U)) = \varnothing$
+		\item Написать программу, вычисляющую значения множеств $\varphi ^ \varnothing$ и $\overline{\varphi ^ U}$ при заданных исходных множествах. $U = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}, A = \{4, 5, 7, 8, 9, 10\}, B = \{2, 3, 4, 5, 6, 10\}, C = \{4, 5, 7, 8, 10\}$\bigbreak
+		Для вычисления значений воспользуемся классом, полученным в л.р. №3, внеcя в него некоторые правки
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+#include <vector>
+#include <iostream>
+
+template<class T>
+class Sett {
+	public:
+	std::vector<T> elements;
+	
+	Sett<T>(std::vector<T> elms) {
+		elements = elms;
+		std::sort(elements.begin(), elements.end());
+	}
+	
+	~Sett() {
+		
+	}
+	
+	Sett<T> operator*(Sett<T> anotherSet) {
+		std::vector<T> arrayC(0, 0);
+		int arrayASize = elements.size();
+		int arrayBSize = anotherSet.elements.size();
+		size_t i = 0, j = 0;
+		
+		while (i < arrayASize && j < arrayBSize)
+			if (elements[i] < anotherSet.elements[j])
+				i++;
+			else if (elements[i] > anotherSet.elements[j])
+				j++;
+			else {
+				arrayC.push_back(elements[i]);
+				i++;
+				j++;
+			}
+		
+		return Sett<T>(arrayC);
+	}
+	
+	Sett<T> operator-(Sett<T> anotherSet) {
+		std::vector<T> arrayC(0, 0);
+		int arrayASize = elements.size();
+		int arrayBSize = anotherSet.elements.size();
+		size_t i = 0, j = 0;
+		
+		while (i < arrayASize && j < arrayBSize)
+			if (elements[i] < anotherSet.elements[j])
+				arrayC.push_back(elements[i++]);
+			else if (elements[i] > anotherSet.elements[j])
+				j++;
+			else {
+				i++;
+				j++;
+			}
+		
+		while (i < arrayASize)
+			arrayC.push_back(elements[i++]);
+		
+		return Sett<T>(arrayC);
+	}
+	
+	Sett<T> operator+(Sett<T> anotherSet) {
+		std::vector<int> arrayC(0, 0);
+		int arrayASize = elements.size();
+		int arrayBSize = anotherSet.elements.size();
+		size_t i = 0, j = 0;
+		
+		while (i < arrayASize && j < arrayBSize)
+			if (elements[i] < anotherSet.elements[j])
+				arrayC.push_back(elements[i++]);
+			else if (elements[i] > anotherSet.elements[j])
+				arrayC.push_back(anotherSet.elements[j++]);
+			else {
+				arrayC.push_back(elements[i]);
+				i++;
+				j++;
+			}
+		
+		while (i < arrayASize)
+			arrayC.push_back(elements[i++]);
+		
+		while (j < arrayBSize)
+			arrayC.push_back(anotherSet.elements[j++]);
+		
+		return Sett<T>(arrayC);
+	}
+	
+	Sett<T> non(Sett<T> universum) {
+		std::vector<T> arrayC(0, 0);
+		int arraySize = elements.size();
+		int universumSize = universum.elements.size();
+		size_t i = 0, j = 0;
+		// Проверяем, что универсум действительно универсум
+		assert(arraySize == 0 || elements[arraySize - 1] <= universum.elements[universumSize - 1]);
+		
+		while (i < universumSize && j < arraySize) {
+			if (universum.elements[i] < elements[j])
+				arrayC.push_back(universum.elements[i++]);
+			else if (universum.elements[i] == elements[j]) {
+				i++;
+				j++;
+				// вторым его отличием будет то, что если элемент есть в A и его нет в universum, программа будет падать
+			} else
+				assert(elements[j] >= universum.elements[i]);
+		}
+		
+		while (i < universumSize)
+			arrayC.push_back(universum.elements[i++]);
+		
+		return Sett<T>(arrayC);
+	}
+	
+	Sett<T> operator^(Sett<T> anotherSet) {
+		std::vector<T> arrayC(0, 0);
+		int arrayASize = elements.size();
+		int arrayBSize = anotherSet.elements.size();
+		size_t i = 0, j = 0;
+		
+		while (i < arrayASize && j < arrayBSize)
+			if (elements[i] < anotherSet.elements[j])
+				arrayC.push_back(elements[i++]);
+			else if (elements[i] > anotherSet.elements[j])
+				arrayC.push_back(anotherSet.elements[j++]);
+			else {
+				j++;
+				i++;
+			}
+		
+		while (i < arrayASize)
+			arrayC.push_back(elements[i++]);
+		
+		while (j < arrayBSize)
+			arrayC.push_back(anotherSet.elements[j++]);
+		
+		return Sett<T>(arrayC);
+	}
+	
+	bool operator==(Sett<T> other) {
+		return elements == other.elements;
+	}
+	
+	bool operator!=(Sett<T> other) {
+		return !(*this == other);
+	}
+	
+	void print() {
+		for (int i = 0; i < elements.size(); i++) {
+			std::cout << elements[i] << " ";
+		}
+		
+		std::cout << std::endl;
+	}
+	
+	void print(std::ostream &out) {
+		for (int i = 0; i < elements.size(); i++) {
+			out << elements[i] << " ";
+		}
+		
+		out << std::endl;
+	}
+};
+\end{minted}
+Получили программу:\\
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+#include "../../libs/alg/alg.h"
+	
+int main() {
+	Sett<int> nothing(std::vector<int>({}));
+	Sett<int> U(std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
+	Sett<int> A(std::vector<int>({4, 5, 7, 8, 9, 10}));
+	Sett<int> B(std::vector<int>({2, 3, 4, 5, 6, 10}));
+	Sett<int> C(std::vector<int>({4, 5, 7, 8, 10}));
+		
+	Sett<int> phiNothing = ((A * (B + nothing)) ^ C) ^ (A - ((B * nothing.non(U)) ^ (C * nothing)));
+	Sett<int> nonPhiU = (((A * (B + U)) ^ C) ^ (A - ((B * U.non(U)) ^ (C * U)))).non(U);
+	
+	phiNothing.print();
+	nonPhiU.print();
+}
+\end{minted}
+\item Вычислить значения множеств $\varphi ^ \varnothing$ и $\overline{\varphi ^ U}$ и сделать вывод о существовании решения уравнения. Если решения уравнения не существует, то выполнить п.п. 1—4 для следующего (предыдущего) варианта.\bigbreak
+Результат выполнения программы:\\
+\includegraphics[width=140mm]{/task3}\\
+Множество $\varphi ^ \varnothing = \{9\}$ является подмножеством множества\\ $\overline{\varphi ^ U} = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$, следовательно, уравнение имеет решения.
+\item Определить мощность общего решения, найти некоторые (или все) частные решения, в том числе частные решения наименьшей и наибольшей мощности.\bigbreak
+$\overline{\varphi ^ U} - \varphi ^ \varnothing  = \{1, 2, 3, 4, 5, 6, 7, 8, 10\}$\\
+Количество возможных подмножеств слишком велико, мощность общего решения будет равна количеству подмножеств множества $\overline{\varphi ^ U} - \varphi ^ \varnothing$, вычислим его по формуле $2^{|\overline{\varphi ^ U} - \varphi ^ \varnothing|}$\\
+$2^{|\overline{\varphi ^ U} - \varphi ^ \varnothing|} = 2^9 = 512$\\
+Приведём 8 возможных решений уравнения:\\
+$X=\{9\}$ - решение наименьшей мощности\\
+$X=\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$ - решение наибольшей мощности\\
+$X=\{1, 5, 6, 9\}$\\
+$X=\{1, 2, 3, 4, 5, 9, 10\}$\\
+$X=\{7, 8, 9, 10\}$\\
+$X=\{1, 2, 5, 6, 7, 9\}$\\
+$X=\{2, 3, 7, 8, 9, 10\}$\\
+$X=\{3, 4, 5, 6, 8, 9, 10\}$\\
+\item Написать программу для проверки найденных решений.
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+#include "../../libs/alg/alg.h"
+
+Sett<int> U(std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
+Sett<int> A(std::vector<int>({4, 5, 7, 8, 9, 10}));
+Sett<int> B(std::vector<int>({2, 3, 4, 5, 6, 10}));
+Sett<int> C(std::vector<int>({4, 5, 7, 8, 10}));
+
+// Функция для вычисления левой части уравнения
+template<typename T>
+Sett<T> left(Sett<T> X) {
+	return A * (B + X) ^ C;
+}
+
+// Функция для вычисления правой части уравнения
+template<typename T>
+Sett<T> right(Sett<T> X) {
+	return A - (B * X.non(U)) ^ (C * X);
+}
+
+int main() {
+	// Решения уравнения
+	std::vector<Sett<int>> decisions = {
+		Sett<int>({9}),
+		Sett<int>({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}),
+		Sett<int>({1, 5, 6, 9}),
+		Sett<int>({1, 2, 3, 4, 5, 9, 10}),
+		Sett<int>({7, 8, 9, 10}),
+		Sett<int>({1, 2, 5, 6, 7, 9}),
+		Sett<int>({2, 3, 7, 8, 9, 10}),
+		Sett<int>({3, 4, 5, 6, 8, 9, 10})
+	};
+	
+	for (auto &x: decisions) 
+		// Проверяем, что левая и правая части уравнений равны
+		if (left(x) != right(x)) {
+			std::cerr << "Множество" << std::endl;
+			x.print(std::cerr);
+			std::cerr << "не является решением уравнения" << std::endl;
+			return 1;
+		}
+	
+	std::cout << "Решения подходят для уравнения" << std::endl;
+	
+	return 0;
+}
+\end{minted}
+Результат выполнения программы:\\
+\includegraphics[width=140mm]{/task6}\\
+\end{enumerate}
+			\textbf{Вывод: } в ходе лабораторной работы научились решать теоретико-множественные уравнения с применением ЭВМ.
+\end{document}

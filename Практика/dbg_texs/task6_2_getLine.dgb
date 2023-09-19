@@ -1,0 +1,1 @@
+{"data":[{"data":"getLine(matrix, k, lineIndex, line)","type":"bd_element_terminator"},{"data":{"data":"i := 0, k - 1","body":{"data":[{"data":"line[j] := matrix[lineIndex][j]","type":"bd_element_process"}],"type":"bd_element_container"}},"type":"bd_element_modifier"},{"data":"Выход (line)","type":"bd_element_terminator"}],"type":"bd_element_container"}

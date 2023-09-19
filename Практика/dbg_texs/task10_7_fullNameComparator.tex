@@ -1,0 +1,119 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorIKRMARLDFOGK}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontIKRMARJADIIEH[Scale=1.045995, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorIKRMARLDFOGK}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorIKRMARNRRSMLBK}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorIKRMARFEGDKI}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.405904 cm, fill=colorIKRMARNRRSMLBK, draw=none] (2.154982,0.007380) -- (7.837638,0.007380) -- (7.837638,-0.804428) -- (2.154982,-0.804428) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.405904 cm, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (2.154982,0.007380) -- (7.837638,0.007380) -- (7.837638,-0.804428) -- (2.154982,-0.804428) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.560347, -0.580224) {\verb|fullNameComparator(a, b)|};
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.730627,-1.321033) -- (8.261993,-1.321033) -- (8.261993,-2.132841) -- (1.730627,-2.132841) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.730627,-1.321033) -- (8.261993,-1.321033) -- (8.261993,-2.132841) -- (1.730627,-2.132841) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(1.942530, -1.908637) {\verb|aNameSurname := a.surname.name|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-0.804428) -- (4.996310,-1.321033);
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.730627,-2.649446) -- (8.261993,-2.649446) -- (8.261993,-3.461255) -- (1.730627,-3.461255) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.730627,-2.649446) -- (8.261993,-2.649446) -- (8.261993,-3.461255) -- (1.730627,-3.461255) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(1.942530, -3.237050) {\verb|bNameSurname := b.surname.name|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-2.132841) -- (4.996310,-2.649446);
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.852768,-3.977860) -- (8.139852,-3.977860) -- (8.139852,-5.180812) -- (1.852768,-5.180812) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.852768,-3.977860) -- (8.139852,-3.977860) -- (8.139852,-5.180812) -- (1.852768,-5.180812) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (2.033210,-3.977860) -- (7.959410,-3.977860) -- (7.959410,-5.180812) -- (2.033210,-5.180812) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(3.672417, -4.565464) {\verb|aNameCode := |};
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.242613, -4.975946) {\verb|getRuPriority(aNameSurname)|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-3.461255) -- (4.996310,-3.977860);
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.852768,-5.697417) -- (8.139852,-5.697417) -- (8.139852,-6.900369) -- (1.852768,-6.900369) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.852768,-5.697417) -- (8.139852,-5.697417) -- (8.139852,-6.900369) -- (1.852768,-6.900369) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (2.033210,-5.697417) -- (7.959410,-5.697417) -- (7.959410,-6.900369) -- (2.033210,-6.900369) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(3.672417, -6.285021) {\verb|bNameCode := |};
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.242613, -6.695503) {\verb|getRuPriority(bNameSurname)|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-5.180812) -- (4.996310,-5.697417);
+\draw[opacity=1.000000, fill=colorIKRMARNRRSMLBK, draw=none] (0.361624, -9.734317) -- (4.996310, -12.051661) -- (9.630996, -9.734317) -- (4.996310, -7.416974) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (0.361624, -9.734317) -- (4.996310, -12.051661) -- (9.630996, -9.734317) -- (4.996310, -7.416974) --cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(1.342365, -9.676165) {\verb|aNameCode ≠ 0 and bNameCode ≠ 0 and |};
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.860429, -10.086647) {\verb|aNameCode = bNameCode|};
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.527675,-12.568266) -- (8.464945,-12.568266) -- (8.464945,-13.380074) -- (1.527675,-13.380074) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.527675,-12.568266) -- (8.464945,-12.568266) -- (8.464945,-13.380074) -- (1.527675,-13.380074) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(1.748359, -13.155870) {\verb|aNameSurname := aNameSurname + 2|};
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.527675,-13.896679) -- (8.464945,-13.896679) -- (8.464945,-14.708487) -- (1.527675,-14.708487) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.527675,-13.896679) -- (8.464945,-13.896679) -- (8.464945,-14.708487) -- (1.527675,-14.708487) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(1.748359, -14.484283) {\verb|bNameSurname := bNameSurname + 2|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-13.380074) -- (4.996310,-13.896679);
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.852768,-15.225092) -- (8.139852,-15.225092) -- (8.139852,-16.428044) -- (1.852768,-16.428044) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.852768,-15.225092) -- (8.139852,-15.225092) -- (8.139852,-16.428044) -- (1.852768,-16.428044) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (2.033210,-15.225092) -- (7.959410,-15.225092) -- (7.959410,-16.428044) -- (2.033210,-16.428044) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(3.672417, -15.812696) {\verb|aNameCode := |};
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.242613, -16.223178) {\verb|getRuPriority(aNameSurname)|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-14.708487) -- (4.996310,-15.225092);
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.852768,-16.944649) -- (8.139852,-16.944649) -- (8.139852,-18.147601) -- (1.852768,-18.147601) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.852768,-16.944649) -- (8.139852,-16.944649) -- (8.139852,-18.147601) -- (1.852768,-18.147601) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (2.033210,-16.944649) -- (7.959410,-16.944649) -- (7.959410,-18.147601) -- (2.033210,-18.147601) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(3.672417, -17.532253) {\verb|bNameCode := |};
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.242613, -17.942736) {\verb|getRuPriority(bNameSurname)|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-16.428044) -- (4.996310,-16.944649);
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-12.051661) -- (4.996310,-12.568266);
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(4.762347, -12.440002) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (4.996310, -18.147601) -- (4.996310, -18.664207) -- (-0.007380, -18.664207) -- (-0.007380, -7.158672) -- (4.996310, -7.158672);
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(9.788177, -9.512915) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (9.630996, -9.734317) -- (10.000000, -9.734317) -- (10.000000, -19.033210) -- (4.996310, -19.033210);
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-6.900369) -- (4.996310,-7.416974);
+\draw[fill=colorIKRMARNRRSMLBK, draw=none, opacity=1.000000] (1.830258,-19.549815) -- (8.162362,-19.549815) -- (8.162362,-20.361624) -- (1.830258,-20.361624) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (1.830258,-19.549815) -- (8.162362,-19.549815) -- (8.162362,-20.361624) -- (1.830258,-20.361624) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(2.048442, -20.137419) {\verb|diff := aNameCode - bNameCode|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-19.033210) -- (4.996310,-19.549815);
+\draw[opacity=1.000000, rounded corners=0.405904 cm, fill=colorIKRMARNRRSMLBK, draw=none] (3.372694,-20.878229) -- (6.619926,-20.878229) -- (6.619926,-21.690037) -- (3.372694,-21.690037) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.405904 cm, fill=none, line width=0.036900cm, colorIKRMARFEGDKI] (3.372694,-20.878229) -- (6.619926,-20.878229) -- (6.619926,-21.690037) -- (3.372694,-21.690037) -- cycle;
+\verbatimfont{\normalsize\fontIKRMARJADIIEH}
+\node[opacity=1.000000, above right, colorIKRMARFEGDKI] at(3.778328, -21.465833) {\verb|Вернуть diff|};
+\draw[opacity=1.000000, fill=none, line width=0.036900 cm, colorIKRMARFEGDKI] (4.996310,-20.361624) -- (4.996310,-20.878229);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

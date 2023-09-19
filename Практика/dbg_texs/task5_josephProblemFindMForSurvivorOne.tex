@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorGMFLMDSTNCJA}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontGMFLMDHSOKIM[Scale=0.988026, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorGMFLMDSTNCJA}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorGMFLMDFPFCHKT}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorGMFLMDTIIJSIBT}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.383409 cm, fill=colorGMFLMDFPFCHKT, draw=none] (1.648658,0.006971) -- (9.128616,0.006971) -- (9.128616,-0.759847) -- (1.648658,-0.759847) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.383409 cm, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (1.648658,0.006971) -- (9.128616,0.006971) -- (9.128616,-0.759847) -- (1.648658,-0.759847) -- cycle;
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(2.034912, -0.534272) {\verb|josephProblemFindMForSurvivorOne(n)|};
+        \draw[fill=colorGMFLMDFPFCHKT, draw=none, opacity=1.000000] (4.506797,-1.247822) -- (6.270478,-1.247822) -- (6.270478,-2.014639) -- (4.506797,-2.014639) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (4.506797,-1.247822) -- (6.270478,-1.247822) -- (6.270478,-2.014639) -- (4.506797,-2.014639) -- cycle;
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(4.717892, -1.789064) {\verb|m := -1|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855 cm, colorGMFLMDTIIJSIBT] (5.388637,-0.759847) -- (5.388637,-1.247822);
+        \draw[opacity=1.000000, fill=colorGMFLMDFPFCHKT, draw=none] (3.241548, -3.576159) -- (4.315092, -2.502614) -- (6.462182, -2.502614) -- (7.535727, -3.576159) -- (6.462182, -4.649704) -- (4.315092, -4.649704) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (3.241548, -3.576159) -- (4.315092, -2.502614) -- (6.462182, -2.502614) -- (7.535727, -3.576159) -- (6.462182, -4.649704) -- (4.315092, -4.649704) --cycle;
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(4.523729, -3.650340) {\verb|i := 2, n|};
+        \draw[opacity=1.000000, fill=colorGMFLMDFPFCHKT, draw=none] (1.474381, -7.094807) -- (5.388637, -9.051934) -- (9.302893, -7.094807) -- (5.388637, -5.137679) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (1.474381, -7.094807) -- (5.388637, -9.051934) -- (9.302893, -7.094807) -- (5.388637, -5.137679) --cycle;
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(2.034912, -7.210814) {\verb|josephProblemFindSurvivor(n, i) = 1|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (1.474381, -7.094807) -- (1.125828, -7.094807) -- (1.125828, -9.539909);
+        \draw[fill=colorGMFLMDFPFCHKT, draw=none, opacity=1.000000] (0.341582,-9.539909) -- (1.910073,-9.539909) -- (1.910073,-10.306727) -- (0.341582,-10.306727) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (0.341582,-9.539909) -- (1.910073,-9.539909) -- (1.910073,-10.306727) -- (0.341582,-10.306727) -- cycle;
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(0.543339, -10.081152) {\verb|m := i|};
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(1.125828, -6.885674) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (9.302893, -7.094807) -- (9.651446, -7.094807) -- (9.651446, -9.539909);
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(9.439632, -6.885674) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (9.651446, -9.539909) -- (9.651446, -10.794702) -- (5.388637, -10.794702);
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (1.125828, -10.306727) -- (1.125828, -10.794702) -- (5.388637, -10.794702);
+        \draw[opacity=1.000000, fill=none, line width=0.034855 cm, colorGMFLMDTIIJSIBT] (5.388637,-4.649704) -- (5.388637,-5.137679);
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(5.155910, -5.002727) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (5.388637, -10.794702) -- (5.388637, -11.282677) -- (-0.006971, -11.282677) -- (-0.006971, -3.576159) -- (3.241548, -3.576159);
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(9.788186, -3.367027) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (7.535727, -3.576159) -- (10.000000, -3.576159) -- (10.000000, -11.631230) -- (5.388637, -11.631230);
+        \draw[opacity=1.000000, fill=none, line width=0.034855 cm, colorGMFLMDTIIJSIBT] (5.388637,-2.014639) -- (5.388637,-2.502614);
+        \draw[opacity=1.000000, rounded corners=0.383409 cm, fill=colorGMFLMDFPFCHKT, draw=none] (3.855002,-12.119205) -- (6.922273,-12.119205) -- (6.922273,-12.886023) -- (3.855002,-12.886023) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.383409 cm, fill=none, line width=0.034855cm, colorGMFLMDTIIJSIBT] (3.855002,-12.119205) -- (6.922273,-12.119205) -- (6.922273,-12.886023) -- (3.855002,-12.886023) -- cycle;
+        \verbatimfont{\normalsize\fontGMFLMDHSOKIM}
+        \node[opacity=1.000000, above right, colorGMFLMDTIIJSIBT] at(4.523729, -12.660448) {\verb|Вернуть m|};
+        \draw[opacity=1.000000, fill=none, line width=0.034855 cm, colorGMFLMDTIIJSIBT] (5.388637,-11.631230) -- (5.388637,-12.119205);
+    \end{tikzpicture}
+\end{document}

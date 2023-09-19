@@ -1,0 +1,67 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorELHHCPDFGAIQ}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontELHHCPDCDDSO[Scale=0.608293, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorELHHCPDFGAIQ}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorELHHCPCNKENEP}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorELHHCPSLSECIS}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.236052 cm, fill=colorELHHCPCNKENEP, draw=none] (0.727468,0.004292) -- (4.268240,0.004292) -- (4.268240,-0.467811) -- (0.727468,-0.467811) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.236052 cm, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (0.727468,0.004292) -- (4.268240,0.004292) -- (4.268240,-0.467811) -- (0.727468,-0.467811) -- cycle;
+\verbatimfont{\normalsize\fontELHHCPDCDDSO}
+\node[opacity=1.000000, above right, colorELHHCPSLSECIS] at(0.961954, -0.358744) {\verb|validateFullName(fullName)|};
+\draw[fill=colorELHHCPCNKENEP, draw=none, opacity=1.000000] (0.349785,-0.768240) -- (4.645923,-0.768240) -- (4.645923,-1.240343) -- (0.349785,-1.240343) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (0.349785,-0.768240) -- (4.645923,-0.768240) -- (4.645923,-1.240343) -- (0.349785,-1.240343) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (0.420601,-0.768240) -- (4.575107,-0.768240) -- (4.575107,-1.240343) -- (0.420601,-1.240343) -- cycle;
+\verbatimfont{\normalsize\fontELHHCPDCDDSO}
+\node[opacity=1.000000, above right, colorELHHCPSLSECIS] at(0.538257, -1.131277) {\verb|validateProperName(fullName.name)|};
+\draw[opacity=1.000000, fill=none, line width=0.021459 cm, colorELHHCPSLSECIS] (2.497854,-0.467811) -- (2.497854,-0.768240);
+\draw[fill=colorELHHCPCNKENEP, draw=none, opacity=1.000000] (0.173820,-1.540773) -- (4.821888,-1.540773) -- (4.821888,-2.012876) -- (0.173820,-2.012876) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (0.173820,-1.540773) -- (4.821888,-1.540773) -- (4.821888,-2.012876) -- (0.173820,-2.012876) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (0.244635,-1.540773) -- (4.751073,-1.540773) -- (4.751073,-2.012876) -- (0.244635,-2.012876) -- cycle;
+\verbatimfont{\normalsize\fontELHHCPDCDDSO}
+\node[opacity=1.000000, above right, colorELHHCPSLSECIS] at(0.361716, -1.903809) {\verb|validateProperName(fullName.surname)|};
+\draw[opacity=1.000000, fill=none, line width=0.021459 cm, colorELHHCPSLSECIS] (2.497854,-1.240343) -- (2.497854,-1.540773);
+\draw[fill=colorELHHCPCNKENEP, draw=none, opacity=1.000000] (-0.004292,-2.313305) -- (5.000000,-2.313305) -- (5.000000,-2.785408) -- (-0.004292,-2.785408) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (-0.004292,-2.313305) -- (5.000000,-2.313305) -- (5.000000,-2.785408) -- (-0.004292,-2.785408) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (0.066524,-2.313305) -- (4.929185,-2.313305) -- (4.929185,-2.785408) -- (0.066524,-2.785408) -- cycle;
+\verbatimfont{\normalsize\fontELHHCPDCDDSO}
+\node[opacity=1.000000, above right, colorELHHCPSLSECIS] at(0.185176, -2.676341) {\verb|validateProperName(fullName.patronymic)|};
+\draw[opacity=1.000000, fill=none, line width=0.021459 cm, colorELHHCPSLSECIS] (2.497854,-2.012876) -- (2.497854,-2.313305);
+\draw[opacity=1.000000, rounded corners=0.236052 cm, fill=colorELHHCPCNKENEP, draw=none] (1.317597,-3.085837) -- (3.678112,-3.085837) -- (3.678112,-3.557940) -- (1.317597,-3.557940) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.236052 cm, fill=none, line width=0.021459cm, colorELHHCPSLSECIS] (1.317597,-3.085837) -- (3.678112,-3.085837) -- (3.678112,-3.557940) -- (1.317597,-3.557940) -- cycle;
+\verbatimfont{\normalsize\fontELHHCPDCDDSO}
+\node[opacity=1.000000, above right, colorELHHCPSLSECIS] at(1.544536, -3.448873) {\verb|Выход (fullName)|};
+\draw[opacity=1.000000, fill=none, line width=0.021459 cm, colorELHHCPSLSECIS] (2.497854,-2.785408) -- (2.497854,-3.085837);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

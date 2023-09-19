@@ -1,0 +1,65 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorTDHQLEPDJQDBH}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontTDHQLEPMKNPTPOB[Scale=0.572887, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorTDHQLEPDJQDBH}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorTDHQLEPDMCMIFP}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorTDHQLEPGCMHCQKS}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.222312 cm, fill=colorTDHQLEPDMCMIFP, draw=none] (-0.004042,0.004042) -- (5.000000,0.004042) -- (5.000000,-0.440582) -- (-0.004042,-0.440582) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.222312 cm, fill=none, line width=0.020210cm, colorTDHQLEPGCMHCQKS] (-0.004042,0.004042) -- (5.000000,0.004042) -- (5.000000,-0.440582) -- (-0.004042,-0.440582) -- cycle;
+\verbatimfont{\normalsize\fontTDHQLEPMKNPTPOB}
+\node[opacity=1.000000, above right, colorTDHQLEPGCMHCQKS] at(0.203070, -0.316931) {\verb|getColumn(matrix, n, columnIndex, column)|};
+\draw[opacity=1.000000, fill=colorTDHQLEPDMCMIFP, draw=none] (0.808407, -1.568310) -- (1.653193, -0.723525) -- (3.342765, -0.723525) -- (4.187551, -1.568310) -- (3.342765, -2.413096) -- (1.653193, -2.413096) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.020210cm, colorTDHQLEPGCMHCQKS] (0.808407, -1.568310) -- (1.653193, -0.723525) -- (3.342765, -0.723525) -- (4.187551, -1.568310) -- (3.342765, -2.413096) -- (1.653193, -2.413096) --cycle;
+\verbatimfont{\normalsize\fontTDHQLEPMKNPTPOB}
+\node[opacity=1.000000, above right, colorTDHQLEPGCMHCQKS] at(1.774200, -1.618467) {\verb|j := 0, n - 1|};
+\draw[fill=colorTDHQLEPDMCMIFP, draw=none, opacity=1.000000] (0.430477,-2.696039) -- (4.565481,-2.696039) -- (4.565481,-3.140663) -- (0.430477,-3.140663) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.020210cm, colorTDHQLEPGCMHCQKS] (0.430477,-2.696039) -- (4.565481,-2.696039) -- (4.565481,-3.140663) -- (0.430477,-3.140663) -- cycle;
+\verbatimfont{\normalsize\fontTDHQLEPMKNPTPOB}
+\node[opacity=1.000000, above right, colorTDHQLEPGCMHCQKS] at(0.538480, -3.017012) {\verb|column[j] := matrix[j][columnIndex]|};
+\draw[opacity=1.000000, fill=none, line width=0.020210 cm, colorTDHQLEPGCMHCQKS] (2.497979,-2.413096) -- (2.497979,-2.696039);
+\verbatimfont{\normalsize\fontTDHQLEPMKNPTPOB}
+\node[opacity=1.000000, above right, colorTDHQLEPGCMHCQKS] at(2.344628, -2.624934) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.020210cm, colorTDHQLEPGCMHCQKS] (2.497979, -3.140663) -- (2.497979, -3.423605) -- (0.228375, -3.423605) -- (0.228375, -1.568310) -- (0.808407, -1.568310);
+\verbatimfont{\normalsize\fontTDHQLEPMKNPTPOB}
+\node[opacity=1.000000, above right, colorTDHQLEPGCMHCQKS] at(4.626358, -1.447049) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.020210cm, colorTDHQLEPGCMHCQKS] (4.187551, -1.568310) -- (4.767583, -1.568310) -- (4.767583, -3.625707) -- (2.497979, -3.625707);
+\draw[opacity=1.000000, fill=none, line width=0.020210 cm, colorTDHQLEPGCMHCQKS] (2.497979,-0.440582) -- (2.497979,-0.723525);
+\draw[opacity=1.000000, rounded corners=0.222312 cm, fill=colorTDHQLEPDMCMIFP, draw=none] (1.497575,-3.908650) -- (3.498383,-3.908650) -- (3.498383,-4.353274) -- (1.497575,-4.353274) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.222312 cm, fill=none, line width=0.020210cm, colorTDHQLEPGCMHCQKS] (1.497575,-3.908650) -- (3.498383,-3.908650) -- (3.498383,-4.353274) -- (1.497575,-4.353274) -- cycle;
+\verbatimfont{\normalsize\fontTDHQLEPMKNPTPOB}
+\node[opacity=1.000000, above right, colorTDHQLEPGCMHCQKS] at(1.703587, -4.229623) {\verb|Выход (column)|};
+\draw[opacity=1.000000, fill=none, line width=0.020210 cm, colorTDHQLEPGCMHCQKS] (2.497979,-3.625707) -- (2.497979,-3.908650);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
