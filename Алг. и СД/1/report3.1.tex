@@ -8,8 +8,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{minted}
-\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
-\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\footnotesize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\footnotesize}
 \usepackage{xcolor}
 \definecolor{LightGray}{gray}{0.9}
 \usepackage{graphicx}
@@ -39,939 +39,186 @@
 \newcommand{\specialcell}[2][c]{%
 	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
-\begin{document}	
-	\pagenumbering{gobble}
-	\begin{center}
-		\small{
-			МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
-			\bigbreak
-			ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
-			\bigbreak
-			\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
-			\bigbreak
-			Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
-	\end{center}
-	
-	\vfill
-	\begin{center}
-		\large{
-			\textbf{
-				Лабораторная работа №3.1}}\\
-		\normalsize{
-			по дисциплине: Дискретная математика \\
-			тема: «Отношения и их свойства»}
-	\end{center}
-	\vfill
-	\hfill\textbox{
-		Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+	\small{
+		МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
 		\bigbreak
-		Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
-		ст. пр. Бондаренко Татьяна Владимировна
-	}
-	\vfill\begin{center}
-		Белгород 2023 г.
-	\end{center}
-	\newpage
-	\begin{center}
-		\textbf{Лабораторная работа №3.1}\\
-		Отношения и их свойства\\
-		Вариант 10
-	\end{center}
-	\textbf{Цель работы: }изучить способы задания отношений, операции над отношениями и свойства отношений, научиться программно реализовывать операции и определять свойства отношений.
-    \begin{center} \textbf{Часть 1. Операции над отношениями} \end{center}
-    
-    \begin{enumerate}[label=1.\arabic*.]
-    	\item Представить отношения (см. ”Варианты заданий”, п.а) графиком, графом и матрицей.\\
-    	$A=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } (x < y < (9 - x) \textit{ или } (9 - x) < y < x) \}$\\
-    	\begin{center}
-    	\begin{tikzpicture}
-    		\begin{axis}[
-    			xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			axis lines = left,
-    			xlabel = \(x\),
-    			ylabel = {\(y\)},
-    			ymax=13,
-    			xmax=13
-    			]
-    			\addplot[
-    			mark size=2pt,
-    			only marks,
-    			]
-    			table {
-    				x  y  
-    				1  2
-    				1  3
-    				1  4
-    				1  5
-    				1  6
-    				1  7
-    				2  3
-    				2  4
-    				2  5
-    				2  6
-    				3  4
-    				3  5
-    				6  4
-    				6  5
-    				7  3
-    				7  4
-    				7  5
-    				7  6
-    				8  2
-    				8  3
-    				8  4
-    				8  5
-    				8  6
-    				8  7
-    				9  1
-    				9  2
-    				9  3
-    				9  4
-    				9  5
-    				9  6
-    				9  7
-    				9  8
-    				10  1
-    				10  2
-    				10  3
-    				10  4
-    				10  5
-    				10  6
-    				10  7
-    				10  8
-    				10  9
-    			};
-    		\end{axis}
-    	\end{tikzpicture}\\
-    \includegraphics[width=140mm]{1.1.A}\\
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&1&1&1&1&1&1&0&0&0\\
-	\hline\textbf{2}&0&0&1&1&1&1&0&0&0&0\\
-	\hline\textbf{3}&0&0&0&1&1&0&0&0&0&0\\
-	\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{6}&0&0&0&1&1&0&0&0&0&0\\
-	\hline\textbf{7}&0&0&1&1&1&1&0&0&0&0\\
-	\hline\textbf{8}&0&1&1&1&1&1&1&0&0&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&0&0\\
-	\hline\textbf{10}&1&1&1&1&1&1&1&1&1&0\\
-	\hline
-    	\end{tabular}
-    \end{center}
-\bigbreak
-    $B=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } x \textit{ - чётно и } y \textit{ - нечётно}  \}$\\
-    \begin{center}
-    	\begin{tikzpicture}
-    		\begin{axis}[
-    			xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			axis lines = left,
-    			xlabel = \(x\),
-    			ylabel = {\(y\)},
-    			ymax=13,
-    			xmax=13
-    			]
-    			\addplot[
-    			mark size=2pt,
-    			only marks,
-    			]
-    			table {
-    				x  y  
-    				2  1
-    				2  3
-    				2  5
-    				2  7
-    				2  9
-    				4  1
-    				4  3
-    				4  5
-    				4  7
-    				4  9
-    				6  1
-    				6  3
-    				6  5
-    				6  7
-    				6  9
-    				8  1
-    				8  3
-    				8  5
-    				8  7
-    				8  9
-    				10  1
-    				10  3
-    				10  5
-    				10  7
-    				10  9
-    			};
-    		\end{axis}
-    	\end{tikzpicture}\\
-    	\includegraphics[width=140mm]{1.1.B}\\
-    	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-    		\hline
-    		&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-    		\hline\textbf{1}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{2}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{4}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{6}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{7}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{8}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{10}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline
-    	\end{tabular}
-    \end{center}
-    	\bigbreak
-    	$C=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } x\cdot y \text{ кратно трём}  \}$\\
-    	\begin{center}
-    		\begin{tikzpicture}
-    			\begin{axis}[
-    				xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    				ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    				axis lines = left,
-    				xlabel = \(x\),
-    				ylabel = {\(y\)},
-    				ymax=13,
-    				xmax=13
-    				]
-    				\addplot[
-    				mark size=2pt,
-    				only marks,
-    				]
-    				table {
-    					x  y  
-    					1  3
-    					1  6
-    					1  9
-    					2  3
-    					2  6
-    					2  9
-    					3  1
-    					3  2
-    					3  3
-    					3  4
-    					3  5
-    					3  6
-    					3  7
-    					3  8
-    					3  9
-    					3  10
-    					4  3
-    					4  6
-    					4  9
-    					5  3
-    					5  6
-    					5  9
-    					6  1
-    					6  2
-    					6  3
-    					6  4
-    					6  5
-    					6  6
-    					6  7
-    					6  8
-    					6  9
-    					6  10
-    					7  3
-    					7  6
-    					7  9
-    					8  3
-    					8  6
-    					8  9
-    					9  1
-    					9  2
-    					9  3
-    					9  4
-    					9  5
-    					9  6
-    					9  7
-    					9  8
-    					9  9
-    					9  10
-    					10  3
-    					10  6
-    					10  9
-    				};
-    			\end{axis}
-    		\end{tikzpicture}\\
-    		\includegraphics[width=140mm]{1.1.C}\\
-    		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-    			\hline
-    			&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-    			\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-    			\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-    			\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-    			\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline
-    		\end{tabular}
-    	\end{center}
-    	\bigbreak
-    \item Вычислить значение выражения (см. ”Варианты заданий”, п.б) при заданных отношениях (см. ”Варианты заданий”, п.а).\\
-    $D=A\circ B^2 - \overline{C} \cup C^{-1}$\\
-    \includegraphics[width=70mm]{1.2}\\
-    \begin{enumerate}[1) ]\item 
-	$A\circ B = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-		\hline
-		&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-		\hline\textbf{1}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{2}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{3}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-		\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-		\hline\textbf{6}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{7}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{8}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{9}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{10}&1&0&1&0&1&0&1&0&1&0\\
-		\hline
-	\end{tabular}
-\item $\_1 \circ B = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{2}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{6}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{7}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{8}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{10}&0&0&0&0&0&0&0&0&0&0\\
-	\hline
-	
-\end{tabular}
-\item $\overline{C} = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{2}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{4}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{5}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{6}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{7}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{8}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{10}&1&1&0&1&1&0&1&1&0&1\\
-	\hline
-	
-\end{tabular}
-\item $C^{-1} = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-	\hline
-	
-\end{tabular}
-\item $\_2 - \_3 = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{2}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{6}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{7}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{8}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{10}&0&0&0&0&0&0&0&0&0&0\\
-	\hline
-	
-\end{tabular}
+		ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+		\bigbreak
+		\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+		\bigbreak
+		Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+\end{center}
 
-\item $\_5 \cup \_4 = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-	\hline
-\end{tabular}\bigbreak
-$D = $ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-	\hline
-\end{tabular}
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №1}}\\
+	\normalsize{
+		по дисциплине: Алгоритмы и структуры данных \\
+		тема: «Встроенные структуры данных (Pascal/С)»}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: асс. Солонченко Роман\\Евгеньевич
+}
+\vfill\begin{center}
+	Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{Лабораторная работа №1}\\
+	Встроенные структуры данных (Pascal/С)\\
+	Вариант 10
+\end{center}
+\textbf{Цель работы: }изучение базовых типов данных языка Pascal/C как структур данных (СД).
+
+\begin{enumerate}
+	\item Для типов данных определить:
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности и изменчивости.
+			            \item Набор допустимых операций.
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схему хранения.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			            \item Характеристику допустимых значений.
+			            \item Тип доступа к элементам.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+		            \end{enumerate}
+	      \end{enumerate}
+
+	      \begin{center}Задания для C\\
+		      \begin{tabular}{|c|c|c|}
+			      \hline
+			      Тип 1       & Тип 2 & Тип 3                       \\
+			      \hline
+			      signed char & float & \{red, yellow, green\} colors \\
+			      \hline
+		      \end{tabular}
+	      \end{center}
+	      \textbf{signed char}
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности - \textbf{простой}\\
+			                  Характер изменчивости - \textbf{статический}
+			            \item Набор допустимых операций - \textbf{математические операции, побитовые операции, присваивание, инициализация, логические операции,
+				                  приведение типа, взятие адреса}
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схема хранения - \textbf{последовательная память}.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			                  Размер \mintinline{C}|signed char| в современном C гарантированно равен \textbf{1 байту или 8 битам}.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			                  \textbf{8-битное число}. Старший бит отводится под хранение знака числа, отрицательные числа
+			                  хранятся в \textbf{дополнительном коде}, положительные - \textbf{в прямом}.
+			            \item Характеристика допустимых значений.
+			                  $E(\text{signed char}) \in [-2^7; 2^7 - 1]$ или
+			                  $E(\text{signed char}) \in [-128; 127]$.
+			            \item Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+			                  \begin{minted}{C}
+signed char a;
+char a;
+					  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
+
+	      \textbf{float}
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности - \textbf{простой}\\
+			                  Характер изменчивости - \textbf{статический}
+			            \item Набор допустимых операций - \textbf{математические операции, побитовые операции, присваивание, инициализация, логические операции,
+				                  приведение типа, взятие адреса}
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схема хранения - \textbf{последовательная память}.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			                  Размер \mintinline{C}|float| может различаться на различных системах.
+			                  Однако на большинстве ПК размер float равен \textbf{4 байтам или 32 битам}.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			                  \textbf{32-битное число}. Старший бит \mintinline{C}|s| отводится под хранение знака числа.
+			                  Следующие 8 бит \mintinline{C}|e| содержат порядок числа, последние 23 бита содержат мантиссу числа \mintinline{C}|m|.
+			            \item Характеристика допустимых значений.\\
+			                  $E(\text{float}) \in [1.1754943\cdot10^{-38}; 1.1754943\cdot10^{38}]$.
+			            \item Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+			                  \begin{minted}{C}
+float a;
+					  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
+
+		  \textbf{\{red, yellow, green\} colors}
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности - \textbf{простой}\\
+			                  Характер изменчивости - \textbf{статический}
+			            \item Набор допустимых операций - \textbf{математические операции, побитовые операции, присваивание, инициализация, логические операции,
+				                  приведение типа, взятие адреса}
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схема хранения - \textbf{последовательная память}.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			                  Размер \mintinline{C}|float| может различаться на различных системах.
+			                  Однако на большинстве ПК размер float равен \textbf{4 байтам или 32 битам}.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			                  \textbf{32-битное число}. Старший бит \mintinline{C}|s| отводится под хранение знака числа.
+			                  Следующие 8 бит \mintinline{C}|e| содержат порядок числа, последние 23 бита содержат мантиссу числа \mintinline{C}|m|.
+			            \item Характеристика допустимых значений.\\
+			                  $E(\text{float}) \in [1.1754943\cdot10^{-38}; 1.1754943\cdot10^{38}]$.
+			            \item Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+			                  \begin{minted}{C}
+float a;
+					  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
 \end{enumerate}
-    \item Написать программы, формирующие матрицы заданных отношений (см. ”Варианты заданий”, п.а).\\
-    \textit{main.cpp}
-    \begin{minted}{C++}
-#include "../../libs/alg/alg.h"
+\textbf{Вывод: } в ходе лабораторной работы изучили способы задания отношений, операции над отношениями и свойства отношений, научились программно реализовывать операции и определять свойства отношений.
 
-bool predA(int x, int y) {
-	return (x < y && y < (9 - x)) || ((9 - x) < y && y < x);
-}
-
-bool predB(int x, int y) {
-	return x % 2 == 0 && y % 2 != 0;
-}
-
-bool predC(int x, int y) {
-	return (x * y) % 3 == 0 ;
-}
-
-int main() {
-	BoolMatrixRelation a(10, predA);
-	std::cout << a << std::endl;
-	
-	BoolMatrixRelation b(10, predB);
-	std::cout << b << std::endl;
-	
-	BoolMatrixRelation c(10, predC);
-	std::cout << c << std::endl;
-}
-    	\end{minted}
-    \textit{alg.h} (объявление методов класса)
-\begin{minted}{C++}
-class BoolMatrixRelation
-{
-	private:
-	std::vector<std::vector<bool>> data;
-	int size;
-	
-	public:
-	BoolMatrixRelation(const int size, bool (*pred)(int, int));
-	~BoolMatrixRelation();
-	friend std::ostream& operator<<(std::ostream& out, BoolMatrixRelation &val) {
-		out << std::setw(3) << "" << " ";
-		for (int i = 1; i <= val.size; i++) {
-			out << std::setw(3) << i << " ";
-		}
-		out << "\n";
-		
-		for (int x = 0; x < val.size; x++) {
-			out << std::setw(3) << x + 1 << " ";
-			for (int y = 0; y < val.size; y++) {
-				out << std::setw(3) << val.data[x][y] << " ";
-			}
-			
-			out << "\n";
-		}
-		
-		return out;
-	}
-};
-\end{minted}
-\textit{task13.cpp} (реализация методов класса)
-\begin{minted}{C++}
-#include "../alg.h"
-
-BoolMatrixRelation::BoolMatrixRelation(const int size, bool (*pred)(int, int)) {
-	this->size = size;
-	
-	for (int x = 1; x <= size; x++) {
-		std::vector<bool> val;
-		
-		for (int y = 1; y <= size; y++) {
-			val.push_back(pred(x, y));
-		}
-		
-		this->data.push_back(val);
-	}
-}
-
-BoolMatrixRelation::~BoolMatrixRelation() {}
-\end{minted}
-Результат выполнения программы:\\
-\includegraphics[width=110mm]{1.3}
-    \item Программно реализовать операции над отношениями.\\
-    Немного модифицируем класс BoolMatrixRelation.
-    \textit{alg.h} (объявление методов класса)
-    \begin{minted}{C++}
-class BoolMatrixRelation
-{
-	private:
-	std::vector<std::vector<bool>> data;
-	int size;
-	
-	static BoolMatrixRelation getDefault() {
-		return BoolMatrixRelation();
-	}
-	
-	public:
-	BoolMatrixRelation(const int size, std::function<bool (int, int)> pred);
-	BoolMatrixRelation() {
-		this->size = 0;
-	}
-	~BoolMatrixRelation();
-	
-	bool includes(BoolMatrixRelation b);
-	bool equals(BoolMatrixRelation b);
-	bool includesStrict(BoolMatrixRelation b);
-	BoolMatrixRelation unite(BoolMatrixRelation b);
-	BoolMatrixRelation intersect(BoolMatrixRelation b);
-	BoolMatrixRelation diff(BoolMatrixRelation b);
-	BoolMatrixRelation symDiff(BoolMatrixRelation b);
-	BoolMatrixRelation non();
-	BoolMatrixRelation transpose();
-	BoolMatrixRelation compose(BoolMatrixRelation b);
-	BoolMatrixRelation pow(int p);
-	
-	friend std::ostream& operator<<(std::ostream& out, BoolMatrixRelation &val) {
-		out << std::setw(3) << "" << " ";
-		for (int i = 1; i <= val.size; i++) {
-			out << std::setw(3) << i << " ";
-		}
-		out << "\n";
-		
-		for (int x = 0; x < val.size; x++) {
-			out << std::setw(3) << x + 1 << " ";
-			for (int y = 0; y < val.size; y++) {
-				out << std::setw(3) << val.data[x][y] << " ";
-			}
-			
-			out << "\n";
-		}
-		
-		return out;
-	}
-};
-    \end{minted}
-    \textit{task13.cpp} (реализация методов класса)
-    \begin{minted}{C++}
-#include "../alg.h"
-
-BoolMatrixRelation::BoolMatrixRelation(const int size, std::function<bool (int, int)> pred)
-{
-	this->size = size;
-	
-	for (int x = 1; x <= size; x++)
-	{
-		std::vector<bool> val;
-		
-		for (int y = 1; y <= size; y++)
-		{
-			val.push_back(pred(x, y));
-		}
-		
-		this->data.push_back(val);
-	}
-}
-
-BoolMatrixRelation::~BoolMatrixRelation() {}
-    \end{minted}
-    \textit{task14.cpp} (реализация методов класса)
-\begin{minted}{C++}
-#include "../alg.h"
-
-bool BoolMatrixRelation::includes(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return false;
-	
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (data[i][j] && !b.data[i][j])
-			return false;
-		}
-	}
-	return true;
-}
-bool BoolMatrixRelation::equals(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return false;
-	
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (data[i][j] != b.data[i][j])
-			return false;
-		}
-	}
-	return true;
-}
-bool BoolMatrixRelation::includesStrict(BoolMatrixRelation b)
-{
-	return (*this).includes(b) && !(*this).equals(b);
-}
-BoolMatrixRelation BoolMatrixRelation::unite(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return BoolMatrixRelation::getDefault();
-	
-	return BoolMatrixRelation(size, [this, &b](int x, int y) {
-		return data[x - 1][y - 1] || b.data[x - 1][y - 1];
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::intersect(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return BoolMatrixRelation::getDefault();
-	
-	return BoolMatrixRelation(size, [this, &b](int x, int y) {
-		return data[x - 1][y - 1] && b.data[x - 1][y - 1];
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::diff(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return BoolMatrixRelation::getDefault();
-	
-	return BoolMatrixRelation(size, [this, &b](int x, int y) {
-		return data[x - 1][y - 1] && !b.data[x - 1][y - 1];
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::symDiff(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return BoolMatrixRelation::getDefault();
-	
-	return BoolMatrixRelation(size, [this, &b](int x, int y) {
-		return data[x - 1][y - 1] ^ b.data[x - 1][y - 1];
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::non()
-{
-	return BoolMatrixRelation(size, [this](int x, int y) {
-		return !data[x - 1][y - 1];
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::transpose()
-{
-	return BoolMatrixRelation(size, [this](int x, int y) {
-		return data[y - 1][x - 1];
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::compose(BoolMatrixRelation b)
-{
-	if (this->size != b.size) return BoolMatrixRelation::getDefault();
-	
-	return BoolMatrixRelation(size, [this, &b](int x, int y) {
-		for (int z = 0; z < size; z++) {
-			if (data[x - 1][z] && b.data[z][y - 1])
-			return true;
-		}
-		
-		return false;
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::pow(int p)
-{
-	if (p < 0) return transpose();
-	if (p == 0) return BoolMatrixRelation(size, [](int x, int y){return x == y;});
-	if (p == 1) return *this;
-	
-	BoolMatrixRelation lowP = pow(p - 1);
-	return compose(lowP);
-}
-\end{minted}
-    \item Написать программу, вычисляющую значение выражения (см. “Варианты заданий”, п.б) и вычислить его при заданных отношениях (см.”Варианты заданий”, п.а).
-    \\
-    \textit{main.cpp}
-    \begin{minted}{C++}
-#include "../../libs/alg/alg.h"
-
-bool predA(int x, int y) {
-	return (x < y && y < (9 - x)) || ((9 - x) < y && y < x);
-}
-
-bool predB(int x, int y) {
-	return x % 2 == 0 && y % 2 != 0;
-}
-
-bool predC(int x, int y) {
-	return (x * y) % 3 == 0 ;
-}
-
-int main() {
-	BoolMatrixRelation a(10, predA);
-	BoolMatrixRelation b(10, predB);
-	BoolMatrixRelation c(10, predC);
-	BoolMatrixRelation d = (((a.compose(b)).compose(b)).diff(c.non())).unite(c.pow(-1));
-	
-	std::cout << d << std::endl;
-}
-    \end{minted}
-    Результат выполнения программы:\\
-    \includegraphics[width=110mm]{1.5}\\
-Значение формулы D, вычисленное вручную, и результат выполненния программы совпали. 
- \end{enumerate}
-    
-    \begin{center} \textbf{Часть 2. Свойства отношений} \end{center}
-    \begin{enumerate}[label=2.\arabic*.]
-    	\item Определить основные свойства отношений (см. ”Варианты заданий”, п.а).\\
-    	\begin{tabular}{|c|c|c|c|}
-    		\hline
-    		&A&B&C\\
-    		\hline
-    		Рефлексивность& & &\\
-    		\hline
-    		Антирефлексивность&+&+&\\
-    		\hline
-    		Симметричность& & &+\\
-    		\hline
-    		Антисимметричность&+&+&\\
-    		\hline
-    		Транзитивность&+&+&\\
-    		\hline
-    		Антитранзитивность&&+&\\
-    		\hline
-    		Полнота&&&\\
-    		\hline
-    		\end{tabular}
-    	\item Определить, являются ли заданные отношения отношениями толерантности, эквивалентности и порядка.\\
-    	\begin{tabular}{|c|c|c|c|}
-    		\hline
-    		&A&B&C\\
-    		\hline
-    		Толерантно&&&\\
-    		\hline
-    		Эквивалентно&&&\\
-    		\hline
-    		Порядка&+&+&\\
-    		\hline
-    		Нестрогого порядка&&&\\
-    		\hline
-    		Строгого порядка&+&+&\\
-    		\hline
-    		Линейного порядка&&&\\
-    		\hline
-    		Нестрогого линейного порядка&&&\\
-    		\hline
-    		Строгого линейного порядка&&&\\
-    		
-    		\hline
-    	\end{tabular}
-    	\item Написать программу, определяющую свойства отношения, в том числе толерантности, эквивалентности и порядка, и определить свойства отношений (см. ”Варианты заданий”, п.а).
-    	\textit{main.cpp}
-    	\begin{minted}{C++}
-#include "../../libs/alg/alg.h"
-
-bool predA(int x, int y) {
-	return (x < y && y < (9 - x)) || ((9 - x) < y && y < x);
-}
-
-bool predB(int x, int y) {
-	return x % 2 == 0 && y % 2 != 0;
-}
-
-bool predC(int x, int y) {
-	return (x * y) % 3 == 0 ;
-}
-
-void outputProperties(std::string name, BoolMatrixRelation a) {
-	std::cout << "Properties for " << name << "\n";
-	std::cout << "Is reflexive? " << a.isReflexive() << "\n";
-	std::cout << "Is antireflexive? " << a.isAntiReflexive() << "\n";
-	std::cout << "Is symmetric? " << a.isSymmetric() << "\n";
-	std::cout << "Is antisymmetric? " << a.isAntiSymmetric() << "\n";
-	std::cout << "Is transitive? " << a.isTransitive() << "\n";
-	std::cout << "Is antitransitive? " << a.isAntiTransitive() << "\n";
-	std::cout << "Is full? " << a.isFull() << "\n";
-	std::cout << "Is tolerant? " << a.isTolerant() << "\n";
-	std::cout << "Is equivalent? " << a.isEquivalent() << "\n";
-	std::cout << "Is ordered? " << a.isOrdered() << "\n";
-	std::cout << "Is ordered non strict? " << a.isOrderedNonStrict() << "\n";
-	std::cout << "Is ordered strict? " << a.isOrderedStrict() << "\n";
-	std::cout << "Is ordered linear? " << a.isOrderedLinear() << "\n";
-	std::cout << "Is ordered linear non strict? " << a.isOrderedLinearNonStrict() << "\n";
-	std::cout << "Is ordered linear strict? " << a.isOrderedLinearStrict() << "\n" << std::endl;
-}
-
-int main() {
-	BoolMatrixRelation a(10, predA);
-	BoolMatrixRelation b(10, predB);
-	BoolMatrixRelation c(10, predC);
-	
-	outputProperties("A", a);
-	outputProperties("B", b);
-	outputProperties("C", c);
-}
-    	\end{minted}
-    	\textit{alg.h}
-    	\begin{minted}{C++}
-class BoolMatrixRelation
-{
-	private:
-	std::vector<std::vector<bool>> data;
-	int size;
-	
-	static BoolMatrixRelation getDefault() {
-		return BoolMatrixRelation();
-	}
-	
-	public:
-	BoolMatrixRelation(const int size, std::function<bool (int, int)> pred);
-	BoolMatrixRelation() {
-		this->size = 0;
-	}
-	~BoolMatrixRelation();
-	
-	bool includes(BoolMatrixRelation b);
-	bool equals(BoolMatrixRelation b);
-	bool includesStrict(BoolMatrixRelation b);
-	BoolMatrixRelation unite(BoolMatrixRelation b);
-	BoolMatrixRelation intersect(BoolMatrixRelation b);
-	BoolMatrixRelation diff(BoolMatrixRelation b);
-	BoolMatrixRelation symDiff(BoolMatrixRelation b);
-	BoolMatrixRelation non();
-	BoolMatrixRelation transpose();
-	BoolMatrixRelation compose(BoolMatrixRelation b);
-	BoolMatrixRelation pow(int p);
-	
-	static BoolMatrixRelation getIdentity(int size);
-	static BoolMatrixRelation getUniversum(int size);
-	
-	bool isEmpty();
-	
-	bool isReflexive();
-	bool isAntiReflexive();
-	bool isSymmetric();
-	bool isAntiSymmetric();
-	bool isTransitive();
-	bool isAntiTransitive();
-	bool isFull();
-	bool isTolerant();
-	bool isEquivalent();
-	bool isOrdered();
-	bool isOrderedNonStrict();
-	bool isOrderedStrict();
-	bool isOrderedLinear();
-	bool isOrderedLinearNonStrict();
-	bool isOrderedLinearStrict();
-	
-	friend std::ostream& operator<<(std::ostream& out, BoolMatrixRelation &val) {
-		out << std::setw(3) << "" << " ";
-		for (int i = 1; i <= val.size; i++) {
-			out << std::setw(3) << i << " ";
-		}
-		out << "\n";
-		
-		for (int x = 0; x < val.size; x++) {
-			out << std::setw(3) << x + 1 << " ";
-			for (int y = 0; y < val.size; y++) {
-				out << std::setw(3) << val.data[x][y] << " ";
-			}
-			
-			out << "\n";
-		}
-		
-		return out;
-	}
-};
-    	\end{minted}
-    	\textit{task23.cpp} 
-    	\begin{minted}{C++}
-#include "../alg.h"
-
-bool BoolMatrixRelation::isEmpty() {
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (data[i][j]) return false;
-		}
-	}
-	
-	return true;
-}
-
-BoolMatrixRelation BoolMatrixRelation::getIdentity(int size) {
-	return BoolMatrixRelation(size, [](int x, int y) {
-		return x == y;
-	});
-}
-BoolMatrixRelation BoolMatrixRelation::getUniversum(int size) {
-	return BoolMatrixRelation(size, [](int x, int y) {
-		return true;
-	});
-}
-
-bool BoolMatrixRelation::isReflexive()
-{
-	return BoolMatrixRelation::getIdentity(size).includes(*this);
-}
-bool BoolMatrixRelation::isAntiReflexive()
-{
-	return (*this).intersect(BoolMatrixRelation::getIdentity(size)).isEmpty();
-}
-bool BoolMatrixRelation::isSymmetric()
-{
-	return (*this).equals((*this).pow(-1));
-}
-bool BoolMatrixRelation::isAntiSymmetric()
-{
-	return (*this).intersect((*this).pow(-1)).includes(BoolMatrixRelation::getIdentity(size));
-}
-bool BoolMatrixRelation::isTransitive()
-{
-	return ((*this).pow(2)).includes((*this));
-}
-bool BoolMatrixRelation::isAntiTransitive()
-{
-	return ((*this).pow(2)).intersect((*this)).isEmpty();
-}
-bool BoolMatrixRelation::isFull()
-{
-	return (*this).unite(BoolMatrixRelation::getIdentity(size)).unite((*this).pow(-1)).equals(BoolMatrixRelation::getUniversum(size));
-}
-bool BoolMatrixRelation::isTolerant()
-{
-	return isReflexive() && isSymmetric();
-}
-bool BoolMatrixRelation::isEquivalent()
-{
-	return isReflexive() && isSymmetric() && isTransitive();
-}
-bool BoolMatrixRelation::isOrdered()
-{
-	return isAntiSymmetric() && isTransitive();
-}
-bool BoolMatrixRelation::isOrderedNonStrict()
-{
-	return isOrdered() && isReflexive();
-}
-bool BoolMatrixRelation::isOrderedStrict()
-{
-	return isOrdered() && isAntiReflexive();
-}
-bool BoolMatrixRelation::isOrderedLinear()
-{
-	return isOrdered() && isFull();
-}
-bool BoolMatrixRelation::isOrderedLinearNonStrict()
-{
-	return isOrderedNonStrict() && isFull();
-}
-bool BoolMatrixRelation::isOrderedLinearStrict()
-{
-	return isOrderedStrict() && isFull();
-}
-    	\end{minted}
-    	Результат выполнения программы:\\
-    	\includegraphics[width=110mm]{2.3}
-    \end{enumerate}
-	
-			\textbf{Вывод: } в ходе лабораторной работы изучили способы задания отношений, операции над отношениями и свойства отношений, научились программно реализовывать операции и определять свойства отношений.
-			
 \end{document}

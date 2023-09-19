@@ -34,406 +34,402 @@
 
 \newcommand\textbox[1]{
 	\parbox{.45\textwidth}{#1}
-}
+} 
 
 \newcommand{\specialcell}[2][c]{%
 	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
-\begin{document}	
-	\pagenumbering{gobble}
-	\begin{center}
-		\small{
-			МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
-			\bigbreak
-			ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
-			\bigbreak
-			\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
-			\bigbreak
-			Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
-	\end{center}
-	
-	\vfill
-	\begin{center}
-		\large{
-			\textbf{
-				Лабораторная работа №3.1}}\\
-		\normalsize{
-			по дисциплине: Дискретная математика \\
-			тема: «Отношения и их свойства»}
-	\end{center}
-	\vfill
-	\hfill\textbox{
-		Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+	\small{
+		МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
 		\bigbreak
-		Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
-		ст. пр. Бондаренко Татьяна Владимировна
-	}
-	\vfill\begin{center}
-		Белгород 2023 г.
-	\end{center}
-	\newpage
-	\begin{center}
-		\textbf{Лабораторная работа №3.1}\\
-		Отношения и их свойства\\
-		Вариант 10
-	\end{center}
-	\textbf{Цель работы: }изучить способы задания отношений, операции над отношениями и свойства отношений, научиться программно реализовывать операции и определять свойства отношений.
-    \begin{center} \textbf{Часть 1. Операции над отношениями} \end{center}
-    
-    \begin{enumerate}[label=1.\arabic*.]
-    	\item Представить отношения (см. ”Варианты заданий”, п.а) графиком, графом и матрицей.\\
-    	$A=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } (x < y < (9 - x) \textit{ или } (9 - x) < y < x) \}$\\
-    	\begin{center}
-    	\begin{tikzpicture}
-    		\begin{axis}[
-    			xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			axis lines = left,
-    			xlabel = \(x\),
-    			ylabel = {\(y\)},
-    			ymax=13,
-    			xmax=13
-    			]
-    			\addplot[
-    			mark size=2pt,
-    			only marks,
-    			]
-    			table {
-    				x  y  
-    				1  2
-    				1  3
-    				1  4
-    				1  5
-    				1  6
-    				1  7
-    				2  3
-    				2  4
-    				2  5
-    				2  6
-    				3  4
-    				3  5
-    				6  4
-    				6  5
-    				7  3
-    				7  4
-    				7  5
-    				7  6
-    				8  2
-    				8  3
-    				8  4
-    				8  5
-    				8  6
-    				8  7
-    				9  1
-    				9  2
-    				9  3
-    				9  4
-    				9  5
-    				9  6
-    				9  7
-    				9  8
-    				10  1
-    				10  2
-    				10  3
-    				10  4
-    				10  5
-    				10  6
-    				10  7
-    				10  8
-    				10  9
-    			};
-    		\end{axis}
-    	\end{tikzpicture}\\
-    \includegraphics[width=140mm]{1.1.A}\\
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&1&1&1&1&1&1&0&0&0\\
-	\hline\textbf{2}&0&0&1&1&1&1&0&0&0&0\\
-	\hline\textbf{3}&0&0&0&1&1&0&0&0&0&0\\
-	\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{6}&0&0&0&1&1&0&0&0&0&0\\
-	\hline\textbf{7}&0&0&1&1&1&1&0&0&0&0\\
-	\hline\textbf{8}&0&1&1&1&1&1&1&0&0&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&0&0\\
-	\hline\textbf{10}&1&1&1&1&1&1&1&1&1&0\\
-	\hline
-    	\end{tabular}
-    \end{center}
-\bigbreak
-    $B=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } x \textit{ - чётно и } y \textit{ - нечётно}  \}$\\
-    \begin{center}
-    	\begin{tikzpicture}
-    		\begin{axis}[
-    			xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    			axis lines = left,
-    			xlabel = \(x\),
-    			ylabel = {\(y\)},
-    			ymax=13,
-    			xmax=13
-    			]
-    			\addplot[
-    			mark size=2pt,
-    			only marks,
-    			]
-    			table {
-    				x  y  
-    				2  1
-    				2  3
-    				2  5
-    				2  7
-    				2  9
-    				4  1
-    				4  3
-    				4  5
-    				4  7
-    				4  9
-    				6  1
-    				6  3
-    				6  5
-    				6  7
-    				6  9
-    				8  1
-    				8  3
-    				8  5
-    				8  7
-    				8  9
-    				10  1
-    				10  3
-    				10  5
-    				10  7
-    				10  9
-    			};
-    		\end{axis}
-    	\end{tikzpicture}\\
-    	\includegraphics[width=140mm]{1.1.B}\\
-    	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-    		\hline
-    		&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-    		\hline\textbf{1}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{2}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{4}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{6}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{7}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{8}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-    		\hline\textbf{10}&1&0&1&0&1&0&1&0&1&0\\
-    		\hline
-    	\end{tabular}
-    \end{center}
-    	\bigbreak
-    	$C=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } x\cdot y \text{ кратно трём}  \}$\\
-    	\begin{center}
-    		\begin{tikzpicture}
-    			\begin{axis}[
-    				xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    				ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
-    				axis lines = left,
-    				xlabel = \(x\),
-    				ylabel = {\(y\)},
-    				ymax=13,
-    				xmax=13
-    				]
-    				\addplot[
-    				mark size=2pt,
-    				only marks,
-    				]
-    				table {
-    					x  y  
-    					1  3
-    					1  6
-    					1  9
-    					2  3
-    					2  6
-    					2  9
-    					3  1
-    					3  2
-    					3  3
-    					3  4
-    					3  5
-    					3  6
-    					3  7
-    					3  8
-    					3  9
-    					3  10
-    					4  3
-    					4  6
-    					4  9
-    					5  3
-    					5  6
-    					5  9
-    					6  1
-    					6  2
-    					6  3
-    					6  4
-    					6  5
-    					6  6
-    					6  7
-    					6  8
-    					6  9
-    					6  10
-    					7  3
-    					7  6
-    					7  9
-    					8  3
-    					8  6
-    					8  9
-    					9  1
-    					9  2
-    					9  3
-    					9  4
-    					9  5
-    					9  6
-    					9  7
-    					9  8
-    					9  9
-    					9  10
-    					10  3
-    					10  6
-    					10  9
-    				};
-    			\end{axis}
-    		\end{tikzpicture}\\
-    		\includegraphics[width=140mm]{1.1.C}\\
-    		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-    			\hline
-    			&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-    			\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-    			\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-    			\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-    			\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-    			\hline
-    		\end{tabular}
-    	\end{center}
-    	\bigbreak
-    \item Вычислить значение выражения (см. ”Варианты заданий”, п.б) при заданных отношениях (см. ”Варианты заданий”, п.а).\\
-    $D=A\circ B^2 - \overline{C} \cup C^{-1}$\\
-    \includegraphics[width=70mm]{1.2}\\
-    \begin{enumerate}[1) ]\item 
-	$A\circ B = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-		\hline
-		&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-		\hline\textbf{1}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{2}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{3}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-		\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-		\hline\textbf{6}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{7}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{8}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{9}&1&0&1&0&1&0&1&0&1&0\\
-		\hline\textbf{10}&1&0&1&0&1&0&1&0&1&0\\
-		\hline
-	\end{tabular}
-\item $\_1 \circ B = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{2}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{6}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{7}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{8}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{10}&0&0&0&0&0&0&0&0&0&0\\
-	\hline
-	
-\end{tabular}
-\item $\overline{C} = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{2}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{4}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{5}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{6}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{7}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{8}&1&1&0&1&1&0&1&1&0&1\\
-	\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{10}&1&1&0&1&1&0&1&1&0&1\\
-	\hline
-	
-\end{tabular}
-\item $C^{-1} = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-	\hline
-	
-\end{tabular}
-\item $\_2 - \_3 = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{2}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{3}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{4}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{5}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{6}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{7}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{8}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{9}&0&0&0&0&0&0&0&0&0&0\\
-	\hline\textbf{10}&0&0&0&0&0&0&0&0&0&0\\
-	\hline
-	
-\end{tabular}
+		ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+		\bigbreak
+		\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+		\bigbreak
+		Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+\end{center}
 
-\item $\_5 \cup \_4 = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-	\hline
-\end{tabular}\bigbreak
-$D = $ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-	\hline
-	&\textbf{1}&\textbf{2}&\textbf{3}&\textbf{4}&\textbf{5}&\textbf{6}&\textbf{7}&\textbf{8}&\textbf{9}&\textbf{10}\\
-	\hline\textbf{1}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{2}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{3}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{4}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{5}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{6}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{7}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{8}&0&0&1&0&0&1&0&0&1&0\\
-	\hline\textbf{9}&1&1&1&1&1&1&1&1&1&1\\
-	\hline\textbf{10}&0&0&1&0&0&1&0&0&1&0\\
-	\hline
-\end{tabular}
-\end{enumerate}
-    \item Написать программы, формирующие матрицы заданных отношений (см. ”Варианты заданий”, п.а).\\
-    \textit{main.cpp}
-    \begin{minted}{C++}
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №3.1}}\\
+	\normalsize{
+		по дисциплине: Дискретная математика \\
+		тема: «Отношения и их свойства»}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+	ст. пр. Бондаренко Татьяна Владимировна
+}
+\vfill\begin{center}
+	Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{Лабораторная работа №3.1}\\
+	Отношения и их свойства\\
+	Вариант 10
+\end{center}
+\textbf{Цель работы: }изучить способы задания отношений, операции над отношениями и свойства отношений, научиться программно реализовывать операции и определять свойства отношений.
+\begin{center} \textbf{Часть 1. Операции над отношениями} \end{center}
+
+\begin{enumerate}[label=1.\arabic*.]
+	\item Представить отношения (см. ”Варианты заданий”, п.а) графиком, графом и матрицей.\\
+	      $A=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } (x < y < (9 - x) \textit{ или } (9 - x) < y < x) \}$\\
+	      \begin{center}
+		      \begin{tikzpicture}
+			      \begin{axis}[
+					      xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+					      ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+					      axis lines = left,
+					      xlabel = \(x\),
+					      ylabel = {\(y\)},
+					      ymax=13,
+					      xmax=13
+				      ]
+				      \addplot[
+					      mark size=2pt,
+					      only marks,
+				      ]
+				      table {
+						      x  y
+						      1  2
+						      1  3
+						      1  4
+						      1  5
+						      1  6
+						      1  7
+						      2  3
+						      2  4
+						      2  5
+						      2  6
+						      3  4
+						      3  5
+						      6  4
+						      6  5
+						      7  3
+						      7  4
+						      7  5
+						      7  6
+						      8  2
+						      8  3
+						      8  4
+						      8  5
+						      8  6
+						      8  7
+						      9  1
+						      9  2
+						      9  3
+						      9  4
+						      9  5
+						      9  6
+						      9  7
+						      9  8
+						      10  1
+						      10  2
+						      10  3
+						      10  4
+						      10  5
+						      10  6
+						      10  7
+						      10  8
+						      10  9
+					      };
+			      \end{axis}
+		      \end{tikzpicture}\\
+		      \includegraphics[width=140mm]{1.1.A}\\
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			                        & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			      \hline\textbf{1}  & 0          & 1          & 1          & 1          & 1          & 1          & 1          & 0          & 0          & 0           \\
+			      \hline\textbf{2}  & 0          & 0          & 1          & 1          & 1          & 1          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{3}  & 0          & 0          & 0          & 1          & 1          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{4}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{5}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{6}  & 0          & 0          & 0          & 1          & 1          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{7}  & 0          & 0          & 1          & 1          & 1          & 1          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{8}  & 0          & 1          & 1          & 1          & 1          & 1          & 1          & 0          & 0          & 0           \\
+			      \hline\textbf{9}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 0          & 0           \\
+			      \hline\textbf{10} & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 0           \\
+			      \hline
+		      \end{tabular}
+	      \end{center}
+	      \bigbreak
+	      $B=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } x \textit{ - чётно и } y \textit{ - нечётно}  \}$\\
+	      \begin{center}
+		      \begin{tikzpicture}
+			      \begin{axis}[
+					      xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+					      ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+					      axis lines = left,
+					      xlabel = \(x\),
+					      ylabel = {\(y\)},
+					      ymax=13,
+					      xmax=13
+				      ]
+				      \addplot[
+					      mark size=2pt,
+					      only marks,
+				      ]
+				      table {
+						      x  y
+						      2  1
+						      2  3
+						      2  5
+						      2  7
+						      2  9
+						      4  1
+						      4  3
+						      4  5
+						      4  7
+						      4  9
+						      6  1
+						      6  3
+						      6  5
+						      6  7
+						      6  9
+						      8  1
+						      8  3
+						      8  5
+						      8  7
+						      8  9
+						      10  1
+						      10  3
+						      10  5
+						      10  7
+						      10  9
+					      };
+			      \end{axis}
+		      \end{tikzpicture}\\
+		      \includegraphics[width=140mm]{1.1.B}\\
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			                        & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			      \hline\textbf{1}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{2}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			      \hline\textbf{3}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{4}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			      \hline\textbf{5}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{6}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			      \hline\textbf{7}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{8}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			      \hline\textbf{9}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			      \hline\textbf{10} & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			      \hline
+		      \end{tabular}
+	      \end{center}
+	      \bigbreak
+	      $C=\{(x, y) | x \in N \textit{ и } y \in N \textit{ и } x < 11 \textit{ и } y < 11 \textit{ и } x\cdot y \text{ кратно трём}  \}$\\
+	      \begin{center}
+		      \begin{tikzpicture}
+			      \begin{axis}[
+					      xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+					      ytick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+					      axis lines = left,
+					      xlabel = \(x\),
+					      ylabel = {\(y\)},
+					      ymax=13,
+					      xmax=13
+				      ]
+				      \addplot[
+					      mark size=2pt,
+					      only marks,
+				      ]
+				      table {
+						      x  y
+						      1  3
+						      1  6
+						      1  9
+						      2  3
+						      2  6
+						      2  9
+						      3  1
+						      3  2
+						      3  3
+						      3  4
+						      3  5
+						      3  6
+						      3  7
+						      3  8
+						      3  9
+						      3  10
+						      4  3
+						      4  6
+						      4  9
+						      5  3
+						      5  6
+						      5  9
+						      6  1
+						      6  2
+						      6  3
+						      6  4
+						      6  5
+						      6  6
+						      6  7
+						      6  8
+						      6  9
+						      6  10
+						      7  3
+						      7  6
+						      7  9
+						      8  3
+						      8  6
+						      8  9
+						      9  1
+						      9  2
+						      9  3
+						      9  4
+						      9  5
+						      9  6
+						      9  7
+						      9  8
+						      9  9
+						      9  10
+						      10  3
+						      10  6
+						      10  9
+					      };
+			      \end{axis}
+		      \end{tikzpicture}\\
+		      \includegraphics[width=140mm]{1.1.C}\\
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			                        & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			      \hline\textbf{1}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline\textbf{2}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline\textbf{3}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			      \hline\textbf{4}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline\textbf{5}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline\textbf{6}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			      \hline\textbf{7}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline\textbf{8}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline\textbf{9}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			      \hline\textbf{10} & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			      \hline
+		      \end{tabular}
+	      \end{center}
+	      \bigbreak
+	\item Вычислить значение выражения (см. ”Варианты заданий”, п.б) при заданных отношениях (см. ”Варианты заданий”, п.а).\\
+	      $D=A\circ B^2 - \overline{C} \cup C^{-1}$\\
+	      \includegraphics[width=70mm]{1.2}\\
+	      \begin{enumerate}[1) ]\item
+		            $A\circ B = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{2}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{3}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{4}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{5}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{6}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{7}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{8}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{9}  & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline\textbf{10} & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0          & 1          & 0           \\
+			            \hline
+		            \end{tabular}
+		      \item $\_1 \circ B = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{2}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{3}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{4}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{5}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{6}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{7}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{8}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{9}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{10} & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline
+		            \end{tabular}
+		      \item $\overline{C} = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline\textbf{2}  & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline\textbf{3}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{4}  & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline\textbf{5}  & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline\textbf{6}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{7}  & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline\textbf{8}  & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline\textbf{9}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{10} & 1          & 1          & 0          & 1          & 1          & 0          & 1          & 1          & 0          & 1           \\
+			            \hline
+		            \end{tabular}
+		      \item $C^{-1} = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{2}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{3}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{4}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{5}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{6}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{7}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{8}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{9}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{10} & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline
+		            \end{tabular}
+		      \item $\_2 - \_3 = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{2}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{3}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{4}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{5}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{6}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{7}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{8}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{9}  & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline\textbf{10} & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\
+			            \hline
+		            \end{tabular}
+
+		      \item $\_5 \cup \_4 = $  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{2}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{3}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{4}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{5}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{6}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{7}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{8}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{9}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{10} & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline
+		            \end{tabular}\bigbreak
+		            $D = $ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			            \hline
+			                              & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+			            \hline\textbf{1}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{2}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{3}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{4}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{5}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{6}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{7}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{8}  & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline\textbf{9}  & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1          & 1           \\
+			            \hline\textbf{10} & 0          & 0          & 1          & 0          & 0          & 1          & 0          & 0          & 1          & 0           \\
+			            \hline
+		            \end{tabular}
+	      \end{enumerate}
+	\item Написать программы, формирующие матрицы заданных отношений (см. ”Варианты заданий”, п.а).\\
+	      \textit{main.cpp}
+	      \begin{minted}{C++}
 #include "../../libs/alg/alg.h"
 
 bool predA(int x, int y) {
@@ -459,8 +455,8 @@ int main() {
 	std::cout << c << std::endl;
 }
     	\end{minted}
-    \textit{alg.h} (объявление методов класса)
-\begin{minted}{C++}
+	      \textit{alg.h} (объявление методов класса)
+	      \begin{minted}{C++}
 class BoolMatrixRelation
 {
 	private:
@@ -490,8 +486,8 @@ class BoolMatrixRelation
 	}
 };
 \end{minted}
-\textit{task13.cpp} (реализация методов класса)
-\begin{minted}{C++}
+	      \textit{task13.cpp} (реализация методов класса)
+	      \begin{minted}{C++}
 #include "../alg.h"
 
 BoolMatrixRelation::BoolMatrixRelation(const int size, bool (*pred)(int, int)) {
@@ -510,12 +506,12 @@ BoolMatrixRelation::BoolMatrixRelation(const int size, bool (*pred)(int, int)) {
 
 BoolMatrixRelation::~BoolMatrixRelation() {}
 \end{minted}
-Результат выполнения программы:\\
-\includegraphics[width=110mm]{1.3}
-    \item Программно реализовать операции над отношениями.\\
-    Немного модифицируем класс BoolMatrixRelation.
-    \textit{alg.h} (объявление методов класса)
-    \begin{minted}{C++}
+	      Результат выполнения программы:\\
+	      \includegraphics[width=110mm]{1.3}
+	\item Программно реализовать операции над отношениями.\\
+	      Немного модифицируем класс BoolMatrixRelation.
+	      \textit{alg.h} (объявление методов класса)
+	      \begin{minted}{C++}
 class BoolMatrixRelation
 {
 	private:
@@ -565,8 +561,8 @@ class BoolMatrixRelation
 	}
 };
     \end{minted}
-    \textit{task13.cpp} (реализация методов класса)
-    \begin{minted}{C++}
+	      \textit{task13.cpp} (реализация методов класса)
+	      \begin{minted}{C++}
 #include "../alg.h"
 
 BoolMatrixRelation::BoolMatrixRelation(const int size, std::function<bool (int, int)> pred)
@@ -588,8 +584,8 @@ BoolMatrixRelation::BoolMatrixRelation(const int size, std::function<bool (int, 
 
 BoolMatrixRelation::~BoolMatrixRelation() {}
     \end{minted}
-    \textit{task14.cpp} (реализация методов класса)
-\begin{minted}{C++}
+	      \textit{task14.cpp} (реализация методов класса)
+	      \begin{minted}{C++}
 #include "../alg.h"
 
 bool BoolMatrixRelation::includes(BoolMatrixRelation b)
@@ -687,10 +683,10 @@ BoolMatrixRelation BoolMatrixRelation::pow(int p)
 	return compose(lowP);
 }
 \end{minted}
-    \item Написать программу, вычисляющую значение выражения (см. “Варианты заданий”, п.б) и вычислить его при заданных отношениях (см.”Варианты заданий”, п.а).
-    \\
-    \textit{main.cpp}
-    \begin{minted}{C++}
+	\item Написать программу, вычисляющую значение выражения (см. “Варианты заданий”, п.б) и вычислить его при заданных отношениях (см.”Варианты заданий”, п.а).
+	      \\
+	      \textit{main.cpp}
+	      \begin{minted}{C++}
 #include "../../libs/alg/alg.h"
 
 bool predA(int x, int y) {
@@ -714,59 +710,59 @@ int main() {
 	std::cout << d << std::endl;
 }
     \end{minted}
-    Результат выполнения программы:\\
-    \includegraphics[width=110mm]{1.5}\\
-Значение формулы D, вычисленное вручную, и результат выполненния программы совпали. 
- \end{enumerate}
-    
-    \begin{center} \textbf{Часть 2. Свойства отношений} \end{center}
-    \begin{enumerate}[label=2.\arabic*.]
-    	\item Определить основные свойства отношений (см. ”Варианты заданий”, п.а).\\
-    	\begin{tabular}{|c|c|c|c|}
-    		\hline
-    		&A&B&C\\
-    		\hline
-    		Рефлексивность& & &\\
-    		\hline
-    		Антирефлексивность&+&+&\\
-    		\hline
-    		Симметричность& & &+\\
-    		\hline
-    		Антисимметричность&+&+&\\
-    		\hline
-    		Транзитивность&+&+&\\
-    		\hline
-    		Антитранзитивность&&+&\\
-    		\hline
-    		Полнота&&&\\
-    		\hline
-    		\end{tabular}
-    	\item Определить, являются ли заданные отношения отношениями толерантности, эквивалентности и порядка.\\
-    	\begin{tabular}{|c|c|c|c|}
-    		\hline
-    		&A&B&C\\
-    		\hline
-    		Толерантно&&&\\
-    		\hline
-    		Эквивалентно&&&\\
-    		\hline
-    		Порядка&+&+&\\
-    		\hline
-    		Нестрогого порядка&&&\\
-    		\hline
-    		Строгого порядка&+&+&\\
-    		\hline
-    		Линейного порядка&&&\\
-    		\hline
-    		Нестрогого линейного порядка&&&\\
-    		\hline
-    		Строгого линейного порядка&&&\\
-    		
-    		\hline
-    	\end{tabular}
-    	\item Написать программу, определяющую свойства отношения, в том числе толерантности, эквивалентности и порядка, и определить свойства отношений (см. ”Варианты заданий”, п.а).
-    	\textit{main.cpp}
-    	\begin{minted}{C++}
+	      Результат выполнения программы:\\
+	      \includegraphics[width=110mm]{1.5}\\
+	      Значение формулы D, вычисленное вручную, и результат выполненния программы совпали.
+\end{enumerate}
+
+\begin{center} \textbf{Часть 2. Свойства отношений} \end{center}
+\begin{enumerate}[label=2.\arabic*.]
+	\item Определить основные свойства отношений (см. ”Варианты заданий”, п.а).\\
+	      \begin{tabular}{|c|c|c|c|}
+		      \hline
+		                         & A & B & C \\
+		      \hline
+		      Рефлексивность     &   &   &   \\
+		      \hline
+		      Антирефлексивность & + & + &   \\
+		      \hline
+		      Симметричность     &   &   & + \\
+		      \hline
+		      Антисимметричность & + & + &   \\
+		      \hline
+		      Транзитивность     & + & + &   \\
+		      \hline
+		      Антитранзитивность &   & + &   \\
+		      \hline
+		      Полнота            &   &   &   \\
+		      \hline
+	      \end{tabular}
+	\item Определить, являются ли заданные отношения отношениями толерантности, эквивалентности и порядка.\\
+	      \begin{tabular}{|c|c|c|c|}
+		      \hline
+		                                   & A & B & C \\
+		      \hline
+		      Толерантно                   &   &   &   \\
+		      \hline
+		      Эквивалентно                 &   &   &   \\
+		      \hline
+		      Порядка                      & + & + &   \\
+		      \hline
+		      Нестрогого порядка           &   &   &   \\
+		      \hline
+		      Строгого порядка             & + & + &   \\
+		      \hline
+		      Линейного порядка            &   &   &   \\
+		      \hline
+		      Нестрогого линейного порядка &   &   &   \\
+		      \hline
+		      Строгого линейного порядка   &   &   &   \\
+
+		      \hline
+	      \end{tabular}
+	\item Написать программу, определяющую свойства отношения, в том числе толерантности, эквивалентности и порядка, и определить свойства отношений (см. ”Варианты заданий”, п.а).
+	      \textit{main.cpp}
+	      \begin{minted}{C++}
 #include "../../libs/alg/alg.h"
 
 bool predA(int x, int y) {
@@ -810,8 +806,8 @@ int main() {
 	outputProperties("C", c);
 }
     	\end{minted}
-    	\textit{alg.h}
-    	\begin{minted}{C++}
+	      \textit{alg.h}
+	      \begin{minted}{C++}
 class BoolMatrixRelation
 {
 	private:
@@ -882,8 +878,8 @@ class BoolMatrixRelation
 	}
 };
     	\end{minted}
-    	\textit{task23.cpp} 
-    	\begin{minted}{C++}
+	      \textit{task23.cpp}
+	      \begin{minted}{C++}
 #include "../alg.h"
 
 bool BoolMatrixRelation::isEmpty() {
@@ -968,10 +964,10 @@ bool BoolMatrixRelation::isOrderedLinearStrict()
 	return isOrderedStrict() && isFull();
 }
     	\end{minted}
-    	Результат выполнения программы:\\
-    	\includegraphics[width=110mm]{2.3}
-    \end{enumerate}
-	
-			\textbf{Вывод: } в ходе лабораторной работы изучили способы задания отношений, операции над отношениями и свойства отношений, научились программно реализовывать операции и определять свойства отношений.
-			
+	      Результат выполнения программы:\\
+	      \includegraphics[width=110mm]{2.3}
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили способы задания отношений, операции над отношениями и свойства отношений, научились программно реализовывать операции и определять свойства отношений.
+
 \end{document}
