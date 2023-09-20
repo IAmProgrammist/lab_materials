@@ -435,13 +435,6 @@ char *strByteToByteArray(char *in);
 	\begin{minted}{C}
 #include "../algc.h"
 
-typedef enum
-    {
-        red,
-        yellow,
-        green
-    } colors;
-
 char strByteToSignedChar(char *in) {
     char *dat = strByteToByteArray(in);
     char val = *((char*)dat);
@@ -510,6 +503,6 @@ int main() {
 \includegraphics[width=110mm]{8}\\
 Программа выполнилась успешно, ассерты не упали, следовательно перевод из двоичной системы был выполнен корректно.
 \end{enumerate}
-\textbf{Вывод: } в ходе лабораторной работы изучили способы задания отношений, операции над отношениями и свойства отношений, научились программно реализовывать операции и определять свойства отношений.
+\textbf{Вывод: } в ходе лабораторной работы изучили базовые типы данных языка Pascal/C как структур данных (СД).
 
 \end{document}
