@@ -107,7 +107,7 @@
 	      \begin{center}Задания для C\\
 		      \begin{tabular}{|c|c|c|}
 			      \hline
-			      Тип 1       & Тип 2 & Тип 3                       \\
+			      Тип 1       & Тип 2 & Тип 3                         \\
 			      \hline
 			      signed char & float & \{red, yellow, green\} colors \\
 			      \hline
@@ -184,29 +184,27 @@ float a;
 		            \end{enumerate}
 	      \end{enumerate}
 
-		  \textbf{\{red, yellow, green\} colors}
+	      \textbf{\{red, yellow, green\} colors}
 	      \begin{enumerate}[label*=\arabic*.]
 		      \item Абстрактный уровень представления СД:
 
 		            \begin{enumerate}[label*=\arabic*.]
-			            \item Характер организованности - \textbf{простой}\\
+			            \item Характер организованности - \textbf{линейный}\\
 			                  Характер изменчивости - \textbf{статический}
-			            \item Набор допустимых операций - \textbf{математические операции, побитовые операции, присваивание, инициализация, логические операции,
-				                  приведение типа, взятие адреса}
+			            \item Набор допустимых операций - \textbf{объявление, получение значения по идентификатору}
 		            \end{enumerate}
 
 		      \item Физический уровень представления СД:
 
 		            \begin{enumerate}[label*=\arabic*.]
 			            \item Схема хранения - \textbf{последовательная память}.
-			            \item Объем памяти, занимаемый экземпляром СД.
-			                  Размер \mintinline{C}|float| может различаться на различных системах.
-			                  Однако на большинстве ПК размер float равен \textbf{4 байтам или 32 битам}.
-			            \item Формат внутреннего представления СД и способ его интерпретации.
-			                  \textbf{32-битное число}. Старший бит \mintinline{C}|s| отводится под хранение знака числа.
-			                  Следующие 8 бит \mintinline{C}|e| содержат порядок числа, последние 23 бита содержат мантиссу числа \mintinline{C}|m|.
+			            \item Объем памяти, занимаемый экземпляром СД.\\
+			                  enum представляет из себя список констант, каждой из которых присвоено
+			                  значение типа int. Размер СД будет равен $N\cdot S$, где N - количество элементов, $S = sizeof(int)$.
+			            \item Формат внутреннего представления СД и способ его интерпретации.\\
+			                  Последовательность N элементов одного типа int.
 			            \item Характеристика допустимых значений.\\
-			                  $E(\text{float}) \in [1.1754943\cdot10^{-38}; 1.1754943\cdot10^{38}]$.
+			                  Максимальная мощность равна $2 ^ {sizeof(int) \cdot 8} = 4294967296$.
 			            \item Тип доступа к элементам - \textbf{прямой}.
 		            \end{enumerate}
 
@@ -214,10 +212,55 @@ float a;
 		            \begin{enumerate}[label*=\arabic*.]
 			            \item Способ описания СД и экземпляра СД на языке программирования.
 			                  \begin{minted}{C}
-float a;
+typedef enum {
+    RED, // 0
+    GREEN, // 1
+    BLUE // 2
+} Color;
+// Можно также вручную задать значения констант.
+typedef enum {
+    RED_C = 45, 
+    GREEN_C, // 46
+    BLUE_C = RED_C + 4 //49
+} ColorCustomNumeration;
 					  \end{minted}
 		            \end{enumerate}
 	      \end{enumerate}
+	\item Для заданных типов данных определить набор значений, необходимый
+	      для изучения физического уровня представления СД.\\
+	      \textbf{signed char}
+		  \begin{enumerate}[1. ]
+			\item -12
+			\item 55
+		  \end{enumerate}
+	      \textbf{float}
+		  \begin{enumerate}[1. ]
+			\item 12.5
+			\item -0.75
+		  \end{enumerate}
+	      \textbf{\{red, yellow, green\} colors}
+		  \begin{enumerate}[1. ]
+			\item red
+			\item green
+		  \end{enumerate}
+\item Преобразовать значения в двоичный код.
+\textbf{signed char}
+\begin{enumerate}[1. ]
+  \item -12\\
+  $-12_{10} = -00001100_2 (\textit{прямой код}) = 1'1110011_2 (\textit{обратный код}) = $\\$ = 1'1110100 (\textit{дополнительный код})$
+  \item 55\\
+  $55_{10} = 00110111_2 (\textit{прямой код})$\\
+\end{enumerate}
+\textbf{float}
+\begin{enumerate}[1. ]
+  \item 12.5
+  \item -0.75
+\end{enumerate}
+\textbf{\{red, yellow, green\} colors}
+\begin{enumerate}[1. ]
+  \item red
+  \item green
+\end{enumerate}
 \end{enumerate}
 \textbf{Вывод: } в ходе лабораторной работы изучили способы задания отношений, операции над отношениями и свойства отношений, научились программно реализовывать операции и определять свойства отношений.
 
