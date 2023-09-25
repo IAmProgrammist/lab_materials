@@ -766,116 +766,150 @@ int main() {
 #include "../../libs/alg/alg.h"
 
 bool predA(int x, int y) {
-	return (x < y && y < (9 - x)) || ((9 - x) < y && y < x);
+    return (x < y && y < (9 - x)) || ((9 - x) < y && y < x);
 }
 
 bool predB(int x, int y) {
-	return x % 2 == 0 && y % 2 != 0;
+    return x % 2 == 0 && y % 2 != 0;
 }
 
 bool predC(int x, int y) {
-	return (x * y) % 3 == 0 ;
+    return (x * y) % 3 == 0 ;
 }
 
 void outputProperties(std::string name, BoolMatrixRelation a) {
-	std::cout << "Properties for " << name << "\n";
-	std::cout << "Is reflexive? " << a.isReflexive() << "\n";
-	std::cout << "Is antireflexive? " << a.isAntiReflexive() << "\n";
-	std::cout << "Is symmetric? " << a.isSymmetric() << "\n";
-	std::cout << "Is antisymmetric? " << a.isAntiSymmetric() << "\n";
-	std::cout << "Is transitive? " << a.isTransitive() << "\n";
-	std::cout << "Is antitransitive? " << a.isAntiTransitive() << "\n";
-	std::cout << "Is full? " << a.isFull() << "\n";
-	std::cout << "Is tolerant? " << a.isTolerant() << "\n";
-	std::cout << "Is equivalent? " << a.isEquivalent() << "\n";
-	std::cout << "Is ordered? " << a.isOrdered() << "\n";
-	std::cout << "Is ordered non strict? " << a.isOrderedNonStrict() << "\n";
-	std::cout << "Is ordered strict? " << a.isOrderedStrict() << "\n";
-	std::cout << "Is ordered linear? " << a.isOrderedLinear() << "\n";
-	std::cout << "Is ordered linear non strict? " << a.isOrderedLinearNonStrict() << "\n";
-	std::cout << "Is ordered linear strict? " << a.isOrderedLinearStrict() << "\n" << std::endl;
+    std::pair<int, int> failedAt;
+    std::cout << "Properties for " << name << "\n";
+    if (a.isReflexive(failedAt)) {
+        std::cout << "Reflexive\n";
+    } else {
+        std::cout << "Non reflexive, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    if (a.isAntiReflexive(failedAt)) {
+        std::cout << "Antireflexive\n";
+    } else {
+        std::cout << "Non antireflexive, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    
+    if (a.isSymmetric(failedAt)) {
+        std::cout << "Symmetric\n";
+    } else {
+        std::cout << "Non symmetric, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    
+    if (a.isAntiSymmetric(failedAt)) {
+        std::cout << "AntiSymmetric\n";
+    } else {
+        std::cout << "Non antisymmetric, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    
+    if (a.isTransitive(failedAt)) {
+        std::cout << "Transitive\n";
+    } else {
+        std::cout << "Non transitive, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    
+    if (a.isAntiTransitive(failedAt)) {
+        std::cout << "AntiTransitive\n";
+    } else {
+        std::cout << "Non antitransitive, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    
+    if (a.isFull(failedAt)) {
+        std::cout << "Full\n";
+    } else {
+        std::cout << "Non full, failed pair: (" << failedAt.first << ", " << failedAt.second << ")\n";
+    }
+    std::cout << (a.isTolerant() ? "Tolerant" : "Non tolerant") << "\n";
+    std::cout << (a.isEquivalent() ? "Equivalent" : "Non equivalent") << "\n";
+    std::cout << (a.isOrdered() ? "Ordered" : "Non ordered") << "\n";
+    std::cout << (a.isOrderedNonStrict() ? "Ordered non strict" : "Non ordered non strict") << "\n";
+    std::cout << (a.isOrderedStrict() ? "Ordered strict" : "Non ordered strict") << "\n";
+    std::cout << (a.isOrderedLinear() ? "Ordered linear" : "Non ordered linear") << "\n";
+    std::cout << (a.isOrderedLinearNonStrict() ? "Ordered linear non strict" : "Non ordered linear non strict") << "\n";
+    std::cout << (a.isOrderedLinearStrict() ? "Ordered linear strict" : "Non ordered linear strict") << "\n" << std::endl;
 }
 
 int main() {
-	BoolMatrixRelation a(10, predA);
-	BoolMatrixRelation b(10, predB);
-	BoolMatrixRelation c(10, predC);
-	
-	outputProperties("A", a);
-	outputProperties("B", b);
-	outputProperties("C", c);
+    BoolMatrixRelation a(10, predA);
+    BoolMatrixRelation b(10, predB);
+    BoolMatrixRelation c(10, predC);
+
+    outputProperties("A", a);
+    outputProperties("B", b);
+    outputProperties("C", c);
 }
     	\end{minted}
 	      \textit{alg.h}
 	      \begin{minted}{C++}
 class BoolMatrixRelation
 {
-	private:
-	std::vector<std::vector<bool>> data;
-	int size;
-	
-	static BoolMatrixRelation getDefault() {
-		return BoolMatrixRelation();
-	}
-	
-	public:
-	BoolMatrixRelation(const int size, std::function<bool (int, int)> pred);
-	BoolMatrixRelation() {
-		this->size = 0;
-	}
-	~BoolMatrixRelation();
-	
-	bool includes(BoolMatrixRelation b);
-	bool equals(BoolMatrixRelation b);
-	bool includesStrict(BoolMatrixRelation b);
-	BoolMatrixRelation unite(BoolMatrixRelation b);
-	BoolMatrixRelation intersect(BoolMatrixRelation b);
-	BoolMatrixRelation diff(BoolMatrixRelation b);
-	BoolMatrixRelation symDiff(BoolMatrixRelation b);
-	BoolMatrixRelation non();
-	BoolMatrixRelation transpose();
-	BoolMatrixRelation compose(BoolMatrixRelation b);
-	BoolMatrixRelation pow(int p);
-	
-	static BoolMatrixRelation getIdentity(int size);
-	static BoolMatrixRelation getUniversum(int size);
-	
-	bool isEmpty();
-	
-	bool isReflexive();
-	bool isAntiReflexive();
-	bool isSymmetric();
-	bool isAntiSymmetric();
-	bool isTransitive();
-	bool isAntiTransitive();
-	bool isFull();
-	bool isTolerant();
-	bool isEquivalent();
-	bool isOrdered();
-	bool isOrderedNonStrict();
-	bool isOrderedStrict();
-	bool isOrderedLinear();
-	bool isOrderedLinearNonStrict();
-	bool isOrderedLinearStrict();
-	
-	friend std::ostream& operator<<(std::ostream& out, BoolMatrixRelation &val) {
-		out << std::setw(3) << "" << " ";
-		for (int i = 1; i <= val.size; i++) {
-			out << std::setw(3) << i << " ";
-		}
-		out << "\n";
-		
-		for (int x = 0; x < val.size; x++) {
-			out << std::setw(3) << x + 1 << " ";
-			for (int y = 0; y < val.size; y++) {
-				out << std::setw(3) << val.data[x][y] << " ";
-			}
-			
-			out << "\n";
-		}
-		
-		return out;
-	}
+private:
+    std::vector<std::vector<bool>> data;
+    int size;
+
+    static BoolMatrixRelation getDefault() {
+        return BoolMatrixRelation();
+    }
+
+public:
+    BoolMatrixRelation(const int size, std::function<bool (int, int)> pred);
+    BoolMatrixRelation() {
+        this->size = 0;
+    }
+    ~BoolMatrixRelation();
+
+    bool includes(BoolMatrixRelation b);
+    bool equals(BoolMatrixRelation b);
+    bool includesStrict(BoolMatrixRelation b);
+    BoolMatrixRelation unite(BoolMatrixRelation b);
+    BoolMatrixRelation intersect(BoolMatrixRelation b);
+    BoolMatrixRelation diff(BoolMatrixRelation b);
+    BoolMatrixRelation symDiff(BoolMatrixRelation b);
+    BoolMatrixRelation non();
+    BoolMatrixRelation transpose();
+    BoolMatrixRelation compose(BoolMatrixRelation b);
+    BoolMatrixRelation pow(int p);
+
+    static BoolMatrixRelation getIdentity(int size);
+    static BoolMatrixRelation getUniversum(int size);
+
+    bool isEmpty();
+
+    bool isReflexive(std::pair<int, int> &failed);
+    bool isAntiReflexive(std::pair<int, int> &failed);
+    bool isSymmetric(std::pair<int, int> &failed);
+    bool isAntiSymmetric(std::pair<int, int> &failed);
+    bool isTransitive(std::pair<int, int> &failed);
+    bool isAntiTransitive(std::pair<int, int> &failed);
+    bool isFull(std::pair<int, int> &failed);
+    bool isTolerant();
+    bool isEquivalent();
+    bool isOrdered();
+    bool isOrderedNonStrict();
+    bool isOrderedStrict();
+    bool isOrderedLinear();
+    bool isOrderedLinearNonStrict();
+    bool isOrderedLinearStrict();
+
+    friend std::ostream& operator<<(std::ostream& out, BoolMatrixRelation &val) {
+        out << std::setw(3) << "" << " ";
+        for (int i = 1; i <= val.size; i++) {
+            out << std::setw(3) << i << " ";
+        }
+        out << "\n";
+
+        for (int x = 0; x < val.size; x++) {
+            out << std::setw(3) << x + 1 << " ";
+            for (int y = 0; y < val.size; y++) {
+                out << std::setw(3) << val.data[x][y] << " ";
+            }
+
+            out << "\n";
+        }
+
+        return out;
+    }
 };
     	\end{minted}
 	      \textit{task23.cpp}
@@ -883,85 +917,157 @@ class BoolMatrixRelation
 #include "../alg.h"
 
 bool BoolMatrixRelation::isEmpty() {
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (data[i][j]) return false;
-		}
-	}
-	
-	return true;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (data[i][j]) return false;
+        }
+    }
+
+    return true;
 }
 
 BoolMatrixRelation BoolMatrixRelation::getIdentity(int size) {
-	return BoolMatrixRelation(size, [](int x, int y) {
-		return x == y;
-	});
+    return BoolMatrixRelation(size, [](int x, int y) {
+        return x == y;
+    });
 }
 BoolMatrixRelation BoolMatrixRelation::getUniversum(int size) {
-	return BoolMatrixRelation(size, [](int x, int y) {
-		return true;
-	});
+return BoolMatrixRelation(size, [](int x, int y) {
+        return true;
+    });
 }
 
-bool BoolMatrixRelation::isReflexive()
+bool BoolMatrixRelation::isReflexive(std::pair<int, int> &failed)
 {
-	return BoolMatrixRelation::getIdentity(size).includes(*this);
+    for (int i = 0; i < size; i++) {
+        if (!data[i][i]) {
+            failed = {i + 1, i + 1};
+            return false;
+        }
+    }
+
+    return true;
 }
-bool BoolMatrixRelation::isAntiReflexive()
+bool BoolMatrixRelation::isAntiReflexive(std::pair<int, int> &failed)
 {
-	return (*this).intersect(BoolMatrixRelation::getIdentity(size)).isEmpty();
+    for (int i = 0; i < size; i++) {
+        if (data[i][i]) {
+            failed = {i + 1, i + 1};
+            return false;
+        }
+    }
+
+    return true;
 }
-bool BoolMatrixRelation::isSymmetric()
+bool BoolMatrixRelation::isSymmetric(std::pair<int, int> &failed)
 {
-	return (*this).equals((*this).pow(-1));
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (data[i][j] != data[j][i]) {
+                failed = {i + 1, j + 1};
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
-bool BoolMatrixRelation::isAntiSymmetric()
+bool BoolMatrixRelation::isAntiSymmetric(std::pair<int, int> &failed)
 {
-	return (*this).intersect((*this).pow(-1)).includes(BoolMatrixRelation::getIdentity(size));
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (data[i][j] && data[j][i]) {
+                failed = {i + 1, j + 1};
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
-bool BoolMatrixRelation::isTransitive()
+bool BoolMatrixRelation::isTransitive(std::pair<int, int> &failed)
 {
-	return ((*this).pow(2)).includes((*this));
+    //return ((*this).pow(2)).includes((*this));
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            for (int z = 0; z < size; z++) {
+                if ((data[i][z] && data[z][j]) && !data[i][j]) {
+                    failed = {i + 1, j + 1};
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }
-bool BoolMatrixRelation::isAntiTransitive()
+bool BoolMatrixRelation::isAntiTransitive(std::pair<int, int> &failed)
 {
-	return ((*this).pow(2)).intersect((*this)).isEmpty();
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            for (int z = 0; z < size; z++) {
+                if ((data[i][z] && data[z][j]) && data[i][j]) {
+                    failed = {i + 1, j + 1};
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }
-bool BoolMatrixRelation::isFull()
+bool BoolMatrixRelation::isFull(std::pair<int, int> &failed)
 {
-	return (*this).unite(BoolMatrixRelation::getIdentity(size)).unite((*this).pow(-1)).equals(BoolMatrixRelation::getUniversum(size));
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (!(data[i][j] || data[j][i])) {
+                failed = {i + 1, j + 1};
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 bool BoolMatrixRelation::isTolerant()
 {
-	return isReflexive() && isSymmetric();
+    std::pair<int, int> ignored;
+    return isReflexive(ignored) && isSymmetric(ignored);
 }
 bool BoolMatrixRelation::isEquivalent()
 {
-	return isReflexive() && isSymmetric() && isTransitive();
+    std::pair<int, int> ignored;
+    return isReflexive(ignored) && isSymmetric(ignored) && isTransitive(ignored);
 }
 bool BoolMatrixRelation::isOrdered()
 {
-	return isAntiSymmetric() && isTransitive();
+    std::pair<int, int> ignored;
+    return isAntiSymmetric(ignored) && isTransitive(ignored);
 }
 bool BoolMatrixRelation::isOrderedNonStrict()
 {
-	return isOrdered() && isReflexive();
+    std::pair<int, int> ignored;
+    return isOrdered() && isReflexive(ignored);
 }
 bool BoolMatrixRelation::isOrderedStrict()
 {
-	return isOrdered() && isAntiReflexive();
+    std::pair<int, int> ignored;
+    return isOrdered() && isAntiReflexive(ignored);
 }
 bool BoolMatrixRelation::isOrderedLinear()
 {
-	return isOrdered() && isFull();
+    std::pair<int, int> ignored;
+    return isOrdered() && isFull(ignored);
 }
 bool BoolMatrixRelation::isOrderedLinearNonStrict()
 {
-	return isOrderedNonStrict() && isFull();
+    std::pair<int, int> ignored;
+    return isOrderedNonStrict() && isFull(ignored);
 }
 bool BoolMatrixRelation::isOrderedLinearStrict()
 {
-	return isOrderedStrict() && isFull();
+    std::pair<int, int> ignored;
+    return isOrderedStrict() && isFull(ignored);
 }
     	\end{minted}
 	      Результат выполнения программы:\\
