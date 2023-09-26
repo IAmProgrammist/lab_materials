@@ -154,7 +154,10 @@ void testWriteFromToStr() {
     assert(!strcmp(nonEmptyStringChar, "Cool val"));
 
     string1 tooBigString;
-    WriteToStr(tooBigString, "....................................................................................................................................................................................................................................................................");
+    WriteToStr(tooBigString, ".................................................
+...........................................................................
+...........................................................................
+.............................................................");
     assert(StrError == BUFFER_OVERFLOW);
 }
 
@@ -235,14 +238,24 @@ void testInsert() {
     assert(StrError == OK);
     assert(!strcmp(t4s, "I love pizza"));
 
-    string1 t5sb = "1izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
-    string1 t5s = "2izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
+    string1 t5sb = "1izzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
+    string1 t5s = "2izzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
     Insert(t5sb, t5s, 1);
     assert(StrError == OK);
-    assert(!strcmp(t5s, "21izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzaizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza"));
+    assert(!strcmp(t5s, "21izzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzaizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizza"));
 
-    string1 t6sb = "1231231izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
-    string1 t6s = "2izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
+    string1 t6sb = "1231231izzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
+    string1 t6s = "2izzapizzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
     Insert(t6sb, t6s, 1);
     assert(StrError == BUFFER_OVERFLOW);
 }
@@ -276,8 +289,11 @@ void testConcat() {
     assert(StrError == OK);
     assert(!strcmp(res4, "I love algorithms and data structures and pizza"));
 
-    string1 t5s1 = "1231231izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
-    string1 t5s2 = "2izzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
+    string1 t5s1 = "1231231izzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizza";
+    string1 t5s2 = "2izzapizzapizzapizzapizzapizzapizzapizza
+pizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizzapizza";
     string1 res5;
     Concat(t5s1, t5s2, res5);
     assert(StrError == BUFFER_OVERFLOW);
@@ -329,13 +345,24 @@ void testCopy() {
     Copy(origin8, 35, 3, substr8);
     assert(StrError == OUT_OF_BOUNDS);
 
-    string1 origin9 = "1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaa";
+    string1 origin9 = "1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+Pizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1Pizza
+PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizza
+PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaa";
     string1 substr9 = "Lorem ipsum";
     Copy(origin9, 0, 255, substr9);
     assert(StrError == OK);
-    assert(!strcmp(substr9, "1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaa"));
+    assert(!strcmp(substr9, "1PizzaPizzaPizzaPizzaPizzaPizzaPizza
+PizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+PizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+PizzaPizzaPizzaPizzaa"));
     
-    string1 origin10 = "1111PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza";
+    string1 origin10 = "1111PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+PizzaPizzaPizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+Pizza1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+1PizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizzaPizza
+PizzaPizzaPizzaPizza";
     string1 substr10 = "Lorem ipsum";
     Copy(origin10, 0, 256, substr10);
     assert(StrError == BUFFER_OVERFLOW);
