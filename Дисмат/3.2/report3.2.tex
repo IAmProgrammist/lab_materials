@@ -96,25 +96,31 @@ BoolMatrixRelation transitiveClosureWarshall(unsigned long long *steps = NULL);
 BoolMatrixRelation BoolMatrixRelation::transitiveClosurePowUnite(unsigned long long *steps)
 {
     BoolMatrixRelation ctran = *this;
-    BoolMatrixRelation c2 = ctran.pow(2);
+    BoolMatrixRelation c2 = ctran;
 
-    for (int i = 2; i <= size; i++)
+    for (int i = 1; i <= size; i++)
     {
+        bool shouldRun = false;
         ctran = ctran.unite(c2);
         
         // Самым вложенным является цикл композиции, поэтому
         // вычислять композицию будем вручную, а не при помощи 
         // реализованного ранее метода pow
-        c2 = BoolMatrixRelation(size, [steps, &ctran](int x, int y)
+        c2 = BoolMatrixRelation(size, [&shouldRun, steps, &ctran](int x, int y)
                                 {
         for (int z = 0; z < ctran.size; z++) {
             (*steps)++;
-            if (ctran.data[x - 1][z] && ctran.data[z][y - 1])
+            if (ctran.data[x - 1][z] && ctran.data[z][y - 1]) {
+                shouldRun = true;
                 return true;
+            }
         }
 
         return false; 
         });
+
+        if (!shouldRun)
+            break;
     }
 
     return ctran;
@@ -309,9 +315,11 @@ int main() {
 			      \cline{2-11}
 			                                                                    & min                     & max & min & max & min & max & min & max & min & max \\
 			      \hline
-			      \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 481                     & 500 & 127 & 500 & 100 & 400 & 100 & 268 & 100 & 100 \\
+			      \begin{tabular}{c}Алгоритм объединения\\степеней (до \\оптимизации)\end{tabular} & 481                     & 500 & 127 & 500 & 100 & 400 & 100 & 268 & 100 & 100 \\
 			      \hline
-			      Алгоритм Уоршалла                                             & 5                     & 5 & 30 & 75 & 60 & 125 & 80 & 125 & 125 & 125 \\
+			      \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 125                     & 500 & 125 & 500 & 100 & 372 & 100 & 260 & 100 & 100 \\
+				  \hline 
+				  Алгоритм Уоршалла                                             & 5                     & 5 & 30 & 75 & 60 & 125 & 80 & 125 & 125 & 125 \\
 			      \hline
 		      \end{tabular}\\
 			  \begin{longtable}{>{\centering\arraybackslash}p{0.5\textwidth}|>{\centering\arraybackslash}p{0.5\textwidth}}
@@ -390,7 +398,9 @@ int main() {
 			      \cline{2-11}
 			                                                                    & min                     & max  & min  & max  & min  & max  & min  & max  & min  & max  \\
 			      \hline
-			      \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 8919                    & 9000 & 920  & 7067 & 900  & 2391 & 900  & 928  & 900  & 900  \\
+			      \begin{tabular}{c}Алгоритм объединения\\степеней (до \\оптимизации)\end{tabular} & 8919                    & 9000 & 920  & 7067 & 900  & 2391 & 900  & 928  & 900  & 900  \\
+			      \hline
+				  \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 1000                    & 9000 & 934  & 7179 & 900  & 2540 & 900  & 2358  & 900  & 900  \\
 			      \hline
 			      Алгоритм Уоршалла                                             & 10                    & 10 & 310 & 830 & 630 & 990 & 810 & 1000 & 1000 & 1000 \\
 			      \hline
@@ -471,7 +481,9 @@ int main() {
 			      \cline{2-11}
 			                                                                    & min                     & max   & min  & max   & min  & max  & min  & max  & min  & max  \\
 			      \hline
-			      \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 47054                   & 47250 & 3165 & 17100 & 3150 & 6077 & 3150 & 3165 & 3150 & 3150 \\
+			      \begin{tabular}{c}Алгоритм объединения\\степеней (до \\оптимизации)\end{tabular} & 47074                   & 47250 & 3165 & 17100 & 3150 & 6077 & 3150 & 3165 & 3150 & 3150 \\
+			      \hline
+				  \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 3375                   & 47250 & 3150 & 19278 & 3150 & 6090 & 3150 & 3165 & 3150 & 3150 \\
 			      \hline
 			      Алгоритм Уоршалла                                             & 15                    & 15  & 1470 & 3000  & 2640 & 3345 & 2910 & 3375 & 3375 & 3375 \\
 			      \hline
@@ -543,18 +555,10 @@ int main() {
 	      \end{center}
 
 	\item Определить порядок функции временной сложности алгоритмов вычисления транзитивного замыкания.\\
-	      \textbf{Алгоритм объединения степеней}\\
-	      Порядок временной функции временной сложности зависит от количества пар в отношении, так если отношение можно представить неориентированным полным графом (матрица состоит из 1), следующий цикл
-	      \begin{minted}{C++}
-for (int z = 0; z < ctran.size; z++) {
-	(*steps)++;
-	if (ctran.data[x - 1][z] && ctran.data[z][y - 1])
-		return true;
-}
-\end{minted}
-	      будет выполняться только один раз, а не size раз. Следовательно\\
-	      $\Omega(N ^ 3)$  \\
-	      В худшем случае выше упомянутый цикл будет выполняться все size раз, например если отношение пустое (матрица состоит из 0). Следовательно\\
+	      \textbf{Алгоритм объединения степеней} (после оптимизации)\\
+	      Порядок ФВС зависит от количества недостающих пар. Так, если отношение уже транзитивное, основной цикл выполнится всего 1 раз. То есть \\
+		  $\Omega(1)$\\
+		  В худшем случае выше упомянутый цикл будет выполняться все size раз, например если отношение пустое (матрица состоит из 0). Следовательно\\
 	      $O(N^4)$\\
 	      \textbf{Алгоритм Уоршалла}\\
 		  Порядок временной функции временной сложности также зависит от количества пар в отношении. Однако в отличие от алгоритма объединения степеней, чем меньше отношений, тем меньше время выполнения. Так, например, для пустого отношения (матрица состоит из нулей) самый вложенный цикл выполняться не будет
