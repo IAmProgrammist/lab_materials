@@ -1,0 +1,645 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №7}}\\
+	\normalsize{
+		по дисциплине: Алгоритмы и структуры данных \\
+		тема: «Структуры данных типа «дерево» (Pascal/С)»}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: асс. Солонченко Роман\\Евгеньевич
+}
+\vfill\begin{center}
+	Белгород \the\year г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{Лабораторная работа №7}\\
+	«Структуры данных типа «дерево» (Pascal/С)»\\
+	Вариант 10
+\end{center}
+\textbf{Цель работы: }изучить СД типа «дерево», научиться их программно 
+реализовывать и использовать.
+
+\begin{enumerate}
+	\item Для СД типа дерево список» определить:
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности и изменчивости.\\
+			            Характер организованности - \textbf{дерево}, один ко многим. Характер изменчивости - \textbf{динамический}.
+			            \item Набор допустимых операций.\\
+			            Инициализация, создание корня, запись данных в дерево, 
+                        чтение данных из дерева, проверка на наличие левого/правого сына,
+                        получение правого/левого сына, проверка дерева на пустоту, 
+                        удаление листа
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схему хранения.\\
+			            Схема хранения - \textbf{последовательность.}
+			            \item Объем памяти, занимаемый экземпляром СД.\\
+			            Элемент состоит из трёх полей: указатель произвольного типа, 
+                        индекс для элемента слева и индекс на элемент справа. Все они имеют размер 4 байт. 
+                        $V = 12 \cdot N$, где N - количество элемента деревья.
+			            \item Формат внутреннего представления СД и способ его интерпретации.\\
+			            Элементы содержатся в статическом массиве, свободные элементы объединяются
+                        в список (ССЭ), на начало которого указывает левый сын первого элемента массива.
+			            \item Характеристику допустимых значений.\\
+			            $Car(C) = \sum_{1}^{max} \frac{(2 \cdot i)!}{(i + 1)(i!)^2} \cdot Car(BaseType) + 1$.
+			            \item Тип доступа к элементам.\\
+						Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.\\
+						\begin{minted}{C}
+InitTree(10);
+Tree root = CreateRoot();
+												  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
+		  \item Реализовать СД типа «дерево» в соответствии с 
+          вариантом индивидуального задания (см. табл. 17) в виде модуля.\\
+main.c (тесты)
+		  \begin{minted}{C}
+#include <assert.h>
+
+#include <algc.h>
+
+#define TAKEN_ELEMENTS ((bool *)MemTree[0].data)
+
+void testInitTree() {
+    Tree root = InitTree(0);
+    assert(TreeError == TreeUnder);
+
+    root = InitTree(10);
+    assert(TreeError == TreeOk && Size == 10);
+
+    root = InitTree(TreeBufferSize + 1);
+    assert(TreeError == TreeNotMem);
+}
+
+void testCreateRoot() {
+    Tree init = InitTree(1);
+    Tree root = CreateRoot();
+    assert(TreeError == TreeNotMem);
+
+    init = InitTree(2);
+    root = CreateRoot();
+    assert(TreeError == TreeOk);
+    assert(IsEmptyTree(root));
+    root = CreateRoot();
+    assert(TreeError == TreeNotMem);
+}
+
+void testMemEmpty() {
+    Tree init = InitTree(1);
+    assert(EmptyMem());
+
+    init = InitTree(2);
+    assert(!EmptyMem());
+
+    init = InitTree(2);
+    Tree root = CreateRoot();
+    assert(EmptyMem());
+}
+
+void testNewMem() {
+    Tree init = InitTree(1);
+    Tree newEl = NewMem();
+    assert(TreeError == TreeNotMem);
+
+    init = InitTree(2);
+    newEl = NewMem();
+    assert(TreeError == TreeOk && TAKEN_ELEMENTS[newEl]);
+    NewMem();
+    assert(TreeError == TreeNotMem);
+}
+
+void testDisposeMem() {
+    Tree init = InitTree(2);
+    Tree newEl = NewMem();
+    assert(TreeError == TreeOk && TAKEN_ELEMENTS[newEl]);
+    DisposeMem(newEl);
+    assert(TreeError == TreeOk && !TAKEN_ELEMENTS[newEl]);
+}
+
+void testWriteReadDataTree() {
+    Tree init = InitTree(2);
+    Tree root = CreateRoot();
+
+    int someVal = 15;
+    WriteDataTree(root, &someVal);
+    assert(TreeError == TreeOk);
+    assert(*(int*)ReadDataTree(root) == someVal && TreeError == TreeOk);
+}
+
+void testIsLSonMoveToLSon() {
+    Tree init = InitTree(6);
+    Tree root = CreateRoot();
+
+    Tree ex = MoveToLSon(root);
+    assert(TreeError == TreeUnder);
+
+    Tree newEl = NewMem();
+    MemTree[root].LSon = newEl;
+    assert(IsLSon(root) && TreeError == TreeOk && MoveToLSon(root) == newEl && TreeError == TreeOk);
+}
+
+void testIsRSonMoveToRSon() {
+    Tree init = InitTree(6);
+    Tree root = CreateRoot();
+
+    Tree ex = MoveToRSon(root);
+    assert(TreeError == TreeUnder);
+
+    Tree newEl = NewMem();
+    MemTree[root].RSon = newEl;
+    assert(IsRSon(root) && TreeError == TreeOk && MoveToRSon(root) == newEl && TreeError == TreeOk);
+}
+
+void testDelTree() {
+    Tree init = InitTree(6);
+    Tree root = CreateRoot();
+
+    Tree newEl1 = NewMem();
+    MemTree[root].LSon = newEl1;
+    Tree newEl2 = NewMem();
+    MemTree[root].RSon = newEl2;
+
+    DelTree(root);
+    assert(TreeError == TreeOk && 
+    !TAKEN_ELEMENTS[root] && !TAKEN_ELEMENTS[newEl1] && !TAKEN_ELEMENTS[newEl2]);
+}
+
+void test() {
+    testInitTree();
+    testCreateRoot();
+    testMemEmpty();
+    testNewMem();
+    testDisposeMem();
+    testWriteReadDataTree();
+    testIsLSonMoveToLSon();
+    testIsRSonMoveToRSon();
+    testDelTree();
+}
+
+int main() {
+    test();
+
+    return 0;
+}
+\end{minted}
+algc.h (заголовки)
+\begin{minted}{C}
+#ifndef TREE
+#define TREE
+
+#include <stdint.h>
+
+#define TreeBufferSize 1000
+
+#define TreeOk 0
+#define TreeNotMem 1
+#define TreeUnder 2
+
+typedef void* TreeBaseType;
+typedef size_t PtrEl;
+
+typedef struct {
+    TreeBaseType data;
+    PtrEl LSon;
+    PtrEl RSon;
+} Element;
+
+typedef PtrEl Tree;
+
+extern Element MemTree[TreeBufferSize];
+extern int TreeError;
+extern size_t Size;
+// инициализация дерева
+Tree InitTree(unsigned size);
+
+// создание корня
+// Эта функция должна вызываться в начале программы
+Tree CreateRoot(); 
+
+//запись данных
+void WriteDataTree(Tree T, TreeBaseType E); 
+
+//чтение
+TreeBaseType ReadDataTree(Tree T);
+
+//1 — есть левый сын, 0 — нет
+int IsLSon(Tree T);
+
+//1 — есть правый сын, 0 — нет
+int IsRSon(Tree T);
+
+// перейти к левому сыну, где T — адрес ячейки, содержащей адрес текущей вершины, TS — адрес ячейки, содержащей адрес корня левого поддерева(левого сына)
+Tree MoveToLSon(Tree T);
+
+//перейти к правому сыну
+Tree MoveToRSon(Tree T);
+
+//1 — пустое дерево,0 — не пустое
+int IsEmptyTree(Tree T);
+
+//удаление листа
+void DelTree(Tree T);
+
+/*связывает все элементы массива в список свободных
+элементов*/
+void InitMem(); 
+
+/*возвращает 1, если в массиве нет свободных элемен-
+тов,0 — в противном случае*/
+int EmptyMem(); 
+
+/*возвращает номер свободного элемента и ис-
+ключает его из ССЭ*/
+size_t NewMem(); 
+
+/*делает n-й элемент массива свободным и
+включает его в ССЭ*/
+void DisposeMem(size_t n);
+
+int BuildTree(Tree T, char* input);
+void CopyTree(Tree dst, Tree src);
+bool CompTree(Tree T1, Tree T2);
+
+#endif 
+\end{minted}
+tree.c (реализации функций)
+\begin{minted}{C}
+#include <algc.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+Element MemTree[TreeBufferSize];
+int TreeError = TreeOk;
+size_t Size = 0;
+
+#define TAKEN_ELEMENTS ((bool *)MemTree[0].data)
+
+Tree InitTree(unsigned size) {
+    if (size < 1) {
+        TreeError = TreeUnder;
+        return 0;
+    }
+
+    if (size > TreeBufferSize) {
+        TreeError = TreeNotMem;
+        return 0;
+    }
+    Size = size;
+
+    TreeError = TreeOk;
+    InitMem();
+
+    return 0;
+}
+
+void InitMem() {
+    if (Size < 1) {
+        TreeError = TreeUnder;
+        return;
+    }
+
+    if (Size > TreeBufferSize) {
+        TreeError = TreeNotMem;
+        return;
+    }
+    
+    TreeError = TreeOk;
+    bool *takenElements = calloc(Size, sizeof(bool));
+
+    MemTree[0].LSon = 0;
+    MemTree[0].RSon = 0;
+    MemTree[0].data = takenElements;
+    TAKEN_ELEMENTS[0] = true;
+}
+
+Tree CreateRoot() {
+    size_t newInd = NewMem();
+    if (TreeError != TreeOk) return 0;
+
+    TAKEN_ELEMENTS[newInd] = true;
+    MemTree[newInd].data = NULL;
+    MemTree[newInd].RSon = 0;
+    MemTree[newInd].LSon = 0;
+
+    return newInd;
+} 
+
+
+int EmptyMem() {
+    TreeError = TreeOk;
+
+    for (size_t i = 0; i < Size; i++)
+        if (!TAKEN_ELEMENTS[i]) return false;
+
+    return true;
+}
+
+size_t NewMem() {
+    TreeError = TreeOk;
+    for (size_t i = 0; i < Size; i++) {
+        if (!TAKEN_ELEMENTS[i]) {
+            TAKEN_ELEMENTS[i] = true;
+            MemTree[i].data = NULL;
+            MemTree[i].LSon = 0;
+            MemTree[i].RSon = 0;
+
+            return i;
+        };
+    }
+
+    TreeError = TreeNotMem;
+    return 0;
+}
+
+void DisposeMem(size_t n) {
+    TreeError = TreeOk;
+    TAKEN_ELEMENTS[n] = false;
+}
+
+void WriteDataTree(Tree T, TreeBaseType E) {
+    if (!TAKEN_ELEMENTS[T]) {
+        TreeError = TreeUnder;
+        return;
+    }
+
+    TreeError = TreeOk;
+    MemTree[T].data = E;
+}
+
+TreeBaseType ReadDataTree(Tree T) {
+    if (!TAKEN_ELEMENTS[T]) {
+        TreeError = TreeUnder;
+        return NULL;
+    }
+
+    TreeError = TreeOk;
+    return MemTree[T].data;
+}
+
+int IsLSon(Tree T) {
+    if (!TAKEN_ELEMENTS[T]) {
+        TreeError = TreeUnder;
+        return false;
+    }
+
+    TreeError = TreeOk;
+    return MemTree[T].LSon != 0 && TAKEN_ELEMENTS[MemTree[T].LSon];
+}
+
+int IsRSon(Tree T) {
+    if (!TAKEN_ELEMENTS[T]) {
+        TreeError = TreeUnder;
+        return false;
+    }
+
+    TreeError = TreeOk;
+    return MemTree[T].RSon != 0 && TAKEN_ELEMENTS[MemTree[T].RSon];
+}
+
+Tree MoveToLSon(Tree T) {
+    if (IsLSon(T)) return MemTree[T].LSon;
+
+    TreeError = TreeUnder;
+    return 0;
+}
+
+Tree MoveToRSon(Tree T) {
+    if (IsRSon(T)) return MemTree[T].RSon;
+
+    TreeError = TreeUnder;
+    return 0;
+}
+
+int IsEmptyTree(Tree T) {
+    TreeError = TreeOk;
+
+    return MemTree[T].RSon == 0;
+}
+
+void _DelSubTree(Tree T) {
+    if (!TAKEN_ELEMENTS[T]) {
+        TreeError = TreeUnder;
+        return;
+    }
+
+    if (IsRSon(T))
+        _DelSubTree(MemTree[T].RSon);
+    MemTree[T].RSon = 0;
+        
+    if (IsLSon(T))
+        _DelSubTree(MemTree[T].LSon);
+    MemTree[T].LSon = 0;
+    MemTree[T].data = NULL;
+    
+    DisposeMem(T);
+}
+
+void DelTree(Tree T) {
+    TreeError = TreeOk;
+    // Please do not the important
+    if (T == 0)
+        return;
+
+    if (!TAKEN_ELEMENTS[T]) {
+        TreeError = TreeUnder;
+        return;
+    }
+
+    if (IsRSon(T)) {
+        _DelSubTree(MemTree[T].RSon);
+        MemTree[T].RSon = 0;
+    }
+
+    if (IsLSon(T)) {
+        _DelSubTree(MemTree[T].LSon);
+        MemTree[T].LSon = 0;
+    }
+    DisposeMem(T);
+}
+\end{minted}
+\item Разработать программу для решения задачи в соответствии с вариан-
+том индивидуального задания (см. табл.17) с использованием модуля, по-
+лученного в результате выполнения пункта 2 задания.\\
+main.c (основная программа)
+\begin{minted}{C}
+#include <algc.h>
+#include <ctype.h>
+#include <malloc.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <assert.h>
+
+int main() {
+    InitTree(TreeBufferSize);
+    Tree fromBrackets = CreateRoot();
+    int res = BuildTree(fromBrackets, "(A(B(C)(D))(e(F)(G)(H)))");
+
+    if (res == -1) {
+        printf("unable to parse");
+        return 1;
+    }
+
+    Tree secondRoot = CreateRoot();
+    CopyTree(secondRoot, fromBrackets);
+    assert(CompTree(fromBrackets, secondRoot));
+
+    return 0;
+}
+\end{minted}
+tree.c (реализации функций)
+\begin{minted}{C}
+#define NAME_BUFFER_SIZE 100
+
+int BuildTree(Tree T, char* input) {
+    char* startInput = input;
+    while (isspace(*input))
+        input++;
+    
+    if (*input != '(')
+        return -1;
+    
+    input++;
+
+    char *buffer = calloc(NAME_BUFFER_SIZE, sizeof(char));
+    int bufferIndex = 0;
+    bool shouldWriteData = true;
+    bool anyChild = false;
+
+    while (*input != ')') {
+        if (*input == '\0')
+            return -1;
+        else if (*input == '(') {
+            if (shouldWriteData) {
+                WriteDataTree(T, buffer);
+                shouldWriteData = false;
+            }
+
+            size_t newIndex = NewMem();
+            if (!anyChild) { 
+                anyChild = true;
+                MemTree[T].RSon = newIndex;
+            } else 
+                MemTree[T].LSon = newIndex;
+
+            int res = BuildTree(newIndex, input);
+            if (res == -1) return -1;
+
+            input += res + 1;
+            T = newIndex;
+        } else if (shouldWriteData)
+            buffer[bufferIndex] = *(input++);
+        else input++;
+    }
+
+    if (shouldWriteData) WriteDataTree(T, buffer);
+
+    return input - startInput;
+}
+
+void CopyTree(Tree dst, Tree src) {
+    WriteDataTree(dst, ReadDataTree(src));
+    if (TreeError != TreeOk) return;
+
+    Tree RSon;
+    if ((RSon = MoveToRSon(src)) && TreeError == TreeOk) {
+        Tree newTree = NewMem();
+        if (TreeError != TreeOk)
+            return;
+        MemTree[dst].RSon = newTree;
+
+        CopyTree(newTree, RSon);
+    }
+
+    Tree LSon;
+    if ((LSon = MoveToLSon(src)) && TreeError == TreeOk) {
+        Tree newTree = NewMem();
+        if (TreeError != TreeOk)
+            return;
+        MemTree[dst].LSon = newTree;
+
+        CopyTree(newTree, LSon);
+    }
+}
+
+bool CompTree(Tree T1, Tree T2) {
+    return ((ReadDataTree(T1) == ReadDataTree(T2)) && TreeError == TreeOk) && 
+    (IsRSon(T1) == IsRSon(T2) ? !IsRSon(T1) || CompTree(MemTree[T1].RSon, MemTree[T2].RSon) : false ) && 
+    (IsLSon(T1) == IsLSon(T2) ? !IsLSon(T1) || CompTree(MemTree[T1].LSon, MemTree[T2].LSon) : false );
+}
+\end{minted}
+\end{enumerate}
+\textbf{Вывод: } в ходе лабораторной работы изучили СД типа «дерево», научились их программно 
+реализовывать и использовать.
+
+\end{document}
