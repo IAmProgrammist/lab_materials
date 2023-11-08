@@ -101,8 +101,9 @@
 			            Схема хранения - \textbf{последовательность.}
 			            \item Объем памяти, занимаемый экземпляром СД.\\
 			            Элемент состоит из трёх полей: указатель произвольного типа, 
-                        индекс для элемента слева и индекс на элемент справа. Все они имеют размер 4 байт. 
-                        $V = 12 \cdot N$, где N - количество элемента деревья.
+                        индекс для элемента слева и индекс на элемент справа. 
+                        Левый сын первого элемента в массиве указывает на начало ССЭ. \\
+                        $V = 12 \cdot (1 + \sum_{i = 0}^{N}|A_i|)$, где $A_i$ - дерево, а $|A_i|$ - количество элементов в нём.
 			            \item Формат внутреннего представления СД и способ его интерпретации.\\
 			            Элементы содержатся в статическом массиве, свободные элементы объединяются
                         в список (ССЭ), на начало которого указывает левый сын первого элемента массива.
@@ -128,8 +129,6 @@ main.c (тесты)
 #include <assert.h>
 
 #include <algc.h>
-
-#define TAKEN_ELEMENTS ((bool *)MemTree[0].data)
 
 void testInitTree() {
     Tree root = InitTree(0);
@@ -174,7 +173,7 @@ void testNewMem() {
 
     init = InitTree(2);
     newEl = NewMem();
-    assert(TreeError == TreeOk && TAKEN_ELEMENTS[newEl]);
+    assert(TreeError == TreeOk);
     NewMem();
     assert(TreeError == TreeNotMem);
 }
@@ -182,9 +181,9 @@ void testNewMem() {
 void testDisposeMem() {
     Tree init = InitTree(2);
     Tree newEl = NewMem();
-    assert(TreeError == TreeOk && TAKEN_ELEMENTS[newEl]);
+    assert(TreeError == TreeOk && EmptyMem());
     DisposeMem(newEl);
-    assert(TreeError == TreeOk && !TAKEN_ELEMENTS[newEl]);
+    assert(TreeError == TreeOk && !EmptyMem());
 }
 
 void testWriteReadDataTree() {
@@ -230,9 +229,13 @@ void testDelTree() {
     Tree newEl2 = NewMem();
     MemTree[root].RSon = newEl2;
 
+    MemTree[newEl1].LSon = 0;
+    MemTree[newEl1].RSon = 0;
+    MemTree[newEl2].LSon = 0;
+    MemTree[newEl2].RSon = 0;
+
     DelTree(root);
-    assert(TreeError == TreeOk && 
-    !TAKEN_ELEMENTS[root] && !TAKEN_ELEMENTS[newEl1] && !TAKEN_ELEMENTS[newEl2]);
+    assert(TreeError == TreeOk);
 }
 
 void test() {
@@ -326,8 +329,13 @@ size_t NewMem();
 включает его в ССЭ*/
 void DisposeMem(size_t n);
 
+// Строит дерево T по его скобочному представлению input
 int BuildTree(Tree T, char* input);
+
+// Копирует дерево src в dst.
 void CopyTree(Tree dst, Tree src);
+
+// Возвращает true, если деревья T1 и T2 равны.
 bool CompTree(Tree T1, Tree T2);
 
 #endif 
@@ -341,8 +349,6 @@ tree.c (реализации функций)
 Element MemTree[TreeBufferSize];
 int TreeError = TreeOk;
 size_t Size = 0;
-
-#define TAKEN_ELEMENTS ((bool *)MemTree[0].data)
 
 Tree InitTree(unsigned size) {
     if (size < 1) {
@@ -363,6 +369,7 @@ Tree InitTree(unsigned size) {
 }
 
 void InitMem() {
+    TreeError = TreeOk;
     if (Size < 1) {
         TreeError = TreeUnder;
         return;
@@ -373,21 +380,18 @@ void InitMem() {
         return;
     }
     
-    TreeError = TreeOk;
-    bool *takenElements = calloc(Size, sizeof(bool));
+    for (PtrEl i = 0; i < Size - 1; i++) {
+        MemTree[i].LSon = i + 1;
+    }
 
-    MemTree[0].LSon = 0;
-    MemTree[0].RSon = 0;
-    MemTree[0].data = takenElements;
-    TAKEN_ELEMENTS[0] = true;
+    MemTree[Size - 1].LSon = 0;
 }
 
 Tree CreateRoot() {
+    TreeError = TreeOk;
     size_t newInd = NewMem();
     if (TreeError != TreeOk) return 0;
 
-    TAKEN_ELEMENTS[newInd] = true;
-    MemTree[newInd].data = NULL;
     MemTree[newInd].RSon = 0;
     MemTree[newInd].LSon = 0;
 
@@ -397,73 +401,48 @@ Tree CreateRoot() {
 
 int EmptyMem() {
     TreeError = TreeOk;
-
-    for (size_t i = 0; i < Size; i++)
-        if (!TAKEN_ELEMENTS[i]) return false;
-
-    return true;
+    return MemTree[0].LSon == 0;
 }
 
 size_t NewMem() {
     TreeError = TreeOk;
-    for (size_t i = 0; i < Size; i++) {
-        if (!TAKEN_ELEMENTS[i]) {
-            TAKEN_ELEMENTS[i] = true;
-            MemTree[i].data = NULL;
-            MemTree[i].LSon = 0;
-            MemTree[i].RSon = 0;
-
-            return i;
-        };
+    PtrEl result = MemTree[0].LSon;
+    if (result == 0) {
+        TreeError = TreeNotMem;
+        return 0;
     }
 
-    TreeError = TreeNotMem;
-    return 0;
+    MemTree[0].LSon = MemTree[result].LSon;
+    return result;
 }
 
 void DisposeMem(size_t n) {
     TreeError = TreeOk;
-    TAKEN_ELEMENTS[n] = false;
+    if (n == 0) return;
+
+    PtrEl oldElement = MemTree[0].LSon;
+    MemTree[0].LSon = n;
+    MemTree[n].LSon = oldElement;
 }
 
 void WriteDataTree(Tree T, TreeBaseType E) {
-    if (!TAKEN_ELEMENTS[T]) {
-        TreeError = TreeUnder;
-        return;
-    }
-
     TreeError = TreeOk;
     MemTree[T].data = E;
 }
 
 TreeBaseType ReadDataTree(Tree T) {
-    if (!TAKEN_ELEMENTS[T]) {
-        TreeError = TreeUnder;
-        return NULL;
-    }
-
     TreeError = TreeOk;
     return MemTree[T].data;
 }
 
 int IsLSon(Tree T) {
-    if (!TAKEN_ELEMENTS[T]) {
-        TreeError = TreeUnder;
-        return false;
-    }
-
     TreeError = TreeOk;
-    return MemTree[T].LSon != 0 && TAKEN_ELEMENTS[MemTree[T].LSon];
+    return MemTree[T].LSon != 0;
 }
 
 int IsRSon(Tree T) {
-    if (!TAKEN_ELEMENTS[T]) {
-        TreeError = TreeUnder;
-        return false;
-    }
-
     TreeError = TreeOk;
-    return MemTree[T].RSon != 0 && TAKEN_ELEMENTS[MemTree[T].RSon];
+    return MemTree[T].RSon != 0;
 }
 
 Tree MoveToLSon(Tree T) {
@@ -482,26 +461,7 @@ Tree MoveToRSon(Tree T) {
 
 int IsEmptyTree(Tree T) {
     TreeError = TreeOk;
-
-    return MemTree[T].RSon == 0;
-}
-
-void _DelSubTree(Tree T) {
-    if (!TAKEN_ELEMENTS[T]) {
-        TreeError = TreeUnder;
-        return;
-    }
-
-    if (IsRSon(T))
-        _DelSubTree(MemTree[T].RSon);
-    MemTree[T].RSon = 0;
-        
-    if (IsLSon(T))
-        _DelSubTree(MemTree[T].LSon);
-    MemTree[T].LSon = 0;
-    MemTree[T].data = NULL;
-    
-    DisposeMem(T);
+    return MemTree[T].RSon == 0 && MemTree[T].LSon == 0;
 }
 
 void DelTree(Tree T) {
@@ -510,20 +470,9 @@ void DelTree(Tree T) {
     if (T == 0)
         return;
 
-    if (!TAKEN_ELEMENTS[T]) {
-        TreeError = TreeUnder;
-        return;
-    }
+    DelTree(MemTree[T].RSon);
+    DelTree(MemTree[T].LSon);
 
-    if (IsRSon(T)) {
-        _DelSubTree(MemTree[T].RSon);
-        MemTree[T].RSon = 0;
-    }
-
-    if (IsLSon(T)) {
-        _DelSubTree(MemTree[T].LSon);
-        MemTree[T].LSon = 0;
-    }
     DisposeMem(T);
 }
 \end{minted}
@@ -561,6 +510,7 @@ tree.c (реализации функций)
 #define NAME_BUFFER_SIZE 100
 
 int BuildTree(Tree T, char* input) {
+    MemTree[T].LSon = 0;
     char* startInput = input;
     while (isspace(*input))
         input++;
@@ -587,15 +537,16 @@ int BuildTree(Tree T, char* input) {
             size_t newIndex = NewMem();
             if (!anyChild) { 
                 anyChild = true;
-                MemTree[T].RSon = newIndex;
-            } else 
                 MemTree[T].LSon = newIndex;
+            } else 
+                MemTree[T].RSon = newIndex;
 
             int res = BuildTree(newIndex, input);
             if (res == -1) return -1;
 
             input += res + 1;
             T = newIndex;
+            MemTree[T].RSon = 0;
         } else if (shouldWriteData)
             buffer[bufferIndex] = *(input++);
         else input++;
@@ -610,8 +561,9 @@ void CopyTree(Tree dst, Tree src) {
     WriteDataTree(dst, ReadDataTree(src));
     if (TreeError != TreeOk) return;
 
-    Tree RSon;
-    if ((RSon = MoveToRSon(src)) && TreeError == TreeOk) {
+    Tree RSon = MoveToRSon(src);
+    MemTree[dst].RSon = RSon;
+    if (IsRSon(src) && TreeError == TreeOk) {
         Tree newTree = NewMem();
         if (TreeError != TreeOk)
             return;
@@ -620,8 +572,9 @@ void CopyTree(Tree dst, Tree src) {
         CopyTree(newTree, RSon);
     }
 
-    Tree LSon;
-    if ((LSon = MoveToLSon(src)) && TreeError == TreeOk) {
+    Tree LSon = MoveToLSon(src);
+    MemTree[dst].LSon = LSon;
+    if (IsLSon(src) && TreeError == TreeOk) {
         Tree newTree = NewMem();
         if (TreeError != TreeOk)
             return;
