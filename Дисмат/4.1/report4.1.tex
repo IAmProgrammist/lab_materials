@@ -235,6 +235,8 @@ public:
     V name;
     bool isDirected;
 
+    NamedEdge(){};
+
     NamedEdge(std::initializer_list<T*> nodes, V name, bool isDirected) {
         if (nodes.size() < 2) throw std::invalid_argument("You can't create edge with less than two nodes");
         this->nodes.insert(this->nodes.begin(), nodes.begin(), nodes.end());
@@ -255,7 +257,27 @@ public:
 template <typename T>
 class Edge : public NamedEdge<T, std::string> {
 public:
+    Edge(){};
+
     Edge(std::initializer_list<T*> nodes, bool isDirected) : NamedEdge<T, std::string>(nodes, "", isDirected) {};
+};
+
+#endif
+        \end{minted} 
+
+        \textit{routes.tpp}
+        \begin{minted}{C++}
+#ifndef GRAPH_ROUTE
+#define GRAPH_ROUTE
+
+template <typename N>
+class PointRoute {
+public:
+    std::vector<N> route;
+
+    PointRoute(std::vector<N> route) {
+        this->route = route;
+    }
 };
 
 #endif
@@ -310,6 +332,8 @@ public:
         public:
         E current;
         EdgeContainer* linked = nullptr;
+
+        EdgeContainer(){};
 
         EdgeContainer(E curr) : current(curr) {};
 
@@ -405,16 +429,17 @@ public:
     }
 
     bool isChain(std::vector<N*> chain) {
-        if (!isRoute(chain)) return false;
         reinterpretNodes(chain);
         
         std::vector<EdgeContainer> visitedEdges;
         for (int i = 0; i < chain.size() - 1; i++) {
-            auto edges = *findByBeginEndPoint((*chain[i]).getValue(), (*chain[i + 1]).getValue());
+            auto pedges = findByBeginEndPoint((*chain[i]).getValue(), (*chain[i + 1]).getValue());
+            if (pedges == nullptr) return false;
+            auto edges = *pedges;
 
             // Отдаём приоритет направленным рёбрам
             // Можем обратиться к 0 элементу безопасно из-за проверки на маршрут выше.
-            EdgeContainer searchEdge = edges[0];
+            EdgeContainer searchEdge;
             bool found = false;
             bool foundDirected = false;
             for (int j = 0; j < edges.size(); j++) {
@@ -522,7 +547,7 @@ public:
 
     std::vector<PointRoute<N*>> getAllRoutes(N* start, int steps) {
         std::vector<PointRoute<N*>> result;
-        if (steps <= 1) {
+        if (steps < 1) {
             result.push_back(PointRoute<N*>({start}));
             return result;
         }
@@ -560,7 +585,6 @@ public:
 
         for (auto &adjNode : getAdjacentNodes(start)) {
             auto routes = getAllRoutesBetweenTwoNodes(adjNode, end, steps - 1);
-            if (routes.size() == 0) continue;
             
             for (auto &route : routes) {
                 route.route.insert(route.route.begin(), start);
@@ -901,7 +925,6 @@ Is not simple cycle
 
         \item Написать программу, получающую все маршруты заданной 
         длины, выходящие из заданной вершины. Использовать программу для
-        
         получения всех маршрутов заданной длины в графах $G_1$ и $G_2$.\\
         В данном задании использовался метод getAllRoutes.\\
         \textit{main.cpp}
@@ -912,8 +935,8 @@ int main() {
     Graph<Edge<IntNode>> *G1 = constructGraph1();
     Graph<Edge<IntNode>> *G2 = constructGraph2();
 
-    std::cout << "All routes that start in 5 in G1 that has 3 edges: \n";
-    auto r = G1->getAllRoutes((*G1)[5], 3);
+    std::cout << "All routes that start in 5 in G1 and has length of 2: \n";
+    auto r = G1->getAllRoutes((*G1)[5], 2);
 
     for (auto &route : r) {
         for (int i = 0; i < route.route.size(); i++) {
@@ -927,8 +950,8 @@ int main() {
         std::cout << std::endl;
     }
 
-    std::cout << "All routes that start in 2 in G2 that has 4 edges: \n";
-    r = G2->getAllRoutes((*G1)[2], 4);
+    std::cout << "All routes that start in 2 in G2 and has length of 3: \n";
+    r = G2->getAllRoutes((*G1)[2], 3);
 
     for (auto &route : r) {
         for (int i = 0; i < route.route.size(); i++) {
@@ -947,7 +970,7 @@ int main() {
         \end{minted}
         Результат выполнения программы:
         \begin{minted}{console}
-All routes that start in 5 in G1 that has 3 edges: 
+All routes that start in 5 in G1 and has length of 2: 
 5, 1, 2
 5, 1, 4
 5, 1, 5
@@ -957,7 +980,7 @@ All routes that start in 5 in G1 that has 3 edges:
 5, 2, 3
 5, 2, 5
 5, 2, 6
-All routes that start in 2 in G2 that has 4 edges: 
+All routes that start in 2 in G2 and has length of 3:
 2, 1, 2, 1
 2, 1, 2, 3
 2, 1, 2, 4
@@ -999,7 +1022,6 @@ All routes that start in 2 in G2 that has 4 edges:
         \item Написать программу, определяющую количество маршрутов
 заданной длины между каждой парой вершин графа. Использовать
 программу для определения количества маршрутов заданной длины
-
 между каждой парой вершин в графах $G_1$ и $G_2$.\\
         В данном задании использовался метод countAllRoutesBetweenAllNodes.\\
         \textit{main.cpp}
@@ -1109,10 +1131,8 @@ All routes between non-adjacent elements 7 and 5 in 4 steps in G2:
 % 7 задание
 
         \item Написать программу, получающую все простые максимальные
-
         цепи, выходящие из заданной вершины графа. Использовать 
         программу для получения всех простые максимальных цепей, выходящих из
-        
         заданной вершины в графах $G_1$ и $G_2$.\\
         В данном задании использовался метод getAllSimpleMaximumChains.\\
         \textit{main.cpp}
