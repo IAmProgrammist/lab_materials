@@ -179,9 +179,6 @@ bool AdjacencyMatrixGraph<E, N>::hasHamiltonianCycle(int originIndex, int startI
     return false;
 }
 
-// Для данной задачи метод был упрощён в угоду скорости выполнения, 
-// мы игнорируем наличие мультиграфов, орграфов.
-// TODO: Переделать перед использованием!
 template <typename E, typename N>
 bool AdjacencyMatrixGraph<E, N>::isEuler() {
     if (this->nodes.size() < 3) return false;
@@ -200,9 +197,6 @@ bool AdjacencyMatrixGraph<E, N>::isEuler() {
     return false;
 }
 
-// Для данной задачи метод был упрощён в угоду скорости выполнения, 
-// мы игнорируем наличие мультиграфов, орграфов.
-// TODO: Переделать перед использованием!
 template <typename E, typename N>
 bool AdjacencyMatrixGraph<E, N>::hasEulerCycle(int originIndex, int startIndex, 
 std::vector<std::vector<bool>>& visited, int visitedSize, int totalEdgesCount) {
