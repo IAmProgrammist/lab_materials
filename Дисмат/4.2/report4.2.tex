@@ -134,9 +134,6 @@ Graph<Edge<IntNode>>* generateRandomGraph(int nodesCount, int edgeCount) {
 template <typename E, typename N>
 bool AdjacencyMatrixGraph<E, N>::isHamiltonian() {
     if (this->nodes.size() < 3) return false;
-    // От теоремы Оре и Диррака пришось отказаться, так как мы можем 
-    // получить ориентированный граф, теоремы расчитаны только для 
-    // неориентированных графов.
     std::vector<bool> cache(this->nodes.size(), false);
 
     for (int i = 0; i < this->nodes.size(); i++)
