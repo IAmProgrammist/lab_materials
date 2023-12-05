@@ -1,0 +1,551 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №4.3}}\\
+    \normalsize{
+        по дисциплине: Дискретная математика \\
+        тема: «Связность»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+    ст. пр. Бондаренко Татьяна Владимировна
+}
+\vfill\begin{center}
+    Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №4.1}\\
+    Связность\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }изучить алгоритм Краскала построения 
+покрывающего леса, научиться использовать его при решении различных задач.
+
+\begin{enumerate}[1.]
+    \item Реализовать алгоритм Краскала построения покрывающего леса.\\
+        \begin{minted}{C++}
+template <typename E, typename N = typename E::NodeType>
+struct Forest {
+    // Граф, содержащий получившийся остовный лес
+    Graph<E, N>* trees;
+    // Букеты
+    std::vector<std::set<N*>> bouquets;
+};
+        \end{minted}
+        \begin{minted}{C++}
+template <typename E, typename N>
+Forest<E, N> AdjacencyMatrixGraph<E, N>::getSpanningForest() {
+    AdjacencyMatrixGraph<E> *trees = new AdjacencyMatrixGraph<E>();
+    std::vector<std::set<int>> bouquets(this->nodes.size());
+    for (int i = 0; i < this->nodes.size(); i++) {
+        bouquets[i].insert(i);
+        trees->addNode(*this->nodes[i]);
+    }
+
+    for (int i = 0; i < this->nodes.size(); i++) {
+        for (int j = 0; j < this->nodes.size(); j++) {
+            // Ребра между i и j нет, пропускаем.
+            if (this->edges[i][j] == nullptr) continue;
+
+            int indBI = -1;
+            int indBJ = -1;
+
+            for (int bIndex = 0; bIndex < bouquets.size() && (indBI == -1 || indBJ == -1); bIndex++) {
+                if (bouquets[bIndex].find(i) != bouquets[bIndex].end()) indBI = bIndex;
+                if (bouquets[bIndex].find(j) != bouquets[bIndex].end()) indBJ = bIndex;
+            }
+
+            // Обе концевые вершины принадлежат одному букету, ребро не добавляем.
+            if (indBI == indBJ) continue;
+
+            // Концевые вершины принадлежат разным букетам, поэтому нужно их объединить в один.
+            bouquets[indBI].insert(bouquets[indBJ].begin(), bouquets[indBJ].end());
+            bouquets[indBJ].clear();
+
+            for (auto& edge : *this->edges[i][j])
+                trees->addEdge((*edge).current);
+        }
+    }
+
+    Forest<E, N> result;
+    result.trees = trees;
+    for (int i = 0; i < this->nodes.size(); i++) {
+        auto& bouquet = bouquets[i];
+
+        if (!bouquet.empty()) {
+            std::set<N*> rBouquet;
+
+            for (auto& elementIndex : bouquet) {
+                rBouquet.insert(trees->nodes[elementIndex]);
+            }
+
+            result.bouquets.push_back(rBouquet);
+        }
+    }
+
+    return result;
+}
+        \end{minted}
+        \item Используя алгоритм Краскала, разработать и реализовать алгоритм решения задачи.\bigbreak
+        Найти минимальное множество ребер, удаление которых из связного графа разбивает его на три связные компоненты.\bigbreak
+        Если граф несвязный, то после просмотра графа при помощи алгоритма Краскала будет сформирован лес из k покрывающих деревьев,
+        где k - количество связных компонентов в графе.\\
+        Для данной задачи можно использовать жадный алгоритм, удаляя все сочетания из 1, 2, 3.. рёбер и проверяя количество полученных
+        деревьев, полученных при помощи метода Краскала.
+        \begin{minted}{C++}
+#include "../alg.h"
+
+template <typename E>
+std::pair<Forest<E>, std::vector<E>> getEdgesToDeleteToDivideGraphInNLinkedComponents(Graph<E> *g, std::vector<E> edges, int linkedComponentsAmount) {
+    for (int deleteAmount = 0; deleteAmount <= edges.size(); deleteAmount++) {
+        for (auto &comb : getCombinations<E>(edges, deleteAmount)){
+            auto originClone = g->clone();
+            
+            for (auto &edge : comb)
+                originClone->deleteEdge(edge);
+            
+            auto forest = originClone->getSpanningForest();
+            delete originClone;
+
+            if (forest.bouquets.size() == linkedComponentsAmount) 
+                return {forest, comb};
+
+            delete forest.trees;
+        }
+    }
+
+    return {{nullptr, {}}, std::vector<E>(0)};
+}
+        \end{minted}
+        Функция getEdgesToDeleteToDivideGraphInNLinkedComponents возвращает пару - полученный лес и массив рёбер, которые можно удалить.
+        \item Подобрать тестовые данные. Результат представить в виде диаграммы графа.\\
+        Вывод в консоль:
+                    \begin{minted}{console}
+Edges to delete in graph "Three points": 1 2 3
+Edges to delete in graph "Home": 4 5 6
+Edges to delete in graph "Full with 5 nodes": 3 4 6 7 8 9 10 
+Edges to delete in graph "Full with 6 nodes": 4 5 8 9 11 12 13 14 15 
+Edges to delete in graph "Three triangles": 4 8
+Edges to delete in graph "Three triangles strongly linked": 9 10 11 
+                    \end{minted}
+        
+        \textbf{Треугольник}\\
+        \includegraphics[width=70mm]{testThreeNodesBefore}\\
+        В данном графе логично удалить все три ребра.\\
+        \includegraphics[width=70mm]{testThreeNodesAfter}\\
+        Результат выполнения программы совпал с предположениями.\\
+
+        \textbf{Домик}\\
+        \includegraphics[width=70mm]{testFigureHomeBefore}\\
+        В данном графе можно удалить рёбра 4, 5, 6.\\
+        \includegraphics[width=70mm]{testFigureHomeAfter}\\
+        Результат выполнения программы совпал с предположениями.\\
+
+        \textbf{Полный граф из 5 вершин}\\
+        \includegraphics[width=70mm]{testFull5Before}\\
+        Из данного графа можно получить граф следующего вида, для этого можно удалить 7 рёбер.\\
+        \includegraphics[width=70mm]{testFull5After}\\
+        Результат выполнения программы совпал с предположениями.\\
+
+        \textbf{Полный граф из 6 вершин}\\
+        \includegraphics[width=70mm]{testFull6Before}\\
+        Из данного графа можно получить граф следующего вида, для этого можно удалить 9 рёбер.\\
+        \includegraphics[width=70mm]{testFull6After}\\
+        Результат выполнения программы совпал с предположениями.\\
+
+        \textbf{Три треугольника}\\
+        \includegraphics[width=70mm]{testThreeTrianglesBefore}\\
+        Довольно очевидно, что из графа достаточно удалить рёбра 4 и 8\\
+        \includegraphics[width=70mm]{testThreeTrianglesAfter}\\
+        Результат выполнения программы совпал с предположениями.\\
+
+        \textbf{Три треугольника сильно связанные}\\
+        \includegraphics[width=70mm]{testThreeTrianglesStronglyLinkedBefore}\\
+        Удалять рёбра из центра графа больше не выгодно, в данном случае выгодно удалить три ребра 9, 10, 11\\
+        \includegraphics[width=70mm]{testThreeTrianglesStronglyLinkedAfter}\\
+        Результат выполнения программы совпал с предположениями.\\
+
+        Программа:
+        \begin{minted}{C++}
+#include "../../libs/alg/alg.h"
+
+template <typename E>
+void testGraph(std::string graphName, Graph<E>* g, std::vector<E> edges) {
+    auto res = getEdgesToDeleteToDivideGraphInNLinkedComponents(g, edges, 3);
+    assert(res.first.trees != nullptr);
+
+    // Проверка на наличие 3 связных компонентов
+    assert(res.first.bouquets.size() == 3);
+    std::cout << "Edges to delete in graph \"" << graphName << "\": ";
+
+    // Удаление границ из графа
+    for (auto& edge : res.second) {
+        g->deleteEdge(edge);
+        std::cout << edge.name << " ";
+    }
+
+    std::cout << std::endl;
+
+    std::set<Node<int>*> bNodes;
+
+    // Проверка на то, что вершины из разных букетов не будут иметь цепь в обновлённом графе
+    // А из одного букета - будут. 
+    for (int i = 0; i < res.first.bouquets.size(); i++)
+        for (auto &nodeA : res.first.bouquets[i]) {
+            bNodes.insert(nodeA);
+
+            for (int j = 0; j < res.first.bouquets.size(); j++)      
+                for (auto &nodeB : res.first.bouquets[j]) {
+                    if (i == j) assert(g->isChainBetweenNodesExist(nodeA, nodeB));
+                    else assert(!g->isChainBetweenNodesExist(nodeA, nodeB));
+                }
+        }
+
+    // Проверка на то, что в букетах содержатся все вершины
+    assert(bNodes.size() == g->getNodesSize());
+
+    delete res.first.trees;
+}
+
+void testThreeNodes() {
+    AdjacencyMatrixGraph<NamedEdge<Node<int>, int>> g;
+
+    Node N1(1);
+    Node N2(2);
+    Node N3(3);
+
+    g.addNode(N1);
+    g.addNode(N2);
+    g.addNode(N3);
+
+    NamedEdge E1({&N1, &N2}, 1, false);
+    NamedEdge E2({&N1, &N3}, 2, false);
+    NamedEdge E3({&N2, &N3}, 3, false);
+    std::vector<NamedEdge<Node<int>, int>> edges = {E1, E2, E3};
+
+    g.addEdge(E1);
+    g.addEdge(E2);
+    g.addEdge(E3);
+
+    testGraph("Three points", &g, edges);
+}
+
+void testFigureHome() {
+    AdjacencyMatrixGraph<NamedEdge<Node<int>, int>> g;
+
+    Node N1(1);
+    Node N2(2);
+    Node N3(3);
+    Node N4(4);
+    Node N5(5);
+
+    g.addNode(N1);
+    g.addNode(N2);
+    g.addNode(N3);
+    g.addNode(N4);
+    g.addNode(N5);
+
+    NamedEdge E1({&N1, &N2}, 1, false);
+    NamedEdge E2({&N1, &N3}, 2, false);
+    NamedEdge E3({&N2, &N3}, 3, false);
+    NamedEdge E4({&N4, &N2}, 4, false);
+    NamedEdge E5({&N3, &N5}, 5, false);
+    NamedEdge E6({&N4, &N5}, 6, false);
+    std::vector<NamedEdge<Node<int>, int>> edges = {E1, E2, E3, E4, E5, E6};
+
+    g.addEdge(E1);
+    g.addEdge(E2);
+    g.addEdge(E3);
+    g.addEdge(E4);
+    g.addEdge(E5);
+    g.addEdge(E6);
+
+    testGraph("Home", &g, edges);
+}
+
+void testFull5() {
+    AdjacencyMatrixGraph<NamedEdge<Node<int>, int>> g;
+
+    Node N1(1);
+    Node N2(2);
+    Node N3(3);
+    Node N4(4);
+    Node N5(5);
+
+    g.addNode(N1);
+    g.addNode(N2);
+    g.addNode(N3);
+    g.addNode(N4);
+    g.addNode(N5);
+
+    NamedEdge E1({&N1, &N2}, 1, false);
+    NamedEdge E2({&N1, &N3}, 2, false);
+    NamedEdge E3({&N1, &N4}, 3, false);
+    NamedEdge E4({&N1, &N5}, 4, false);
+    NamedEdge E5({&N2, &N3}, 5, false);
+    NamedEdge E6({&N2, &N4}, 6, false);
+    NamedEdge E7({&N2, &N5}, 7, false);
+    NamedEdge E8({&N3, &N4}, 8, false);
+    NamedEdge E9({&N3, &N5}, 9, false);
+    NamedEdge E10({&N4, &N5}, 10, false);
+    std::vector<NamedEdge<Node<int>, int>> edges = {E1, E2, E3, E4, E5, E6, E7, E8, E9, E10};
+
+    g.addEdge(E1);
+    g.addEdge(E2);
+    g.addEdge(E3);
+    g.addEdge(E4);
+    g.addEdge(E5);
+    g.addEdge(E6);
+    g.addEdge(E7);
+    g.addEdge(E8);
+    g.addEdge(E9);
+    g.addEdge(E10);
+
+    testGraph("Full with 5 nodes", &g, edges);
+}
+
+void testFull6() {
+    AdjacencyMatrixGraph<NamedEdge<Node<int>, int>> g;
+
+    Node N1(1);
+    Node N2(2);
+    Node N3(3);
+    Node N4(4);
+    Node N5(5);
+    Node N6(6);
+
+    g.addNode(N1);
+    g.addNode(N2);
+    g.addNode(N3);
+    g.addNode(N4);
+    g.addNode(N5);
+    g.addNode(N6);
+
+    NamedEdge E1({&N1, &N2}, 1, false);
+    NamedEdge E2({&N1, &N3}, 2, false);
+    NamedEdge E3({&N1, &N4}, 3, false);
+    NamedEdge E4({&N1, &N5}, 4, false);
+    NamedEdge E5({&N1, &N6}, 5, false);
+    NamedEdge E6({&N2, &N3}, 6, false);
+    NamedEdge E7({&N2, &N4}, 7, false);
+    NamedEdge E8({&N2, &N5}, 8, false);
+    NamedEdge E9({&N2, &N6}, 9, false);
+    NamedEdge E10({&N3, &N4}, 10, false);
+    NamedEdge E11({&N3, &N5}, 11, false);
+    NamedEdge E12({&N3, &N6}, 12, false);
+    NamedEdge E13({&N4, &N5}, 13, false);
+    NamedEdge E14({&N4, &N6}, 14, false);
+    NamedEdge E15({&N5, &N6}, 15, false);
+    std::vector<NamedEdge<Node<int>, int>> edges = {E1, E2, E3, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13, E14, E15};
+
+    g.addEdge(E1);
+    g.addEdge(E2);
+    g.addEdge(E3);
+    g.addEdge(E4);
+    g.addEdge(E5);
+    g.addEdge(E6);
+    g.addEdge(E7);
+    g.addEdge(E8);
+    g.addEdge(E9);
+    g.addEdge(E10);
+    g.addEdge(E11);
+    g.addEdge(E12);
+    g.addEdge(E13);
+    g.addEdge(E14);
+    g.addEdge(E15);
+
+    testGraph("Full with 6 nodes", &g, edges);
+}
+
+void testThreeTriangles() {
+    AdjacencyMatrixGraph<NamedEdge<Node<int>, int>> g;
+
+    Node N1(1);
+    Node N2(2);
+    Node N3(3);
+    Node N4(4);
+    Node N5(5);
+    Node N6(6);
+    Node N7(7);
+    Node N8(8);
+    Node N9(9);
+
+    g.addNode(N1);
+    g.addNode(N2);
+    g.addNode(N3);
+    g.addNode(N4);
+    g.addNode(N5);
+    g.addNode(N6);
+    g.addNode(N7);
+    g.addNode(N8);
+    g.addNode(N9);
+
+    NamedEdge E1({&N1, &N2}, 1, false);
+    NamedEdge E2({&N1, &N3}, 2, false);
+    NamedEdge E3({&N2, &N3}, 3, false);
+    NamedEdge E4({&N2, &N4}, 4, false);
+    NamedEdge E5({&N4, &N5}, 5, false);
+    NamedEdge E6({&N4, &N6}, 6, false);
+    NamedEdge E7({&N6, &N5}, 7, false);
+    NamedEdge E8({&N6, &N7}, 8, false);
+    NamedEdge E9({&N8, &N7}, 9, false);
+    NamedEdge E10({&N7, &N9}, 10, false);
+    NamedEdge E11({&N8, &N9}, 11, false);
+    std::vector<NamedEdge<Node<int>, int>> edges = {E1, E2, E3, E4, E5, E6, E7, E8, E9, E10, E11};
+
+    g.addEdge(E1);
+    g.addEdge(E2);
+    g.addEdge(E3);
+    g.addEdge(E4);
+    g.addEdge(E5);
+    g.addEdge(E6);
+    g.addEdge(E7);
+    g.addEdge(E8);
+    g.addEdge(E9);
+    g.addEdge(E10);
+    g.addEdge(E11);
+
+    testGraph("Three triangles", &g, edges);
+}
+
+void testThreeTrianglesStronglyLinked() {
+    AdjacencyMatrixGraph<NamedEdge<Node<int>, int>> g;
+
+    Node N1(1);
+    Node N2(2);
+    Node N3(3);
+    Node N4(4);
+    Node N5(5);
+    Node N6(6);
+    Node N7(7);
+    Node N8(8);
+    Node N9(9);
+
+    g.addNode(N1);
+    g.addNode(N2);
+    g.addNode(N3);
+    g.addNode(N4);
+    g.addNode(N5);
+    g.addNode(N6);
+    g.addNode(N7);
+    g.addNode(N8);
+    g.addNode(N9);
+
+    NamedEdge E1({&N1, &N2}, 1, false);
+    NamedEdge E2({&N1, &N3}, 2, false);
+    NamedEdge E3({&N2, &N3}, 3, false);
+    NamedEdge E4({&N2, &N4}, 4, false);
+    NamedEdge E5({&N4, &N5}, 5, false);
+    NamedEdge E6({&N4, &N6}, 6, false);
+    NamedEdge E7({&N6, &N5}, 7, false);
+    NamedEdge E8({&N6, &N7}, 8, false);
+    NamedEdge E9({&N8, &N7}, 9, false);
+    NamedEdge E10({&N7, &N9}, 10, false);
+    NamedEdge E11({&N8, &N9}, 11, false);
+    NamedEdge E12({&N4, &N7}, 12, false);
+    NamedEdge E13({&N2, &N7}, 13, false);
+    NamedEdge E14({&N3, &N7}, 14, false);
+    NamedEdge E15({&N3, &N6}, 15, false);
+    std::vector<NamedEdge<Node<int>, int>> edges = {E1, E2, E3, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13, E14, E15};
+
+    g.addEdge(E1);
+    g.addEdge(E2);
+    g.addEdge(E3);
+    g.addEdge(E4);
+    g.addEdge(E5);
+    g.addEdge(E6);
+    g.addEdge(E7);
+    g.addEdge(E8);
+    g.addEdge(E9);
+    g.addEdge(E10);
+    g.addEdge(E11);
+    g.addEdge(E12);
+    g.addEdge(E13);
+    g.addEdge(E14);
+    g.addEdge(E15);
+
+    testGraph("Three triangles strongly linked", &g, edges);
+}
+
+void test() {
+    testThreeNodes();
+    testFigureHome();
+    testFull5();
+    testFull6();
+    testThreeTriangles();
+    testThreeTrianglesStronglyLinked();
+}
+
+int main() {
+    test();
+
+    return 0;
+}
+                    \end{minted}
+                    
+        \end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили основные понятия теории графов, способы
+задания графов, научиться программно реализовывать
+алгоритмы получения и анализа маршрутов в графах.
+
+\end{document}
