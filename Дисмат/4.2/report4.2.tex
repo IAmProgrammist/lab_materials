@@ -184,7 +184,9 @@ bool AdjacencyMatrixGraph<E, N>::isEuler() {
     });
 
     // Получаем матрицу C = I + M+ и формируем из C фактормножество
-    auto factorSet = BoolMatrixRelation::getIdentity(this->nodes.size()).unite(linkMatrix.transitiveClosureWarshall(nullptr)).getPackedFactorSet();
+    auto factorSet = BoolMatrixRelation::getIdentity(this->nodes.size())
+                                        .unite(linkMatrix.transitiveClosureWarshall(nullptr))
+                                        .getPackedFactorSet();
     
     // Если в полученном фактормножестве несколько классов эквивалентности, то множество несвязное.
     for (int i = 1; i < factorSet.size(); i++) 
