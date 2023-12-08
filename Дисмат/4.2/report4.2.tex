@@ -100,7 +100,7 @@ Graph<Edge<IntNode>>* generateRandomGraph(int nodesCount, int edgeCount) {
 
     std::vector<std::pair<int, int>> edges;
     for (int i = 1; i <= nodesCount; i++) {
-        for (int j = 1; j <= nodesCount; j++) {
+        for (int j = i + 1; j <= nodesCount; j++) {
             if (i == j) continue;
 
             edges.push_back({i, j});
@@ -215,7 +215,6 @@ bool AdjacencyMatrixGraph<E, N>::isEuler() {
 
 struct Report {
     int n;
-    double h;
     int edgesCount;
     int hamilthonCount;
     int eulerCount;
@@ -224,7 +223,7 @@ struct Report {
 
 #define LOWER_N 8
 #define UPPER_N 10
-#define ELEMENTS_FOR_N 20
+#define ELEMENTS_FOR_N 10
 
 #define CORES_AMOUNT 10
 std::atomic<int> takenCores;
@@ -232,22 +231,24 @@ std::atomic<int> takenCores;
 int main() {
     std::vector<std::pair<std::chrono::_V2::system_clock::time_point, std::future<Report>>> pool;
     for (int n = LOWER_N; n <= UPPER_N; n++) {
-        double h = ((n * (n - 1)) / 2 - 1.0 * n) / (ELEMENTS_FOR_N);
-        
-        for (double e = n; e <= ((n * (n - 1)) / 2); e += h) {
+        for (int i = 0; i < ELEMENTS_FOR_N; i++) {
             while (takenCores >= CORES_AMOUNT) {
                 sleep(1);
                 std::cout << "Working on it..." << "\n";
             }
 
+            int e = n;
+            if (i != 0)
+                e += (i * ((((n * (n - 1)) / 2 - n))))  / (ELEMENTS_FOR_N - 1);
+
             takenCores++;
-            pool.push_back({std::chrono::system_clock::now(), std::async(std::launch::async, [n, h, e] {
+            pool.push_back({std::chrono::system_clock::now(), std::async(std::launch::async, [n, e] {
                 int totalGraphsGenerated = 0;
                 int hamilthonGraphs = 0;
                 int eulerGraphs = 0;
                 auto start = std::chrono::system_clock::now();
                 while (std::chrono::system_clock::now() - start < std::chrono::seconds(10)) {
-                    auto graph = generateRandomGraph(n, static_cast<int>(e));
+                    auto graph = generateRandomGraph(n, e);
                     totalGraphsGenerated++;
 
                     if (graph->isHamiltonian()) hamilthonGraphs++;
@@ -258,7 +259,7 @@ int main() {
 
                 takenCores--;
 
-                return (Report){n, h, static_cast<int>(e), hamilthonGraphs, eulerGraphs, totalGraphsGenerated};
+                return (Report){n, e, hamilthonGraphs, eulerGraphs, totalGraphsGenerated};
             })});
         }
     }
@@ -276,13 +277,8 @@ int main() {
 
         auto t = future.second.get();
 
-        std::cout << "====================\n";
-        std::cout << "n = " << t.n << "\n";
-        std::cout << "h = " << t.h << "\n";
-        std::cout << "edges = " << t.edgesCount << "\n";
-        std::cout << "hamilthon = " << t.hamilthonCount << "\n";
-        std::cout << "euler = " << t.eulerCount << "\n";
-        std::cout << "total = " << t.totalCount << "\n\n";
+        std::cout << "\\hline\n";
+        std::cout << t.n << "&"<<t.edgesCount << "&" << t.eulerCount << "&" << t.hamilthonCount << "&" << t.totalCount << "\\\\\n";
     }
 
     getchar();
@@ -290,88 +286,110 @@ int main() {
     return 0;
 }
 \end{minted}
-          \begin{center}\textbf{Результаты работы программы (n = 8, h = 1)}\end{center}
+          \begin{center}\textbf{Результаты работы программы}\end{center}
           \begin{tabular}{|c|c|c|c|c|}
               \hline
               \multirow{2}{*}{Количество вершин} & \multirow{2}{*}{Количество рёбер} & \multicolumn{3}{|c|}{Количество графов}                          \\
               \cline{3-5}
                                                  &                                   & эйлеровых                               & гамильтоновых & всех   \\
               \hline
-              8                                  & 8                                 & 103                                     & 103           & 200820 \\
+              8                                  & 8                                 & 102                                     & 102           & 138589 \\
               \hline
-              8                                  & 10                                & 540                                     & 2897          & 183051 \\
+              8                                  & 10                                & 647                                     & 4777          & 139096 \\
               \hline
-              8                                  & 12                                & 866                                     & 18442         & 164452 \\
+              8                                  & 12                                & 834                                     & 30119         & 121321 \\
               \hline
-              8                                  & 14                                & 1172                                    & 54080         & 166376 \\
+              8                                  & 14                                & 897                                     & 75835         & 121929 \\
               \hline
-              8                                  & 16                                & 1023                                    & 84642         & 147675 \\
+              8                                  & 16                                & 1766                                    & 195543        & 223236 \\
               \hline
-              8                                  & 18                                & 1132                                    & 112615        & 146409 \\
+              8                                  & 19                                & 918                                     & 113577        & 114899 \\
               \hline
-              8                                  & 20                                & 1080                                    & 128453        & 144606 \\
+              8                                  & 21                                & 845                                     & 103548        & 103659 \\
               \hline
-              8                                  & 22                                & 1007                                    & 121600        & 127881 \\
+              8                                  & 23                                & 898                                     & 102016        & 102016 \\
               \hline
-              8                                  & 24                                & 981                                     & 128928        & 131627 \\
+              8                                  & 25                                & 0                                       & 94443         & 94443  \\
               \hline
-              8                                  & 26                                & 991                                     & 129678        & 130709 \\
+              8                                  & 28                                & 0                                       & 92151         & 92151  \\
               \hline
-              8                                  & 28                                & 1039                                    & 131660        & 132050 \\
+              9                                  & 9                                 & 82                                      & 82            & 325377 \\
               \hline
-              9                                  & 9                                 & 32                                      & 32            & 256243 \\
+              9                                  & 12                                & 366                                     & 6651          & 164324 \\
               \hline
-              9                                  & 11                                & 258                                     & 1303          & 233387 \\
+              9                                  & 15                                & 532                                     & 58577         & 157293 \\
               \hline
-              9                                  & 14                                & 584                                     & 22228         & 215795 \\
+              9                                  & 18                                & 491                                     & 105194        & 133994 \\
               \hline
-              9                                  & 17                                & 565                                     & 66885         & 171215 \\
+              9                                  & 21                                & 526                                     & 126056        & 131892 \\
               \hline
-              9                                  & 19                                & 581                                     & 100800        & 166941 \\
+              9                                  & 24                                & 476                                     & 124748        & 125456 \\
               \hline
-              9                                  & 22                                & 618                                     & 133776        & 161496 \\
+              9                                  & 27                                & 415                                     & 109102        & 109134 \\
               \hline
-              9                                  & 25                                & 572                                     & 135365        & 144932 \\
+              9                                  & 30                                & 433                                     & 110253        & 110253 \\
               \hline
-              9                                  & 27                                & 556                                     & 146455        & 151423 \\
+              9                                  & 33                                & 1174                                    & 101690        & 101690 \\
               \hline
-              9                                  & 30                                & 554                                     & 133836        & 135290 \\
+              9                                  & 36                                & 98078                                   & 98078         & 98078  \\
               \hline
-              9                                  & 33                                & 496                                     & 128841        & 129238 \\
+              10                                 & 10                                & 6                                       & 6             & 126670 \\
               \hline
-              9                                  & 36                                & 446                                     & 124971        & 125083 \\
+              10                                 & 13                                & 175                                     & 2991          & 209716 \\
               \hline
-              10                                 & 10                                & 8                                       & 8             & 222246 \\
+              10                                 & 17                                & 184                                     & 37283         & 115934 \\
               \hline
-              10                                 & 13                                & 111                                     & 1475          & 211436 \\
+              10                                 & 21                                & 169                                     & 75209         & 95293  \\
               \hline
-              10                                 & 17                                & 202                                     & 23527         & 146719 \\
+              10                                 & 25                                & 193                                     & 94958         & 98776  \\
               \hline
-              10                                 & 20                                & 248                                     & 61836         & 141350 \\
+              10                                 & 29                                & 249                                     & 145783        & 146400 \\
               \hline
-              10                                 & 24                                & 247                                     & 102376        & 134103 \\
+              10                                 & 33                                & 182                                     & 96687         & 96711  \\
               \hline
-              10                                 & 27                                & 248                                     & 110193        & 123522 \\
+              10                                 & 37                                & 160                                     & 86866         & 86866  \\
               \hline
-              10                                 & 31                                & 238                                     & 117785        & 121892 \\
+              10                                 & 41                                & 0                                       & 85518         & 85518  \\
               \hline
-              10                                 & 34                                & 274                                     & 123179        & 124767 \\
-              \hline
-              10                                 & 38                                & 357                                     & 170638        & 171228 \\
-              \hline
-              10                                 & 41                                & 325                                     & 167164        & 167356 \\
-              \hline
-              10                                 & 45                                & 306                                     & 159020        & 159064 \\
+              10                                 & 45                                & 0                                       & 79227         & 79227  \\
               \hline
           \end{tabular}
 
     \item Выполнить программу при n = 8,9,10 и сделать выводы.\\
           Чем больше рёбер в графе, тем больше вероятность того, что он окажется
           гамильтоновым.
-          Рост вероятности того, что граф окажется эйлеровым с ростом количества рёбер не такой значительный.
+          Рост вероятности того, что граф окажется эйлеровым с ростом количества рёбер сначала растёт, потом - падает.
     \item Привести пример диаграммы графа, который является эйлеровым,
           но не гамильтоновым. Найти в нем все эйлеровы циклы.\\
-          Такого графа не существует. 
+          \includegraphics[width=100mm]{4}\\
+          Эйлеровы циклы:\\
+          $\{1, 2, 3, 5, 2, 4, 1\}$\\
+          $\{2, 3, 5, 2, 4, 1, 2\}$\\
+          $\{3, 5, 2, 4, 1, 2, 3\}$\\
+          $\{5, 2, 4, 1, 2, 3, 5\}$\\
+          $\{2, 4, 1, 2, 3, 5, 2\}$\\
+          $\{4, 1, 2, 3, 5, 2, 4\}$\\
+
+          $\{1, 4, 2, 5, 3, 2, 1\}$\\
+          $\{4, 2, 5, 3, 2, 1, 4\}$\\
+          $\{2, 5, 3, 2, 1, 4, 2\}$\\
+          $\{5, 3, 2, 1, 4, 2, 5\}$\\
+          $\{3, 2, 1, 4, 2, 5, 3\}$\\
+          $\{2, 1, 4, 2, 5, 3, 2\}$\\
+
+          $\{1, 2, 5, 3, 2, 4, 1\}$\\
+          $\{2, 5, 3, 2, 4, 1, 2\}$\\
+          $\{5, 3, 2, 4, 1, 2, 5\}$\\
+          $\{3, 2, 4, 1, 2, 5, 3\}$\\
+          $\{2, 4, 1, 2, 5, 3, 2\}$\\
+          $\{4, 1, 2, 5, 3, 2, 4\}$\\
+
+          $\{1, 4, 2, 3, 5, 2, 1\}$\\
+          $\{4, 2, 3, 5, 2, 1, 4\}$\\
+          $\{2, 3, 5, 2, 1, 4, 2\}$\\
+          $\{3, 5, 2, 1, 4, 2, 3\}$\\
+          $\{5, 2, 1, 4, 2, 3, 5\}$\\
+          $\{2, 1, 4, 2, 3, 5, 2\}$\\
 
     \item Привести пример диаграммы графа, который является
           гамильтоновым, но не эйлеровым. Найти в нем все гамильтоновы циклы.\\
