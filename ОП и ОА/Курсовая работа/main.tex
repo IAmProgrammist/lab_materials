@@ -323,7 +323,7 @@ $F = F_0 + (1 - F_0)(1 - cos \Theta)^5$.
 Итоговый результат:
 \makenewfig{\includegraphics[width=90mm]{raytrace_7}}{Объекты с разным соотношением металличность/шероховатость}{ris:raytrace_7}
 
-\section{Используемые библиотеки и технологии}
+\section{Реализация алгоритмов}
 \subsection{glTF}
 Перед тем как начать рендер 3D-сцены, необходимо получить информацию о ней.
 Можно было "хардкодить" информацию о ней прямо в коде, однако полученная программа 
@@ -345,12 +345,64 @@ $F = F_0 + (1 - F_0)(1 - cos \Theta)^5$.
 HIPRT - библиотека, добавляющая поддержку трассировки лучей в HIP. 
 При помощи HIP можно выполнять вычисления на видеокарте.
 Особенностью видеокарты является то, что она может выполнять один процесс многократно и параллельно, 
-такой процесс называется кернелом. Кернел на основе информации о сцене 
+такой процесс описывается кернелом - функцией, которая будет запускаться на видеокарте. Кернел на основе информации о сцене 
 будет применять описанные выше алгоритмы реалистичного рендера для просчёта цвета одной точки на холсте, 
 сохранять результаты своей работы в память видеокарты, после чего эти данные можно скопировать из устройства в ОЗУ 
 и вывести получившееся изображение на экран.
 
-Перед тем как 
+Перед тем как запустить кернел, необходимо создать сцену. 
+Сцена содержит список геометрических объектов, кадры с трансформацией объектов и их временем (перемещение, размер, вращение), 
+количество самих кадров, BVH-ноды, позволяющие ускорить процесс нахождения пересечения геометрии и луча. 
+В данной работе ограничимся геометриями (объектами) сцены и фреймами с их трансформацией. 
+\begin{minted}{C++}
+// Загружаем модель из файла, сохраняем результат в geometries, frames, srtHeaders.
+loadModel( std::string( path ), ctxt, frames, srtHeaders );
+
+hiprtSceneBuildInput sceneInput;
+sceneInput.instanceCount			= geometries.size(); // Количество геометрий
+sceneInput.instanceMasks			= nullptr;
+sceneInput.instanceTransformHeaders = nullptr;
+
+// Пример копирования данных в память видеокарты - копирование геометрии
+CHECK_ORO( oroMalloc(                                   
+    reinterpret_cast<oroDeviceptr*>( &sceneInput.instanceGeometries ),
+    sizeof( hiprtDevicePtr ) * sceneInput.instanceCount ) );
+CHECK_ORO( oroMemcpyHtoD(
+    reinterpret_cast<oroDeviceptr>( sceneInput.instanceGeometries ),
+    &geometries[0],
+    sizeof( hiprtDevicePtr ) * sceneInput.instanceCount ) );
+
+sceneInput.frameType = hiprtFrameTypeMatrix; // Вид трансформации геометрии - матрица трансформации
+int frameCount = frames.size();
+
+// Копирование кадров
+...
+
+sceneInput.frameCount = frameCount;
+
+// Копирование заголовков трансформации
+...
+
+size_t		   sceneTempSize;
+hiprtDevicePtr sceneTemp;
+CHECK_HIPRT( hiprtGetSceneBuildTemporaryBufferSize( ctxt, sceneInput, options, sceneTempSize ) );
+CHECK_ORO( oroMalloc( reinterpret_cast<oroDeviceptr*>( &sceneTemp ), sceneTempSize ) );
+
+// Собираем сцену, после чего её можно использовать в кернеле
+CHECK_HIPRT( hiprtCreateScene( ctxt, sceneInput, options, scene ) );
+CHECK_HIPRT( hiprtBuildScene( ctxt, hiprtBuildOperationBuild, sceneInput, options, sceneTemp, 0, scene ) );
+
+// Сборка кернела для дальнейшего запуска
+buildTraceKernelFromBitcode( ctxt, "../common/Kernels.h", "mainKernel", func );
+
+// Создание изображения в памяти видеокарты
+CHECK_ORO( oroMalloc( reinterpret_cast<oroDeviceptr*>( &pixels ), m_res.x * m_res.y * 4 ) );
+
+// Удаляем буффер
+CHECK_ORO( oroFree( reinterpret_cast<oroDeviceptr>( sceneTemp ) ) );
+\end{minted}
+
+Рассмотрим получение массивов geometries, frames, srtHeaders. 
 
 \subsection{SFML}
 
