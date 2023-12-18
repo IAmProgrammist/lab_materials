@@ -157,6 +157,7 @@ template<typename T>
 void analyzeTree(T& g, std::string graphName) {
     std::cout << "Graph " << graphName << ":\n";
     auto shortestWayMatrix = g.getShortestWayMatrix();
+    bool anyFound = false;
     
     for (int i = 0; i < g.nodes.size(); i++) {
         for (int j = i + 1; j < g.nodes.size(); j++) {
@@ -166,128 +167,129 @@ void analyzeTree(T& g, std::string graphName) {
             if (shortestWayMatrix[i][j].second == -1 || shortestWayMatrix[j][i].second == -1) continue;
 
             // Длина путей должна быть равна
-            if (shortestWayMatrix[i][j].first != shortestWayMatrix[j][i].first) continue;
+            if (shortestWayMatrix[i][j].first == shortestWayMatrix[j][i].first) continue;
+
+            bool shouldSwap = false;
+            if (shortestWayMatrix[i][j].first > shortestWayMatrix[j][i].first)  {
+                shouldSwap = true;
+                std::swap(i, j);
+            }
         
-            std::cout << "Found shortest paths with weight of " << shortestWayMatrix[i][j].first << ":\n";
+            anyFound = true;
+            std::cout << "Found paths with weights of " << shortestWayMatrix[i][j].first << " and " << shortestWayMatrix[j][i].first << ":\n";
             printPath(g, shortestWayMatrix, i, j, true);
             std::cout << "\n";
             printPath(g, shortestWayMatrix, j, i, true);
             std::cout << "\n" << std::endl;
+
+            if (shouldSwap)
+                std::swap(i, j);      
         }
     }
+
+    if (!anyFound) 
+        std::cout << "No paths found" << std::endl;
 }
                 \end{minted}
         \item Подобрать тестовые данные. Результат представить в виде диаграммы графа.\\
         Вывод в консоль:
                     \begin{minted}{console}
-Graph Wreath:
-Found shortest paths with weight of 4:
-(1) ----> (3) ----> (4) ----> (5) ----> (2)
-(2) ----> (1)
-
-Graph Chain:
-Found shortest paths with weight of 1:
+Graph Worm:
+Found paths with weights of 1 and 3:
 (1) ----> (2)
 (2) ----> (1)
 
-Found shortest paths with weight of 2:
-(1) ----> (2) ----> (3)
-(3) ----> (2) ----> (1)
+Graph Chain:
+No paths found
+Graph Hard chain:
+Found paths with weights of 3 and 5:
+(1) ----> (2) ----> (3) ----> (4)  
+(4) ----> (3) ----> (2) ----> (1)  
 
-Found shortest paths with weight of 3:
-(1) ----> (2) ----> (3) ----> (4)
-(4) ----> (3) ----> (2) ----> (1)
-
-Found shortest paths with weight of 1:
-(2) ----> (3)
-(3) ----> (2)
-
-Found shortest paths with weight of 2:
+Found paths with weights of 2 and 4:
 (2) ----> (3) ----> (4)
 (4) ----> (3) ----> (2)
 
-Found shortest paths with weight of 1:
+Found paths with weights of 1 and 3:
 (3) ----> (4)
 (4) ----> (3)
 
-Graph Hard chain:
-Found shortest paths with weight of 7:
-(1) ----> (2) ----> (3) ----> (4)
-(4) ----> (3) ----> (2) ----> (1)
+Graph Four sides:
+Found paths with weights of 1 and 4:
+(1) ----> (2)
+(2) ----> (3) ----> (4) ----> (1)  
 
-Graph Whale:
-Found shortest paths with weight of 6:
-(1) ----> (6) ----> (4)
-(4) ----> (3) ----> (2) ----> (1)
+Found paths with weights of 2 and 3:
+(1) ----> (2) ----> (3)
+(3) ----> (4) ----> (1)
 
-Found shortest paths with weight of 8:
-(1) ----> (6) ----> (4) ----> (5)
-(5) ----> (4) ----> (3) ----> (2) ----> (1)
+Found paths with weights of 2 and 3:
+(4) ----> (1)
+(1) ----> (2) ----> (3) ----> (4)  
 
-Found shortest paths with weight of 6:
-(2) ----> (1) ----> (6)
-(6) ----> (4) ----> (3) ----> (2)
+Found paths with weights of 1 and 4:
+(2) ----> (3)
+(3) ----> (4) ----> (1) ----> (2)  
 
-Found shortest paths with weight of 2:
-(4) ----> (5)
-(5) ----> (4)
+Found paths with weights of 2 and 3:
+(2) ----> (3) ----> (4)
+(4) ----> (1) ----> (2)
+
+Found paths with weights of 1 and 4:
+(3) ----> (4)
+(4) ----> (1) ----> (2) ----> (3)
                     \end{minted}
         
-        \textbf{Венок}\\
-        \includegraphics[width=100mm]{testWreath}\\
-        В данном графе есть две вершины 1 и 2, пути между которыми удовлетворяют условию задачи и их длина равна 4:\\
-        1 -> 3 -> 4 -> 5 -> 2\\
-        2 -> 1\\
+        \textbf{Червяк}\\
+        \includegraphics[width=100mm]{testWorm}\\
+        В данном графе будет только один путь, удовлетворящий условию:\\
+        1 -> 2 | длина = 1\\
+        2 -> 1 | длина = 3\\
 
         Результат выполнения программы совпал с предположениями.\\
 
         \textbf{Цепочка}\\
         \includegraphics[width=100mm]{testChain}\\
-        В данном графе можно составить пути между смежными вершинами, длина которых равна 1, например для вершин 1 и 2:\\
-        1 -> 2\\
-        2 -> 1\\
-        Аналогичные пути можно составить для вершин 2 и 3, 3 и 4.\\
-        Пути длиной 2 можно составить для вершин 1 и 3:\\
-        1 -> 2 -> 3\\
-        3 -> 2 -> 1\\
-        Аналогичные пути можно составить для вершин 2 и 4:\\
-        2 -> 3 -> 4\\
-        4 -> 3 -> 2\\
-        Пути длиной 3 можно составить для вершин 1 и 4:\\
-        1 -> 2 -> 3 -> 4\\
-        4 -> 3 -> 2 -> 1\\ 
+        В данном графе нет таких путей.\\
 
         Результат выполнения программы совпал с предположениями.\\
 
-        \textbf{Сложная цепочка}\\
+        \textbf{Тяжёлая цепочка}\\
         \includegraphics[width=100mm]{testHardChain}\\
-        В данном графе уже не получится составить много путей с одинаковой длиной. В этом графе
-        возможны пути только между вершинами 1 и 4 длиной 7:\\
-        1 -> 2 -> 3 -> 4\\
-        4 -> 3 -> 2 -> 1\\ 
+        В данном графе такие пути уже составить можно:\\
+        1 -> 2 -> 3 -> 4 | длина = 3\\
+        4 -> 3 -> 2 -> 1 | длина = 5\bigbreak
+
+        2 -> 3 -> 4 | длина = 2\\
+        4 -> 3 -> 2 | длина = 4\bigbreak
+
+        3 -> 4 | длина = 1\\
+        4 -> 3 | длина = 3\\
 
         Результат выполнения программы совпал с предположениями.\\
 
-        \textbf{Кит}\\
-        \includegraphics[width=100mm]{testWhale}\\
-        В данном графе возможны пути между вершинами 1 и 5 длиной 8:\\
-        5 -> 4 -> 3 -> 2 -> 1\\
-        1 -> 6 -> 4 -> 5\\
+        \textbf{Четырёхугольник}\\
+        \includegraphics[width=100mm]{testFourSides}\\
+        В данном графе можно составить следующие пути, удовлетворящие условию:\\
+        1 -> 2 | длина = 1\\
+        2 -> 3 -> 4 -> 1 | длина = 4\bigbreak
 
-        Результат выполнения программы содержит ожидаемый граф, однако также 
-        содержит пути, которые не были обнаружены при составлении графа вручную:
-        
-        Между вершинами 1 и 4 с длиной 6:\\
-        1 -> 6 -> 4\\
-        4 -> 3 -> 2 -> 1\\
+        1 -> 2 -> 3 | длина = 1\\
+        3 -> 4 -> 1 | длина = 2\bigbreak
 
-        Между вершинами 2 и 6 длиной 6:\\
-        2 -> 1 -> 6\\
-        6 -> 4 -> 3 -> 2\\
+        4 -> 1 | длина = 2\\
+        1 -> 2 -> 3 -> 4 | длина = 3\bigbreak
 
-        Между вершинами 4 и 5 длиной 2:\\
-        4 -> 5\\
-        5 -> 4\\
+        2 -> 3 | длина = 1\\
+        3 -> 4 -> 1 -> 2 | длина = 4\bigbreak
+
+        2 -> 3 -> 4 | длина = 2\\
+        4 -> 1 -> 2 | длина = 3\bigbreak
+
+        3 -> 4 | длина = 1\\
+        4 -> 1 -> 2 -> 3 | длина = 4\bigbreak
+
+        Результат выполнения программы совпал с предположениями.\\
 
         Программа:
         \begin{minted}{C++}
@@ -310,6 +312,7 @@ template<typename T>
 void analyzeTree(T& g, std::string graphName) {
     std::cout << "Graph " << graphName << ":\n";
     auto shortestWayMatrix = g.getShortestWayMatrix();
+    bool anyFound = false;
     
     for (int i = 0; i < g.nodes.size(); i++) {
         for (int j = i + 1; j < g.nodes.size(); j++) {
@@ -319,40 +322,44 @@ void analyzeTree(T& g, std::string graphName) {
             if (shortestWayMatrix[i][j].second == -1 || shortestWayMatrix[j][i].second == -1) continue;
 
             // Длина путей должна быть равна
-            if (shortestWayMatrix[i][j].first != shortestWayMatrix[j][i].first) continue;
+            if (shortestWayMatrix[i][j].first == shortestWayMatrix[j][i].first) continue;
+
+            bool shouldSwap = false;
+            if (shortestWayMatrix[i][j].first > shortestWayMatrix[j][i].first)  {
+                shouldSwap = true;
+                std::swap(i, j);
+            }
         
-            std::cout << "Found shortest paths with weight of " << shortestWayMatrix[i][j].first << ":\n";
+            anyFound = true;
+            std::cout << "Found paths with weights of " << shortestWayMatrix[i][j].first << " and " << shortestWayMatrix[j][i].first << ":\n";
             printPath(g, shortestWayMatrix, i, j, true);
             std::cout << "\n";
             printPath(g, shortestWayMatrix, j, i, true);
             std::cout << "\n" << std::endl;
+
+            if (shouldSwap)
+                std::swap(i, j);      
         }
     }
+
+    if (!anyFound) 
+        std::cout << "No paths found" << std::endl;
 }
 
-// Венок
-void testWreath() {
+// Червяк
+void testWorm() {
     AdjacencyMatrixGraph<NamedEdge<Node<int>, unsigned long long>> g;
 
     Node<int> N1(1);
     Node<int> N2(2);
-    Node<int> N3(3);
-    Node<int> N4(4);
-    Node<int> N5(5);
 
     g.addNode(N1);
     g.addNode(N2);
-    g.addNode(N3);
-    g.addNode(N4);
-    g.addNode(N5);
 
-    g.addEdge({{&N1, &N3}, 1, true});
-    g.addEdge({{&N3, &N4}, 1, true});
-    g.addEdge({{&N4, &N5}, 1, true});
-    g.addEdge({{&N5, &N2}, 1, true});
-    g.addEdge({{&N2, &N1}, 4, true});
+    g.addEdge({{&N1, &N2}, 1, true});
+    g.addEdge({{&N2, &N1}, 3, true});
 
-    analyzeTree(g, "Wreath");
+    analyzeTree(g, "Worm");
 }
 
 // Цепочка
@@ -392,48 +399,42 @@ void testHardChain() {
     g.addNode(N3);
     g.addNode(N4);
 
-    g.addEdge({{&N1, &N2}, 2, true});
-    g.addEdge({{&N2, &N1}, 3, true});
+    g.addEdge({{&N1, &N2}, 1, true});
+    g.addEdge({{&N2, &N1}, 1, true});
     g.addEdge({{&N3, &N2}, 1, true});
-    g.addEdge({{&N2, &N3}, 4, true});
+    g.addEdge({{&N2, &N3}, 1, true});
     g.addEdge({{&N3, &N4}, 1, true});
     g.addEdge({{&N4, &N3}, 3, true});
     analyzeTree(g, "Hard chain");
 }
 
-// Кит
-void testWhale() {
+// Четырёхугольник
+void testFourSides() {
     AdjacencyMatrixGraph<NamedEdge<Node<int>, unsigned long long>> g;
 
     Node<int> N1(1);
     Node<int> N2(2);
     Node<int> N3(3);
     Node<int> N4(4);
-    Node<int> N5(5);
-    Node<int> N6(6);
 
     g.addNode(N1);
     g.addNode(N2);
     g.addNode(N3);
     g.addNode(N4);
-    g.addNode(N5);
-    g.addNode(N6);
+    
+    g.addEdge({{&N1, &N2}, 1, true});
+    g.addEdge({{&N2, &N3}, 1, true});
+    g.addEdge({{&N3, &N4}, 1, true});
+    g.addEdge({{&N4, &N1}, 2, true});
 
-    g.addEdge({{&N5, &N4}, 2, true});
-    g.addEdge({{&N4, &N5}, 2, true});
-    g.addEdge({{&N4, &N3}, 2, true});
-    g.addEdge({{&N3, &N2}, 2, true});
-    g.addEdge({{&N2, &N1}, 2, true});
-    g.addEdge({{&N1, &N6}, 4, true});
-    g.addEdge({{&N6, &N4}, 2, true});
-    analyzeTree(g, "Whale");
+    analyzeTree(g, "Four sides");
 }
 
 void test() {
-    testWreath();
+    testWorm();
     testChain();
     testHardChain();
-    testWhale();
+    testFourSides();
 }
 
 int main() {
@@ -443,7 +444,9 @@ int main() {
                     
         \end{enumerate}
 
-\textbf{Вывод: } в ходе лабораторной работы изучили алгоритм Дейкстры нахождения кратчайших путей между вершинами взвешенного орграфа,
-научились рационально использовать его при решении различных задач.
+\textbf{Вывод: } в ходе лабораторной работы изучили алгоритмы нахождения кратчайших путей
+между каждой парой вершин во взвешенном орграфе,
+научиться использовать их при решении различных
+задач.
 
 \end{document}
