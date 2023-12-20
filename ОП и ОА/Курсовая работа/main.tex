@@ -169,6 +169,9 @@ top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
     \item Подобрать удобный формат хранения информации о 3D-сцене.
     \item Разработать программу, генерирующую изображение на основе данных о 3D-сцене.
 \end{itemize}
+
+\newpage
+
 \section{Техники реалистичного рендера}
 \subsection{Трассировка лучей}
 В основе трассировки лучей лежит довольно простая идея. Предположим, нам нужно нарисовать картину, но 
@@ -322,6 +325,8 @@ $F = F_0 + (1 - F_0)(1 - cos \Theta)^5$.
 
 Итоговый результат:
 \makenewfig{\includegraphics[width=90mm]{raytrace_7}}{Объекты с разным соотношением металличность/шероховатость}{ris:raytrace_7}
+
+\newpage
 
 \section{Реализация алгоритмов}
 \subsection{glTF}
@@ -598,7 +603,7 @@ int main( int argc, char* argv[] ) {
 }
 \end{minted}
 
-
+\newpage
 \section{Заключение}
 
 В ходе курсовой работы были изучены основы техник генерации реалистичной компьютерной графики, 
@@ -615,7 +620,38 @@ int main( int argc, char* argv[] ) {
 Полученный движок реализует базовые техники реалистичного рендера и для дальнейшего применения
 в определённой сфере требует соответствующих доработок. 
 
+\newpage
 \section{Приложение}
+\begin{center}
+
+Тестовые рендеры
+
+\begin{longtable}{c c}
+    \includegraphics[width=60mm]{archive1} & \includegraphics[width=60mm]{archive2} \\ 
+    \begin{tabular}{c}Тестовая отрисовка\\простых примитивов\\(29.10.2023)\end{tabular} &  
+    \begin{tabular}{c}Тестовая отрисовка\\простых мешей\\(30.11.2023)\end{tabular} \\
+    \includegraphics[width=60mm]{archive3} & \includegraphics[width=60mm]{archive4} \\ 
+    \begin{tabular}{c}Проверка нормалей\\ Канал R - X+, G - Y+, B - Z+\\(4.11.2023)\end{tabular}&
+    \begin{tabular}{c}Проверка интерполяции\\нормалей\\(4.11.2023)\end{tabular} \\
+    \includegraphics[width=60mm]{archive5} & \includegraphics[width=60mm]{archive6} \\ 
+    \begin{tabular}{c}Тестирование примитивной\\системы освещения\\(6.11.2023)\end{tabular} &
+    \begin{tabular}{c}Тестирование лампы\\и аддитивной модели\\(13.11.2023)\end{tabular} \\
+    \includegraphics[width=60mm]{archive7} & \includegraphics[width=60mm]{archive8} \\ 
+    \begin{tabular}{c}Тест сцены с\\несколькими источниками\\освещения\\(13.11.2023)\end{tabular} &
+    \begin{tabular}{c}Неудачная попытка ввести\\непрямое освещение\\(13.11.2023)\end{tabular} \\
+    \includegraphics[width=60mm]{archive9} & \includegraphics[width=60mm]{archive10} \\ 
+    \begin{tabular}{c}Введение системы PBR\\(17.12.2023)\end{tabular} &
+    \begin{tabular}{c}Неудачная попытка ввести\\непрямое освещение\\(19.12.2023)\end{tabular} \\
+    \includegraphics[width=60mm]{archive11} & \includegraphics[width=60mm]{archive2} \\ 
+    \begin{tabular}{c}Аддитивная модель с PBR\\(20.12.2023)\end{tabular} &
+    \begin{tabular}{c}Замок\\(20.12.2023)\end{tabular} \\
+    \\
+\end{longtable}
+
+
+
+\end{center}
+
 
 \section{Список источников и литературы}
 
