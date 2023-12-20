@@ -7,8 +7,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{minted}
-\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
-\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize, tabsize=4}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize, tabsize=4}
 \usepackage{xcolor}
 \definecolor{LightGray}{gray}{0.9}
 \usepackage{graphicx}
@@ -350,10 +350,13 @@ HIPRT - библиотека, добавляющая поддержку трас
 сохранять результаты своей работы в память видеокарты, после чего эти данные можно скопировать из устройства в ОЗУ 
 и вывести получившееся изображение на экран.
 
-Перед тем как запустить кернел, необходимо создать сцену. 
-Сцена содержит список геометрических объектов, кадры с трансформацией объектов и их временем (перемещение, размер, вращение), 
-количество самих кадров, BVH-ноды, позволяющие ускорить процесс нахождения пересечения геометрии и луча. 
-В данной работе ограничимся геометриями (объектами) сцены и фреймами с их трансформацией. 
+Перед тем как запустить кернел, необходимо создать сцену. Сцена - акселирирующая структура данных, которая используется
+методах HIPRT для пересечения луча и геометрии. Сцена создаётся при помощи структуры hiprtSceneBuildInput.
+hiprtSceneBuildInput содержит список геометрических объектов instanceCount и их количество instanceCount; 
+кадры с трансформацией объектов и их временем (перемещение, размер, вращение) instanceTransformHeaders и instanceFrames; 
+количество самих кадров frameCount, BVH-ноды nodes, позволяющие ускорить процесс нахождения пересечения геометрии и луча. 
+В данной работе ограничимся геометриями (объектами) сцены и фреймами с их трансформацией. На основе сформированной структуры 
+создаётся сцена, которая в дальнейшем будет использоваться в кернеле:
 \begin{minted}{C++}
 // Загружаем модель из файла, сохраняем результат в geometries, frames, srtHeaders.
 loadModel( std::string( path ), ctxt, frames, srtHeaders );
@@ -404,12 +407,216 @@ CHECK_ORO( oroFree( reinterpret_cast<oroDeviceptr>( sceneTemp ) ) );
 
 Рассмотрим получение массивов geometries, frames, srtHeaders. 
 
+Геометрия в HIPRT создаётся при помощи hiprtTriangleMeshPrimitive. Эта структура содержит массив с вершинами vertices, 
+их количество vertexCount и шаг между вершинами в байтах в массиве vertexStride.
+На основе массива вершин формируются треугольники, структура содержит массив индексов из массива вершин triangleIndices. 
+Тройка индексов образует один треугольник. Структура содержит количество треугольников
+triangleCount и шаг между тройкой индексов. При помощи структуры hiprtGeometryBuildInput создаётся геометрия, которая будет
+в дальнейшем использоваться при создании сцены:
+\begin{minted}{C++}
+hiprtTriangleMeshPrimitive hipMesh;
+
+// Загружаем индексы из glTF документа
+hipMesh.triangleCount  = model.accessors[meshPrimitive.indices].count / 3;
+hipMesh.triangleStride = sizeof( hiprtInt3 );
+
+...
+
+// Загружаем вершины из glTF документа
+
+...
+
+// Создаём hiprtGeometryBuildInput, устанавливаем тип примитива - треугольник и копируем в него полученный примитив
+hiprtGeometryBuildInput geomInput;
+geomInput.type					 = hiprtPrimitiveTypeTriangleMesh;
+geomInput.triangleMesh.primitive = hipMesh;
+
+size_t			  geomTempSize;
+hiprtDevicePtr	  geomTemp;
+hiprtBuildOptions options;
+options.buildFlags = hiprtBuildFlagBitPreferFastBuild;
+CHECK_HIPRT( hiprtGetGeometryBuildTemporaryBufferSize( ctxt, geomInput, options, geomTempSize ) );
+CHECK_ORO( oroMalloc( reinterpret_cast<oroDeviceptr*>( &geomTemp ), geomTempSize ) );
+
+hiprtGeometry geom;
+CHECK_HIPRT( hiprtCreateGeometry( ctxt, geomInput, options, geom ) );
+CHECK_HIPRT( hiprtBuildGeometry( ctxt, hiprtBuildOperationBuild, geomInput, options, geomTemp, 0, geom ) );
+
+// Геометрия получена, можно добавить её в geometries.
+
+geometries.push_back( geom );
+\end{minted}
+
+Трансформация примитивов из файла glTF будем сохранять в фреймы. В данном движке используется матрица трансформации, поэтому будем использовать 
+структуру hiprtFrameMatrix, которая содержит время и саму матрицу размером $3 x 4$. В некоторых графических библиотеках используется матрица 
+$4 x 4$, однако здесь матрица была сокращена для экономии памяти и уменьшения времени работы из-за того, что последняя строка матрицы трансформации,
+содержащая трансформацию, вращение и размер не содержит полезной информации.
+
+hiprtFrameMatrix также содержит время, реализация анимации в данном движке не предусмотрена, поэтому время будем оставлять равное 0.
+\begin{minted}{C++}
+// Умножаем родительскую матрицу трансформации на текущую
+hiprtFrameMatrix localTransformations = parentTransform * getSRTMatrix( translate, rotation, scale );
+localTransformations.time			  = 0;
+
+// Сохраняем фрейм в массив фреймов
+frames.push_back( localTransformations );
+\end{minted}    
+
+Чтобы прикрепить к i геометрии трансформацию в j фрейме используется массив hiprtTransformHeader. 
+Структура содержит индекс фрейма из массива и сколько кадров она будет активна. Второй параметр нам не сильно важен, 
+так как в движке не предусмотрена анимация. 
+\begin{minted}{C++}
+hiprtTransformHeader header;
+
+// Трансформации будут активны один единственный 0 кадр
+header.frameCount = 1;
+// Мы сначала добавляем фреймы, после чего обрабатываем примитивы, к которым трансформации
+// этих фреймов были применены. Поэтому индекс фрейма - последний.
+header.frameIndex = frames.size() - 1;
+
+// Добавляем полученный header.
+srtHeaders.push_back( header );
+\end{minted} 
+
+Дополнительно в кернеле нам понадобится информация о материалах, свете, камере и нормалям вершин. 
+Структур HIPRT для этих объектов нет, поэтому их нужно будет загрузить из файла в память видеокарты напрямую. 
+Так для примера выглядит загрузка нормалей вершин:
+\begin{minted}{C++}
+// Примитив в файле glTF должен содержать нормали
+auto accessorIter = meshPrimitive.attributes.find( "NORMAL" );
+if ( accessorIter == meshPrimitive.attributes.end() )
+    throw std::string( "Err: no NORMAL attribute specified in primitive" );
+
+int accessorIndex = ( *accessorIter ).second;
+
+int normalCount	 = model.accessors[accessorIndex].count;
+int normalStride = tinygltf::GetComponentSizeInBytes( model.accessors[accessorIndex].componentType ) * 3;
+
+auto normalBufferView = model.bufferViews[model.accessors[accessorIndex].bufferView];
+
+// Копирование нормалей в ОЗУ
+a = (hiprtFloat3*)malloc( normalCount * normalStride );
+memcpy(
+    a,
+    &model.buffers[normalBufferView.buffer].data[0] + normalBufferView.byteOffset,
+    normalCount * normalStride );
+
+// Копирование нормалей в память видеокарты
+CHECK_ORO(
+    oroMalloc( reinterpret_cast<oroDeviceptr*>( &( geomData.back().normals ) ), normalCount * normalStride ) );
+CHECK_ORO(
+    oroMemcpyHtoD( reinterpret_cast<oroDeviceptr>( geomData.back().normals ), a, normalCount * normalStride ) );
+
+// Удаление буффера из ОЗУ
+free( a );
+\end{minted} 
+
+После того, как мы загрузили сцену в акселирирующие структуры данных, можно приступать к запуску кернела. 
+Процессы в видеокарте выполняются в 3-мерном пространстве, каждому процессу присваивается координата x, y и z. 
+Так как наша задача - получить двухмерную картинку, вычисления будут двухмерные, а 
+процессу будут присвоены координаты x и y, соответствующие координате отрисовываемого пикселя на холсте.
+
+Основной задачей в трассировке лучей является нахождение пересечения треугольника и луча, для нахождения 
+пересечения HIPRT предоставляет собственные классы, которые на основе сцены и луча, находят пересечения. 
+\begin{minted}{C++}
+// Инициализация луча: его направления и точки начала
+hiprtRay ray;
+ray.origin	  = o;
+ray.direction = d;
+
+// hiprtSceneTraversalClosest позволяет находить ближайшую точку пересечения луча и геометрии в сцене
+hiprtSceneTraversalClosest tr( scene, ray );
+// Получаем пересечение
+hiprtHit hit = tr.getNextHit();
+\end{minted} 
+
+Структура данных hiprtHit содержит полезную информацию о пересечении: instanceID (индекс в массиве геометрий), 
+primID (индекс треугольника в структуре меша), UV, нормаль и t ($hit = ray.origin + t \cdot ray.direction$).
+
+instanceID позволяет определить, с каким именно мешем мы столкнулись, что позволяет, например, ввести систему материалов:\\
+\mintinline{C++}|auto material = materials[hit.instanceID];|
+
+Нормаль normal высчитывается на основе обхода треугольника и не всегда корректна. Для просчёта нормали в точке
+используется UV-координата и массив нормалей вершин. Соствляющие UV-координаты U, V и W = 1 - U - V определяют, 
+насколько далеко точка на треугольнике находится от его вершин. 
+
+Нормали вершин можно интерполировать по формуле: $N = w * N_1 + u * N_2 + v * N_3$.
+
+\makenewfig{\includegraphics[width=90mm]{raytrace_9} \includegraphics[width=90mm]{raytrace_8}}{Неинтерполированная и интерполированная нормаль}{ris:raytrace_10}
+
 \subsection{SFML}
 
-\section{Что мы не успели сделать}
+После выполнения кернела мы получаем массив пикселей, для упрощения работы с программой полученное изображение можно вывести в отдельном окне.
+Выполнить вывод в окне можно при помощи OpenGL, однако для упрощения вывода в программе используется обёртка над OpenGL - SFML.
+\begin{minted}{C++}
+int main( int argc, char* argv[] ) {
+    // Получаем ширину и высоту изображения из аргументов запуска
+    width = std::stoi( argv[2] );
+	height = std::stoi( argv[3] );
+
+    // Инициализируем массив пикселей
+	data = (u8*)malloc( width * height * 4 );
+	
+    // Инициализируем движок, передаём путь из аргументов запуска
+    renderEngine.init( 0, width, height, argv[1] );
+    // Запускаем движок
+	renderEngine.run( data );
+
+    // Создаём окно
+	sf::RenderWindow window( sf::VideoMode( width, height ), "CPPRay", sf::Style::Close );
+
+	while ( window.isOpen() ) {
+		sf::Event event;
+		while ( window.pollEvent( event ) ) {
+			if ( event.type == sf::Event::Closed ) {
+				window.close();
+			}
+		}
+
+        // Копируем полученный массив в изображение 
+		sf::Image image;
+		image.create( width, height, data);
+
+		window.clear();
+
+        // Создаём текстуру
+		sf::Texture texture;
+		texture.setSmooth( true );
+		texture.loadFromImage( image );
+
+        // Спрайт
+		sf::Sprite sprite;
+		sprite.setTexture( texture, true );
+
+        // После чего отрисовываем его
+		window.draw( sprite );
+
+		window.display();
+	}
+
+	return 0;
+}
+\end{minted}
 
 
 \section{Заключение}
+
+В ходе курсовой работы были изучены основы техник генерации реалистичной компьютерной графики, 
+инструменты для добавления аппаратной поддержки в видеокарты.
+Полученный движок способен отрисовывать простые сцены, содержащие примитивы, свет.
+
+Движку ещё есть куда развиваться: можно расширить возможности материалов (текстурирование, светимость материалов), 
+добавить продвинутые материалы (прозрачные объекты), 
+другие техники реалистичного рендера (непрямое освещение, окружающее затенение), 
+углубление движка в реалистичную сторону, что позволит использовать его например в фильмах, 
+или ускорить движок, что позволит использовать его в играх, 
+добавить анимацию, размытие в движении, более удобный интерфейс.
+
+Полученный движок реализует базовые техники реалистичного рендера и для дальнейшего применения
+в определённой сфере требует соответствующих доработок. 
+
+\section{Приложение}
+
 \section{Список источников и литературы}
 
 https://gpuopen.com/hiprt/
@@ -417,5 +624,6 @@ https://github.com/syoyo/tinygltf
 https://habr.com/en/articles/342510/
 https://learnopengl.com/PBR/Theory
 https://reference.wolfram.com/language/tutorial/PhysicallyBasedRendering.html
+https://www.sfml-dev.org/documentation/2.6.1/
 
 \end{document}
