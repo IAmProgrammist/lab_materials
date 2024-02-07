@@ -1,0 +1,204 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №1}}\\
+    \normalsize{
+        по дисциплине: ООП \\
+        тема: «Знакомство с интегрированной средой разработки (ИСР) Microsoft Visual
+        Studio 2013 или QT»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Черников Сергей Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №1}\\
+    Знакомство с интегрированной средой разработки (ИСР) Microsoft Visual Studio 2013 или QT\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }изучение функциональных возможностей интегрированной
+среды разработки (ИСР) Visual Studio 2013 или QT.
+
+\begin{enumerate}[1.]
+    \item Пошаговое описание способа создания консольного приложения в ИСР
+    Visual Studio или QT.\\
+    В данной работе был использован QT. Для начала необходимо создать проект:\\
+    \includegraphics[width=100mm]{qtS1}\\
+    Для создания простого консольного приложения достаточно шаблона из вкладки "Проект без QT" под названием "Приложение на языке C++":\\
+    \includegraphics[width=100mm]{qtS2}\\
+    Выбираем размещение, систему сборки (можно оставить CMake), любой удобный комплект QT, по желанию можно добавить Git:\\
+    \includegraphics[width=100mm]{qtS3}\\
+    \includegraphics[width=100mm]{qtS4}\\
+    \includegraphics[width=100mm]{qtS5}\\
+    
+    \item Исходный текст консольного приложения, созданного в соответствии с
+    вариантом задания.\\
+    B текстовом файле хранятся квадратные вещественные матрицы
+    порядка n (n-const). Преобразовать файл, удалив из каждой матрицы
+    последнюю строку и последний столбец.\\
+    \begin{minted}{C++}
+#include <fstream>
+#include <sstream>
+
+#define N 3
+
+int main() {
+    std::ifstream dataIn("data.txt");
+    std::stringstream buf;
+
+    if (!dataIn.is_open()) return 1;
+
+    while (!dataIn.eof()) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                float num;
+                dataIn >> num;
+
+                if (j == N - 1 || i == N - 1) continue;
+
+                buf << num << " ";
+            }
+
+            if (i != N - 1)
+                buf << "\n";
+        }
+    }
+
+    dataIn.close();
+
+    std::ofstream dataOut("data.txt");
+    dataOut << buf.str();
+    dataOut.flush();
+    dataOut.close();
+}
+    \end{minted}
+    \href{https://github.com/IAmProgrammist/oop/tree/master/src/lab1/task1}{Ссылка на репозиторий}\bigbreak
+    Дан файл целых чисел. Преобразовать этот файл так, чтобы сначала
+были числа, кратные трем, затем такие, которые при делении на три
+дают B остатке единицу, а все остальные удалить из файла\\
+    \begin{minted}{C++}
+#include <fstream>
+#include <vector>
+
+#define N 3
+
+int main() {
+    std::ifstream dataIn("data.txt");
+    std::vector<int> divThree;
+    std::vector<int> modThreeOne;
+
+    if (!dataIn.is_open()) return 1;
+
+    while (!dataIn.eof()) {
+        int num;
+        dataIn >> num;
+
+        if (num % 3 == 0) divThree.push_back(num);
+        else if (num % 3 == 1) modThreeOne.push_back(num);
+    }
+
+    dataIn.close();
+
+    std::ofstream dataOut("data.txt");
+    
+    for (auto& num : divThree)
+        dataOut << num << " ";
+
+    for (auto& num : modThreeOne)
+        dataOut << num << " ";
+
+    dataOut.flush();
+    dataOut.close();
+}
+    \end{minted}
+    
+    \href{https://github.com/IAmProgrammist/oop/tree/master/src/lab1/task2}{Ссылка на репозиторий}\\
+
+    \item Пошаговое описание способа создания экранной формы в ИСР Visual
+    Studio или QT.\\
+    Для создания приложения с экранной формой достаточно шаблона из вкладки "Приложение (QT)" под названием "Приложение QT Widgets":\\
+    \includegraphics[width=100mm]{qtfS1}\\
+    Выбираем размещение, систему сборки (можно оставить CMake). В "подробнее" можно выбрать имя класса, модуля и файла графического интерфейса. Также можно выбрать язык, любой удобный комплект QT, по желанию можно добавить Git:\\
+    \includegraphics[width=100mm]{qtfS2}\\
+    \includegraphics[width=100mm]{qtfS3}\\
+    \includegraphics[width=100mm]{qtfS4}\\
+    \includegraphics[width=100mm]{qtfS5}\\
+    \includegraphics[width=100mm]{qtfS6}\\
+    Открываем файл дизайна mainwindow.ui и редактируем его в соответствии с вариантом:\\
+    \includegraphics[width=100mm]{qtfS7}\\
+    \item Исходный текст модуля экранной формы, созданной в соответствии с
+    вариантом задания.\\
+    Форма «Свойства: таблицы» MS Word, вкладки «Таблица» и
+«Замещающий текст»\\
+    \href{https://github.com/IAmProgrammist/oop/tree/master/src/lab1/task3}{Ссылка на репозиторий, вкладка «Таблица»}\\
+    \includegraphics[width=100mm]{table}\\
+    
+    \href{https://github.com/IAmProgrammist/oop/tree/master/src/lab1/task4}{Ссылка на репозиторий, вкладка «Замещающий текст»}\\ 
+    \includegraphics[width=100mm]{replace_text}\\
+        \end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили функциональные возможности интегрированной
+среды разработки QT для создания форм и консольных приложений.
+
+\end{document}
