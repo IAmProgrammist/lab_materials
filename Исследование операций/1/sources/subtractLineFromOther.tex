@@ -1,0 +1,119 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report1.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgEIICBSD}
+\begin{lrbox}{\bdgEIICBSD}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontEIICBSDAOSSSRRQ[Scale=0.630667, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorEIICBSDRIMPGMFI}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEIICBSDRJGKFC}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEIICBSDDQKCCF}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.385373 cm, fill=colorEIICBSDRIMPGMFI, draw=none] (0.252734,0.004450) -- (5.742817,0.004450) -- (5.742817,-0.766296) -- (0.252734,-0.766296) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.385373 cm, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (0.252734,0.004450) -- (5.742817,0.004450) -- (5.742817,-0.766296) -- (0.252734,-0.766296) -- cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.255970, -0.336426) {\verb|subtractLineFromOther(origin, |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(0.638106, -0.632805) {\verb|indexLeadingLine, indexEnablingElement)|};
+\draw[fill=colorEIICBSDRIMPGMFI, draw=none, opacity=1.000000] (0.262685,-1.077776) -- (5.732866,-1.077776) -- (5.732866,-2.695508) -- (0.262685,-2.695508) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (0.262685,-1.077776) -- (5.732866,-1.077776) -- (5.732866,-2.695508) -- (0.262685,-2.695508) -- cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(0.396176, -1.413111) {\verb|Преобразовать ведущую строку таким образом, |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(0.641800, -1.703298) {\verb|чтобы разрещающий элемент стал равен 1.|};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.119796, -1.987944) {\verb|Разделить каждый элемент строки |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.361509, -2.277371) {\verb|по индексу indexLeadingLine|};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.666014, -2.562017) {\verb|на разрешающий элемент|};
+\draw[opacity=1.000000, fill=none, line width=0.013349 cm, colorEIICBSDDQKCCF] (2.997775,-0.766296) -- (2.997775,-1.077776);
+\draw[opacity=1.000000, fill=colorEIICBSDRIMPGMFI, draw=none] (0.787676, -4.112037) -- (1.892725, -3.006987) -- (4.102825, -3.006987) -- (5.207874, -4.112037) -- (4.102825, -5.217087) -- (1.892725, -5.217087) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (0.787676, -4.112037) -- (1.892725, -3.006987) -- (4.102825, -3.006987) -- (5.207874, -4.112037) -- (4.102825, -5.217087) -- (1.892725, -5.217087) --cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.848359, -4.067540) {\verb|i := 0..h (для всех|};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.306540, -4.363919) {\verb|остальных строк с номером i)|};
+\draw[fill=colorEIICBSDRIMPGMFI, draw=none, opacity=1.000000] (0.494838,-5.528566) -- (5.500712,-5.528566) -- (5.500712,-6.572986) -- (0.494838,-6.572986) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (0.494838,-5.528566) -- (5.500712,-5.528566) -- (5.500712,-6.572986) -- (0.494838,-6.572986) -- cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(0.759017, -5.864988) {\verb|k = origin[i][indexEnablingElement] - |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(0.628329, -6.152676) {\verb|коэффициент, на который нужно домножить |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.361509, -6.439495) {\verb|ведущую строку и вычесть её|};
+\draw[opacity=1.000000, fill=colorEIICBSDRIMPGMFI, draw=none] (1.068596, -7.849055) -- (2.033186, -6.884466) -- (3.962365, -6.884466) -- (4.926954, -7.849055) -- (3.962365, -8.813645) -- (2.033186, -8.813645) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (1.068596, -7.849055) -- (2.033186, -6.884466) -- (3.962365, -6.884466) -- (4.926954, -7.849055) -- (3.962365, -8.813645) -- (2.033186, -8.813645) --cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.846132, -7.659845) {\verb|j := 0..l (для всех |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.732173, -7.949271) {\verb|остальных элементов j|};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(2.349983, -8.245650) {\verb|в строке i)|};
+\draw[fill=colorEIICBSDRIMPGMFI, draw=none, opacity=1.000000] (0.440521,-9.125124) -- (5.555030,-9.125124) -- (5.555030,-10.677784) -- (0.440521,-10.677784) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (0.440521,-9.125124) -- (5.555030,-9.125124) -- (5.555030,-10.677784) -- (0.440521,-10.677784) -- cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.182261, -9.461546) {\verb|origin[i][j] := origin[i][j] - |};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(1.110181, -9.753471) {\verb|origin[indexLeadingLine][j] * k|};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(3.015427, -9.951535) {\verb||};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(0.574012, -10.247914) {\verb|(вычесть ведущую строку indexLeadingLine|};
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(2.289581, -10.544293) {\verb|из строки i)|};
+\draw[opacity=1.000000, fill=none, line width=0.013349 cm, colorEIICBSDDQKCCF] (2.997775,-8.813645) -- (2.997775,-9.125124);
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(2.804708, -9.011709) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013349cm, colorEIICBSDDQKCCF] (2.997775, -10.677784) -- (2.997775, -10.989263) -- (0.218035, -10.989263) -- (0.218035, -7.849055) -- (1.068596, -7.849055);
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(5.712551, -7.760061) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013349cm, colorEIICBSDDQKCCF] (4.926954, -7.849055) -- (5.777515, -7.849055) -- (5.777515, -11.211748) -- (2.997775, -11.211748);
+\draw[opacity=1.000000, fill=none, line width=0.013349 cm, colorEIICBSDDQKCCF] (2.997775,-6.572986) -- (2.997775,-6.884466);
+\draw[opacity=1.000000, fill=none, line width=0.013349 cm, colorEIICBSDDQKCCF] (2.997775,-5.217087) -- (2.997775,-5.528566);
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(2.804708, -5.415151) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013349cm, colorEIICBSDDQKCCF] (2.997775, -11.211748) -- (2.997775, -11.523228) -- (-0.004450, -11.523228) -- (-0.004450, -4.112037) -- (0.787676, -4.112037);
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(5.935036, -4.023043) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013349cm, colorEIICBSDDQKCCF] (5.207874, -4.112037) -- (6.000000, -4.112037) -- (6.000000, -11.745713) -- (2.997775, -11.745713);
+\draw[opacity=1.000000, fill=none, line width=0.013349 cm, colorEIICBSDDQKCCF] (2.997775,-2.695508) -- (2.997775,-3.006987);
+\draw[opacity=1.000000, rounded corners=0.237184 cm, fill=colorEIICBSDRIMPGMFI, draw=none] (1.929205,-12.057192) -- (4.066345,-12.057192) -- (4.066345,-12.531559) -- (1.929205,-12.531559) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.237184 cm, fill=none, line width=0.022249cm, colorEIICBSDDQKCCF] (1.929205,-12.057192) -- (4.066345,-12.057192) -- (4.066345,-12.531559) -- (1.929205,-12.531559) -- cycle;
+\verbatimfont{\normalsize\fontEIICBSDAOSSSRRQ}
+\node[opacity=1.000000, above right, colorEIICBSDDQKCCF] at(2.166389, -12.398068) {\verb|Выход (origin)|};
+\draw[opacity=1.000000, fill=none, line width=0.013349 cm, colorEIICBSDDQKCCF] (2.997775,-11.745713) -- (2.997775,-12.057192);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgEIICBSD}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

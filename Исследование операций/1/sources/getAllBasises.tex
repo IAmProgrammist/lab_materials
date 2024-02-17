@@ -1,0 +1,204 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report1.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{backgrounds}
+\usepackage{fontspec}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgSKKEKPF}
+\begin{lrbox}{\bdgSKKEKPF}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontSKKEKPFHDFCBSCT[Scale=0.463145, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorSKKEKPFRILQKDK}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorSKKEKPFLRDQCS}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorSKKEKPFQPNBSOLF}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.174181 cm, fill=colorSKKEKPFRILQKDK, draw=none] (5.468141,0.003268) -- (7.671524,0.003268) -- (7.671524,-0.345095) -- (5.468141,-0.345095) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.174181 cm, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (5.468141,0.003268) -- (7.671524,0.003268) -- (7.671524,-0.345095) -- (5.468141,-0.345095) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.642322, -0.247063) {\verb|getAllBasises(origin)|};
+\draw[fill=colorSKKEKPFRILQKDK, draw=none, opacity=1.000000] (4.999559,-0.573837) -- (8.140105,-0.573837) -- (8.140105,-0.915818) -- (4.999559,-0.915818) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.999559,-0.573837) -- (8.140105,-0.573837) -- (8.140105,-0.915818) -- (4.999559,-0.915818) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.097591, -0.817785) {\verb|result - массив полученных систем|};
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-0.345095) -- (6.569832,-0.573837);
+\draw[fill=colorSKKEKPFRILQKDK, draw=none, opacity=1.000000] (4.279753,-1.144560) -- (8.859911,-1.144560) -- (8.859911,-1.899508) -- (4.279753,-1.899508) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.279753,-1.144560) -- (8.859911,-1.144560) -- (8.859911,-1.899508) -- (4.279753,-1.899508) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(4.377785, -1.383562) {\verb|indices - массив неизвестных в системе, заполняем|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(4.784458, -1.588929) {\verb|его индексами 0 ... l - 1, где l - длина|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.949311, -1.801476) {\verb|матрицы origin|};
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-0.915818) -- (6.569832,-1.144560);
+\draw[opacity=1.000000, fill=colorSKKEKPFRILQKDK, draw=none] (4.623034, -3.101649) -- (5.596433, -2.128250) -- (7.543231, -2.128250) -- (8.516630, -3.101649) -- (7.543231, -4.075048) -- (5.596433, -4.075048) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.623034, -3.101649) -- (5.596433, -2.128250) -- (7.543231, -2.128250) -- (8.516630, -3.101649) -- (7.543231, -4.075048) -- (5.596433, -4.075048) --cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.633945, -2.857183) {\verb|Для каждого сочетания|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.190414, -3.074836) {\verb|в indices из l по h (h - высота|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.369597, -3.292489) {\verb|матрицы) получить набор ба-|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.503985, -3.472965) {\verb|зисных неизвестных basis|};
+\draw[opacity=1.000000, fill=colorSKKEKPFRILQKDK, draw=none] (5.079777, -5.048818) -- (5.824804, -4.303791) -- (7.314860, -4.303791) -- (8.059888, -5.048818) -- (7.314860, -5.793846) -- (5.824804, -5.793846) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (5.079777, -5.048818) -- (5.824804, -4.303791) -- (7.314860, -4.303791) -- (8.059888, -5.048818) -- (7.314860, -5.793846) -- (5.824804, -5.793846) --cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.544194, -4.924148) {\verb|Для каждой перестановки |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.594335, -5.136695) {\verb|строк в матрице origin |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.816200, -5.317171) {\verb|matrixPermutation|};
+\draw[opacity=1.000000, fill=colorSKKEKPFRILQKDK, draw=none] (5.288087, -6.663461) -- (5.928960, -6.022588) -- (7.210704, -6.022588) -- (7.851577, -6.663461) -- (7.210704, -7.304333) -- (5.928960, -7.304333) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (5.288087, -6.663461) -- (5.928960, -6.022588) -- (7.210704, -6.022588) -- (7.851577, -6.663461) -- (7.210704, -7.304333) -- (5.928960, -7.304333) --cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(6.178795, -6.612195) {\verb|i := 0..h |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.650539, -6.829848) {\verb|(для каждой строки i)|};
+\draw[opacity=1.000000, fill=colorSKKEKPFRILQKDK, draw=none] (5.071057, -8.282463) -- (6.569832, -9.031850) -- (8.068607, -8.282463) -- (6.569832, -7.533075) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (5.071057, -8.282463) -- (6.569832, -9.031850) -- (8.068607, -8.282463) -- (6.569832, -7.533075) --cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.726489, -8.245477) {\verb|Разрешающий элемент|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.736541, -8.463130) {\verb|(basis[i]) равен 0?|};
+\draw[opacity=1.000000, fill=colorSKKEKPFRILQKDK, draw=none] (4.896421, -10.097298) -- (6.569832, -10.934004) -- (8.243243, -10.097298) -- (6.569832, -9.260593) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.896421, -10.097298) -- (6.569832, -10.934004) -- (8.243243, -10.097298) -- (6.569832, -9.260593) --cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.547704, -10.065100) {\verb|Коэффициенты в i строке|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.775792, -10.275892) {\verb|содержат только 0?|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (4.896421, -10.097298) -- (3.799125, -10.097298) -- (3.799125, -11.162746);
+\draw[opacity=1.000000, fill=colorSKKEKPFRILQKDK, draw=none] (2.879082, -11.622768) -- (3.799125, -12.082789) -- (4.719168, -11.622768) -- (3.799125, -11.162746) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (2.879082, -11.622768) -- (3.799125, -12.082789) -- (4.719168, -11.622768) -- (3.799125, -11.162746) --cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(3.319574, -11.695965) {\verb|bi равен 0?|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (2.879082, -11.622768) -- (2.061316, -11.622768) -- (2.061316, -12.311531);
+\draw[fill=colorSKKEKPFRILQKDK, draw=none, opacity=1.000000] (0.486894,-12.311531) -- (3.635738,-12.311531) -- (3.635738,-13.885953) -- (0.486894,-13.885953) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (0.486894,-12.311531) -- (3.635738,-12.311531) -- (3.635738,-13.885953) -- (0.486894,-13.885953) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (0.723057,-12.311531) -- (3.399574,-12.311531) -- (3.399574,-13.885953) -- (0.723057,-13.885953) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.350884, -12.556437) {\verb|Удалить строку i |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.590341, -12.736035) {\verb|из матрицы, |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.625483, -12.945551) {\verb|полученной |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.185542, -13.154588) {\verb|перестановкой строк,|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.306248, -13.365858) {\verb|и вызвать функцию |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.398751, -13.578405) {\verb|getAllBasises с |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(1.221243, -13.787921) {\verb|полученной матрицей|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(2.061316, -11.557413) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (4.719168, -11.622768) -- (5.184478, -11.622768) -- (5.184478, -12.311531);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.136771, -11.557413) {\verb|-|};
+\draw[opacity=1.000000, rounded corners=0.256282 cm, fill=colorSKKEKPFRILQKDK, draw=none] (3.962512,-12.311531) -- (6.406445,-12.311531) -- (6.406445,-12.824095) -- (3.962512,-12.824095) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.256282 cm, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (3.962512,-12.311531) -- (6.406445,-12.311531) -- (6.406445,-12.824095) -- (3.962512,-12.824095) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(4.261077, -12.516547) {\verb|Система несовместима. |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(4.218794, -12.726063) {\verb|Вернуть пустой массив.|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (5.184478, -12.824095) -- (5.184478, -14.114695) -- (3.799125, -14.114695);
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (2.061316, -13.885953) -- (2.061316, -14.114695) -- (3.799125, -14.114695);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(3.799125, -10.031943) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (8.243243, -10.097298) -- (8.406631, -10.097298) -- (8.406631, -11.162746);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(8.358923, -10.031943) {\verb|-|};
+\draw[fill=colorSKKEKPFRILQKDK, draw=none, opacity=1.000000] (7.466811,-11.162746) -- (9.346451,-11.162746) -- (9.346451,-11.682570) -- (7.466811,-11.682570) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (7.466811,-11.162746) -- (9.346451,-11.162746) -- (9.346451,-11.682570) -- (7.466811,-11.682570) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(7.564843, -11.404939) {\verb|Перейти к следующей |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(7.607046, -11.584538) {\verb|перестановке строк|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (8.406631, -11.682570) -- (8.406631, -14.343438) -- (6.569832, -14.343438);
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (3.799125, -14.114695) -- (3.799125, -14.343438) -- (6.569832, -14.343438);
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-9.031850) -- (6.569832,-9.260593);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(6.428049, -9.177303) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (8.068607, -8.282463) -- (9.509838, -8.282463) -- (9.509838, -9.260593);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(9.462130, -8.217108) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (9.509838, -9.260593) -- (9.509838, -14.572180) -- (6.569832, -14.572180);
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (6.569832, -14.343438) -- (6.569832, -14.572180) -- (6.569832, -14.572180);
+\draw[fill=colorSKKEKPFRILQKDK, draw=none, opacity=1.000000] (4.668806,-14.800922) -- (8.470858,-14.800922) -- (8.470858,-15.901265) -- (4.668806,-15.901265) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.668806,-14.800922) -- (8.470858,-14.800922) -- (8.470858,-15.901265) -- (4.668806,-15.901265) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.833858,-14.800922) -- (8.305806,-14.800922) -- (8.305806,-15.901265) -- (4.833858,-15.901265) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.409886, -15.047184) {\verb|Выбрать ведущую переменную |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.007640, -15.261247) {\verb|из basis[i], преобразовать i строку |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.456317, -15.440127) {\verb|и вычесть её из остальных|};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(6.587477, -15.585580) {\verb||};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(4.931890, -15.803233) {\verb|(вызов функции subtractLineFromOther)|};
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-14.572180) -- (6.569832,-14.800922);
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-7.304333) -- (6.569832,-7.533075);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(6.428049, -7.449786) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (6.569832, -15.901265) -- (6.569832, -16.130007) -- (0.323507, -16.130007) -- (0.323507, -6.663461) -- (5.288087, -6.663461);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(9.625518, -6.598106) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (7.851577, -6.663461) -- (9.673225, -6.663461) -- (9.673225, -16.293395) -- (6.569832, -16.293395);
+\draw[fill=colorSKKEKPFRILQKDK, draw=none, opacity=1.000000] (4.022267,-16.522137) -- (9.117397,-16.522137) -- (9.117397,-17.079537) -- (4.022267,-17.079537) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (4.022267,-16.522137) -- (9.117397,-16.522137) -- (9.117397,-17.079537) -- (4.022267,-17.079537) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(4.120298, -16.768399) {\verb|Полученную матрицу matrixPermutation добавить в result, |};
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.230183, -16.981504) {\verb|закончить перебор перестановок|};
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-16.293395) -- (6.569832,-16.522137);
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-5.793846) -- (6.569832,-6.022588);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(6.428049, -5.939299) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (6.569832, -17.079537) -- (6.569832, -17.308279) -- (0.160120, -17.308279) -- (0.160120, -5.048818) -- (5.079777, -5.048818);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(9.788905, -4.983463) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (8.059888, -5.048818) -- (9.836613, -5.048818) -- (9.836613, -17.471666) -- (6.569832, -17.471666);
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-4.075048) -- (6.569832,-4.303791);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(6.428049, -4.220501) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (6.569832, -17.471666) -- (6.569832, -17.700408) -- (-0.003268, -17.700408) -- (-0.003268, -3.101649) -- (4.623034, -3.101649);
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(9.952292, -3.036294) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.009803cm, colorSKKEKPFQPNBSOLF] (8.516630, -3.101649) -- (10.000000, -3.101649) -- (10.000000, -17.863796) -- (6.569832, -17.863796);
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-1.899508) -- (6.569832,-2.128250);
+\draw[opacity=1.000000, rounded corners=0.170990 cm, fill=colorSKKEKPFRILQKDK, draw=none] (5.782589,-18.092538) -- (7.357075,-18.092538) -- (7.357075,-18.434518) -- (5.782589,-18.434518) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.170990 cm, fill=none, line width=0.016339cm, colorSKKEKPFQPNBSOLF] (5.782589,-18.092538) -- (7.357075,-18.092538) -- (7.357075,-18.434518) -- (5.782589,-18.434518) -- cycle;
+\verbatimfont{\normalsize\fontSKKEKPFHDFCBSCT}
+\node[opacity=1.000000, above right, colorSKKEKPFQPNBSOLF] at(5.953579, -18.336486) {\verb|Вернуть result|};
+\draw[opacity=1.000000, fill=none, line width=0.009803 cm, colorSKKEKPFQPNBSOLF] (6.569832,-17.863796) -- (6.569832,-18.092538);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{14.000000cm}{!}{\usebox{\bdgSKKEKPF}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
