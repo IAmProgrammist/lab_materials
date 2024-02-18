@@ -22,177 +22,184 @@
 % С линияи и вставьте в документ.
 
 % --------------------------
-\newsavebox{\bdgLISMCB}
-\begin{lrbox}{\bdgLISMCB}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\newsavebox{\bdgCFTSHPC}
+\begin{lrbox}{\bdgCFTSHPC}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
 \makeatletter
 \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
 \makeatother
 % Шрифты
-\newfontfamily\fontLISMCBFOCSESEB[Scale=0.673663, SizeFeatures={Size=10.000000}]{Consolas}
+\newfontfamily\fontCFTSHPCPBQEKR[Scale=0.673663, SizeFeatures={Size=10.000000}]{Consolas}
 
 % Цвета
-\definecolor{colorLISMCBQRQBGAL}{rgb}{1.000000,1.000000,1.000000}
-\definecolor{colorLISMCBDKMJMIQ}{rgb}{1.000000,1.000000,1.000000}
-\definecolor{colorLISMCBGHECKNNF}{rgb}{0.000000,0.000000,0.000000}
-\draw[opacity=1.000000, rounded corners=0.219470 cm, fill=colorLISMCBQRQBGAL, draw=none] (3.753106,0.004753) -- (5.508863,0.004753) -- (5.508863,-0.434186) -- (3.753106,-0.434186) -- cycle;
-\draw[opacity=1.000000, rounded corners=0.219470 cm, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (3.753106,0.004753) -- (5.508863,0.004753) -- (5.508863,-0.434186) -- (3.753106,-0.434186) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.250774, -0.291594) {\verb|Начало|};
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (3.062240,-0.766901) -- (6.199729,-0.766901) -- (6.199729,-1.252025) -- (3.062240,-1.252025) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (3.062240,-0.766901) -- (6.199729,-0.766901) -- (6.199729,-1.252025) -- (3.062240,-1.252025) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.204832, -1.109433) {\verb|Инициализируем матрицу|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-0.434186) -- (4.630984,-0.766901);
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (2.026223,-1.584739) -- (7.235745,-1.584739) -- (7.235745,-2.394687) -- (2.026223,-2.394687) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.026223,-1.584739) -- (7.235745,-1.584739) -- (7.235745,-2.394687) -- (2.026223,-2.394687) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.147716,-1.584739) -- (7.114253,-1.584739) -- (7.114253,-2.394687) -- (2.147716,-2.394687) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.753140, -1.942937) {\verb|Получаем все базисные решения |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.290308, -2.252095) {\verb|для матрицы при помощи getAllBasises|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-1.252025) -- (4.630984,-1.584739);
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (2.347017,-2.727402) -- (6.914952,-2.727402) -- (6.914952,-4.076061) -- (2.347017,-4.076061) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.347017,-2.727402) -- (6.914952,-2.727402) -- (6.914952,-4.076061) -- (2.347017,-4.076061) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.536363, -3.069237) {\verb|Вводим переменные |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.939039, -3.330470) {\verb|для хранения максимального |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.489610, -3.639165) {\verb|значения функции maxFunctionValue|};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.491524, -3.933469) {\verb|и оптимального плана решения maxB|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-2.394687) -- (4.630984,-2.727402);
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (2.151893,-4.408776) -- (7.110076,-4.408776) -- (7.110076,-5.473923) -- (2.151893,-5.473923) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.151893,-4.408776) -- (7.110076,-4.408776) -- (7.110076,-5.473923) -- (2.151893,-5.473923) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.724931, -4.763608) {\verb|Задаём функцию |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.294486, -5.024725) {\verb|z = -3 * x1 + x2 + 121 * x3 - 7 * x6|};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.625088, -5.331331) {\verb|в виде массива с коэффициентами|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-4.076061) -- (4.630984,-4.408776);
-\draw[opacity=1.000000, fill=colorLISMCBQRQBGAL, draw=none] (2.937565, -6.653347) -- (3.784275, -5.806637) -- (5.477694, -5.806637) -- (6.324404, -6.653347) -- (5.477694, -7.500057) -- (3.784275, -7.500057) --cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.937565, -6.653347) -- (3.784275, -5.806637) -- (5.477694, -5.806637) -- (6.324404, -6.653347) -- (5.477694, -7.500057) -- (3.784275, -7.500057) --cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.112568, -6.590267) {\verb|Для всех |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.470335, -6.900934) {\verb|полученных базисов|};
-\draw[opacity=1.000000, fill=colorLISMCBQRQBGAL, draw=none] (2.986198, -8.655165) -- (4.630984, -9.477558) -- (6.275771, -8.655165) -- (4.630984, -7.832772) --cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.986198, -8.655165) -- (4.630984, -9.477558) -- (6.275771, -8.655165) -- (4.630984, -7.832772) --cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.856464, -8.615293) {\verb|Хоть один из |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.868126, -8.876410) {\verb|br меньше 0?|};
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (3.192787,-9.810273) -- (6.069182,-9.810273) -- (6.069182,-10.615811) -- (3.192787,-10.615811) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (3.192787,-9.810273) -- (6.069182,-9.810273) -- (6.069182,-10.615811) -- (3.192787,-10.615811) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.335379, -10.162552) {\verb|Перейти к следующему |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.529865, -10.473219) {\verb|базисному решению|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-9.477558) -- (4.630984,-9.810273);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.424755, -9.689125) {\verb|+|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (6.275771, -8.655165) -- (6.513424, -8.655165) -- (6.513424, -9.810273);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(6.444031, -8.560103) {\verb|-|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (6.513424, -9.810273) -- (6.513424, -10.948525) -- (4.630984, -10.948525);
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (4.630984, -10.615811) -- (4.630984, -10.948525) -- (4.630984, -10.948525);
-\draw[opacity=1.000000, fill=colorLISMCBQRQBGAL, draw=none] (2.264616, -12.464424) -- (3.447800, -11.281240) -- (5.814169, -11.281240) -- (6.997353, -12.464424) -- (5.814169, -13.647608) -- (3.447800, -13.647608) --cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.264616, -12.464424) -- (3.447800, -11.281240) -- (5.814169, -11.281240) -- (6.997353, -12.464424) -- (5.814169, -13.647608) -- (3.447800, -13.647608) --cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.073299, -12.152469) {\verb|Для каждого коэффициента |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.930499, -12.459771) {\verb|в функции z|};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.648633, -12.671338) {\verb||};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.947151, -12.987923) {\verb|(i := 0..6)|};
-\draw[opacity=1.000000, fill=colorLISMCBQRQBGAL, draw=none] (2.475208, -15.058211) -- (4.630984, -16.136099) -- (6.786760, -15.058211) -- (4.630984, -13.980323) --cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.475208, -15.058211) -- (4.630984, -16.136099) -- (6.786760, -15.058211) -- (4.630984, -13.980323) --cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.408833, -15.004530) {\verb|Базисная переменная|};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.669637, -15.311136) {\verb|есть в решении?|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (2.475208, -15.058211) -- (2.237555, -15.058211) -- (2.237555, -16.468814);
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (0.470554,-16.468814) -- (4.004557,-16.468814) -- (4.004557,-17.583510) -- (0.470554,-17.583510) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (0.470554,-16.468814) -- (4.004557,-16.468814) -- (4.004557,-17.583510) -- (0.470554,-17.583510) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(0.765218, -16.826315) {\verb|Прибавляем значение br, |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(0.613146, -17.133617) {\verb|умноженное на коэффициент |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(1.668951, -17.440918) {\verb|в функции|};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.237555, -14.963150) {\verb|+|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (6.786760, -15.058211) -- (7.024414, -15.058211) -- (7.024414, -16.468814);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(6.955021, -14.963150) {\verb|-|};
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (5.524134,-16.468814) -- (8.524693,-16.468814) -- (8.524693,-17.265301) -- (5.524134,-17.265301) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (5.524134,-16.468814) -- (8.524693,-16.468814) -- (8.524693,-17.265301) -- (5.524134,-17.265301) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(5.682740, -16.826315) {\verb|Переменная свободная, |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(5.666726, -17.122709) {\verb|следовательно равна 0|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (7.024414, -17.265301) -- (7.024414, -17.916225) -- (4.630984, -17.916225);
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (2.237555, -17.583510) -- (2.237555, -17.916225) -- (4.630984, -17.916225);
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-13.647608) -- (4.630984,-13.980323);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.424755, -13.859176) {\verb|+|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (4.630984, -17.916225) -- (4.630984, -18.248940) -- (0.232900, -18.248940) -- (0.232900, -12.464424) -- (2.264616, -12.464424);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(8.692954, -12.369363) {\verb|-|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (6.997353, -12.464424) -- (8.762347, -12.464424) -- (8.762347, -18.486593) -- (4.630984, -18.486593);
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-10.948525) -- (4.630984,-11.281240);
-\draw[opacity=1.000000, fill=colorLISMCBQRQBGAL, draw=none] (2.158333, -20.055633) -- (4.630984, -21.291959) -- (7.103635, -20.055633) -- (4.630984, -18.819308) --cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.158333, -20.055633) -- (4.630984, -21.291959) -- (7.103635, -20.055633) -- (4.630984, -18.819308) --cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.403321, -19.846967) {\verb|Полученное значение |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.725569, -20.157634) {\verb|функции больше |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.868010, -20.464239) {\verb|сохранённой?|};
-\draw[fill=colorLISMCBQRQBGAL, draw=none, opacity=1.000000] (2.739006,-21.624673) -- (6.522963,-21.624673) -- (6.522963,-22.637949) -- (2.739006,-22.637949) -- cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.739006,-21.624673) -- (6.522963,-21.624673) -- (6.522963,-22.637949) -- (2.739006,-22.637949) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.728006, -21.922877) {\verb|Запоминаем это |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.881598, -22.185387) {\verb|значение в maxFunctionValue|};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(2.883513, -22.495357) {\verb|и базисное решение и в maxB|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-21.291959) -- (4.630984,-21.624673);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.424755, -21.503526) {\verb|+|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (7.103635, -20.055633) -- (7.341289, -20.055633) -- (7.341289, -21.624673);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(7.271896, -19.960572) {\verb|-|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (7.341289, -21.624673) -- (7.341289, -22.970664) -- (4.630984, -22.970664);
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (4.630984, -22.637949) -- (4.630984, -22.970664) -- (4.630984, -22.970664);
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-18.486593) -- (4.630984,-18.819308);
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-7.500057) -- (4.630984,-7.832772);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.424755, -7.711624) {\verb|+|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (4.630984, -22.970664) -- (4.630984, -23.303379) -- (-0.004753, -23.303379) -- (-0.004753, -6.653347) -- (2.937565, -6.653347);
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(8.930607, -6.558286) {\verb|-|};
-\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorLISMCBGHECKNNF] (6.324404, -6.653347) -- (9.000000, -6.653347) -- (9.000000, -23.541032) -- (4.630984, -23.541032);
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-5.473923) -- (4.630984,-5.806637);
-\draw[opacity=1.000000, fill=colorLISMCBQRQBGAL, draw=none] (2.896776, -24.602813) -- (3.079043, -23.873747) -- (6.365192, -23.873747) -- (6.182926, -24.602813) --cycle;
-\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (2.896776, -24.602813) -- (3.079043, -23.873747) -- (6.365192, -23.873747) -- (6.182926, -24.602813) --cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(3.079043, -24.211405) {\verb|Выводим maxFunctionValue |};
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.255473, -24.460221) {\verb|и maxB|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-23.541032) -- (4.630984,-23.873747);
-\draw[opacity=1.000000, rounded corners=0.233279 cm, fill=colorLISMCBQRQBGAL, draw=none] (3.697870,-24.935528) -- (5.564099,-24.935528) -- (5.564099,-25.402085) -- (3.697870,-25.402085) -- cycle;
-\draw[opacity=1.000000, rounded corners=0.233279 cm, fill=none, line width=0.023765cm, colorLISMCBGHECKNNF] (3.697870,-24.935528) -- (5.564099,-24.935528) -- (5.564099,-25.402085) -- (3.697870,-25.402085) -- cycle;
-\verbatimfont{\normalsize\fontLISMCBFOCSESEB}
-\node[opacity=1.000000, above right, colorLISMCBGHECKNNF] at(4.316105, -25.259493) {\verb|Конец|};
-\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorLISMCBGHECKNNF] (4.630984,-24.602813) -- (4.630984,-24.935528);
+\definecolor{colorCFTSHPCRFHODD}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorCFTSHPCJHRJGPIH}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorCFTSHPCIMNMKMH}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.219470 cm, fill=colorCFTSHPCRFHODD, draw=none] (3.753106,0.004753) -- (5.508863,0.004753) -- (5.508863,-0.434186) -- (3.753106,-0.434186) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.219470 cm, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (3.753106,0.004753) -- (5.508863,0.004753) -- (5.508863,-0.434186) -- (3.753106,-0.434186) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.250774, -0.291594) {\verb|Начало|};
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (3.062240,-0.766901) -- (6.199729,-0.766901) -- (6.199729,-1.252025) -- (3.062240,-1.252025) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (3.062240,-0.766901) -- (6.199729,-0.766901) -- (6.199729,-1.252025) -- (3.062240,-1.252025) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.204832, -1.109433) {\verb|Инициализируем матрицу|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-0.434186) -- (4.630984,-0.766901);
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (2.026223,-1.584739) -- (7.235745,-1.584739) -- (7.235745,-2.394687) -- (2.026223,-2.394687) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.026223,-1.584739) -- (7.235745,-1.584739) -- (7.235745,-2.394687) -- (2.026223,-2.394687) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.147716,-1.584739) -- (7.114253,-1.584739) -- (7.114253,-2.394687) -- (2.147716,-2.394687) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.753140, -1.942937) {\verb|Получаем все базисные решения |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.290308, -2.252095) {\verb|для матрицы при помощи getAllBasises|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-1.252025) -- (4.630984,-1.584739);
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (2.347017,-2.727402) -- (6.914952,-2.727402) -- (6.914952,-4.076061) -- (2.347017,-4.076061) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.347017,-2.727402) -- (6.914952,-2.727402) -- (6.914952,-4.076061) -- (2.347017,-4.076061) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.536363, -3.069237) {\verb|Вводим переменные |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.939039, -3.330470) {\verb|для хранения максимального |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.489610, -3.639165) {\verb|значения функции maxFunctionValue|};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.491524, -3.933469) {\verb|и оптимального плана решения maxB|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-2.394687) -- (4.630984,-2.727402);
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (2.151893,-4.408776) -- (7.110076,-4.408776) -- (7.110076,-5.473923) -- (2.151893,-5.473923) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.151893,-4.408776) -- (7.110076,-4.408776) -- (7.110076,-5.473923) -- (2.151893,-5.473923) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.724931, -4.763608) {\verb|Задаём функцию |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.294486, -5.024725) {\verb|z = -3 * x1 + x2 + 121 * x3 - 7 * x6|};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.625088, -5.331331) {\verb|в виде массива с коэффициентами|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-4.076061) -- (4.630984,-4.408776);
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.937565, -6.653347) -- (3.784275, -5.806637) -- (5.477694, -5.806637) -- (6.324404, -6.653347) -- (5.477694, -7.500057) -- (3.784275, -7.500057) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.937565, -6.653347) -- (3.784275, -5.806637) -- (5.477694, -5.806637) -- (6.324404, -6.653347) -- (5.477694, -7.500057) -- (3.784275, -7.500057) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.112568, -6.590267) {\verb|Для всех |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.470335, -6.900934) {\verb|полученных базисов|};
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.986198, -8.655165) -- (4.630984, -9.477558) -- (6.275771, -8.655165) -- (4.630984, -7.832772) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.986198, -8.655165) -- (4.630984, -9.477558) -- (6.275771, -8.655165) -- (4.630984, -7.832772) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.856464, -8.615293) {\verb|Хоть один из |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.868126, -8.876410) {\verb|br меньше 0?|};
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (3.192787,-9.810273) -- (6.069182,-9.810273) -- (6.069182,-10.615811) -- (3.192787,-10.615811) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (3.192787,-9.810273) -- (6.069182,-9.810273) -- (6.069182,-10.615811) -- (3.192787,-10.615811) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.335379, -10.162552) {\verb|Перейти к следующему |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.529865, -10.473219) {\verb|базисному решению|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-9.477558) -- (4.630984,-9.810273);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.424755, -9.689125) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (6.275771, -8.655165) -- (6.513424, -8.655165) -- (6.513424, -9.810273);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(6.444031, -8.560103) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (6.513424, -9.810273) -- (6.513424, -10.948525) -- (4.630984, -10.948525);
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (4.630984, -10.615811) -- (4.630984, -10.948525) -- (4.630984, -10.948525);
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.264616, -12.464424) -- (3.447800, -11.281240) -- (5.814169, -11.281240) -- (6.997353, -12.464424) -- (5.814169, -13.647608) -- (3.447800, -13.647608) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.264616, -12.464424) -- (3.447800, -11.281240) -- (5.814169, -11.281240) -- (6.997353, -12.464424) -- (5.814169, -13.647608) -- (3.447800, -13.647608) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.073299, -12.152469) {\verb|Для каждого коэффициента |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.930499, -12.459771) {\verb|в функции z|};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.648633, -12.671338) {\verb||};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.947151, -12.987923) {\verb|(i := 0..6)|};
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.475208, -15.058211) -- (4.630984, -16.136099) -- (6.786760, -15.058211) -- (4.630984, -13.980323) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.475208, -15.058211) -- (4.630984, -16.136099) -- (6.786760, -15.058211) -- (4.630984, -13.980323) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.408833, -15.004530) {\verb|Базисная переменная|};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.669637, -15.311136) {\verb|есть в решении?|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (2.475208, -15.058211) -- (2.237555, -15.058211) -- (2.237555, -16.468814);
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (0.470554,-16.468814) -- (4.004557,-16.468814) -- (4.004557,-17.583510) -- (0.470554,-17.583510) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (0.470554,-16.468814) -- (4.004557,-16.468814) -- (4.004557,-17.583510) -- (0.470554,-17.583510) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(0.765218, -16.826315) {\verb|Прибавляем значение br, |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(0.613146, -17.133617) {\verb|умноженное на коэффициент |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(1.668951, -17.440918) {\verb|в функции|};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.237555, -14.963150) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (6.786760, -15.058211) -- (7.024414, -15.058211) -- (7.024414, -16.468814);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(6.955021, -14.963150) {\verb|-|};
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (5.524134,-16.468814) -- (8.524693,-16.468814) -- (8.524693,-17.265301) -- (5.524134,-17.265301) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (5.524134,-16.468814) -- (8.524693,-16.468814) -- (8.524693,-17.265301) -- (5.524134,-17.265301) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(5.682740, -16.826315) {\verb|Переменная свободная, |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(5.666726, -17.122709) {\verb|следовательно равна 0|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (7.024414, -17.265301) -- (7.024414, -17.916225) -- (4.630984, -17.916225);
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (2.237555, -17.583510) -- (2.237555, -17.916225) -- (4.630984, -17.916225);
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-13.647608) -- (4.630984,-13.980323);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.424755, -13.859176) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (4.630984, -17.916225) -- (4.630984, -18.248940) -- (0.232900, -18.248940) -- (0.232900, -12.464424) -- (2.264616, -12.464424);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(8.692954, -12.369363) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (6.997353, -12.464424) -- (8.762347, -12.464424) -- (8.762347, -18.486593) -- (4.630984, -18.486593);
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-10.948525) -- (4.630984,-11.281240);
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.619495, -19.620784) -- (2.819864, -18.819308) -- (6.642474, -18.819308) -- (6.442105, -19.620784) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.619495, -19.620784) -- (2.819864, -18.819308) -- (6.642474, -18.819308) -- (6.442105, -19.620784) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.013712, -19.170891) {\verb|Выводим найденное опорное |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.819864, -19.478192) {\verb|решение и значение функции z|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-18.486593) -- (4.630984,-18.819308);
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.158333, -21.189824) -- (4.630984, -22.426150) -- (7.103635, -21.189824) -- (4.630984, -19.953499) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.158333, -21.189824) -- (4.630984, -22.426150) -- (7.103635, -21.189824) -- (4.630984, -19.953499) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.403321, -20.981158) {\verb|Полученное значение |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.725569, -21.291825) {\verb|функции больше |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.868010, -21.598430) {\verb|сохранённой?|};
+\draw[fill=colorCFTSHPCRFHODD, draw=none, opacity=1.000000] (2.739006,-22.758865) -- (6.522963,-22.758865) -- (6.522963,-23.772141) -- (2.739006,-23.772141) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.739006,-22.758865) -- (6.522963,-22.758865) -- (6.522963,-23.772141) -- (2.739006,-23.772141) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.728006, -23.057069) {\verb|Запоминаем это |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.881598, -23.319578) {\verb|значение в maxFunctionValue|};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(2.883513, -23.629549) {\verb|и базисное решение и в maxB|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-22.426150) -- (4.630984,-22.758865);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.424755, -22.637717) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (7.103635, -21.189824) -- (7.341289, -21.189824) -- (7.341289, -22.758865);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(7.271896, -21.094763) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (7.341289, -22.758865) -- (7.341289, -24.104855) -- (4.630984, -24.104855);
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (4.630984, -23.772141) -- (4.630984, -24.104855) -- (4.630984, -24.104855);
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-19.620784) -- (4.630984,-19.953499);
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-7.500057) -- (4.630984,-7.832772);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.424755, -7.711624) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (4.630984, -24.104855) -- (4.630984, -24.437570) -- (-0.004753, -24.437570) -- (-0.004753, -6.653347) -- (2.937565, -6.653347);
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(8.930607, -6.558286) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014259cm, colorCFTSHPCIMNMKMH] (6.324404, -6.653347) -- (9.000000, -6.653347) -- (9.000000, -24.675223) -- (4.630984, -24.675223);
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-5.473923) -- (4.630984,-5.806637);
+\draw[opacity=1.000000, fill=colorCFTSHPCRFHODD, draw=none] (2.896776, -25.737005) -- (3.079043, -25.007938) -- (6.365192, -25.007938) -- (6.182926, -25.737005) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (2.896776, -25.737005) -- (3.079043, -25.007938) -- (6.365192, -25.007938) -- (6.182926, -25.737005) --cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(3.079043, -25.345596) {\verb|Выводим maxFunctionValue |};
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.255473, -25.594413) {\verb|и maxB|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-24.675223) -- (4.630984,-25.007938);
+\draw[opacity=1.000000, rounded corners=0.233279 cm, fill=colorCFTSHPCRFHODD, draw=none] (3.697870,-26.069719) -- (5.564099,-26.069719) -- (5.564099,-26.536277) -- (3.697870,-26.536277) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.233279 cm, fill=none, line width=0.023765cm, colorCFTSHPCIMNMKMH] (3.697870,-26.069719) -- (5.564099,-26.069719) -- (5.564099,-26.536277) -- (3.697870,-26.536277) -- cycle;
+\verbatimfont{\normalsize\fontCFTSHPCPBQEKR}
+\node[opacity=1.000000, above right, colorCFTSHPCIMNMKMH] at(4.316105, -26.393685) {\verb|Конец|};
+\draw[opacity=1.000000, fill=none, line width=0.014259 cm, colorCFTSHPCIMNMKMH] (4.630984,-25.737005) -- (4.630984,-26.069719);
 \end{tikzpicture}
 \end{lrbox}
 % Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
 % Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
-\resizebox{9.000000cm}{!}{\usebox{\bdgLISMCB}}
+\resizebox{9.000000cm}{!}{\usebox{\bdgCFTSHPC}}
 % --------------------------
 
 % Конец блок схемы
