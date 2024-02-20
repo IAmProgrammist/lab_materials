@@ -1,0 +1,164 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №1}}\\
+    \normalsize{
+        по дисциплине: ООП \\
+        тема: «Исследование кодирования по методу Хаффмана. Оценка эффективности кода.»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Твердохлеб Виталий Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №1}\\
+    Исследование кодирования по методу Хаффмана. Оценка эффективности кода.\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }исследовать кодирование по методу Хаффмана. Научиться оценивать эффективности кода.\\
+Задание 1. Построить кодовое представление сообщения, вероятности
+появления символов в пределах алфавита.\\
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Символ      & s1   & s2   & s3   & s4   & s5   & s6   & s7   & s8   \\
+        \hline
+        Вероятность & 0.23 & 0.19 & 0.16 & 0.16 & 0.10 & 0.10 & 0.05 & 0.01 \\
+        \hline
+    \end{tabular}
+    \includegraphics[width=120mm]{task1.jpg}\\
+\end{center}
+Задание 2. Построить кодовое представление сообщения, вероятности
+появления символов в пределах алфавита.\\
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Символ      & s1   & s2   & s3   & s4   & s5  & s6   & s7   & s8   \\
+        \hline
+        Вероятность & 0.25 & 0.22 & 0.13 & 0.11 & 0.1 & 0.09 & 0.07 & 0.03 \\
+        \hline
+    \end{tabular}
+    \includegraphics[width=120mm]{task2.jpg}\\
+\end{center}
+Задание 3. Построить кодовое представление сообщения:\\
+\textbf{оитомии о ими оооитми о о о ооиимтомиимотоим оои тоо и и м оио и омтоо тоимо т и}\\
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Символ     & о  & и  & т & м  & пробел \\
+        \hline
+        Количество & 25 & 19 & 8 & 10 & 18     \\
+        \hline
+    \end{tabular}
+    \includegraphics[width=120mm]{task3.jpg}\\
+\end{center}
+Задание 4. Для условий, приведенных в заданиях 1 и 2 и 3, выявить
+возможность построения альтернативных кодовых моделей сообщения. В
+случае обнаружения таковых, выявить наиболее эффективные из них по
+критериям $K_{comp}$ и $\delta$.\\
+Задание 1:\\
+Пусть n = 100\\
+$B = 100 \cdot 8 = 800$\\
+$B' = 23 \cdot 2 + 19 \cdot 2 + 16 \cdot 3 + 16 \cdot 3 + 10 \cdot 3 + 10 \cdot 4 + 5 \cdot 5 + 5 = 280$\\
+$K_{comp} = \frac{B}{B'} = \frac{800}{280} = 2\frac{6}{7}$\\
+$l_{ср} = 0.23 \cdot 2 + 0.19 \cdot 2 + 0.16 \cdot 3 + 0.16 \cdot 3 + 0.10 \cdot 3 + 0.10 \cdot 4 + 0.05 \cdot 5 + 0.01 \cdot 5 = 2.8$\\
+$\delta = 0.23 \cdot (2 - 2.8)^2 + 0.19 \cdot (2 - 2.8)^2 + 0.16 \cdot (3 - 2.8)^2 + 0.16 \cdot (3 - 2.8)^2 + 0.10 \cdot (3 - 2.8)^2 + 0.10 \cdot (4 - 2.8)^2 + 0.05 \cdot (5 - 2.8)^2 + 0.01 \cdot (5 - 2.8)^2 = 0.72$\\
+
+Варианты появляются на 3 шаге формирования дерева:
+\begin{center}
+    \includegraphics[width=120mm]{task1_var1.jpg}\\
+\end{center}
+Длина символов не поменялась, следовательно дисперсия не изменится.\\
+
+Задание 2:\\
+Пусть n = 100\\
+$B = 100 \cdot 8 = 800$\\
+$B' = 25 \cdot 2 + 22 \cdot 2 + 13 \cdot 3 + 11 \cdot 3 + 10 \cdot 4 + 9 \cdot 4 + 7 \cdot 4 + 3 \cdot 4 = 282$\\
+$K_{comp} = \frac{B}{B'} = \frac{800}{282} = 2\frac{118}{141}$\\
+$l_{ср} = 0.25 \cdot 2 + 0.22 \cdot 2 + 0.13 \cdot 3 + 0.11 \cdot 3 + 0.1 \cdot 4 + 0.09 \cdot 4 + 0.07 \cdot 4 + 0.03 \cdot 4 = 2.82$\\
+$\delta = 0.25 \cdot (2 - 2.82)^2 + 0.22 \cdot (2 - 2.82)^2 + 0.13 \cdot (3 - 2.82)^2 + 0.11 \cdot (3 - 2.82)^2 + 0.1 \cdot (4 - 2.82)^2 + 0.09 \cdot (4 - 2.82)^2 + 0.07 \cdot (4 - 2.82)^2 + 0.03 \cdot (4 - 2.82)^2 = 0.7276$\\
+
+Варианты появляются на 2 шаге формирования дерева:
+\begin{center}
+    \includegraphics[width=120mm]{task2_var1.jpg}\\
+\end{center}
+
+$B' = 25 \cdot 2 + 22 \cdot 2 + 13 \cdot 3 + 11 \cdot 3 + 10 \cdot 3 + 9 \cdot 4 + 7 \cdot 5 + 3 \cdot 5 = 282$\\
+$K_{comp} = \frac{B}{B'} = \frac{800}{282} = 2\frac{118}{141}$\\
+$l_{ср} = 0.25 \cdot 2 + 0.22 \cdot 2 + 0.13 \cdot 3 + 0.11 \cdot 3 + 0.1 \cdot 3 + 0.09 \cdot 4 + 0.07 \cdot 5 + 0.03 \cdot 5 = 2.82$\\
+$\delta = 0.25 \cdot (2 - 2.82)^2 + 0.22 \cdot (2 - 2.82)^2 + 0.13 \cdot (3 - 2.82)^2 + 0.11 \cdot (3 - 2.82)^2 + 0.1 \cdot (3 - 2.82)^2 + 0.09 \cdot (4 - 2.82)^2 + 0.07 \cdot (5 - 2.82)^2 + 0.03 \cdot (5 - 2.82)^2 = 0.9276$\\
+
+У первого варианта дисперсия меньше.\\
+
+Задание 3:\\
+$B = 80 \cdot 8 = 640$\\
+$B' = 8 \cdot 3 + 10 \cdot 3 + 18 \cdot 2 + 19 \cdot 2 + 25 \cdot 2 = 178$\\
+$K_{comp} = \frac{B}{B'} = \frac{640}{178} = 3\frac{53}{89}$\\
+$l_{ср} = \frac{8}{80} \cdot 3 + \frac{10}{80} \cdot 3 + \frac{18}{80} \cdot 2 + \frac{19}{80} \cdot 2 + \frac{25}{80} \cdot 2 = 2.225$\\
+$\delta = \frac{8}{80} \cdot (3 - 2.225)^2 + \frac{10}{80} \cdot (3 - 2.225)^2 + \frac{18}{80} \cdot (2 - 2.225)^2 + \frac{19}{80} \cdot (2 - 2.225)^2 + \frac{25}{80} \cdot (2 - 2.225)^2 = 0.174375$\\ 
+
+\textbf{Вывод: } в ходе лабораторной работы изучили функциональные возможности интегрированной
+среды разработки QT для создания форм и консольных приложений.
+
+\end{document}
