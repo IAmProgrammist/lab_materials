@@ -1,0 +1,1 @@
+Лабораторная работа №1: https://colab.research.google.com/drive/190MznyC-mLpN2jbWZiaI-IwUJi4J4ms1?usp=sharing
