@@ -1,0 +1,214 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №4}}\\
+    \normalsize{
+        по дисциплине: ООП \\
+        тема: «Классы»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Черников Сергей Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №4}\\
+    «Классы»\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }приобретение практических навыков создания класса на
+языке С++.
+
+\textbf{Задание 1}\\
+Выполнить построение диаграммы объектов в соответствии с заданием варианта.\\
+Выполнить
+построение объектной
+модели следующей
+предметной области:
+“органайзер”.\\
+\includegraphics[width=190mm]{task1}
+
+\textbf{Задание 2}\\
+Создать класс для работы с датой.
+Разработать следующие элементы
+класса:
+\begin{enumerate}[label=\asbuk*),ref=\asbuk*]
+    \item Поле DataTime data.
+    \item Конструкторы, позволяющие
+    установить:\\
+    заданную дату;\\
+    дату 1.01.2009.
+    \item Методы, позволяющие:
+    вычислить дату предыдущего дня;
+    вычислить дату следующего дня;
+    определить сколько дней осталось до
+    конца месяца.
+    \item Перегрузить (переопределить):
+    логический сдвиг влево
+    операция “больше или равно”.
+\end{enumerate}
+
+\textit{date.h}
+\begin{minted}{C++}
+#pragma once
+
+#include <boost/date_time.hpp>
+
+class Date {
+    boost::gregorian::date data;
+public:
+    Date(boost::gregorian::date newDate) : data(newDate) {};
+    Date(int d, int m, int y) : data(y, m, d) {};
+
+    Date getDayAfter();
+    Date getDayBefore();
+    int getDaysBeforeMonthEnd();
+    boost::gregorian::date getData();
+
+    Date& operator<<(int amount);
+    Date& operator>>(int amount);
+    bool operator>=(Date& another) const;
+};
+
+\end{minted}
+
+\textit{date.cpp}
+\begin{minted}{C++}
+#include "date.h"
+
+Date Date::getDayAfter() {
+    return Date(this->data + boost::gregorian::days(1));
+}
+
+Date Date::getDayBefore() {
+    return Date(this->data - boost::gregorian::days(1));
+}
+
+int Date::getDaysBeforeMonthEnd() {
+    boost::gregorian::date date_next_month = this->data.end_of_month() + boost::gregorian::days(1);
+
+    return (date_next_month - this->data).days();
+}
+
+Date& Date::operator<<(int amount) {
+    this->data = this->data - boost::gregorian::days(amount);
+
+    return *this;
+}
+
+Date& Date::operator>>(int amount) {
+    this->data = this->data + boost::gregorian::days(amount);
+
+    return *this;
+}
+
+bool Date::operator>=(Date& another) const {
+    if (this->data.year() < another.data.year()) return false;
+    if (this->data.year() > another.data.year()) return true;
+
+    if (this->data.month() < another.data.month()) return false;
+    if (this->data.month() > another.data.month()) return true;
+
+    return this->data.day() >= another.data.day();
+}
+
+boost::gregorian::date Date::getData() {
+    return this->data;
+}
+
+\end{minted}
+
+\textit{main.cpp}
+\begin{minted}{C++}
+#include <iostream>
+
+#include "../libs/alg/date/date.h"
+
+int main() {
+    Date d(23, 11, 2023);
+
+    Date a_lot_of_days_later = d.getDayAfter().getDayAfter().getDayAfter().getDayAfter().getDayAfter().getDayAfter();
+    Date a_lot_of_days_before = d.getDayBefore().getDayBefore().getDayBefore().getDayBefore().getDayBefore();
+
+    Date time_travel = d << 1 >> 312 << 23 >> 121 >> 90 << 80;
+
+    std::cout << a_lot_of_days_before.getData() << " " << a_lot_of_days_before.getDaysBeforeMonthEnd() << std::endl;
+    std::cout << a_lot_of_days_later.getData() << " " << a_lot_of_days_later.getDaysBeforeMonthEnd() << std::endl;
+    std::cout << "Is a_lot_of_days_before >= a_lot_of_days_later? " << (a_lot_of_days_before >= a_lot_of_days_later) << std::endl;
+    std::cout << time_travel.getData() << std::endl;
+}
+
+\end{minted}
+
+Результаты выполнения программы:
+\begin{minted}{console}
+2023-Nov-18 13
+2023-Nov-29 2
+Is a_lot_of_days_before >= a_lot_of_days_later? 0
+2025-Jan-15
+\end{minted}
+
+\textbf{Вывод: } в ходе лабораторной работы приобрели практические навыки создания класса на
+языке С++.
+
+\end{document}
