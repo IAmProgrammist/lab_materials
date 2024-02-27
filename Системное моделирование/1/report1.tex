@@ -1,0 +1,265 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage[table]{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\definecolor{Yellow}{rgb}{1,1,0}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №1}}\\
+    \normalsize{
+        по дисциплине: Системное моделирование \\
+        тема: «Поведение механических систем в статике»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверил: Полунин Александр Иванович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №1}\\
+    Поведение механических систем в статике\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }научиться моделировать на примере моделирования поведения механической системы в статике.
+\begin{enumerate}[1. ]
+    \item Разработать математическую модель, описывающую поведение элементов механической системы в статике.\\
+          \begin{center}
+              \includegraphics[width=140mm]{variant.png}
+              \bigbreak
+              \includegraphics[width=140mm]{mod1.jpg}
+              \includegraphics[width=140mm]{mod2.jpg}
+          \end{center}
+    \item Разработать программу на основании математической модели и произвести расчёты.
+          \begin{minted}{C++}
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+
+#define PI 3.141592654
+#define g 9.81
+#define k1 5000.0
+#define k2 7000.0
+#define I 5.0
+#define R 1.0
+#define r 0.2
+#define m 10.0
+#define e 0.0000000001
+#define es 0.00001
+
+
+double getM2(double P) {
+    return -(m * g + P) * R;
+}
+
+double getM1(double angle) {
+    return k1 * angle * PI * r * r / 180.0;
+}
+
+double getM(double angle, double P) {
+    return getM1(angle) + getM2(P);
+}
+
+double getDeriative(double angle, double P) {
+    return (getM(angle + e, P) - getM(angle, P)) / e;
+}
+
+double getDelta(double angle, double P) {
+    return getM(angle, P) / getDeriative(angle, P);
+}
+
+struct result {
+    double angle;
+    bool succeed;
+    double P;
+};
+
+result newton(double P) {
+    double angle = 0;
+    int c = 0;
+    double delta = getDelta(angle, P);
+    while (std::abs(getM(angle, P)) >= es && c < 100) {
+        c++;
+        angle -= delta;
+        delta = getDelta(angle, P);
+    }
+
+    return (result) {angle, std::abs(getM(angle, P)) < es, P };   
+}
+
+double getY(double angle, double P) {
+    return (angle * PI * R) / 180.0 + (m * g + P) / k2;
+}
+
+int main() {
+    double P = 0;
+    double stepP = 100.0;
+
+    std::cout << std::setw(15) << "P" << "    " << std::setw(15) << "angle" << "    " << std::setw(15) << "Y" << std::endl;
+    while (stepP > es) {
+        result res = newton(-P);
+        
+        std::cout << std::setw(15) << res.P << "    " << std::setw(15) << res.angle << "    " << std::setw(15) << getY(res.angle, res.P) << std::endl;
+
+        if (res.angle > 0)
+            P += stepP;
+        else {
+            P -= stepP;
+            stepP /= 2;
+            P += stepP;
+        } 
+    }
+}
+    \end{minted}
+          Результаты выполнения программы:
+
+          \begin{center}
+              \begin{tabular}{|c|c|c|}
+                  \hline
+                  $P$      & $\alpha$     & $y$          \\
+                  \hline
+                  -0       & 28.1036      & 0.504514     \\
+                  \hline
+                  -100     & -0.54431     & -0.00977143  \\
+                  \hline
+                  -50      & 13.7796      & 0.247371     \\
+                  \hline
+                  -100     & -0.54431     & -0.00977143  \\
+                  \hline
+                  -75      & 6.61766      & 0.1188       \\
+                  \hline
+                  -100     & -0.54431     & -0.00977143  \\
+                  \hline
+                  -87.5    & 3.03668      & 0.0545143    \\
+                  \hline
+                  -100     & -0.54431     & -0.00977143  \\
+                  \hline
+                  -93.75   & 1.24618      & 0.0223714    \\
+                  \hline
+                  -100     & -0.54431     & -0.00977143  \\
+                  \hline
+                  -96.875  & 0.350937     & 0.0063       \\
+                  \hline
+                  -100     & -0.54431     & -0.00977143  \\
+                  \hline
+                  -98.4375 & -0.0966866   & -0.00173571  \\
+                  \hline
+                  -97.6562 & 0.127125     & 0.00228214   \\
+                  \hline
+                  -98.4375 & -0.0966866   & -0.00173571  \\
+                  \hline
+                  -98.0469 & 0.0152192    & 0.000273214  \\
+                  \hline
+                  -98.4375 & -0.0966866   & -0.00173571  \\
+                  \hline
+                  -98.2422 & -0.0407337   & -0.00073125  \\
+                  \hline
+                  -98.1445 & -0.0127573   & -0.000229018 \\
+                  \hline
+                  -98.0957 & 0.00123096   & 2.20982e-05  \\
+                  \hline
+                  -98.1445 & -0.0127573   & -0.000229018 \\
+                  \hline
+                  -98.1201 & -0.00576315  & -0.00010346  \\
+                  \hline
+                  -98.1079 & -0.00226609  & -4.06808e-05 \\
+                  \hline
+                  -98.1018 & -0.000517564 & -9.29129e-06 \\
+                  \hline
+                  -98.0988 & 0.0003567    & 6.40346e-06  \\
+                  \hline
+                  -98.1018 & -0.000517564 & -9.29129e-06 \\
+                  \hline
+                  -98.1003 & -8.04323e-05 & -1.44392e-06 \\
+                  \hline
+                  -98.0995 & 0.000138134  & 2.47977e-06  \\
+                  \hline
+                  -98.1003 & -8.04323e-05 & -1.44392e-06 \\
+                  \hline
+                  -98.0999 & 2.88507e-05  & 5.17927e-07  \\
+                  \hline
+                  -98.1003 & -8.04323e-05 & -1.44392e-06 \\
+                  \hline
+                  -98.1001 & -2.57908e-05 & -4.62995e-07 \\
+                  \hline
+                  -98.1    & 0            & 7.62939e-10  \\
+                  \hline
+                  -98.0999 & 1.51903e-05  & 2.72696e-07  \\
+                  \hline
+                  -98.1    & 0            & 7.62939e-10  \\
+                  \hline
+                  -98.1    & 8.36015e-06  & 1.50081e-07  \\
+                  \hline
+                  -98.1    & 0            & 7.62939e-10  \\
+                  \hline
+                  -98.1    & 4.94506e-06  & 8.87735e-08  \\
+                  \hline
+                  \rowcolor{Yellow}
+                  -98.1    & 0            & 7.62939e-10  \\
+                  \hline
+              \end{tabular}
+          \end{center}
+
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили основные шаги моделирования, 
+промоделировали поведение механической системы в статике.
+
+\end{document}
