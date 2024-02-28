@@ -1,0 +1,68 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report2.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgTKAQDO}
+\begin{lrbox}{\bdgTKAQDO}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontTKAQDOAEPMCHT[Scale=0.653823, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorTKAQDOSJKCHPFH}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorTKAQDOBMQFAKL}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorTKAQDOAMSMJLL}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.213006 cm, fill=colorTKAQDOSJKCHPFH, draw=none] (1.645669,0.004613) -- (3.349718,0.004613) -- (3.349718,-0.421399) -- (1.645669,-0.421399) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.213006 cm, fill=none, line width=0.023065cm, colorTKAQDOAMSMJLL] (1.645669,0.004613) -- (3.349718,0.004613) -- (3.349718,-0.421399) -- (1.645669,-0.421399) -- cycle;
+\verbatimfont{\normalsize\fontTKAQDOAEPMCHT}
+\node[opacity=1.000000, above right, colorTKAQDOAMSMJLL] at(2.128680, -0.283007) {\verb|Начало|};
+\draw[fill=colorTKAQDOSJKCHPFH, draw=none, opacity=1.000000] (0.975150,-0.744315) -- (4.020237,-0.744315) -- (4.020237,-1.513403) -- (0.975150,-1.513403) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023065cm, colorTKAQDOAMSMJLL] (0.975150,-0.744315) -- (4.020237,-0.744315) -- (4.020237,-1.513403) -- (0.975150,-1.513403) -- cycle;
+\verbatimfont{\normalsize\fontTKAQDOAEPMCHT}
+\node[opacity=1.000000, above right, colorTKAQDOAMSMJLL] at(1.113542, -1.076759) {\verb|Инициализируем матрицу|};
+\verbatimfont{\normalsize\fontTKAQDOAEPMCHT}
+\node[opacity=1.000000, above right, colorTKAQDOAMSMJLL] at(1.939021, -1.375011) {\verb|и функцию|};
+\draw[opacity=1.000000, fill=none, line width=0.013839 cm, colorTKAQDOAMSMJLL] (2.497693,-0.421399) -- (2.497693,-0.744315);
+\draw[opacity=1.000000, fill=colorTKAQDOSJKCHPFH, draw=none] (-0.004613, -2.596397) -- (0.185406, -1.836319) -- (5.000000, -1.836319) -- (4.809980, -2.596397) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023065cm, colorTKAQDOAMSMJLL] (-0.004613, -2.596397) -- (0.185406, -1.836319) -- (5.000000, -1.836319) -- (4.809980, -2.596397) --cycle;
+\verbatimfont{\normalsize\fontTKAQDOAEPMCHT}
+\node[opacity=1.000000, above right, colorTKAQDOAMSMJLL] at(1.875952, -2.150743) {\verb|Вывод Zmax|};
+\verbatimfont{\normalsize\fontTKAQDOAEPMCHT}
+\node[opacity=1.000000, above right, colorTKAQDOAMSMJLL] at(0.185406, -2.458005) {\verb|(вызов функции solveSimplexMethodMax)|};
+\draw[opacity=1.000000, fill=none, line width=0.013839 cm, colorTKAQDOAMSMJLL] (2.497693,-1.513403) -- (2.497693,-1.836319);
+\draw[opacity=1.000000, rounded corners=0.226408 cm, fill=colorTKAQDOSJKCHPFH, draw=none] (1.592060,-2.919313) -- (3.403327,-2.919313) -- (3.403327,-3.372130) -- (1.592060,-3.372130) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.226408 cm, fill=none, line width=0.023065cm, colorTKAQDOAMSMJLL] (1.592060,-2.919313) -- (3.403327,-2.919313) -- (3.403327,-3.372130) -- (1.592060,-3.372130) -- cycle;
+\verbatimfont{\normalsize\fontTKAQDOAEPMCHT}
+\node[opacity=1.000000, above right, colorTKAQDOAMSMJLL] at(2.192088, -3.233738) {\verb|Конец|};
+\draw[opacity=1.000000, fill=none, line width=0.013839 cm, colorTKAQDOAMSMJLL] (2.497693,-2.596397) -- (2.497693,-2.919313);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{5.000000cm}{!}{\usebox{\bdgTKAQDO}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
