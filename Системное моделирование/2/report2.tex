@@ -1,0 +1,144 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage[table]{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\definecolor{Yellow}{rgb}{1,1,0}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №2}}\\
+    \normalsize{
+        по дисциплине: Системное моделирование \\
+        тема: «Движение механических систем»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверил: Полунин Александр Иванович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №2}\\
+    Движение механических систем\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }научиться моделировать на примере моделирования поведения механической системы.
+\begin{enumerate}[1. ]
+    \item Разработать математическую модель, описывающую поведение элементов механической системы.\\
+          \begin{center}
+              \includegraphics[width=140mm]{variant.png}
+              \bigbreak
+              \includegraphics[width=140mm]{mod1.jpg}
+              \includegraphics[width=140mm]{mod2.jpg}
+          \end{center}
+    \item Разработать программу на основании математической модели и произвести расчёты.
+          \begin{minted}{C++}
+#include <iostream>
+
+#define dt 0.001
+#define PI 3.141592654
+#define g 9.81
+#define k1 5000.0
+#define k2 7000.0
+#define I 5.0
+#define R 1.0
+#define r 0.2
+#define m 10.0
+#define es 0.000001
+
+double getY(double angle, double P) {
+    return (angle * PI * R) / 180.0 + (m * g + P) / k2;
+}
+
+double getM(double angle, double P) {
+    return 
+    // M1
+    (k1 * angle * PI * r * r) / 180.0 +
+        
+    // M2
+    - (m*g + P) * R;
+}
+
+int main() {
+    double angle = 0.0;
+    double w = 0.0;
+    double e = 0.0;
+    double p = 0;
+
+    for (double t = 0.0; t < .5; t += dt) {
+        std::cout << t << " " << angle << " " << getY(angle, p) << std::endl;
+
+        e = -getM(angle, p) / I;
+        w = w + e * dt;
+        angle = angle + w * dt + e * t * t / 2;
+    }
+}
+    \end{minted}
+          Результаты выполнения программы:
+
+          \begin{center}
+            \includegraphics[width=140mm]{graphs.png}
+          \end{center}
+
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили основные шаги моделирования,
+промоделировали поведение механической системы.
+
+\end{document}
