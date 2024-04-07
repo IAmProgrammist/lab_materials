@@ -1,0 +1,70 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report3.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgKBHANB}
+\begin{lrbox}{\bdgKBHANB}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontKBHANBCMSNBI[Scale=0.649362, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorKBHANBALLEPHCB}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorKBHANBFALDIES}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorKBHANBLTPGOG}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.211553 cm, fill=colorKBHANBALLEPHCB, draw=none] (2.151498,0.004582) -- (3.843920,0.004582) -- (3.843920,-0.418524) -- (2.151498,-0.418524) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.211553 cm, fill=none, line width=0.022908cm, colorKBHANBLTPGOG] (2.151498,0.004582) -- (3.843920,0.004582) -- (3.843920,-0.418524) -- (2.151498,-0.418524) -- cycle;
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(2.631214, -0.281075) {\verb|Начало|};
+\draw[fill=colorKBHANBALLEPHCB, draw=none, opacity=1.000000] (1.236060,-0.739236) -- (4.759358,-0.739236) -- (4.759358,-1.442003) -- (1.236060,-1.442003) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022908cm, colorKBHANBLTPGOG] (1.236060,-0.739236) -- (4.759358,-0.739236) -- (4.759358,-1.442003) -- (1.236060,-1.442003) -- cycle;
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(1.373509, -1.051515) {\verb|Подготовить входные данные|};
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(1.941065, -1.304555) {\verb|matrix и function|};
+\draw[opacity=1.000000, fill=none, line width=0.013745 cm, colorKBHANBLTPGOG] (2.997709,-0.418524) -- (2.997709,-0.739236);
+\draw[opacity=1.000000, fill=colorKBHANBALLEPHCB, draw=none] (-0.004582, -2.796151) -- (0.253777, -1.762716) -- (6.000000, -1.762716) -- (5.741641, -2.796151) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022908cm, colorKBHANBLTPGOG] (-0.004582, -2.796151) -- (0.253777, -1.762716) -- (6.000000, -1.762716) -- (5.741641, -2.796151) --cycle;
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(2.193131, -2.048373) {\verb|Вывести ответ|};
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(2.142573, -2.353538) {\verb|(вызов функции |};
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(0.253777, -2.658703) {\verb|solveSystemOfLinearEquationsArtificialBasis)|};
+\draw[opacity=1.000000, fill=none, line width=0.013745 cm, colorKBHANBLTPGOG] (2.997709,-1.442003) -- (2.997709,-1.762716);
+\draw[opacity=1.000000, rounded corners=0.224864 cm, fill=colorKBHANBALLEPHCB, draw=none] (2.098255,-3.116863) -- (3.897163,-3.116863) -- (3.897163,-3.566590) -- (2.098255,-3.566590) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.224864 cm, fill=none, line width=0.022908cm, colorKBHANBLTPGOG] (2.098255,-3.116863) -- (3.897163,-3.116863) -- (3.897163,-3.566590) -- (2.098255,-3.566590) -- cycle;
+\verbatimfont{\normalsize\fontKBHANBCMSNBI}
+\node[opacity=1.000000, above right, colorKBHANBLTPGOG] at(2.694189, -3.429142) {\verb|Конец|};
+\draw[opacity=1.000000, fill=none, line width=0.013745 cm, colorKBHANBLTPGOG] (2.997709,-2.796151) -- (2.997709,-3.116863);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgKBHANB}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

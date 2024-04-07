@@ -1,0 +1,85 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report3.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgEMPRIN}
+\begin{lrbox}{\bdgEMPRIN}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontEMPRINHQDOEK[Scale=0.755560, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorEMPRINQEQNDS}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEMPRINHONAKA}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEMPRINBCATDT}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.284154 cm, fill=colorEMPRINQEQNDS, draw=none] (-0.005331,0.005331) -- (9.000000,0.005331) -- (9.000000,-0.562977) -- (-0.005331,-0.562977) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.284154 cm, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (-0.005331,0.005331) -- (9.000000,0.005331) -- (9.000000,-0.562977) -- (-0.005331,-0.562977) -- cycle;
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(0.278824, -0.403050) {\verb|solveSystemOfLinearEquationsBigPenalties(matrix, function)|};
+\draw[fill=colorEMPRINQEQNDS, draw=none, opacity=1.000000] (2.226850,-0.936139) -- (6.767819,-0.936139) -- (6.767819,-2.169559) -- (2.226850,-2.169559) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (2.226850,-0.936139) -- (6.767819,-0.936139) -- (6.767819,-2.169559) -- (2.226850,-2.169559) -- cycle;
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(3.577118, -1.334108) {\verb|Сформируем M, |};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(3.571261, -1.664972) {\verb|где M = сумма |};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.386778, -2.009632) {\verb|коэффециентов ф-ции по модулю|};
+\draw[opacity=1.000000, fill=none, line width=0.015993 cm, colorEMPRINBCATDT] (4.497335,-0.562977) -- (4.497335,-0.936139);
+\draw[fill=colorEMPRINQEQNDS, draw=none, opacity=1.000000] (1.115851,-2.542721) -- (7.878818,-2.542721) -- (7.878818,-4.129131) -- (1.115851,-4.129131) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (1.115851,-2.542721) -- (7.878818,-2.542721) -- (7.878818,-4.129131) -- (1.115851,-4.129131) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (1.353813,-2.542721) -- (7.640857,-2.542721) -- (7.640857,-4.129131) -- (1.353813,-4.129131) -- cycle;
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.458034, -2.926895) {\verb|Получаем расширенную матрицу |};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.018847, -3.267910) {\verb|для решения вспомогательной задачи |};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(1.513740, -3.614132) {\verb|с заданным M и исходной функцией function|};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.704536, -3.969204) {\verb|(вызов getDataForAuxTask)|};
+\draw[opacity=1.000000, fill=none, line width=0.015993 cm, colorEMPRINBCATDT] (4.497335,-2.169559) -- (4.497335,-2.542721);
+\draw[fill=colorEMPRINQEQNDS, draw=none, opacity=1.000000] (1.847792,-4.502293) -- (7.146877,-4.502293) -- (7.146877,-5.728295) -- (1.847792,-5.728295) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (1.847792,-4.502293) -- (7.146877,-4.502293) -- (7.146877,-5.728295) -- (1.847792,-5.728295) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (2.031692,-4.502293) -- (6.962977,-4.502293) -- (6.962977,-5.728295) -- (2.031692,-5.728295) -- cycle;
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.613236, -4.865643) {\verb|Вызываем симплекс метод на|};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.830129, -5.213296) {\verb|преобразованной матрице|};
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(2.191620, -5.568368) {\verb|(вызов solveSimplexMethodMaxRaw)|};
+\draw[opacity=1.000000, fill=none, line width=0.015993 cm, colorEMPRINBCATDT] (4.497335,-4.129131) -- (4.497335,-4.502293);
+\draw[opacity=1.000000, rounded corners=0.272050 cm, fill=colorEMPRINQEQNDS, draw=none] (1.315354,-6.101457) -- (7.679315,-6.101457) -- (7.679315,-6.645557) -- (1.315354,-6.645557) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.272050 cm, fill=none, line width=0.026654cm, colorEMPRINBCATDT] (1.315354,-6.101457) -- (7.679315,-6.101457) -- (7.679315,-6.645557) -- (1.315354,-6.645557) -- cycle;
+\verbatimfont{\normalsize\fontEMPRINHQDOEK}
+\node[opacity=1.000000, above right, colorEMPRINBCATDT] at(1.587404, -6.485630) {\verb|Вернуть результат вызова симплекс метода|};
+\draw[opacity=1.000000, fill=none, line width=0.015993 cm, colorEMPRINBCATDT] (4.497335,-5.728295) -- (4.497335,-6.101457);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{9.000000cm}{!}{\usebox{\bdgEMPRIN}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
