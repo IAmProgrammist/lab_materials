@@ -86,12 +86,13 @@
               \bigbreak
               \includegraphics[width=140mm]{mod1.jpg}
               \includegraphics[width=140mm]{mod2.jpg}
+              \includegraphics[width=140mm]{mod3.jpg}
           \end{center}
     \item Разработать программу на основании математической модели и произвести расчёты.
           \begin{minted}{C++}
 #include <iostream>
 
-#define dt 0.001
+#define dt ((20.0) / (300.0))
 #define PI 3.141592654
 #define g 9.81
 #define k1 5000.0
@@ -102,31 +103,43 @@
 #define m 10.0
 #define es 0.000001
 
-double getY(double angle, double P) {
-    return (angle * PI * R) / 180.0 + (m * g + P) / k2;
+double getY(double angle) {
+    return (angle * PI * R) / (180.0);
 }
 
-double getM(double angle, double P) {
-    return 
+double getAngleAcc(double angle) {
+    return -(
     // M1
     (k1 * angle * PI * r * r) / 180.0 +
         
     // M2
-    - (m*g + P) * R;
+    - (m*g) * R) / I;
+}
+
+double getAngleVel(double w) {
+    return w;
 }
 
 int main() {
     double angle = 0.0;
-    double w = 0.0;
-    double e = 0.0;
-    double p = 0;
+    double aV = 0.0;
 
-    for (double t = 0.0; t < .5; t += dt) {
-        std::cout << t << " " << angle << " " << getY(angle, p) << std::endl;
+    for (double t = 0.0; t < 20; t += dt) {
+        // Recalc aV
+        double aVk1 = getAngleAcc(angle);
+        double aVk2 = getAngleAcc(angle + (dt/2) * aVk1);
+        double aVk3 = getAngleAcc(angle + (dt/2) * aVk2);
+        double aVk4 = getAngleAcc(angle + dt * aVk3);
+        aV += (dt/6) * (aVk1 + 2 * aVk2 + 2 * aVk3 + aVk4);
+        
+        // Recalc angle
+        double ak1 = getAngleVel(aV);
+        double ak2 = getAngleVel(aV + (dt/2) * ak1);
+        double ak3 = getAngleVel(aV + (dt/2) * ak2);
+        double ak4 = getAngleVel(aV + dt * ak3);
+        angle += (dt/6) * (ak1 + 2 * ak2 + 2 * ak3 + ak4);
 
-        e = -getM(angle, p) / I;
-        w = w + e * dt;
-        angle = angle + w * dt + e * t * t / 2;
+        std::cout << t << " " << angle << " " << getY(angle) << std::endl;
     }
 }
     \end{minted}
