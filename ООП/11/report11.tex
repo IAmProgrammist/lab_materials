@@ -1,0 +1,189 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №11}}\\
+    \normalsize{
+        по дисциплине: ООП \\
+        тема: «Знакомство с языком программирования Python. Базовые структуры данных.»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Черников Сергей Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №11}\\
+    «Знакомство с языком программирования Python. Базовые структуры данных.»\\
+    Вариант 3
+\end{center}
+\textbf{Цель работы: }познакомится с базовыми конструкциями языка. Получить навык создания
+простых приложений. Изучить базовые типы.\\
+
+В соответствии с вариантом задания требуется выполнить объектную декомпозицию задачи.
+В качестве одного из обязательных объектов выделить «матрицу». Для реализации
+соблюдения условия задачи требуется использовать возможности перегрузки операторов.
+При выводе также требуется выполнить перегрузку соответствующего оператора.\\
+На вход подаются данные в форме двумерных «матриц», количество матриц заранее не
+определено, разделителем между матрицами являются строки. Для каждой матрицы найти
+все, которые удовлетворяют следующему условию: четность/нечетность соответствующих
+элементов матриц совпадает. Форма матрицы может быть не полной. Формат вывода
+требуется соблюсти.\\
+\begin{center}
+    \includegraphics[width=140mm]{decomp.png}
+\end{center}
+\begin{minted}{python3}
+from __future__ import print_function
+from abc import ABC, abstractmethod
+
+
+class Matrix:
+    def __init__(self):
+        self.matrix = []
+
+    def add_line(self, line: list) -> None:
+        self.matrix.append(line)
+
+    def get_height(self):
+        return len(self.matrix)
+
+    def get_min_width(self):
+        return min(map(lambda x: len(x), self.matrix))
+
+    def get_max_width(self):
+        return max(map(lambda x: len(x), self.matrix))
+
+
+class GroupMatricesPredicate(ABC):
+    @abstractmethod
+    def hash(self, matrix):
+        pass
+
+
+class GroupByEvenOddFactor(GroupMatricesPredicate):
+    def hash(self, matrix):
+        result = []
+
+        for line in matrix.matrix:
+            result.append(tuple(map(lambda x: x % 2 == 0, line)))
+
+        return tuple(result)
+
+
+class GroupMatrices:
+    def __init__(self):
+        self.matrices = []
+
+    def add_matrix(self, matrix: Matrix):
+        self.matrices.append(matrix)
+
+    def group_by_predicate(self, predicate: GroupMatricesPredicate):
+        result: dict = {}
+
+        for matrix in self.matrices:
+            hash = predicate.hash(matrix)
+
+            if hash in result.keys():
+                result[hash].append(matrix)
+            else:
+                result[hash] = [matrix]
+
+        return result
+
+
+def main():
+    group_matrices = GroupMatrices()
+
+    with open(input("Введите путь к файлу: "), "r") as f:
+        tmp_matrix = Matrix()
+
+        for line in f:
+            if not line.strip():
+                group_matrices.add_matrix(tmp_matrix)
+                tmp_matrix = Matrix()
+            else:
+                tmp_matrix.add_line(list(map(lambda x: int(x), line.strip().split(" "))))
+
+        if tmp_matrix.get_height() != 0:
+            group_matrices.add_matrix(tmp_matrix)
+
+    for group, matrices in group_matrices.group_by_predicate(GroupByEvenOddFactor()).items():
+        print("Группа:")
+        print(*group, "", sep="\n")
+
+        print("Матрицы:")
+        for matrix in matrices:
+            print(*matrix.matrix, "", sep="\n")
+
+        print("")
+
+
+if __name__ == "__main__":
+    main()
+\end{minted}
+
+\href{https://gitlab.com/vlad4052/2024_pv223_vladislav_10}{Ссылка на репозиторий}
+
+\textbf{Вывод: } в ходе лабораторной работы познакомились с базовыми конструкциями языка. Получили навык создания
+простых приложений. Изучили базовые типы.
+
+\end{document}
