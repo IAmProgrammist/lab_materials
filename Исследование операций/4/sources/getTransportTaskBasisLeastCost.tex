@@ -1,0 +1,139 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report4.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgCSOMRFL}
+\begin{lrbox}{\bdgCSOMRFL}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontCSOMRFLGKQNITM[Scale=0.713185, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorCSOMRFLPPJKKR}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorCSOMRFLEIFDHQBP}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorCSOMRFLTAJKGAIH}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.268218 cm, fill=colorCSOMRFLPPJKKR, draw=none] (0.002744,0.005032) -- (6.992224,0.005032) -- (6.992224,-0.531403) -- (0.002744,-0.531403) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.268218 cm, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (0.002744,0.005032) -- (6.992224,0.005032) -- (6.992224,-0.531403) -- (0.002744,-0.531403) -- cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(0.270963, -0.380446) {\verb|getTransportTaskBasisLeastCost(c, x, a, b, EPS)|};
+\draw[opacity=1.000000, fill=colorCSOMRFLPPJKKR, draw=none] (1.755673, -1.754543) -- (3.497484, -2.625448) -- (5.239295, -1.754543) -- (3.497484, -0.883638) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (1.755673, -1.754543) -- (3.497484, -2.625448) -- (5.239295, -1.754543) -- (3.497484, -0.883638) --cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.410879, -1.855710) {\verb|Бесконечный цикл|};
+\draw[opacity=1.000000, fill=colorCSOMRFLPPJKKR, draw=none] (1.240467, -4.106192) -- (2.368975, -2.977683) -- (4.625993, -2.977683) -- (5.754502, -4.106192) -- (4.625993, -5.234700) -- (2.368975, -5.234700) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (1.240467, -4.106192) -- (2.368975, -2.977683) -- (4.625993, -2.977683) -- (5.754502, -4.106192) -- (4.625993, -5.234700) -- (2.368975, -5.234700) --cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(1.793990, -4.081241) {\verb|Для каждого элемента cij, |};
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.057932, -4.357800) {\verb|оставшегося в матрице|};
+\draw[opacity=1.000000, fill=colorCSOMRFLPPJKKR, draw=none] (2.145782, -6.262786) -- (3.497484, -6.938637) -- (4.849186, -6.262786) -- (3.497484, -5.586935) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (2.145782, -6.262786) -- (3.497484, -6.938637) -- (4.849186, -6.262786) -- (3.497484, -5.586935) --cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.825312, -6.376114) {\verb|cij < cmin|};
+\draw[fill=colorCSOMRFLPPJKKR, draw=none, opacity=1.000000] (2.391494,-7.290871) -- (4.603474,-7.290871) -- (4.603474,-7.772147) -- (2.391494,-7.772147) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (2.391494,-7.290871) -- (4.603474,-7.290871) -- (4.603474,-7.772147) -- (2.391494,-7.772147) -- cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.542451, -7.621189) {\verb|Обновляем cmin|};
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-6.938637) -- (3.497484,-7.290871);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(3.279156, -7.162616) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (4.849186, -6.262786) -- (5.100782, -6.262786) -- (5.100782, -7.290871);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(5.027318, -6.162147) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (5.100782, -7.290871) -- (5.100782, -8.124381) -- (3.497484, -8.124381);
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (3.497484, -7.772147) -- (3.497484, -8.124381) -- (3.497484, -8.124381);
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-5.234700) -- (3.497484,-5.586935);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(3.279156, -5.458680) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (3.497484, -8.124381) -- (3.497484, -8.476615) -- (0.988871, -8.476615) -- (0.988871, -4.106192) -- (1.240467, -4.106192);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(5.932633, -4.005553) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (5.754502, -4.106192) -- (6.006098, -4.106192) -- (6.006098, -8.728211) -- (3.497484, -8.728211);
+\draw[opacity=1.000000, fill=colorCSOMRFLPPJKKR, draw=none] (1.260503, -10.198936) -- (3.497484, -11.317427) -- (5.734465, -10.198936) -- (3.497484, -9.080446) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (1.260503, -10.198936) -- (3.497484, -11.317427) -- (5.734465, -10.198936) -- (3.497484, -9.080446) --cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.192145, -10.132647) {\verb|Минимальный элемент |};
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(3.035692, -10.438321) {\verb|найден?|};
+\draw[fill=colorCSOMRFLPPJKKR, draw=none, opacity=1.000000] (2.398066,-11.669661) -- (4.596902,-11.669661) -- (4.596902,-12.173909) -- (2.398066,-12.173909) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (2.398066,-11.669661) -- (4.596902,-11.669661) -- (4.596902,-12.173909) -- (2.398066,-12.173909) -- cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.549024, -12.022952) {\verb|Выйти из цикла|};
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-11.317427) -- (3.497484,-11.669661);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(3.279156, -11.541406) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (5.734465, -10.198936) -- (5.986061, -10.198936) -- (5.986061, -11.669661);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(5.912597, -10.098298) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (5.986061, -11.669661) -- (5.986061, -12.526144) -- (3.497484, -12.526144);
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (3.497484, -12.173909) -- (3.497484, -12.526144) -- (3.497484, -12.526144);
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-8.728211) -- (3.497484,-9.080446);
+\draw[opacity=1.000000, fill=colorCSOMRFLPPJKKR, draw=none] (2.288411, -13.482915) -- (3.497484, -14.087452) -- (4.706558, -13.482915) -- (3.497484, -12.878378) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (2.288411, -13.482915) -- (3.497484, -14.087452) -- (4.706558, -13.482915) -- (3.497484, -12.878378) --cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.967941, -13.596244) {\verb|ai >= bj|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (2.288411, -13.482915) -- (1.746226, -13.482915) -- (1.746226, -14.439686);
+\draw[fill=colorCSOMRFLPPJKKR, draw=none, opacity=1.000000] (0.246564,-14.439686) -- (3.245888,-14.439686) -- (3.245888,-15.285113) -- (0.246564,-15.285113) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (0.246564,-14.439686) -- (3.245888,-14.439686) -- (3.245888,-15.285113) -- (0.246564,-15.285113) -- cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(0.397521, -14.814353) {\verb|Вычёркиваем строчку, |};
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(0.793712, -15.134155) {\verb|обновляем x, a|};
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(1.746226, -13.382277) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (4.706558, -13.482915) -- (5.248742, -13.482915) -- (5.248742, -14.439686);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(5.175278, -13.382277) {\verb|-|};
+\draw[fill=colorCSOMRFLPPJKKR, draw=none, opacity=1.000000] (3.749080,-14.439686) -- (6.748404,-14.439686) -- (6.748404,-15.288921) -- (3.749080,-15.288921) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (3.749080,-14.439686) -- (6.748404,-14.439686) -- (6.748404,-15.288921) -- (3.749080,-15.288921) -- cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(3.900037, -14.818161) {\verb|Вычёркиваем столбец, |};
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(4.292726, -15.137963) {\verb|обновляем x, b|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (5.248742, -15.288921) -- (5.248742, -15.641155) -- (3.497484, -15.641155);
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (1.746226, -15.285113) -- (1.746226, -15.641155) -- (3.497484, -15.641155);
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-12.526144) -- (3.497484,-12.878378);
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-2.625448) -- (3.497484,-2.977683);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(3.279156, -2.849428) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (3.497484, -15.641155) -- (3.497484, -15.993390) -- (-0.005032, -15.993390) -- (-0.005032, -0.707520) -- (3.497484, -0.707520);
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(6.926536, -1.603585) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015096cm, colorCSOMRFLTAJKGAIH] (5.239295, -1.754543) -- (7.000000, -1.754543) -- (7.000000, -16.244986) -- (3.497484, -16.244986);
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-0.531403) -- (3.497484,-0.883638);
+\draw[opacity=1.000000, rounded corners=0.268218 cm, fill=colorCSOMRFLPPJKKR, draw=none] (2.289098,-16.597220) -- (4.705870,-16.597220) -- (4.705870,-17.133655) -- (2.289098,-17.133655) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.268218 cm, fill=none, line width=0.025160cm, colorCSOMRFLTAJKGAIH] (2.289098,-16.597220) -- (4.705870,-16.597220) -- (4.705870,-17.133655) -- (2.289098,-17.133655) -- cycle;
+\verbatimfont{\normalsize\fontCSOMRFLGKQNITM}
+\node[opacity=1.000000, above right, colorCSOMRFLTAJKGAIH] at(2.557316, -16.982698) {\verb|Выход(x, a, b)|};
+\draw[opacity=1.000000, fill=none, line width=0.015096 cm, colorCSOMRFLTAJKGAIH] (3.497484,-16.244986) -- (3.497484,-16.597220);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{7.000000cm}{!}{\usebox{\bdgCSOMRFL}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

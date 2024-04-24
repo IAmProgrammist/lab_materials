@@ -1,0 +1,668 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage{subfiles}
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{slashbox}
+\usepackage{array}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №4}}\\
+    \normalsize{
+        по дисциплине: Исследование операций \\
+        тема: «Закрытая транспортная задача»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\проф. Вирченко Юрий Петрович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №4}\\
+    Закрытая транспортная задача\\
+\end{center}
+\textbf{Цель работы: }изучить математическую модель транспортной
+задачи, овладеть методами решения этой задачи.\\
+
+\textbf{Задание: }составить и отладить программы решения транспортной задачи
+распределительным методом и методом потенциалов. В рамках
+подготовки тестовых данных решить задачу вручную.
+
+\begin{center}
+    \textbf{Вариант 10}
+\end{center}
+\begin{center}
+    $\vec{a}=(14,14,14,14);$\\
+    $\vec{b}=(13,5,13,12,13);$\\
+    $C = \begin{pmatrix}
+        16&26&12&24&3\\
+        5&2&19&27&2\\
+        29&23&25&16&8\\
+        2&25&14&15&21
+    \end{pmatrix}$\\
+\end{center}
+
+\textbf{Блок-схемы: }
+\begin{center}
+    \subfile{sources/main.tex}\bigbreak
+    \subfile{sources/getTransportTaskBasisLeastCost.tex}\bigbreak
+    \subfile{sources/getTransportTaskCycles.tex}\bigbreak
+    \subfile{sources/moveTransportTaskCycle.tex}\bigbreak
+    \subfile{sources/getAnswerTransportTask.tex}\bigbreak
+    \subfile{sources/solveTransportTaskDistributionMethod.tex}\bigbreak
+    \subfile{sources/recalculatePotentials.tex}\bigbreak
+    \subfile{sources/solveTransportTaskPotentials.tex}\bigbreak
+\end{center}
+
+\textbf{Листинг программы: }
+\begin{minted}{C++}
+#include <iostream>
+#include <iomanip>
+#include <windows.h>
+#include <limits>
+#include <algorithm>
+#include <array>
+
+#include "../libs/alg/alg.h"
+
+int main() {
+    // Подготовить входные данные
+    std::vector<std::array<double, 5>> c = {
+    {{{16}, {26}, {12}, {24}, {3}}},
+    {{{5}, {2}, {19}, {27}, {2}}},
+    {{{29}, {23}, {25}, {16}, {8}}},
+    {{{2}, {25}, {14}, {15}, {21}}}};
+    
+    std::array<double, 4> a{{{14}, {14 }, {14}, {14}}};
+    std::array<double, 5> b{{{13}, {5}, {13}, {12}, {13}}};
+
+    std::cout << solveTransportTaskPotentials(c, a, b, 0.00000001);
+}
+\end{minted}
+\href{https://github.com/IAmProgrammist/operations_research/blob/master/src/lab4/main.cpp}{Ссылка на репозиторий}\\
+
+\begin{minted}{C++}
+#pragma once 
+
+#include <vector>
+#include <tuple>
+
+#include "../fraction.hpp"
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+void getTransportTaskBasisNorthEast(std::vector<std::array<CountType, T>> &c, std::vector<std::array<CountType, T>> &x, std::array<CountType, MatrixLines> &a, std::array<CountType, T> &b, CountType EPS) {
+    int k = 0;
+    int r = 0;
+
+    // Пока не дошли до края матрицы
+    while (k < MatrixLines && r < T) {
+        // Если ak == br
+        if (abs(a[k] - b[r]) < EPS) {
+            if (r == T - 1) {
+                // Вычёркиваем строчку
+                x[k][r] = b[r];
+                a[k] -= b[r];
+                r++;
+            } else {
+                // Вычёркиваем столбец
+                x[k][r] = a[k];
+                b[r] -= a[k];
+                k++;
+            }
+        // Если ak > br
+        } else if (a[k] > b[r]) {
+            // Вычёркиваем строчку
+            x[k][r] = b[r];
+            a[k] -= b[r];
+            r++;
+        // Если ak < br
+        } else {
+            // Вычёркиваем столбец
+            x[k][r] = a[k];
+            b[r] -= a[k];
+            k++;
+        }
+    }
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+void getTransportTaskBasisLeastCost(std::vector<std::array<CountType, T>> &c, std::vector<std::array<CountType, T>> &x, std::array<CountType, MatrixLines> &a, std::array<CountType, T> &b, CountType EPS) {
+    std::array<bool, T> usedCols = {};
+    std::array<bool, MatrixLines> usedRows = {};
+    
+    // Бесконечный цикл
+    while(true) {
+        bool foundAny = false;
+        int iMin, jMin;
+
+        // Для каждого элемента cij, оставшегося в матрице
+        for (int i = 0; i < MatrixLines; i++) {
+            if (usedRows[i]) continue;
+            
+            for (int j = 0; j < T; j++) {
+                if (usedCols[j]) continue;
+
+                // Если cij < cmin
+                if (!foundAny || c[iMin][jMin] > c[i][j]) {
+                    // Обновлям данные
+                    iMin = i;
+                    jMin = j;
+
+                    foundAny = true;
+                }
+            }
+        }
+
+        // Если элемент не найден, выходим из цикла
+        if (!foundAny) break;
+
+        // Если ai >= bj
+        if (abs(a[iMin] - b[jMin]) < EPS || a[iMin] > b[jMin]) {
+            // Вычёркиваем строчку, обновляем x, a
+            usedCols[jMin] = true;
+            x[iMin][jMin] = b[jMin];
+            a[iMin] -= b[jMin];
+        // Иначе
+        } else {
+            // Вычёркиваем столбец, обновляем x, b
+            usedRows[iMin] = true;
+            x[iMin][jMin] = a[iMin];
+            b[jMin] -= a[iMin];
+        }
+    }
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+std::vector<std::tuple<CountType, CountType, std::vector<std::pair<int, int>>>> getTransportTaskCycles(std::vector<std::array<CountType, T>> c, std::vector<std::array<CountType, T>> x, 
+std::array<CountType, MatrixLines> a, std::array<CountType, T> b, std::pair<int, int> init, std::vector<std::pair<int, int>> result, std::pair<int, int> curr,
+CountType min, bool minAssigned, CountType sum, int it, int state, CountType EPS) {
+    std::vector<std::tuple<CountType, CountType, std::vector<std::pair<int, int>>>> recResult;
+    std::vector<std::pair<int, int>> selectedNodes;
+
+    // Ищем подходящие вершины и сохраняем в selectedNodes
+    if (state == -1 || state == 0) {
+        // Выполняем поиск по столбцу, если ранее был выполнен поиск по строчке
+        // или мы находимся в начальной вершине
+        state = 1;
+        
+        // Пропускаем текущий элемент и элементы, которые уже находятся в пути. 
+        // Остальные элементы с xij != 0 добавляем в selectedNodes
+        for (int k = 0; k < MatrixLines; k++) {
+            if (k == curr.first) continue;
+            if ((abs(x[k][curr.second]) > EPS && std::find(result.begin(), result.end(), std::pair<int, int>(k, curr.second)) == result.end()) || 
+            (it > 1 && std::pair<int, int>(k, curr.second) == init)) {
+                selectedNodes.push_back({k, curr.second});
+            } 
+        }
+    } else {
+        // Иначе по строке
+        state = 0;
+        
+        // Пропускаем текущий элемент и элементы, которые уже находятся в пути. 
+        // Остальные элементы с xij != 0 добавляем в selectedNodes
+        for (int k = 0; k < T; k++) {
+            if (k == curr.second) continue;
+            if ((abs(x[curr.first][k]) > EPS && std::find(result.begin(), result.end(), std::pair<int, int>(curr.first, k)) == result.end()) || 
+            (it > 1 && std::pair<int, int>(curr.first, k) == init)) {
+                selectedNodes.push_back({curr.first, k});
+            } 
+        }
+    }
+
+    // Если вершин не найдено, возвращаем пустой массив
+    if (selectedNodes.empty()) {
+        return {};
+    }
+
+    it++;
+    // Для каждой найденной вершины из selectedNodes
+    for (auto& node : selectedNodes) {
+        // Если достигли начальной вершины, добавляем в конечный результат цикл
+        // и переходим к следующей вершине
+        if (node == init) {
+            recResult.push_back({sum, min, result});
+            continue;
+        }
+
+        // Обновляем минимум, если вершина отрицательная
+        auto newMin = min;
+        auto newMinAssigned = minAssigned;
+        if (it % 2 && (x[node.first][node.second] < newMin || !newMinAssigned)) {
+            newMin = x[node.first][node.second];
+
+            newMinAssigned = true;
+        }
+
+        // Добавляем cij к sum, если вершина со знаком плюс, иначе - вычитаем
+        auto newSum = sum;
+        if (it % 2 == 0) {
+            newSum += c[node.first][node.second];
+        } else {
+            newSum -= c[node.first][node.second];
+        }
+
+        // Добавляем вершину в цикл
+        auto newResult = result;
+        newResult.push_back(node);
+
+        // Рекурсивно вызываем поиск дальнейших вершин и вставляем
+        // в результат выоплнения функции
+        auto recNextResult = getTransportTaskCycles(c, x, a, b, init, newResult, node, newMin, newMinAssigned, newSum, it, state, EPS);
+        recResult.insert(recResult.end(), recNextResult.begin(), recNextResult.end());
+    }
+
+    // Возвращаем массив циклов
+    return recResult;
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+std::vector<std::tuple<CountType, CountType, std::vector<std::pair<int, int>>>> getTransportTaskCycles(std::vector<std::array<CountType, T>> c, std::vector<std::array<CountType, T>> x, 
+std::array<CountType, MatrixLines> a, std::array<CountType, T> b, int i, int j, CountType EPS) {
+    // Инициализируем путь result, сумму sum и min
+    std::pair<int, int> init = {i, j};
+    std::vector<std::pair<int, int>> result = {init};
+    std::pair<int, int> curr = init;
+    CountType sum = c[i][j];
+    bool minAssigned = false;
+    CountType min;
+    int it = 0;
+    int state = -1;
+
+    // Рекурсивно вызываем метод поиска циклов
+    return getTransportTaskCycles(c, x, a, b, init, result, curr, min, minAssigned, sum, it, state, EPS);
+}
+
+template <std::size_t T, typename CountType>
+void moveTransportTaskCycle(std::vector<std::array<CountType, T>> &x, std::vector<std::pair<int, int>> path, CountType min, CountType EPS) {
+    // Для всех вершин в пути
+    for (int i = 0; i < path.size(); i++) {
+        // Если вершина с плюсом, добавляем сдвиг min, иначе - вычитаем
+        if (i % 2 == 0) {
+            x[path[i].first][path[i].second] += min;
+        } else {
+            x[path[i].first][path[i].second] -= min;
+        }
+    }
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+CountType getAnswerTransportTask(std::vector<std::array<CountType, T>> &c, std::vector<std::array<CountType, T>> &x) {
+    // Считаем сумму result = cij * xij, для всех i, j 
+    CountType result = c[0][0] * x[0][0];
+    for (int i = 0; i < MatrixLines; i++) {
+        for (int j = 0; j < T; j++) {
+            if (i == 0 && j == 0) continue;
+
+            result += c[i][j] * x[i][j];
+        }
+    }
+
+    // Вернуть result
+    return result;
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+CountType solveTransportTaskDistributionMethod(std::vector<std::array<CountType, T>> c, std::array<CountType, MatrixLines> a, std::array<CountType, T> b, CountType EPS) {
+    // Инициализируем x
+    std::vector<std::array<CountType, T>> x;
+    for (int i = 0; i < MatrixLines; i++) {
+        x.push_back({});
+    }
+
+    // Приводим систему к опорному решению
+    getTransportTaskBasisLeastCost(c, x, a, b, EPS);
+
+    // В бесконечном цикле
+    while (true) {
+        bool foundAny = false;
+        std::tuple<CountType, CountType, std::vector<std::pair<int, int>>> search;
+
+        // Ищем незаполненную клетку, для которой сумма будет отрицательна
+        for (int i = 0; i < MatrixLines && !foundAny; i++) {
+            for (int j = 0; j < T; j++) {
+                if (abs(x[i][j]) > EPS) continue;
+
+                auto resArray = getTransportTaskCycles(c, x, a, b, i, j, EPS);
+                if (resArray.empty()) continue;
+                auto res = resArray[0];
+
+                if (std::get<0>(res) < -EPS) {
+                    search = res;
+                    foundAny = true;
+                    break;
+                }
+            }
+        }
+
+        if (!foundAny) break;
+
+        std::vector<std::pair<int, int>> path = std::get<2>(search);
+        CountType minv = std::get<1>(search);
+
+        // Если такая сумма есть, то выполняем сдвиг на min, иначе - выходим из цикла
+        moveTransportTaskCycle(x, path, minv, EPS);
+    }
+
+    // Возвращаем ответ
+    return getAnswerTransportTask<T, MatrixLines, CountType>(c, x);
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+void recalculatePotentials(std::vector<std::array<CountType, T>> &c, std::vector<std::array<CountType, T>> &x, std::array<CountType, T> &potentialsV, std::array<CountType, MatrixLines> &potentialsU, CountType EPS) {
+    // Инициализируем просчитанные потенциалы
+    std::array<bool, T> potentialsVFound = {};
+    std::array<bool, MatrixLines> potentialsUFound = {};
+
+    // Предположим, что u1 = 0
+    potentialsUFound[0] = true;
+    potentialsU = {0};
+    
+    // Пока мы находим непросчитанные потенциалы
+    bool foundAny = true;
+    while (foundAny) {
+        foundAny = false;
+
+        // Для всех заполненных клеток, для которых ui и vj не вычислено
+        for (int i = 0; i < MatrixLines; i++) {
+            for (int j = 0; j < T; j++) {
+                if (abs(x[i][j]) < EPS) continue;
+                if (potentialsUFound[i] && potentialsVFound[j]) continue;
+
+                // Если вычислен ui, вычисляем vj
+                if (potentialsUFound[i]) {
+                    potentialsVFound[j] = true;
+                    potentialsV[j] = c[i][j] - potentialsU[i];
+
+                    foundAny = true;
+                }
+
+                // Если вычислен vj, вычисляем ui
+                if (potentialsVFound[j]) {
+                    potentialsUFound[i] = true;
+                    potentialsU[i] = c[i][j] - potentialsV[j];
+
+                    foundAny = true;
+                }
+            }
+        }
+    }
+    
+}
+
+template <std::size_t T, std::size_t MatrixLines, typename CountType>
+CountType solveTransportTaskPotentials(std::vector<std::array<CountType, T>> c, std::array<CountType, MatrixLines> a, std::array<CountType, T> b, CountType EPS) {
+    // Инициализируем x
+    std::vector<std::array<CountType, T>> x;
+    for (int i = 0; i < MatrixLines; i++) {
+        x.push_back({});
+    }
+
+    // Приводим систему к опорному решению
+    getTransportTaskBasisLeastCost(c, x, a, b, EPS);
+
+    std::array<CountType, T> potentialsV;
+    std::array<CountType, MatrixLines> potentialsU;
+
+    // В бесконечном цикле
+    while (true) {
+        // Пересчитываем потенциалы
+        recalculatePotentials(c, x, potentialsV, potentialsU, EPS);
+        int i, j;
+        bool foundAny = false;
+        // Для каждой пустой клетки
+        for (i = 0; i < MatrixLines; i++) {
+            for (j = 0; j < T; j++) {
+                if (x[i][j] > EPS) continue;
+
+                CountType t = c[i][j] - (potentialsU[i] + potentialsV[j]);
+                
+                // Ищем первую клетку, для которой сумма будет отрицательна
+                if (t < -EPS) {
+                    foundAny = true;
+                    break;
+                }
+            }
+            if (foundAny) break;
+        }
+
+        // Если такой суммы нет, выходим из цикла
+        if (!foundAny) break;
+
+        // Иначе находим цикл для найденной вершины
+        auto search = getTransportTaskCycles(c, x, a, b, i, j, EPS)[0];
+        // И выполняем сдвиг на min
+        moveTransportTaskCycle(x, std::get<2>(search), std::get<1>(search), EPS);
+    }
+
+    // Возвращаем ответ
+    return getAnswerTransportTask<T, MatrixLines, CountType>(c, x);
+}
+    \end{minted}
+\href{https://github.com/IAmProgrammist/operations_research/blob/master/src/libs/alg/lab4/task2.tpp}{Ссылка на репозиторий}\bigbreak
+
+Результат выполнения программы:
+\begin{minted}{console}
+426
+\end{minted}
+
+\textbf{Результаты вычислений: }\\
+\begin{center}
+    $\vec{a}=(14,14,14,14);$\\
+    $\vec{b}=(13,5,13,12,13);$\\
+    $C = \begin{pmatrix}
+        16&26&12&24&3\\
+        5&2&19&27&2\\
+        29&23&25&16&8\\
+        2&25&14&15&21
+    \end{pmatrix}$\\
+\end{center}
+
+\begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \backslashbox{a}{b} & 13 & 5 & 13 & 12 & 13\\
+    \hline
+    14 & \backslashbox{}{16} & \backslashbox{}{26} & \backslashbox{}{12} & \backslashbox{}{24} & \backslashbox{}{3}\\
+    \hline
+    14 & \backslashbox{}{5} & \backslashbox{}{2} & \backslashbox{}{27} & \backslashbox{}{27} & \backslashbox{}{2}\\
+    \hline
+    14 & \backslashbox{}{29} & \backslashbox{}{23} & \backslashbox{}{25} & \backslashbox{}{16} & \backslashbox{}{8}\\
+    \hline
+    14 & \backslashbox{}{2} & \backslashbox{}{25} & \backslashbox{}{14} & \backslashbox{}{15} & \backslashbox{}{21}\\
+    \hline
+\end{tabular}
+
+Для приведения к опорному виду используем метод наименьшей стоимости
+
+\begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \backslashbox{a}{b} & 13 & 5 & 13 & 12 & 13\\
+    \hline
+    14 & \backslashbox{}{16} & \backslashbox{}{26} & \backslashbox{10}{12} & \backslashbox{}{24} & \backslashbox{4}{3}\\
+    \hline
+    14 & \backslashbox{}{5} & \backslashbox{5}{2} & \backslashbox{}{27} & \backslashbox{}{27} & \backslashbox{9}{2}\\
+    \hline
+    14 & \backslashbox{}{29} & \backslashbox{}{23} & \backslashbox{2}{25} & \backslashbox{12}{16} & \backslashbox{}{8}\\
+    \hline
+    14 & \backslashbox{13}{2} & \backslashbox{}{25} & \backslashbox{1}{14} & \backslashbox{}{15} & \backslashbox{}{21}\\
+    \hline
+\end{tabular}
+
+Введём потенциалы, где $u_1 = 0$.\\
+
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    &&$v_1$&$v_2$&$v_3$&$v_4$&$v_5$\\
+    \hline
+    &\backslashbox{a}{b} & 13 & 5 & 13 & 12 & 13\\
+    \hline
+    $u_1$ & 14 & \backslashbox{}{16} & \backslashbox{}{26} & \backslashbox{10}{12} & \backslashbox{}{24} & \backslashbox{4}{3}\\
+    \hline
+    $u_2$ & 14 & \backslashbox{}{5} & \backslashbox{5}{2} & \backslashbox{}{27} & \backslashbox{}{27} & \backslashbox{9}{2}\\
+    \hline
+    $u_3$ & 14 & \backslashbox{}{29} & \backslashbox{}{23} & \backslashbox{2}{25} & \backslashbox{12}{16} & \backslashbox{}{8}\\
+    \hline
+    $u_4$ & 14 & \backslashbox{13}{2} & \backslashbox{}{25} & \backslashbox{1}{14} & \backslashbox{}{15} & \backslashbox{}{21}\\
+    \hline
+\end{tabular}
+
+$\begin{cases}
+    u_1 + v_3 = 12\\
+    u_1 + v_5 = 3\\
+    u_2 + v_2 = 2\\
+    u_2 + v_5 = 2\\
+    u_3 + v_3 = 25\\
+    u_3 + v_4 = 16\\
+    u_4 + v_1 = 2\\
+    u_4 + v_3 = 14
+\end{cases} $\\
+
+$\begin{cases}
+    u_1 = 0\\
+    u_2 = -1\\
+    u_3 = 13\\
+    u_4 = 2
+\end{cases} \begin{cases}
+    v_1 = 0\\
+    v_2 = 3\\
+    v_3 = 12\\
+    v_4 = 3\\
+    v_5 = 3
+\end{cases}$
+
+Просчитаем $\gamma$:\\
+$\gamma_{11} = 16$\\
+$\gamma_{12} = 23$\\
+$\gamma_{14} = 21$\\
+$\gamma_{21} = 6$\\
+$\gamma_{23} = 8$\\
+$\gamma_{24} = 25$\\
+$\gamma_{31} = 16$\\
+$\gamma_{32} = 7$\\
+$\gamma_{35} = -8$\\
+$\gamma_{42} = 20$\\
+$\gamma_{44} = 10$\\
+$\gamma_{45} = 16$\\
+
+$\gamma_{35} < 0$, цикл в этой точке:
+
+$3, 4 \rightarrow 1, 5 \rightarrow 1, 3 \rightarrow 3, 3$. Минимум: 2. Выполним сдвиг, получим новое
+опорное решение:\\
+\begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    &&$v_1$&$v_2$&$v_3$&$v_4$&$v_5$\\
+    \hline
+    &\backslashbox{a}{b} & 13 & 5 & 13 & 12 & 13\\
+    \hline
+    $u_1$ & 14 & \backslashbox{}{16} & \backslashbox{}{26} & \backslashbox{12}{12} & \backslashbox{}{24} & \backslashbox{2}{3}\\
+    \hline
+    $u_2$ & 14 & \backslashbox{}{5} & \backslashbox{5}{2} & \backslashbox{}{27} & \backslashbox{}{27} & \backslashbox{9}{2}\\
+    \hline
+    $u_3$ & 14 & \backslashbox{}{29} & \backslashbox{}{23} & \backslashbox{}{25} & \backslashbox{12}{16} & \backslashbox{2}{8}\\
+    \hline
+    $u_4$ & 14 & \backslashbox{13}{2} & \backslashbox{}{25} & \backslashbox{1}{14} & \backslashbox{}{15} & \backslashbox{}{21}\\
+    \hline
+\end{tabular}
+
+$\begin{cases}
+    u_1 + v_3 = 12\\
+    u_1 + v_5 = 3\\
+    u_2 + v_2 = 2\\
+    u_2 + v_5 = 2\\
+    u_3 + v_4 = 16\\
+    u_3 + v_5 = 8\\
+    u_4 + v_1 = 2\\
+    u_4 + v_3 = 14
+\end{cases} $\\
+
+$\begin{cases}
+    u_1 = 0\\
+    u_2 = -1\\
+    u_3 = 5\\
+    u_4 = 2
+\end{cases} \begin{cases}
+    v_1 = 0\\
+    v_2 = 3\\
+    v_3 = 12\\
+    v_4 = 11\\
+    v_5 = 3
+\end{cases}$
+
+Просчитаем $\gamma$:\\
+$\gamma_{11} = 16$\\
+$\gamma_{12} = 23$\\
+$\gamma_{14} = 13$\\
+$\gamma_{21} = 6$\\
+$\gamma_{23} = 8$\\
+$\gamma_{24} = 17$\\
+$\gamma_{31} = 24$\\
+$\gamma_{32} = 15$\\
+$\gamma_{33} = 8$\\
+$\gamma_{42} = 20$\\
+$\gamma_{44} = 2$\\
+$\gamma_{45} = 16$\\
+
+Так как все $\gamma > 0$, мы достигли оптимального плана.\\
+
+$Z_{min} = 12\cdot12 + 2\cdot 3 + 5\cdot2 + 9\cdot2 + 12\cdot16 + 2\cdot8 + 13\cdot2 + 1\cdot14 = 426$.
+
+\textbf{Вывод: } в ходе лабораторной работы изучили математическую модель транспортной
+задачи, овладели методами решения этой задачи.
+
+\end{document}

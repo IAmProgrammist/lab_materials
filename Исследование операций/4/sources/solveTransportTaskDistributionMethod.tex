@@ -1,0 +1,139 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report4.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgEKTOLRS}
+\begin{lrbox}{\bdgEKTOLRS}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontEKTOLRSBTGHLLSH[Scale=0.675674, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorEKTOLRSFIOOAPS}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEKTOLRSROARMAL}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEKTOLRSIHDBGFJN}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.254110 cm, fill=colorEKTOLRSFIOOAPS, draw=none] (-0.004767,0.004767) -- (7.000000,0.004767) -- (7.000000,-0.503453) -- (-0.004767,-0.503453) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.254110 cm, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (-0.004767,0.004767) -- (7.000000,0.004767) -- (7.000000,-0.503453) -- (-0.004767,-0.503453) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(0.249343, -0.360435) {\verb|solveTransportTaskDistributionMethod(c, a, b, EPS)|};
+\draw[fill=colorEKTOLRSFIOOAPS, draw=none, opacity=1.000000] (2.316650,-0.837161) -- (4.678582,-0.837161) -- (4.678582,-1.323732) -- (2.316650,-1.323732) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (2.316650,-0.837161) -- (4.678582,-0.837161) -- (4.678582,-1.323732) -- (2.316650,-1.323732) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.459668, -1.180715) {\verb|Инициализируем x|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-0.503453) -- (3.497616,-0.837161);
+\draw[fill=colorEKTOLRSFIOOAPS, draw=none, opacity=1.000000] (0.899510,-1.657440) -- (6.095723,-1.657440) -- (6.095723,-2.461542) -- (0.899510,-2.461542) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (0.899510,-1.657440) -- (6.095723,-1.657440) -- (6.095723,-2.461542) -- (0.899510,-2.461542) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(1.213269, -2.000994) {\verb|Приводим систему к опорному решению|};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(1.042528, -2.318524) {\verb|(вызов getTransportTaskBasisLeastCost)|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-1.323732) -- (3.497616,-1.657440);
+\draw[opacity=1.000000, fill=colorEKTOLRSFIOOAPS, draw=none] (1.961108, -3.563504) -- (3.497616, -4.331758) -- (5.034125, -3.563504) -- (3.497616, -2.795250) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.961108, -3.563504) -- (3.497616, -4.331758) -- (5.034125, -3.563504) -- (3.497616, -2.795250) --cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.796146, -3.524502) {\verb|Бесконечный|};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(3.254133, -3.766496) {\verb|цикл|};
+\draw[opacity=1.000000, fill=colorEKTOLRSFIOOAPS, draw=none] (2.128928, -5.349810) -- (2.813272, -4.665466) -- (4.181961, -4.665466) -- (4.866305, -5.349810) -- (4.181961, -6.034154) -- (2.813272, -6.034154) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (2.128928, -5.349810) -- (2.813272, -4.665466) -- (4.181961, -4.665466) -- (4.866305, -5.349810) -- (4.181961, -6.034154) -- (2.813272, -6.034154) --cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.853176, -5.294397) {\verb|Для каждой |};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.665209, -5.600056) {\verb|пустой клетки|};
+\draw[fill=colorEKTOLRSFIOOAPS, draw=none, opacity=1.000000] (1.210518,-6.367862) -- (5.784715,-6.367862) -- (5.784715,-7.789216) -- (1.210518,-7.789216) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.210518,-6.367862) -- (5.784715,-6.367862) -- (5.784715,-7.789216) -- (1.210518,-7.789216) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.423721,-6.367862) -- (5.571511,-6.367862) -- (5.571511,-7.789216) -- (1.423721,-7.789216) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.283107, -6.711416) {\verb|Ищем первую клетку, |};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.394607, -7.017074) {\verb|для которой сумма |};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.335016, -7.328668) {\verb|будет отрицательна|};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(1.566739, -7.646198) {\verb|(вызов getTransportTaskCycles)|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-6.034154) -- (3.497616,-6.367862);
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(3.290772, -6.246353) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (3.497616, -7.789216) -- (3.497616, -8.122923) -- (0.972155, -8.122923) -- (0.972155, -5.349810) -- (2.128928, -5.349810);
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(5.953477, -5.254465) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (4.866305, -5.349810) -- (6.023077, -5.349810) -- (6.023077, -8.361286) -- (3.497616, -8.361286);
+\draw[opacity=1.000000, fill=colorEKTOLRSFIOOAPS, draw=none] (1.739412, -9.574096) -- (3.497616, -10.453198) -- (5.255821, -9.574096) -- (3.497616, -8.694994) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.739412, -9.574096) -- (3.497616, -10.453198) -- (5.255821, -9.574096) -- (3.497616, -8.694994) --cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.335016, -9.657372) {\verb|Такая клетка есть?|};
+\draw[fill=colorEKTOLRSFIOOAPS, draw=none, opacity=1.000000] (2.456025,-10.786906) -- (4.539208,-10.786906) -- (4.539208,-11.264632) -- (2.456025,-11.264632) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (2.456025,-10.786906) -- (4.539208,-10.786906) -- (4.539208,-11.264632) -- (2.456025,-11.264632) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.599043, -11.121615) {\verb|Выйти из цикла|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-10.453198) -- (3.497616,-10.786906);
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(3.290772, -10.665397) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (5.255821, -9.574096) -- (5.494183, -9.574096) -- (5.494183, -10.786906);
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(5.424583, -9.478751) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (5.494183, -10.786906) -- (5.494183, -11.598340) -- (3.497616, -11.598340);
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (3.497616, -11.264632) -- (3.497616, -11.598340) -- (3.497616, -11.598340);
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-8.361286) -- (3.497616,-8.694994);
+\draw[fill=colorEKTOLRSFIOOAPS, draw=none, opacity=1.000000] (1.266405,-11.932048) -- (5.728827,-11.932048) -- (5.728827,-12.980820) -- (1.266405,-12.980820) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.266405,-11.932048) -- (5.728827,-11.932048) -- (5.728827,-12.980820) -- (1.266405,-12.980820) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.423721,-11.932048) -- (5.571511,-11.932048) -- (5.571511,-12.980820) -- (1.423721,-12.980820) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.006570, -12.256980) {\verb|Выполняем сдвиг в цикле |};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.468572, -12.520273) {\verb|из клетки на min|};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(1.566739, -12.837803) {\verb|(вызов moveTransportTaskCycle)|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-11.598340) -- (3.497616,-11.932048);
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-4.331758) -- (3.497616,-4.665466);
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(3.290772, -4.543956) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (3.497616, -12.980820) -- (3.497616, -13.314528) -- (0.733793, -13.314528) -- (0.733793, -2.628396) -- (3.497616, -2.628396);
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(6.191840, -3.420486) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014302cm, colorEKTOLRSIHDBGFJN] (5.034125, -3.563504) -- (6.261440, -3.563504) -- (6.261440, -13.552891) -- (3.497616, -13.552891);
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-2.461542) -- (3.497616,-2.795250);
+\draw[fill=colorEKTOLRSFIOOAPS, draw=none, opacity=1.000000] (1.310054,-13.886598) -- (5.685178,-13.886598) -- (5.685178,-14.644378) -- (1.310054,-14.644378) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.310054,-13.886598) -- (5.685178,-13.886598) -- (5.685178,-14.644378) -- (1.310054,-14.644378) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (1.423721,-13.886598) -- (5.571511,-13.886598) -- (5.571511,-14.644378) -- (1.423721,-14.644378) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.529384, -14.183830) {\verb|Вычисляем ответ|};
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(1.566739, -14.501360) {\verb|(вызов getAnswerTransportTask)|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-13.552891) -- (3.497616,-13.886598);
+\draw[opacity=1.000000, rounded corners=0.243286 cm, fill=colorEKTOLRSFIOOAPS, draw=none] (2.417151,-14.978085) -- (4.578081,-14.978085) -- (4.578081,-15.464657) -- (2.417151,-15.464657) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.243286 cm, fill=none, line width=0.023836cm, colorEKTOLRSIHDBGFJN] (2.417151,-14.978085) -- (4.578081,-14.978085) -- (4.578081,-15.464657) -- (2.417151,-15.464657) -- cycle;
+\verbatimfont{\normalsize\fontEKTOLRSBTGHLLSH}
+\node[opacity=1.000000, above right, colorEKTOLRSIHDBGFJN] at(2.660437, -15.321640) {\verb|Вернуть ответ|};
+\draw[opacity=1.000000, fill=none, line width=0.014302 cm, colorEKTOLRSIHDBGFJN] (3.497616,-14.644378) -- (3.497616,-14.978085);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{7.000000cm}{!}{\usebox{\bdgEKTOLRS}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

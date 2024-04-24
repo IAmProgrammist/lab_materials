@@ -1,0 +1,128 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report4.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgOEJIJIIP}
+\begin{lrbox}{\bdgOEJIJIIP}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontOEJIJIIPOCIDIKP[Scale=0.741673, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorOEJIJIIPKRTBTLAO}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOEJIJIIPTIOBQC}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOEJIJIIPFRNHKNA}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.453204 cm, fill=colorOEJIJIIPKRTBTLAO, draw=none] (0.640859,0.005233) -- (5.353908,0.005233) -- (5.353908,-0.901176) -- (0.640859,-0.901176) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.453204 cm, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (0.640859,0.005233) -- (5.353908,0.005233) -- (5.353908,-0.901176) -- (0.640859,-0.901176) -- cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.094062, -0.395642) {\verb|recalculatePotentials(c, x, |};
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.228590, -0.744188) {\verb|potentialsV, potentialsU)|};
+\draw[fill=colorOEJIJIIPKRTBTLAO, draw=none, opacity=1.000000] (0.120007,-1.267480) -- (5.874760,-1.267480) -- (5.874760,-1.801580) -- (0.120007,-1.801580) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (0.120007,-1.267480) -- (5.874760,-1.267480) -- (5.874760,-1.801580) -- (0.120007,-1.801580) -- cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(0.276994, -1.644593) {\verb|Инициализируем просчитанные потенциалы|};
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-0.901176) -- (2.997384,-1.267480);
+\draw[fill=colorOEJIJIIPKRTBTLAO, draw=none, opacity=1.000000] (1.199169,-2.167884) -- (4.795599,-2.167884) -- (4.795599,-2.703517) -- (1.199169,-2.703517) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (1.199169,-2.167884) -- (4.795599,-2.167884) -- (4.795599,-2.703517) -- (1.199169,-2.703517) -- cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.356156, -2.546530) {\verb|Предположим, что u1 = 0|};
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-1.801580) -- (2.997384,-2.167884);
+\draw[opacity=1.000000, fill=colorOEJIJIIPKRTBTLAO, draw=none] (0.256413, -4.440307) -- (2.997384, -5.810792) -- (5.738354, -4.440307) -- (2.997384, -3.069822) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (0.256413, -4.440307) -- (2.997384, -5.810792) -- (5.738354, -4.440307) -- (2.997384, -3.069822) --cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.929081, -4.396346) {\verb|Пока мы находим |};
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.214665, -4.683952) {\verb|непросчитанные потенциалы|};
+\draw[opacity=1.000000, fill=colorOEJIJIIPKRTBTLAO, draw=none] (0.833976, -7.258800) -- (1.915680, -6.177096) -- (4.079087, -6.177096) -- (5.160791, -7.258800) -- (4.079087, -8.340504) -- (1.915680, -8.340504) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (0.833976, -7.258800) -- (1.915680, -6.177096) -- (4.079087, -6.177096) -- (5.160791, -7.258800) -- (4.079087, -8.340504) -- (1.915680, -8.340504) --cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.563505, -7.046379) {\verb|Для всех заполненных |};
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.646291, -7.333985) {\verb|клеток, для которых |};
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(1.574939, -7.674355) {\verb|ui и vj не вычислено|};
+\draw[opacity=1.000000, fill=colorOEJIJIIPKRTBTLAO, draw=none] (1.430140, -9.490430) -- (2.997384, -10.274052) -- (4.564627, -9.490430) -- (2.997384, -8.706808) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (1.430140, -9.490430) -- (2.997384, -10.274052) -- (4.564627, -9.490430) -- (2.997384, -8.706808) --cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.085456, -9.582607) {\verb|Вычислено ui?|};
+\draw[fill=colorOEJIJIIPKRTBTLAO, draw=none, opacity=1.000000] (2.003589,-10.640356) -- (3.991178,-10.640356) -- (3.991178,-11.190042) -- (2.003589,-11.190042) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (2.003589,-10.640356) -- (3.991178,-10.640356) -- (3.991178,-11.190042) -- (2.003589,-11.190042) -- cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.160577, -11.033055) {\verb|Высчитать vj|};
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-10.274052) -- (2.997384,-10.640356);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.770334, -10.506978) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (4.564627, -9.490430) -- (4.826273, -9.490430) -- (4.826273, -10.640356);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(4.749874, -9.385772) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (4.826273, -10.640356) -- (4.826273, -11.556347) -- (2.997384, -11.556347);
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (2.997384, -11.190042) -- (2.997384, -11.556347) -- (2.997384, -11.556347);
+\draw[opacity=1.000000, fill=colorOEJIJIIPKRTBTLAO, draw=none] (1.378782, -12.731952) -- (2.997384, -13.541253) -- (4.615985, -12.731952) -- (2.997384, -11.922651) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (1.378782, -12.731952) -- (2.997384, -13.541253) -- (4.615985, -12.731952) -- (2.997384, -11.922651) --cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.085456, -12.849807) {\verb|Вычислено vj?|};
+\draw[fill=colorOEJIJIIPKRTBTLAO, draw=none, opacity=1.000000] (1.996882,-13.907557) -- (3.997885,-13.907557) -- (3.997885,-14.405885) -- (1.996882,-14.405885) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (1.996882,-13.907557) -- (3.997885,-13.907557) -- (3.997885,-14.405885) -- (1.996882,-14.405885) -- cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.153869, -14.248897) {\verb|Высчитать ui|};
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-13.541253) -- (2.997384,-13.907557);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.770334, -13.774179) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (4.615985, -12.731952) -- (4.877631, -12.731952) -- (4.877631, -13.907557);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(4.801233, -12.627293) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (4.877631, -13.907557) -- (4.877631, -14.772189) -- (2.997384, -14.772189);
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (2.997384, -14.405885) -- (2.997384, -14.772189) -- (2.997384, -14.772189);
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-11.556347) -- (2.997384,-11.922651);
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-8.340504) -- (2.997384,-8.706808);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.770334, -8.573430) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (2.997384, -14.772189) -- (2.997384, -15.138493) -- (0.572330, -15.138493) -- (0.572330, -7.258800) -- (0.833976, -7.258800);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(5.346039, -7.154142) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (5.160791, -7.258800) -- (5.422437, -7.258800) -- (5.422437, -15.400139) -- (2.997384, -15.400139);
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-5.810792) -- (2.997384,-6.177096);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(2.770334, -6.043718) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (2.997384, -15.400139) -- (2.997384, -15.766444) -- (-0.005233, -15.766444) -- (-0.005233, -2.886670) -- (2.997384, -2.886670);
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(5.923601, -4.283319) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015699cm, colorOEJIJIIPFRNHKNA] (5.738354, -4.440307) -- (6.000000, -4.440307) -- (6.000000, -16.028089) -- (2.997384, -16.028089);
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-2.703517) -- (2.997384,-3.069822);
+\draw[opacity=1.000000, rounded corners=0.278931 cm, fill=colorOEJIJIIPKRTBTLAO, draw=none] (0.446042,-16.394394) -- (5.548725,-16.394394) -- (5.548725,-16.952256) -- (0.446042,-16.952256) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.278931 cm, fill=none, line width=0.026165cm, colorOEJIJIIPFRNHKNA] (0.446042,-16.394394) -- (5.548725,-16.394394) -- (5.548725,-16.952256) -- (0.446042,-16.952256) -- cycle;
+\verbatimfont{\normalsize\fontOEJIJIIPOCIDIKP}
+\node[opacity=1.000000, above right, colorOEJIJIIPFRNHKNA] at(0.724973, -16.795269) {\verb|Выход (potentialsU, potentialsV)|};
+\draw[opacity=1.000000, fill=none, line width=0.015699 cm, colorOEJIJIIPFRNHKNA] (2.997384,-16.028089) -- (2.997384,-16.394394);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgOEJIJIIP}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

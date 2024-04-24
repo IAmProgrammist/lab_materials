@@ -1,0 +1,221 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report4.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgDMNFFDCB}
+\begin{lrbox}{\bdgDMNFFDCB}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontDMNFFDCBPMDGJFOD[Scale=0.496703, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorDMNFFDCBATQDJHD}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorDMNFFDCBBCSOTNBO}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorDMNFFDCBFERDHT}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.303514 cm, fill=colorDMNFFDCBATQDJHD, draw=none] (1.403923,0.003505) -- (6.592573,0.003505) -- (6.592573,-0.603523) -- (1.403923,-0.603523) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.303514 cm, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (1.403923,0.003505) -- (6.592573,0.003505) -- (6.592573,-0.603523) -- (1.403923,-0.603523) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(1.707437, -0.264964) {\verb|getTransportTaskCycles(c, x, a, b, init, result,|};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(1.898363, -0.498387) {\verb|curr, min, minAssigned, sum, it, state, EPS)|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (1.448850,-0.848839) -- (6.547645,-0.848839) -- (6.547645,-1.215084) -- (1.448850,-1.215084) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (1.448850,-0.848839) -- (6.547645,-0.848839) -- (6.547645,-1.215084) -- (1.448850,-1.215084) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(1.553986, -1.109949) {\verb|Ищем подходящие вершины и сохраняем в selectedNodes|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-0.603523) -- (3.998248,-0.848839);
+\draw[opacity=1.000000, fill=colorDMNFFDCBATQDJHD, draw=none] (2.511815, -2.203617) -- (3.998248, -2.946833) -- (5.484681, -2.203617) -- (3.998248, -1.460401) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.511815, -2.203617) -- (3.998248, -2.946833) -- (5.484681, -2.203617) -- (3.998248, -1.460401) --cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.144750, -2.169770) {\verb|Ранее был выполнен |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.239421, -2.362381) {\verb|поиск по строчке|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (2.511815, -2.203617) -- (1.909759, -2.203617) -- (1.909759, -3.192149);
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (0.562086,-3.192149) -- (3.257431,-3.192149) -- (3.257431,-3.561390) -- (0.562086,-3.561390) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (0.562086,-3.192149) -- (3.257431,-3.192149) -- (3.257431,-3.561390) -- (0.562086,-3.561390) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(0.667222, -3.456254) {\verb|Выполняем поиск по столбцу|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (-0.003505,-3.806706) -- (3.823022,-3.806706) -- (3.823022,-4.808025) -- (-0.003505,-4.808025) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (-0.003505,-3.806706) -- (3.823022,-3.806706) -- (3.823022,-4.808025) -- (-0.003505,-4.808025) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(0.101632, -4.066447) {\verb|Пропускаем текущий элемент и элементы, |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(0.537942, -4.259572) {\verb|которые уже находятся в пути.|};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(0.519033, -4.487519) {\verb|Остальные элементы с xij != 0 |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(0.713809, -4.702890) {\verb|добавляем в selectedNodes|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (1.909759,-3.561390) -- (1.909759,-3.806706);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(1.909759, -2.133527) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.484681, -2.203617) -- (6.086737, -2.203617) -- (6.086737, -3.192149);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(6.035572, -2.133527) {\verb|-|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (4.740989,-3.192149) -- (7.432484,-3.192149) -- (7.432484,-3.549326) -- (4.740989,-3.549326) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (4.740989,-3.192149) -- (7.432484,-3.192149) -- (7.432484,-3.549326) -- (4.740989,-3.549326) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(4.846125, -3.444190) {\verb|Выполняем поиск по строчке|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (4.173473,-3.794642) -- (8.000000,-3.794642) -- (8.000000,-4.795961) -- (4.173473,-4.795961) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (4.173473,-3.794642) -- (8.000000,-3.794642) -- (8.000000,-4.795961) -- (4.173473,-4.795961) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(4.278610, -4.054383) {\verb|Пропускаем текущий элемент и элементы, |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(4.714920, -4.247508) {\verb|которые уже находятся в пути.|};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(4.696011, -4.475456) {\verb|Остальные элементы с xij != 0 |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(4.890787, -4.690826) {\verb|добавляем в selectedNodes|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (6.086737,-3.549326) -- (6.086737,-3.794642);
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (6.086737, -4.795961) -- (6.086737, -5.053341) -- (3.998248, -5.053341);
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (1.909759, -4.808025) -- (1.909759, -5.053341) -- (3.998248, -5.053341);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-1.215084) -- (3.998248,-1.460401);
+\draw[opacity=1.000000, fill=colorDMNFFDCBATQDJHD, draw=none] (2.810460, -5.892551) -- (3.998248, -6.486445) -- (5.186035, -5.892551) -- (3.998248, -5.298657) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.810460, -5.892551) -- (3.998248, -6.486445) -- (5.186035, -5.892551) -- (3.998248, -5.298657) --cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.483779, -5.860500) {\verb|Если вершин |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.527329, -6.071507) {\verb|не найдено|};
+\draw[opacity=1.000000, rounded corners=0.182438 cm, fill=colorDMNFFDCBATQDJHD, draw=none] (2.815448,-6.731761) -- (5.181047,-6.731761) -- (5.181047,-7.096638) -- (2.815448,-7.096638) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.182438 cm, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.815448,-6.731761) -- (5.181047,-6.731761) -- (5.181047,-7.096638) -- (2.815448,-7.096638) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.997887, -6.991502) {\verb|Вернуть пустой массив|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-6.486445) -- (3.998248,-6.731761);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.846191, -6.642437) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.186035, -5.892551) -- (5.361261, -5.892551) -- (5.361261, -6.731761);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(5.310097, -5.822461) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.361261, -6.731761) -- (5.361261, -7.341954) -- (3.998248, -7.341954);
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (3.998248, -7.096638) -- (3.998248, -7.341954) -- (3.998248, -7.341954);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-5.053341) -- (3.998248,-5.298657);
+\draw[opacity=1.000000, fill=colorDMNFFDCBATQDJHD, draw=none] (2.551626, -8.310581) -- (3.274937, -7.587270) -- (4.721559, -7.587270) -- (5.444870, -8.310581) -- (4.721559, -9.033892) -- (3.274937, -9.033892) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.551626, -8.310581) -- (3.274937, -7.587270) -- (4.721559, -7.587270) -- (5.444870, -8.310581) -- (4.721559, -9.033892) -- (3.274937, -9.033892) --cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.042806, -8.172899) {\verb|Для каждой найденной |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.432101, -8.398964) {\verb|вершины node |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.242287, -8.591490) {\verb|из selectedNodes|};
+\draw[opacity=1.000000, fill=colorDMNFFDCBATQDJHD, draw=none] (2.516392, -10.020136) -- (3.998248, -10.761063) -- (5.480103, -10.020136) -- (3.998248, -9.279208) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.516392, -10.020136) -- (3.998248, -10.761063) -- (5.480103, -10.020136) -- (3.998248, -9.279208) --cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.388081, -9.974909) {\verb|Если достигли |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.189711, -10.199092) {\verb|начальной вершины|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (2.937670,-11.006379) -- (5.058826,-11.006379) -- (5.058826,-11.557365) -- (2.937670,-11.557365) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.937670,-11.006379) -- (5.058826,-11.006379) -- (5.058826,-11.557365) -- (2.937670,-11.557365) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.042806, -11.259105) {\verb|Добавляем в конечный |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.337900, -11.452230) {\verb|результат цикл|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (3.086030,-11.802681) -- (4.910465,-11.802681) -- (4.910465,-12.384554) -- (3.086030,-12.384554) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (3.086030,-11.802681) -- (4.910465,-11.802681) -- (4.910465,-12.384554) -- (3.086030,-12.384554) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.476078, -12.054722) {\verb|Переходим к |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.191166, -12.279418) {\verb|следующей вершине|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-11.557365) -- (3.998248,-11.802681);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-10.761063) -- (3.998248,-11.006379);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.846191, -10.917055) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.480103, -10.020136) -- (5.655329, -10.020136) -- (5.655329, -11.006379);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(5.604164, -9.950045) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.655329, -11.006379) -- (5.655329, -12.629870) -- (3.998248, -12.629870);
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (3.998248, -12.384554) -- (3.998248, -12.629870) -- (3.998248, -12.629870);
+\draw[opacity=1.000000, fill=colorDMNFFDCBATQDJHD, draw=none] (2.538484, -13.605068) -- (3.998248, -14.334950) -- (5.458012, -13.605068) -- (3.998248, -12.875186) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.538484, -13.605068) -- (3.998248, -14.334950) -- (5.458012, -13.605068) -- (3.998248, -12.875186) --cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.000796, -13.678521) {\verb|Вершина отрицательная|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (3.078757,-14.580266) -- (4.917738,-14.580266) -- (4.917738,-14.949506) -- (3.078757,-14.949506) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (3.078757,-14.580266) -- (4.917738,-14.580266) -- (4.917738,-14.949506) -- (3.078757,-14.949506) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.183893, -14.844371) {\verb|Обновляем минимум|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-14.334950) -- (3.998248,-14.580266);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.846191, -14.490942) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.458012, -13.605068) -- (5.633237, -13.605068) -- (5.633237, -14.580266);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(5.582073, -13.534978) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.633237, -14.580266) -- (5.633237, -15.194822) -- (3.998248, -15.194822);
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (3.998248, -14.949506) -- (3.998248, -15.194822) -- (3.998248, -15.194822);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-12.629870) -- (3.998248,-12.875186);
+\draw[opacity=1.000000, fill=colorDMNFFDCBATQDJHD, draw=none] (2.538484, -16.170020) -- (3.998248, -16.899902) -- (5.458012, -16.170020) -- (3.998248, -15.440138) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.538484, -16.170020) -- (3.998248, -16.899902) -- (5.458012, -16.170020) -- (3.998248, -15.440138) --cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.000796, -16.243473) {\verb|Вершина положительная|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (2.538484, -16.170020) -- (2.363258, -16.170020) -- (2.363258, -17.145218);
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (1.347257,-17.145218) -- (3.379259,-17.145218) -- (3.379259,-17.514801) -- (1.347257,-17.514801) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (1.347257,-17.145218) -- (3.379259,-17.145218) -- (3.379259,-17.514801) -- (1.347257,-17.514801) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(1.452392, -17.409665) {\verb|Добавляем cij к sum|};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.363258, -16.099930) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.458012, -16.170020) -- (5.633237, -16.170020) -- (5.633237, -17.145218);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(5.582073, -16.099930) {\verb|-|};
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (4.623482,-17.145218) -- (6.642993,-17.145218) -- (6.642993,-17.513346) -- (4.623482,-17.513346) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (4.623482,-17.145218) -- (6.642993,-17.145218) -- (6.642993,-17.513346) -- (4.623482,-17.513346) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(4.728618, -17.408211) {\verb|Вычитаем cij из sum|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.633237, -17.513346) -- (5.633237, -17.760117) -- (3.998248, -17.760117);
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (2.363258, -17.514801) -- (2.363258, -17.760117) -- (3.998248, -17.760117);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-15.194822) -- (3.998248,-15.440138);
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (2.744733,-18.005433) -- (5.251762,-18.005433) -- (5.251762,-18.374673) -- (2.744733,-18.374673) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.744733,-18.005433) -- (5.251762,-18.005433) -- (5.251762,-18.374673) -- (2.744733,-18.374673) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.849869, -18.269538) {\verb|Добавляем вершину в цикл|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-17.760117) -- (3.998248,-18.005433);
+\draw[fill=colorDMNFFDCBATQDJHD, draw=none, opacity=1.000000] (1.813633,-18.619989) -- (6.182863,-18.619989) -- (6.182863,-19.411414) -- (1.813633,-19.411414) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (1.813633,-18.619989) -- (6.182863,-18.619989) -- (6.182863,-19.411414) -- (1.813633,-19.411414) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (1.932346,-18.619989) -- (6.064149,-18.619989) -- (6.064149,-19.411414) -- (1.932346,-19.411414) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.273499, -18.879731) {\verb|Рекурсивно вызываем поиск дальнейших |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.037483, -19.072856) {\verb|вершин и вставляем в результат выполнения |};
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.182378, -19.306279) {\verb|функции (вызов getTransportTaskCycles)|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-18.374673) -- (3.998248,-18.619989);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-9.033892) -- (3.998248,-9.279208);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(3.846191, -9.189884) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (3.998248, -19.411414) -- (3.998248, -19.656730) -- (1.172031, -19.656730) -- (1.172031, -8.310581) -- (2.551626, -8.310581);
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(6.767054, -8.240490) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.010514cm, colorDMNFFDCBFERDHT] (5.444870, -8.310581) -- (6.818219, -8.310581) -- (6.818219, -19.831956) -- (3.998248, -19.831956);
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-7.341954) -- (3.998248,-7.587270);
+\draw[opacity=1.000000, rounded corners=0.178845 cm, fill=colorDMNFFDCBATQDJHD, draw=none] (2.819042,-20.077272) -- (5.177454,-20.077272) -- (5.177454,-20.434962) -- (2.819042,-20.434962) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.178845 cm, fill=none, line width=0.017523cm, colorDMNFFDCBFERDHT] (2.819042,-20.077272) -- (5.177454,-20.077272) -- (5.177454,-20.434962) -- (2.819042,-20.434962) -- cycle;
+\verbatimfont{\normalsize\fontDMNFFDCBPMDGJFOD}
+\node[opacity=1.000000, above right, colorDMNFFDCBFERDHT] at(2.997887, -20.329827) {\verb|Вернуть массив циклов|};
+\draw[opacity=1.000000, fill=none, line width=0.010514 cm, colorDMNFFDCBFERDHT] (3.998248,-19.831956) -- (3.998248,-20.077272);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{8.000000cm}{!}{\usebox{\bdgDMNFFDCB}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
