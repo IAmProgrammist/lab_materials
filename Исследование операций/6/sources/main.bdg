@@ -1,0 +1,1 @@
+{"data":[{"data":"Начало","type":"bd_element_terminator"},{"data":"Подготовить входные данные","type":"bd_element_process"},{"data":"Решить задачу двойственным \nсимплекс методом\n\n(вызов solveDualSimplexMethod)","type":"bd_element_preprocess"},{"data":"Вывести ответ","type":"bd_element_data"},{"data":"Конец","type":"bd_element_terminator"}],"type":"bd_element_container"}
