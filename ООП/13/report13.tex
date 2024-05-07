@@ -1,0 +1,439 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №13}}\\
+    \normalsize{
+        по дисциплине: ООП \\
+        тема: «Знакомство с библиотеками языка Python. PyQT.»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Черников Сергей Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №13}\\
+    «Знакомство с библиотеками языка Python. PyQT.»\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }приобретение практических навыков создания приложений на
+языке Python, QT приложения.\\
+
+QT-Фитнес инструктор (составление тренировок)\\
+\begin{center}
+    \includegraphics[width=140mm]{init_train.png}
+    \includegraphics[width=140mm]{train.png}
+\end{center}
+\begin{minted}{python3}
+import sys
+
+from PySide6.QtWidgets import QApplication
+
+from widgets.init_train_dialog import InitTrainDialog
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    dialog = InitTrainDialog()
+    dialog.show()
+    sys.exit(app.exec())
+\end{minted}
+\begin{minted}{python3}
+class TrainStep:
+    def __init__(self, desc: str, time: int):
+        self.desc = desc
+        self.time = time
+\end{minted}
+
+\begin{minted}{python3}
+import threading
+def debounce(wait_time):
+    def decorator(function):
+        def debounced(*args, **kwargs):
+            def call_function():
+                debounced._timer = None
+                return function(*args, **kwargs)
+            # if we already have a call to the function currently waiting to be executed, reset the timer
+            if debounced._timer is not None:
+                debounced._timer.cancel()
+
+            # after wait_time, call the function provided to the decorator with its arguments
+            debounced._timer = threading.Timer(wait_time, call_function)
+            debounced._timer.start()
+
+        debounced._timer = None
+        return debounced
+
+    return decorator
+\end{minted}
+
+\begin{minted}{python3}
+from PySide6.QtWidgets import QDialog, QFileDialog
+
+from src.lab13.models.train_step import TrainStep
+from src.lab13.utils.debounce import debounce
+from src.lab13.widgets import ui_init_train, train_dialog
+
+
+class InitTrainDialog(QDialog):
+    MESSAGE_NORMAL = "Введите тренировку"
+    MESSAGE_INCORRECT = "Формат тренировки неправильный"
+    MESSAGE_SAVED = "Тренировка сохранена"
+    MESSAGE_YOURE_TYPING = "Вы печатаете..."
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.ui = ui_init_train.Ui_Dialog()
+        self.ui.setupUi(self)
+
+        self.ui.savetrain.clicked.connect(self.savetrain)
+        self.ui.loadtrain.clicked.connect(self.loadtrain)
+        self.ui.begintrain.clicked.connect(self.begintrain)
+        self.ui.train.textChanged.connect(self.train_text_edit)
+        self.ui.message.setText(InitTrainDialog.MESSAGE_NORMAL)
+
+    def train_text_edit(self):
+        self.ui.message.setText(InitTrainDialog.MESSAGE_YOURE_TYPING)
+        self.train_text_edit_check_syntax()
+
+    @debounce(1)
+    def train_text_edit_check_syntax(self):
+        if self.check_syntax():
+            self.ui.message.setText(InitTrainDialog.MESSAGE_NORMAL)
+        else:
+            self.ui.message.setText(InitTrainDialog.MESSAGE_INCORRECT)
+
+    def check_syntax(self):
+        try:
+            train_steps = [TrainStep(" ".join(line.split()[:-1]), int(line.split()[-1])) for line in self.ui.train.toPlainText().strip().splitlines()]
+
+            return train_steps
+        except Exception as e:
+            return None
+
+    def savetrain(self):
+        if not self.check_syntax():
+            self.ui.message.setText(InitTrainDialog.MESSAGE_INCORRECT)
+            return
+
+        filename = QFileDialog.getSaveFileName(self,
+                "Сохранить тренировку", "", "Файлы тренировки (*.train)")
+
+        if len(filename[0]) == 0:
+            return
+
+        with open(filename[0], 'w', encoding='utf-8') as f:
+            f.write(self.ui.train.toPlainText().strip())
+
+        self.ui.message.setText(InitTrainDialog.MESSAGE_SAVED)
+
+    def loadtrain(self):
+        filename = QFileDialog.getOpenFileName(self, "Загрузить тренировку", "", "Файлы тренировки (*.train)")
+
+        if len(filename[0]) == 0:
+            return
+
+        with open(filename[0], 'r', encoding='utf-8') as f:
+            self.ui.train.setPlainText("".join(list(f.readlines())))
+
+        self.ui.message.setText(InitTrainDialog.MESSAGE_NORMAL)
+
+    def begintrain(self):
+        train = self.check_syntax()
+        if not train:
+            self.ui.message.setText(InitTrainDialog.MESSAGE_INCORRECT)
+            return
+
+        self.hide()
+
+        train = train_dialog.TrainDialog(train)
+        train.setModal(True)
+        train.exec()
+
+        self.show()
+\end{minted}
+
+\begin{minted}{python3}
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QDialog
+
+from src.lab13.models.train_step import TrainStep
+from src.lab13.widgets import ui_train
+
+import datetime
+
+class TrainDialog(QDialog):
+    MESSAGE_READY = 'Приготовиться!'
+    MESSAGE_END = 'Тренировка окончена!'
+    MESSAGE_END_SEC = 'Вы - молодец!'
+
+    def __init__(self, train, parent=None):
+        super().__init__(parent)
+        self.ui = ui_train.Ui_Dialog()
+        self.ui.setupUi(self)
+
+        self.train = [TrainStep(TrainDialog.MESSAGE_READY, 5)]
+        self.train.extend(train)
+        self.ui.canceltrain.clicked.connect(self.cancel_train)
+        self.start = datetime.datetime.now()
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.tick)
+        self.timer.setInterval(100)
+        self.timer.start()
+
+    def __del__(self):
+        self.timer.stop()
+
+    def cancel_train(self):
+        self.timer.stop()
+        self.accept()
+
+    def tick(self):
+        nowtime = datetime.datetime.now()
+        sum_time = 0
+        fitting = None
+
+        for item in self.train:
+            if datetime.timedelta(seconds=item.time + sum_time) + self.start > nowtime:
+                fitting = item
+                break
+            sum_time += item.time
+
+        if fitting:
+            seconds_left = 1 + (datetime.timedelta(seconds=fitting.time + sum_time) + self.start - nowtime).seconds
+            self.ui.trainname.setText(fitting.desc)
+            self.ui.traintime.setText(f'{seconds_left} сек.')
+        else:
+            self.ui.trainname.setText(TrainDialog.MESSAGE_END)
+            self.ui.traintime.setText(TrainDialog.MESSAGE_END_SEC)
+            self.timer.stop()
+
+\end{minted}
+
+\begin{minted}{python3}
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'init_train.ui'
+##
+## Created by: Qt User Interface Compiler version 6.7.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
+    QPlainTextEdit, QPushButton, QSizePolicy, QVBoxLayout,
+    QWidget)
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        if not Dialog.objectName():
+            Dialog.setObjectName(u"Dialog")
+        Dialog.resize(480, 640)
+        self.verticalLayoutWidget = QWidget(Dialog)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(20, 20, 440, 600))
+        self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.message = QLabel(self.verticalLayoutWidget)
+        self.message.setObjectName(u"message")
+
+        self.verticalLayout.addWidget(self.message)
+
+        self.train = QPlainTextEdit(self.verticalLayoutWidget)
+        self.train.setObjectName(u"train")
+
+        self.verticalLayout.addWidget(self.train)
+
+        self.begintrain = QPushButton(self.verticalLayoutWidget)
+        self.begintrain.setObjectName(u"begintrain")
+
+        self.verticalLayout.addWidget(self.begintrain)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.savetrain = QPushButton(self.verticalLayoutWidget)
+        self.savetrain.setObjectName(u"savetrain")
+
+        self.horizontalLayout.addWidget(self.savetrain)
+
+        self.loadtrain = QPushButton(self.verticalLayoutWidget)
+        self.loadtrain.setObjectName(u"loadtrain")
+
+        self.horizontalLayout.addWidget(self.loadtrain)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+
+        self.retranslateUi(Dialog)
+
+        QMetaObject.connectSlotsByName(Dialog)
+    # setupUi
+
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        self.message.setText(QCoreApplication.translate("Dialog", u"TextLabel", None))
+        self.begintrain.setText(QCoreApplication.translate("Dialog", u"\u041d\u0430\u0447\u0430\u0442\u044c \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0443", None))
+        self.savetrain.setText(QCoreApplication.translate("Dialog", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0443", None))
+        self.loadtrain.setText(QCoreApplication.translate("Dialog", u"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0443", None))
+    # retranslateUi
+\end{minted}
+
+\begin{minted}{python3}
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'train.ui'
+##
+## Created by: Qt User Interface Compiler version 6.7.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QPushButton,
+    QSizePolicy, QVBoxLayout, QWidget)
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        if not Dialog.objectName():
+            Dialog.setObjectName(u"Dialog")
+        Dialog.resize(600, 400)
+        self.verticalLayoutWidget = QWidget(Dialog)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(20, 20, 560, 360))
+        self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.trainname = QLabel(self.verticalLayoutWidget)
+        self.trainname.setObjectName(u"trainname")
+        self.trainname.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.trainname.setStyleSheet(u"font: 700 26pt \"Segoe UI\";")
+        self.trainname.setTextFormat(Qt.TextFormat.AutoText)
+        self.trainname.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.trainname.setWordWrap(True)
+
+        self.verticalLayout.addWidget(self.trainname)
+
+        self.traintime = QLabel(self.verticalLayoutWidget)
+        self.traintime.setObjectName(u"traintime")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.traintime.sizePolicy().hasHeightForWidth())
+        self.traintime.setSizePolicy(sizePolicy)
+        self.traintime.setStyleSheet(u"font: 16pt \"Segoe UI\";")
+        self.traintime.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+
+        self.verticalLayout.addWidget(self.traintime)
+
+        self.canceltrain = QPushButton(self.verticalLayoutWidget)
+        self.canceltrain.setObjectName(u"canceltrain")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.canceltrain.sizePolicy().hasHeightForWidth())
+        self.canceltrain.setSizePolicy(sizePolicy1)
+        self.canceltrain.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.canceltrain.setAutoDefault(True)
+        self.canceltrain.setFlat(False)
+
+        self.verticalLayout.addWidget(self.canceltrain, 0, Qt.AlignmentFlag.AlignRight)
+
+
+        self.retranslateUi(Dialog)
+
+        self.canceltrain.setDefault(False)
+
+
+        QMetaObject.connectSlotsByName(Dialog)
+    # setupUi
+
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        self.trainname.setText(QCoreApplication.translate("Dialog", u"\u0422\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0430 \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0430 \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0430", None))
+        self.traintime.setText(QCoreApplication.translate("Dialog", u"30 \u0441\u0435\u043a.", None))
+        self.canceltrain.setText(QCoreApplication.translate("Dialog", u"\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0443", None))
+    # retranslateUi
+\end{minted}
+
+\href{https://gitlab.com/vlad4052/2024_pv223_vladislav_10}{Ссылка на репозиторий}
+
+\textbf{Вывод: } в ходе лабораторной работы приобретели практические навыки создания приложений на
+языке Python, QT приложения.
+
+\end{document}
