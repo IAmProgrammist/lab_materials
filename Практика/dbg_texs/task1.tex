@@ -1,0 +1,54 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorKLTKDRBQBFIJJS}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontKLTKDRBQLLTNPJ[Scale=1.289648, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorKLTKDRBQBFIJJS}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorKLTKDRBQONNQLCA}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorKLTKDRBQHJGDDKLQ}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.500455 cm, fill=colorKLTKDRBQONNQLCA, draw=none] (-0.009099,0.009099) -- (10.000000,0.009099) -- (10.000000,-0.991811) -- (-0.009099,-0.991811) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.500455 cm, fill=none, line width=0.045496cm, colorKLTKDRBQHJGDDKLQ] (-0.009099,0.009099) -- (10.000000,0.009099) -- (10.000000,-0.991811) -- (-0.009099,-0.991811) -- cycle;
+        \verbatimfont{\normalsize\fontKLTKDRBQLLTNPJ}
+        \node[opacity=1.000000, above right, colorKLTKDRBQHJGDDKLQ] at(0.475786, -0.695607) {\verb|solveSquareEquation(a, b, c, x1, x2)|};
+        \draw[fill=colorKLTKDRBQONNQLCA, draw=none, opacity=1.000000] (0.441310,-1.628753) -- (9.549591,-1.628753) -- (9.549591,-2.629663) -- (0.441310,-2.629663) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.045496cm, colorKLTKDRBQHJGDDKLQ] (0.441310,-1.628753) -- (9.549591,-1.628753) -- (9.549591,-2.629663) -- (0.441310,-2.629663) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.045496cm, colorKLTKDRBQHJGDDKLQ] (0.591447,-1.628753) -- (9.399454,-1.628753) -- (9.399454,-2.629663) -- (0.591447,-2.629663) -- cycle;
+        \verbatimfont{\normalsize\fontKLTKDRBQLLTNPJ}
+        \node[opacity=1.000000, above right, colorKLTKDRBQHJGDDKLQ] at(0.864195, -2.333460) {\verb|sqrtD := sqrtf(b * b - 4 * a * c)|};
+        \draw[opacity=1.000000, fill=none, line width=0.045496 cm, colorKLTKDRBQHJGDDKLQ] (4.995450,-0.991811) -- (4.995450,-1.628753);
+        \draw[fill=colorKLTKDRBQONNQLCA, draw=none, opacity=1.000000] (1.219290,-3.266606) -- (8.771611,-3.266606) -- (8.771611,-4.267516) -- (1.219290,-4.267516) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.045496cm, colorKLTKDRBQHJGDDKLQ] (1.219290,-3.266606) -- (8.771611,-3.266606) -- (8.771611,-4.267516) -- (1.219290,-4.267516) -- cycle;
+        \verbatimfont{\normalsize\fontKLTKDRBQLLTNPJ}
+        \node[opacity=1.000000, above right, colorKLTKDRBQHJGDDKLQ] at(1.482118, -3.971312) {\verb|x1 := (-b + sqrtD) / (2 * a)|};
+        \draw[opacity=1.000000, fill=none, line width=0.045496 cm, colorKLTKDRBQHJGDDKLQ] (4.995450,-2.629663) -- (4.995450,-3.266606);
+        \draw[fill=colorKLTKDRBQONNQLCA, draw=none, opacity=1.000000] (1.219290,-4.904459) -- (8.771611,-4.904459) -- (8.771611,-5.905369) -- (1.219290,-5.905369) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.045496cm, colorKLTKDRBQHJGDDKLQ] (1.219290,-4.904459) -- (8.771611,-4.904459) -- (8.771611,-5.905369) -- (1.219290,-5.905369) -- cycle;
+        \verbatimfont{\normalsize\fontKLTKDRBQLLTNPJ}
+        \node[opacity=1.000000, above right, colorKLTKDRBQHJGDDKLQ] at(1.482118, -5.609165) {\verb|x2 := (-b - sqrtD) / (2 * a)|};
+        \draw[opacity=1.000000, fill=none, line width=0.045496 cm, colorKLTKDRBQHJGDDKLQ] (4.995450,-4.267516) -- (4.995450,-4.904459);
+        \draw[opacity=1.000000, rounded corners=0.500455 cm, fill=colorKLTKDRBQONNQLCA, draw=none] (2.743403,-6.542311) -- (7.247498,-6.542311) -- (7.247498,-7.543221) -- (2.743403,-7.543221) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.500455 cm, fill=none, line width=0.045496cm, colorKLTKDRBQHJGDDKLQ] (2.743403,-6.542311) -- (7.247498,-6.542311) -- (7.247498,-7.543221) -- (2.743403,-7.543221) -- cycle;
+        \verbatimfont{\normalsize\fontKLTKDRBQLLTNPJ}
+        \node[opacity=1.000000, above right, colorKLTKDRBQHJGDDKLQ] at(3.229957, -7.247017) {\verb|Выход (x1, x2)|};
+        \draw[opacity=1.000000, fill=none, line width=0.045496 cm, colorKLTKDRBQHJGDDKLQ] (4.995450,-5.905369) -- (4.995450,-6.542311);
+    \end{tikzpicture}
+\end{document}

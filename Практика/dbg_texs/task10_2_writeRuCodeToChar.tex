@@ -1,0 +1,59 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorSNRCFQQENPREA}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontSNRCFQTOAPGES[Scale=0.801653, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorSNRCFQQENPREA}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorSNRCFQDDRINGEM}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorSNRCFQGNHRTICT}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.311086 cm, fill=colorSNRCFQDDRINGEM, draw=none] (0.008484,0.005656) -- (4.985860,0.005656) -- (4.985860,-0.616516) -- (0.008484,-0.616516) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.311086 cm, fill=none, line width=0.028281cm, colorSNRCFQGNHRTICT] (0.008484,0.005656) -- (4.985860,0.005656) -- (4.985860,-0.616516) -- (0.008484,-0.616516) -- cycle;
+\verbatimfont{\normalsize\fontSNRCFQTOAPGES}
+\node[opacity=1.000000, above right, colorSNRCFQGNHRTICT] at(0.307475, -0.464918) {\verb|writeRuCodeToChar(code, beg)|};
+\draw[fill=colorSNRCFQDDRINGEM, draw=none, opacity=1.000000] (-0.005656,-1.012443) -- (5.000000,-1.012443) -- (5.000000,-1.634615) -- (-0.005656,-1.634615) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.028281cm, colorSNRCFQGNHRTICT] (-0.005656,-1.012443) -- (5.000000,-1.012443) -- (5.000000,-1.634615) -- (-0.005656,-1.634615) -- cycle;
+\verbatimfont{\normalsize\fontSNRCFQTOAPGES}
+\node[opacity=1.000000, above right, colorSNRCFQGNHRTICT] at(0.148546, -1.483018) {\verb|beg[0] := (code & 0xFF00) >> 8|};
+\draw[opacity=1.000000, fill=none, line width=0.028281 cm, colorSNRCFQGNHRTICT] (2.497172,-0.616516) -- (2.497172,-1.012443);
+\draw[fill=colorSNRCFQDDRINGEM, draw=none, opacity=1.000000] (0.537330,-2.030543) -- (4.457014,-2.030543) -- (4.457014,-2.652715) -- (0.537330,-2.652715) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.028281cm, colorSNRCFQGNHRTICT] (0.537330,-2.030543) -- (4.457014,-2.030543) -- (4.457014,-2.652715) -- (0.537330,-2.652715) -- cycle;
+\verbatimfont{\normalsize\fontSNRCFQTOAPGES}
+\node[opacity=1.000000, above right, colorSNRCFQGNHRTICT] at(0.695970, -2.501117) {\verb|beg[1] := code & 0x00FF|};
+\draw[opacity=1.000000, fill=none, line width=0.028281 cm, colorSNRCFQGNHRTICT] (2.497172,-1.634615) -- (2.497172,-2.030543);
+\draw[opacity=1.000000, rounded corners=0.311086 cm, fill=colorSNRCFQDDRINGEM, draw=none] (1.252828,-3.048643) -- (3.741516,-3.048643) -- (3.741516,-3.670814) -- (1.252828,-3.670814) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.311086 cm, fill=none, line width=0.028281cm, colorSNRCFQGNHRTICT] (1.252828,-3.048643) -- (3.741516,-3.048643) -- (3.741516,-3.670814) -- (1.252828,-3.670814) -- cycle;
+\verbatimfont{\normalsize\fontSNRCFQTOAPGES}
+\node[opacity=1.000000, above right, colorSNRCFQGNHRTICT] at(1.631889, -3.519217) {\verb|Выход (beg)|};
+\draw[opacity=1.000000, fill=none, line width=0.028281 cm, colorSNRCFQGNHRTICT] (2.497172,-2.652715) -- (2.497172,-3.048643);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

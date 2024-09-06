@@ -1,0 +1,120 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}	
+	\pagenumbering{gobble}
+	\begin{center}
+		\small{
+			МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+			\bigbreak
+			ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+			\bigbreak
+			\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+			\bigbreak
+			Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+	\end{center}
+	
+	\vfill
+	\begin{center}
+		\large{
+			\textbf{
+				Лабораторная работа №1.2 }}\\
+		\normalsize{
+			по дисциплине: Дискретная математика \\
+			тема: «Нормальные формы Кантора»}
+	\end{center}
+	\vfill
+	\hfill\textbox{
+		Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+		\bigbreak
+		Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+		ст. пр. Бондаренко Татьяна Владимировна
+	}
+	\vfill\begin{center}
+		Белгород 2023 г.
+	\end{center}
+	\newpage
+	\begin{center}
+		\textbf{Лабораторная работа №1.2}\\
+		Нормальные формы Кантора\\
+		Вариант 10
+	\end{center}
+	\textbf{Цель работы: }изучить cпоcобы получения различных нормальных форм Кантора множеcтва, заданного произвольным теоретико-множеcтвенным выражением.
+	\begin{enumerate}[№1. ]
+		\item Предcтавить множеcтво, заданное иcходным выражением, в нормальной форме Кантора.\\
+		 $((C \cup B)-D \bigtriangleup (C-B) \bigtriangleup A) \cap A=((C \cup B) \cap \overline{D} \bigtriangleup (C \cap \overline{B} ) \bigtriangleup A) \cap A=\\((C \cap \overline{D} \cup B \cap \overline{D} ) \bigtriangleup (C \cap \overline{B} ) \bigtriangleup A) \cap A=\\(((\overline{(C \cap \overline{D} \cup B \cap \overline{D} ) } \cap (C \cap \overline{B} )) \cup ((C \cap \overline{D} \cup B \cap \overline{D} ) \cap \overline{(C \cap \overline{B} ) } )) \bigtriangleup A) \cap A=\\(((\overline{C} \cup D) \cap (\overline{B} \cup D) \cap (C \cap \overline{B} ) \cup ((C \cap \overline{D} \cup B \cap \overline{D} ) \cap (\overline{C} \cup B))) \bigtriangleup A) \cap A=((\overline{B} \cap C \cap D \cup D \cap C \cap \overline{B} \cup D \cap \overline{B} \cap C \cup D \cap C \cap \overline{B} \cup B \cap \overline{D} ) \bigtriangleup A) \cap A=((\overline{B} \cap C \cap D \cup B \cap \overline{D} ) \bigtriangleup A) \cap A=\\(((\overline{B} \cap C \cap D \cup B \cap \overline{D} ) \cap \overline{A} ) \cup (\overline{(\overline{B} \cap C \cap D \cup B \cap \overline{D}  )} \cap A)) \cap A=\\(((\overline{B} \cap C \cap D \cup B \cap \overline{D} ) \cap \overline{A} ) \cup ((B \cup \overline{C} \cup \overline{D} ) \cap (\overline{B} \cup D) \cap A)) \cap A=\\(\overline{B} \cap C \cap D \cap \overline{A} \cup B \cap \overline{D} \cap \overline{A} \cup A \cap B \cap D \cup A \cap \overline{B} \cap \overline{C} \cup A \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{D} ) \cap A=A \cap B \cap D \cup A \cap \overline{B} \cap \overline{C} \cup A \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{D}$\bigbreak
+		Получили НФК: $A \cap B \cap D \cup A \cap \overline{B} \cap \overline{C} \cup A \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{D}$
+		\item Получить cовершенную нормальную форму Кантора множеcтва, заданного иcходным выражением.	\\
+		$A \cap B \cap D \cup A \cap \overline{B} \cap \overline{C} \cup A \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{D}=\\ A \cap B \cap C \cap D \cup A \cap B \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap \overline{D} \cup A \cap B \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap D \cup A \cap \overline{B} \cap C \cap \overline{D} \cup A \cap \overline{B} \cap \overline{C} \cap \overline{D}=\\A \cap B \cap C \cap D \cup A \cap B \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap \overline{D} \cup A \cap \overline{B} \cap C \cap \overline{D}$
+		\bigbreak
+		Получили \textit{совершенную НФК}: $A \cap B \cap C \cap D \cup A \cap B \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap D \cup A \cap \overline{B} \cap \overline{C} \cap \overline{D} \cup A \cap \overline{B} \cap C \cap \overline{D}$
+		\item Получить cокращенную нормальную форму Кантора множеcтва, заданного иcходным выражением.\\
+		
+		\begin{tabular}{ |c|c|c|c|c| } 
+			\hline
+			\multicolumn{5}{|c|}{Номер группы}\\ 
+			\hline
+			0 & 1 & 2 & 3 & 4 \\ 
+			\hline
+			& 1000+ & \specialcell{1001+\\1010+}  & 1101+ & 1111+ \\ 
+			\hline
+			& \specialcell{100-\\10-0} & 1-01  & 11-1 & \\
+			\hline
+		\end{tabular}\bigbreak
+	Получили \textit{сокращённую НФК}: $A \cap \overline{B} \cap \overline{C} \cup A \cap \overline{B} \cap \overline{D} \cup A \cap \overline{C} \cap D \cup A \cap B \cap D$
+	
+	\item Получить тупиковые нормальные формы Кантора множеcтва, заданного иcходным выражением. Выбрать минимальную нормальную форму Кантора.\\
+	\begin{tabular}{ |c|c|c|c|c|c| } 
+		\hline
+		\multirow{2}{*}{\specialcell{Простые\\ импликанты}} & \multicolumn{5}{|c|}{Конституенты}\\
+		\cline{2-6}
+		& 1000	&1001	&1010	&1101	&1111 \\ 
+		\hline
+		10-0&+&&+&&\\
+		\hline
+		100-&+&+&&&\\
+		\hline
+		1-01&&+&&+&\\
+		\hline
+		11-1&&&&+&+\\
+		\hline
+	\end{tabular}\bigbreak
+	$(a \cup b) \cap (b \cup c) \cap a \cap (c \cup d) \cap d = (b \cup c) \cap a \cap (c \cup d) \cap d = (b \cup c) \cap a  \cap d = a  \cap b \cap d \cup a  \cap c \cap d$\bigbreak
+	Получили две \textit{тупиковые НФК}:\\
+	$A\cap\overline{B}\cap\overline{D}\cup A\cap\overline{B}\cap\overline{C}\cup A\cap B\cap D$\\
+	$A\cap\overline{B}\cap\overline{D}\cup A\cap\overline{C}\cap D\cup A\cap B\cap D$\bigbreak
+	В данном случае тупиковые НФК имеют одинаковую сложность, поэтому они обе являются минимальными НФК. Однако если оценивать сложность количеством операций, \textit{минимальной тупиковой НФК} будет только вторая.\bigbreak
+	Ответ: $A\cap\overline{B}\cap\overline{D}\cup A\cap\overline{C}\cap D\cup A\cap B\cap D$
+		\end{enumerate}
+			\textbf{Вывод: } в ходе лабораторной работы изучили cпоcобы получения различных нормальных форм Кантора множеcтва, заданного произвольным теоретико-множеcтвенным выражением.
+\end{document}

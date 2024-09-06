@@ -1,0 +1,94 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorOGRLRHTFADPCG}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontOGRLRHTODFBDK[Scale=0.824025, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorOGRLRHTFADPCG}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOGRLRHTRFLQATL}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorOGRLRHTDITJEAHA}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.627907 cm, fill=colorOGRLRHTRFLQATL, draw=none] (0.311047,0.005814) -- (6.683140,0.005814) -- (6.683140,-1.250000) -- (0.311047,-1.250000) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.627907 cm, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (0.311047,0.005814) -- (6.683140,0.005814) -- (6.683140,-1.250000) -- (0.311047,-1.250000) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(0.937330, -0.468926) {\verb|getDiagonalTopLeftToBottomRight(|};
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(1.096212, -0.804132) {\verb|matrix, n, k, iStart, jStart, |};
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(1.643471, -1.139338) {\verb|diagonal, diagonalSize)|};
+\draw[fill=colorOGRLRHTRFLQATL, draw=none, opacity=1.000000] (2.441860,-1.656977) -- (4.552326,-1.656977) -- (4.552326,-2.296512) -- (2.441860,-2.296512) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (2.441860,-1.656977) -- (4.552326,-1.656977) -- (4.552326,-2.296512) -- (2.441860,-2.296512) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(2.614416, -2.131717) {\verb|i := iStart|};
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-1.250000) -- (3.497093,-1.656977);
+\draw[fill=colorOGRLRHTRFLQATL, draw=none, opacity=1.000000] (2.441860,-2.703488) -- (4.552326,-2.703488) -- (4.552326,-3.343023) -- (2.441860,-3.343023) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (2.441860,-2.703488) -- (4.552326,-2.703488) -- (4.552326,-3.343023) -- (2.441860,-3.343023) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(2.614416, -3.178229) {\verb|j := jStart|};
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-2.296512) -- (3.497093,-2.703488);
+\draw[opacity=1.000000, fill=colorOGRLRHTRFLQATL, draw=none] (1.831395, -4.582849) -- (3.497093, -5.415698) -- (5.162791, -4.582849) -- (3.497093, -3.750000) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (1.831395, -4.582849) -- (3.497093, -5.415698) -- (5.162791, -4.582849) -- (3.497093, -3.750000) --cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(2.296652, -4.702938) {\verb|i < n and j < k|};
+\draw[fill=colorOGRLRHTRFLQATL, draw=none, opacity=1.000000] (0.284884,-5.822674) -- (6.709302,-5.822674) -- (6.709302,-6.462209) -- (0.284884,-6.462209) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (0.284884,-5.822674) -- (6.709302,-5.822674) -- (6.709302,-6.462209) -- (0.284884,-6.462209) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(0.443031, -6.297415) {\verb|diagonal[diagonalSize] := matrix[i][j]|};
+\draw[fill=colorOGRLRHTRFLQATL, draw=none, opacity=1.000000] (0.764535,-6.869186) -- (6.229651,-6.869186) -- (6.229651,-7.508721) -- (0.764535,-7.508721) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (0.764535,-6.869186) -- (6.229651,-6.869186) -- (6.229651,-7.508721) -- (0.764535,-7.508721) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(0.937330, -7.343926) {\verb|diagonalSize := diagonalSize + 1|};
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-6.462209) -- (3.497093,-6.869186);
+\draw[fill=colorOGRLRHTRFLQATL, draw=none, opacity=1.000000] (2.523256,-7.915698) -- (4.470930,-7.915698) -- (4.470930,-8.555233) -- (2.523256,-8.555233) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (2.523256,-7.915698) -- (4.470930,-7.915698) -- (4.470930,-8.555233) -- (2.523256,-8.555233) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(2.685030, -8.390438) {\verb|i := i + 1|};
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-7.508721) -- (3.497093,-7.915698);
+\draw[fill=colorOGRLRHTRFLQATL, draw=none, opacity=1.000000] (2.523256,-8.962209) -- (4.470930,-8.962209) -- (4.470930,-9.601744) -- (2.523256,-9.601744) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (2.523256,-8.962209) -- (4.470930,-8.962209) -- (4.470930,-9.601744) -- (2.523256,-9.601744) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(2.685030, -9.436950) {\verb|j := j + 1|};
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-8.555233) -- (3.497093,-8.962209);
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-5.415698) -- (3.497093,-5.822674);
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(3.303116, -5.733461) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (3.497093, -9.601744) -- (3.497093, -10.008721) -- (-0.005814, -10.008721) -- (-0.005814, -3.546512) -- (3.497093, -3.546512);
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(6.823465, -4.408430) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (5.162791, -4.582849) -- (7.000000, -4.582849) -- (7.000000, -10.299419) -- (3.497093, -10.299419);
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-3.343023) -- (3.497093,-3.750000);
+\draw[opacity=1.000000, rounded corners=0.319767 cm, fill=colorOGRLRHTRFLQATL, draw=none] (0.779070,-10.706395) -- (6.215116,-10.706395) -- (6.215116,-11.345930) -- (0.779070,-11.345930) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.319767 cm, fill=none, line width=0.029070cm, colorOGRLRHTDITJEAHA] (0.779070,-10.706395) -- (6.215116,-10.706395) -- (6.215116,-11.345930) -- (0.779070,-11.345930) -- cycle;
+\verbatimfont{\normalsize\fontOGRLRHTODFBDK}
+\node[opacity=1.000000, above right, colorOGRLRHTDITJEAHA] at(1.096212, -11.181136) {\verb|Выход (diagonal, diagonalSize)|};
+\draw[opacity=1.000000, fill=none, line width=0.029070 cm, colorOGRLRHTDITJEAHA] (3.497093,-10.299419) -- (3.497093,-10.706395);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

@@ -1,0 +1,712 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+
+
+\newcommand\textbox[1]{
+    \parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\header}[7]{
+    \begin{center}
+        \small{
+            МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ \\РОССИЙСКОЙ ФЕДЕРАЦИИ
+            \bigbreak
+            ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ \\
+            \bigbreak
+            \textbf{«БЕЛГОРОДСКИЙ ГОСУДАРСТВЕННЫЙ \\ТЕХНОЛОГИЧЕСКИЙ УНИВЕРСИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+            \bigbreak
+            Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+    \end{center}
+
+    \vfill
+    \begin{center}
+        \large{
+            \textbf{
+                Лабораторная работа №#1 }}\\
+        \normalsize{
+            по дисциплине: #2 \\
+            тема: «#3»}
+    \end{center}
+    \vfill
+    \hfill\textbox{
+        Выполнил: #4
+        \bigbreak
+        Проверили: #5
+        \bigbreak
+        Код-ревьер: #6
+    }
+    \vfill\begin{center}
+              Белгород #7 г.
+    \end{center}
+    \newpage
+}
+\newcommand{\content}[4]{
+    \justifying
+    \begin{center}
+        \large{
+            \textbf{
+                Лабораторная работа №#1
+            }
+        }\\
+    \end{center}
+    \textbf {
+        Содержание отчёта:
+    }
+    #2
+    \textbf{Тема лабораторной работы: }#3\\
+    \textbf{Цель лабораторной работы: }#4
+    \newpage
+}
+\newcommand\codeforcesresult[1]{
+    \begin{center}
+        \includegraphics[width=\linewidth]{#1}
+    \end{center}
+}
+
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\begin{document}
+
+    \pagenumbering{gobble}
+
+    \header{10}{Основы программирования}{Бинарный поиск}{ст. группы ПВ-223\\Пахомов Владислав Андреевич}{Притчин Иван Сергеевич\\ Черников Сергей Викторович}{ст. группы ПВ-223\\ Голуцкий Георгий Юрьевич}{2023}
+\content{10\\Вариант 1}{\begin{itemize}
+    \item Тема лабораторной работы
+\item Цель лабораторной работы
+\item Решения задач
+\begin{itemize}
+    \item Название задачи.
+\item Исходный код.
+\item Вердикт тестирующей системы.
+\item Задачи с двумя звёздочками не являются обязательными.
+
+\end{itemize}
+\item Работа над ошибками (код-ревью)
+\item Вывод по работе
+
+\end{itemize}}{Бинарный поиск}{получение навыков использования алгоритмов бинарного поиска для решения задач оптимизации.}
+\begin{enumerate}
+    \item \href{https://codeforces.com/edu/course/2/lesson/6/1/practice/contest/283911/problem/A}{\textbf{Двоичный поиск}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include "stdio.h"
+#include "stdlib.h"
+
+int main() {
+    int arraySize, requestAmount;
+    scanf("%d %d", &arraySize, &requestAmount);
+
+    int *array = (int *) malloc(sizeof(int) * arraySize);
+    for (int i = 0; i < arraySize; i++)
+        scanf("%d", array + i);
+
+    for (int i = 0; i < requestAmount; i++) {
+        int requestedNumber;
+        scanf("%d", &requestedNumber);
+
+        int left = -1;
+        int right = arraySize;
+
+        while (right - left > 1) {
+            int middleIndex = left + (right - left) / 2;
+            if (array[middleIndex] < requestedNumber)
+                left = middleIndex;
+            else
+                right = middleIndex;
+        }
+
+        if (array[right] == requestedNumber)
+            printf("YES\n");
+        else
+            printf("NO\n");
+    }
+
+    free(array);
+
+    return 0;
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/283911A}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/1.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/edu/course/2/lesson/6/1/practice/contest/283911/problem/D}{\textbf{Быстрый поиск в массиве}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include "stdio.h"
+#include "stdlib.h"
+
+int basicNumComparator(const void *a, const void *b) {
+    if (*((int *) a) > *((int *) b)) return 1;
+    if (*((int *) a) < *((int *) b)) return -1;
+    return 0;
+}
+
+int main() {
+    int arraySize;
+    scanf("%d", &arraySize);
+
+    int *array = (int *) malloc(sizeof(int) * arraySize);
+    for (int i = 0; i < arraySize; i++)
+        scanf("%d", array + i);
+
+    qsort(array, arraySize, sizeof(array[0]), basicNumComparator);
+
+    int requestAmount;
+    scanf("%d", &requestAmount);
+
+    for (int i = 0; i < requestAmount; i++) {
+        int requestedLeftBorder, requestedRightBorder;
+        scanf("%d %d", &requestedLeftBorder, &requestedRightBorder);
+
+        int left = -1;
+        int right = arraySize;
+
+        while (right - left > 1) {
+            int middleIndex = left + (right - left) / 2;
+            if (array[middleIndex] < requestedLeftBorder)
+                left = middleIndex;
+            else
+                right = middleIndex;
+        }
+
+        int leftBorder = right;
+        right = arraySize;
+
+        while (right - left > 1) {
+            int middleIndex = left + (right - left) / 2;
+            if (array[middleIndex] <= requestedRightBorder)
+                left = middleIndex;
+            else
+                right = middleIndex;
+        }
+
+        printf("%d\n", right - leftBorder);
+    }
+
+    free(array);
+
+    return 0;
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/283911D}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/4.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/edu/course/2/lesson/6/2/practice/contest/283932/problem/C}{\textbf{Очень Легкая Задача}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include "stdio.h"
+
+int printedPages(int x, int y, int time) {
+    return time / x + time / y;
+}
+
+int main() {
+    int copiesAmount, xVelocity, yVelocity;
+    scanf("%d %d %d", &copiesAmount, &xVelocity, &yVelocity);
+
+    int left = -1;
+    int right = xVelocity * copiesAmount;
+    copiesAmount--;
+
+    while (right - left > 1) {
+        int middleTime = left + (right - left) / 2;
+        if (printedPages(xVelocity, yVelocity, middleTime) < copiesAmount)
+            left = middleTime;
+        else
+            right = middleTime;
+    }
+
+    right += xVelocity < yVelocity ? xVelocity : yVelocity;
+
+    printf("%d", right);
+
+    return 0;
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/283932A}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/6.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/problemset/problem/192/A}{\textbf{Модные числа}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdbool.h>
+#include "stdio.h"
+
+long long triangleNum(long long num) {
+    return num * (num + 1) / 2;
+}
+
+int main() {
+    long long num;
+    scanf("%lld", &num);
+
+    bool result = false;
+    for (long long k = 1; (triangleNum(k) < num) && !result; k++) {
+        long long secondTriangleNum = num - triangleNum(k);
+
+        long long left = k - 1;
+        long long right = num;
+
+        while (right - left > 1) {
+            long long middleNum = left + (right - left) / 2;
+
+            if (triangleNum(middleNum) < secondTriangleNum)
+                left = middleNum;
+            else
+                right = middleNum;
+        }
+
+        if (secondTriangleNum - triangleNum(right) == 0)
+            result = true;
+    }
+
+    if (result)
+        printf("YES");
+    else
+        printf("NO");
+
+    return 0;
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/192A}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/12.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/contest/996/problem/B}{\textbf{** Чемпионат мира}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdio.h>
+
+int timePassed(int gate, int lapsDone, int fanZonesTotal) {
+    return gate + lapsDone * fanZonesTotal;
+}
+
+int main() {
+    int fanZones;
+    scanf("%d", &fanZones);
+
+    int minimalTime = -1;
+    int gate = 0;
+    for (int i = 0; i < fanZones; i++) {
+        int order;
+        scanf("%d", &order);
+
+        int left = -1;
+        int right = (order - i) / fanZones + 1;
+
+        while (right - left > 1) {
+            int middle = left + (right - left) / 2;
+
+            if (timePassed(i, middle, fanZones) < order)
+                left = middle;
+            else
+                right = middle;
+        }
+
+        int time = timePassed(i, right, fanZones);
+
+        if (time < minimalTime || gate == 0) {
+            minimalTime = time;
+            gate = i + 1;
+        }
+    }
+
+    printf("%d", gate);
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/996B}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/14.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/problemset/problem/1201/C}{\textbf{** Максимальная медиана}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+int numComparator(const void *a, const void *b) {
+    if (*((long long *) a) > *((long long *) b)) return 1;
+    if (*((long long *) a) < *((long long *) b)) return -1;
+    return 0;
+}
+
+long long max(long long a, long long b) {
+    return a > b ? a : b;
+}
+
+long long countRequiredSum(long long newNumber, long long const *const numberArray, int arraySize) {
+    long long requiredSum = 0;
+    for (int i = arraySize / 2; i < arraySize; i++)
+        requiredSum += max(0, newNumber - numberArray[i]);
+
+    return requiredSum;
+}
+
+int main() {
+    int n;
+    long long k;
+    scanf("%d %lld", &n, &k);
+
+    long long *array = (long long *) malloc(sizeof(long long) * n);
+    for (int i = 0; i < n; i++)
+        scanf("%lld", array + i);
+
+    qsort(array, n, sizeof(array[0]), numComparator);
+
+    long long left = -1;
+    long long right = 2 * 1000000001;
+
+    while (right - left > 1) {
+        long long middleNum = left + (right - left) / 2;
+
+        if (countRequiredSum(middleNum, array, n) <= k)
+            left = middleNum;
+        else
+            right = middleNum;
+    }
+
+    free(array);
+
+    printf("%lld", left);
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/1201С}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/15.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/edu/course/2/lesson/6/3/practice/contest/285083/problem/B}{\textbf{** Разделение массива}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+long long max(long long a, long long b) {
+    return a > b ? a : b;
+}
+
+long long countCuts(long long sectionMaxSum, long long const *const numberArray, int arraySize) {
+    long long tempSum = 0, cuts = 0;
+
+    for (int i = 0; i < arraySize; i++) {
+        if (tempSum + numberArray[i] > sectionMaxSum) {
+            cuts++;
+            tempSum = 0;
+        }
+
+        if (numberArray[i] > sectionMaxSum) {
+            cuts = -1;
+            break;
+        }
+
+        tempSum += numberArray[i];
+    }
+
+    return cuts;
+}
+
+int main() {
+    int n;
+    long long k;
+    scanf("%d %lld", &n, &k);
+
+    long long left = -1;
+    long long right = 0;
+
+    long long *array = (long long *) malloc(sizeof(long long) * n);
+    for (int i = 0; i < n; i++) {
+        scanf("%lld", array + i);
+        right += array[i];
+    }
+
+    while (right - left > 1) {
+        long long middleNum = left + (right - left) / 2;
+
+        long long cuts = countCuts(middleNum, array, n);
+        if (cuts < k && cuts != -1)
+            right = middleNum;
+        else
+            left = middleNum;
+    }
+
+    free(array);
+
+    printf("%lld", right);
+}
+\end{minted}
+\codeforcesresult{/codeforceresults/285083B}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/16.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/edu/course/2/lesson/6/2/practice/contest/283932/problem/H}{\textbf{** Гамбургеры}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_RECIPE_LENGTH 100
+
+long long max(long long a, long long b) {
+    return a > b ? a : b;
+}
+
+long long moneyRequire(long long int hamburgerAmount, int breadInHamburger, int sausageInHamburger, int cheeseInHamburger,
+             int breadAmount, int sausageAmount, int cheeseAmount,
+             int breadPrice, int sausagePrice, int cheesePrice) {
+    return max(hamburgerAmount * breadInHamburger - breadAmount, 0) * breadPrice +
+           max(hamburgerAmount * sausageInHamburger - sausageAmount, 0) * sausagePrice +
+           max(hamburgerAmount * cheeseInHamburger - cheeseAmount, 0) * cheesePrice;
+}
+
+void getRecipe(char *recipe, int *nBread, int *nSausage, int *nCheese) {
+    // strlen - функция, определенная в string.h
+    // для вычисления длины строки
+    int nIngredients = strlen(recipe);
+    *nBread = 0;
+    *nSausage = 0;
+    *nCheese = 0;
+    for (int ingredientIndex = 0; ingredientIndex < nIngredients;
+         ingredientIndex++) {
+        switch (recipe[ingredientIndex]) {
+            case 'B':
+                (*nBread)++;
+                break;
+            case 'S':
+                (*nSausage)++;
+                break;
+            case 'C':
+                (*nCheese)++;
+                break;
+        }
+    }
+}
+
+int main() {
+    char recipe[MAX_RECIPE_LENGTH + 1]; // +1 - под ноль-символ
+    int nBread, nSausage, nCheese;
+    gets(recipe);
+    getRecipe(recipe, &nBread, &nSausage, &nCheese);
+
+    int bAmount, sAmount, cAmount;
+    scanf("%d %d %d", &bAmount, &sAmount, &cAmount);
+
+    int bPrice, sPrice, cPrice;
+    scanf("%d %d %d", &bPrice, &sPrice, &cPrice);
+
+    long long money;
+    scanf("%lld", &money);
+
+    long long left = -1;
+    long long right = 100000000000000;
+
+    while (right - left > 1) {
+        long long middle = left + (right - left) / 2;
+
+        if (moneyRequire(middle, nBread, nSausage, nCheese,
+                         bAmount, sAmount, cAmount,
+                         bPrice, sPrice, cPrice) <= money)
+            left = middle;
+        else
+            right = middle;
+    }
+
+    printf("%lld", left);
+
+    return 0;
+}
+
+
+\end{minted}
+\codeforcesresult{/codeforceresults/283932H}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/17.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/problemset/problem/1574/C}{\textbf{** Slay the Dragon}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+int numComparator(const void *a, const void *b) {
+    if (*((long long *) a) > *((long long *) b)) return 1;
+    if (*((long long *) a) < *((long long *) b)) return -1;
+    return 0;
+}
+
+long long max(long long a, long long b) {
+    return a > b ? a : b;
+}
+
+long long min(long long a, long long b) {
+    return a < b ? a : b;
+}
+
+int main() {
+    long long heroesAmount;
+    scanf("%lld", &heroesAmount);
+
+    long long *heroesPower = (long long *) malloc(sizeof(long long) * heroesAmount);
+    long long totalHeroPower = 0;
+    for (long long i = 0; i < heroesAmount; i++) {
+        scanf("%lld", heroesPower + i);
+
+        totalHeroPower += heroesPower[i];
+    }
+
+    qsort(heroesPower, heroesAmount, sizeof(heroesPower[0]), numComparator);
+
+    int dragonsAmount;
+    scanf("%d", &dragonsAmount);
+
+    for (int i = 0; i < dragonsAmount; i++) {
+        long long defendingDragonPower, attackingDragonPower;
+        scanf("%lld %lld", &defendingDragonPower, &attackingDragonPower);
+
+        long long left = -1;
+        long long right = heroesAmount;
+        while (right - left > 1) {
+            long long middle = left + (right - left) / 2;
+
+            if (heroesPower[middle] < defendingDragonPower)
+                left = middle;
+            else
+                right = middle;
+        }
+
+        long long totalMoneySpent;
+        if (left == -1)
+            totalMoneySpent = max(0, defendingDragonPower - heroesPower[right]) +
+                              max(0, attackingDragonPower - (totalHeroPower - heroesPower[right]));
+        else if (right == heroesAmount)
+            totalMoneySpent = max(0, defendingDragonPower - heroesPower[left]) +
+                              max(0, attackingDragonPower - (totalHeroPower - heroesPower[left]));
+        else
+            totalMoneySpent = min(max(0, defendingDragonPower - heroesPower[right]) +
+                                  max(0, attackingDragonPower - (totalHeroPower - heroesPower[right])),
+                                  max(0, defendingDragonPower - heroesPower[left]) +
+                                  max(0, attackingDragonPower - (totalHeroPower - heroesPower[left])));
+
+        printf("%lld\n", totalMoneySpent);
+    }
+
+    free(heroesPower);
+
+    return 0;
+}
+
+
+\end{minted}
+\codeforcesresult{/codeforceresults/1574C}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/18.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+\item \href{https://codeforces.com/edu/course/2/lesson/6/2/practice/contest/283932/problem/D}{\textbf{** Детский праздник}}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines, fontsize=\small]{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+long long min(long long a, long long b) {
+    return a < b ? a : b;
+}
+
+long long max(long long a, long long b) {
+    return a > b ? a : b;
+}
+
+typedef struct Worker {
+    long long balloonMakingTime;
+    long long balloonAmount;
+    long long relaxTime;
+} Worker;
+
+typedef struct Report {
+    long long *workersReport;
+    long long workersAmount;
+    long long ballonsTotal;
+} Report;
+
+Report balloons(long long time, Worker *workers, int workersAmount) {
+    Report report = {(long long *) malloc(sizeof(long long) * workersAmount), workersAmount, 0};
+
+    for (int i = 0; i < workersAmount; i++) {
+        Worker worker = workers[i];
+        long long fullCycleTime = worker.balloonMakingTime * worker.balloonAmount + worker.relaxTime;
+        long long balloonsFullCycle = (time / fullCycleTime) * worker.balloonAmount;
+        long long timeLeft = max(0, time - (fullCycleTime * balloonsFullCycle / worker.balloonAmount));
+        balloonsFullCycle += min(timeLeft, worker.balloonMakingTime * worker.balloonAmount) /
+                worker.balloonMakingTime;
+        report.ballonsTotal += balloonsFullCycle;
+        report.workersReport[i] = balloonsFullCycle;
+    }
+
+    return report;
+}
+
+int main() {
+    long long balloonsAmount;
+    int workersAmount;
+    scanf("%lld %d", &balloonsAmount, &workersAmount);
+
+    Worker *workers = (Worker *) malloc(sizeof(Worker) * workersAmount);
+    for (int i = 0; i < workersAmount; i++) {
+        long long balloonMakingTime, balloonAmount, relaxTime;
+        scanf("%lld %lld %lld", &balloonMakingTime, &balloonAmount, &relaxTime);
+        workers[i] = (Worker) {balloonMakingTime, balloonAmount, relaxTime};
+    }
+
+    long long left = -1;
+    long long right = 17000000000;
+    Report fReport = {NULL, 0, 0};
+
+
+    while (right - left > 1) {
+        long long middle = left + (right - left) / 2;
+        Report cReport = balloons(middle, workers, workersAmount);
+        if (cReport.ballonsTotal < balloonsAmount) {
+            left = middle;
+            free(cReport.workersReport);
+        } else {
+            free(fReport.workersReport);
+            fReport = cReport;
+            right = middle;
+        }
+    }
+
+    printf("%lld\n", right);
+
+    for (int i = 0; i < workersAmount; i++) {
+        printf("%lld ", min(balloonsAmount, fReport.workersReport[i]));
+
+        balloonsAmount -= fReport.workersReport[i];
+        balloonsAmount = balloonsAmount < 0 ? 0 : balloonsAmount;
+    }
+
+    free(workers);
+
+    return 0;
+}
+
+
+\end{minted}
+\codeforcesresult{/codeforceresults/283932D}
+\href{https://github.com/IAmProgrammist/programming-and-algorithmization-basics/blob/c/lab10/19.c}{\underline{Ссылка на репозиторий}}
+
+\newpage
+
+\end{enumerate}
+\textbf{Вывод: }
+в ходе лабораторной работы получили навыки использования алгоритмов бинарного поиска для решения задач оптимизации.
+
+
+    % Здесь можно редактировать Tex-файл вручную
+\end{document}

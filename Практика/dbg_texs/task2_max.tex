@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorODFMNARNCAEQSIMT}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontODFMNARNBEOOANAH[Scale=0.858984, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorODFMNARNCAEQSIMT}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorODFMNARNHOEDKRCG}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorODFMNARNTGBHTD}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.333333 cm, fill=colorODFMNARNHOEDKRCG, draw=none] (1.163636,0.006061) -- (3.830303,0.006061) -- (3.830303,-0.660606) -- (1.163636,-0.660606) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.333333 cm, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (1.163636,0.006061) -- (3.830303,0.006061) -- (3.830303,-0.660606) -- (1.163636,-0.660606) -- cycle;
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(1.737578, -0.475461) {\verb|max(a, b)|};
+        \draw[opacity=1.000000, fill=colorODFMNARNHOEDKRCG, draw=none] (1.593939, -1.536364) -- (2.496970, -1.987879) -- (3.400000, -1.536364) -- (2.496970, -1.084848) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (1.593939, -1.536364) -- (2.496970, -1.987879) -- (3.400000, -1.536364) -- (2.496970, -1.084848) --cycle;
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(2.073123, -1.648188) {\verb|a > b|};
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (1.593939, -1.536364) -- (1.093939, -1.536364) -- (1.093939, -2.412121);
+        \draw[fill=colorODFMNARNHOEDKRCG, draw=none, opacity=1.000000] (-0.006061,-2.412121) -- (2.193939,-2.412121) -- (2.193939,-3.078788) -- (-0.006061,-3.078788) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (-0.006061,-2.412121) -- (2.193939,-2.412121) -- (2.193939,-3.078788) -- (-0.006061,-3.078788) -- cycle;
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(0.175605, -2.893642) {\verb|result := a|};
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(1.093939, -1.354545) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (3.400000, -1.536364) -- (3.900000, -1.536364) -- (3.900000, -2.412121);
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(3.723397, -1.354545) {\verb|-|};
+        \draw[fill=colorODFMNARNHOEDKRCG, draw=none, opacity=1.000000] (2.800000,-2.412121) -- (5.000000,-2.412121) -- (5.000000,-3.078788) -- (2.800000,-3.078788) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (2.800000,-2.412121) -- (5.000000,-2.412121) -- (5.000000,-3.078788) -- (2.800000,-3.078788) -- cycle;
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(2.981666, -2.893642) {\verb|result := b|};
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (3.900000, -3.078788) -- (3.900000, -3.503030) -- (2.496970, -3.503030);
+        \draw[opacity=1.000000, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (1.093939, -3.078788) -- (1.093939, -3.503030) -- (2.496970, -3.503030);
+        \draw[opacity=1.000000, fill=none, line width=0.030303 cm, colorODFMNARNTGBHTD] (2.496970,-0.660606) -- (2.496970,-1.084848);
+        \draw[opacity=1.000000, rounded corners=0.333333 cm, fill=colorODFMNARNHOEDKRCG, draw=none] (0.996970,-3.927273) -- (3.996970,-3.927273) -- (3.996970,-4.593939) -- (0.996970,-4.593939) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.333333 cm, fill=none, line width=0.030303cm, colorODFMNARNTGBHTD] (0.996970,-3.927273) -- (3.996970,-3.927273) -- (3.996970,-4.593939) -- (0.996970,-4.593939) -- cycle;
+        \verbatimfont{\normalsize\fontODFMNARNBEOOANAH}
+        \node[opacity=1.000000, above right, colorODFMNARNTGBHTD] at(1.313732, -4.408794) {\verb|Вернуть result|};
+        \draw[opacity=1.000000, fill=none, line width=0.030303 cm, colorODFMNARNTGBHTD] (2.496970,-3.503030) -- (2.496970,-3.927273);
+    \end{tikzpicture}
+\end{document}

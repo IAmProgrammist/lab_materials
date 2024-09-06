@@ -1,0 +1,1 @@
+{"data":[{"data":"writeRuCodeToChar(code, beg)","type":"bd_element_terminator"},{"data":"beg[0] := (code & 0xFF00) >> 8","type":"bd_element_process"},{"data":"beg[1] := code & 0x00FF","type":"bd_element_process"},{"data":"Выход (beg)","type":"bd_element_terminator"}],"type":"bd_element_container"}

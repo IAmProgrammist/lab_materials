@@ -1,0 +1,54 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorLBEILTTGFOLGCP}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontLBEILTTGADCCDAB[Scale=0.641323, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorLBEILTTGFOLGCP}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorLBEILTTGHEISADPG}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorLBEILTTGKLJKFHQI}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.248869 cm, fill=colorLBEILTTGHEISADPG, draw=none] (0.877828,0.004525) -- (3.117647,0.004525) -- (3.117647,-0.493213) -- (0.877828,-0.493213) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.248869 cm, fill=none, line width=0.022624cm, colorLBEILTTGKLJKFHQI] (0.877828,0.004525) -- (3.117647,0.004525) -- (3.117647,-0.493213) -- (0.877828,-0.493213) -- cycle;
+\verbatimfont{\normalsize\fontLBEILTTGADCCDAB}
+\node[opacity=1.000000, above right, colorLBEILTTGKLJKFHQI] at(1.114795, -0.364871) {\verb|getRuCode(beg)|};
+\draw[fill=colorLBEILTTGHEISADPG, draw=none, opacity=1.000000] (-0.004525,-0.809955) -- (4.000000,-0.809955) -- (4.000000,-1.307692) -- (-0.004525,-1.307692) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022624cm, colorLBEILTTGKLJKFHQI] (-0.004525,-0.809955) -- (4.000000,-0.809955) -- (4.000000,-1.307692) -- (-0.004525,-1.307692) -- cycle;
+\verbatimfont{\normalsize\fontLBEILTTGADCCDAB}
+\node[opacity=1.000000, above right, colorLBEILTTGKLJKFHQI] at(0.125900, -1.179350) {\verb|code := (beg[0] << 8) + beg[1]|};
+\draw[opacity=1.000000, fill=none, line width=0.022624 cm, colorLBEILTTGKLJKFHQI] (1.997738,-0.493213) -- (1.997738,-0.809955);
+\draw[opacity=1.000000, rounded corners=0.248869 cm, fill=colorLBEILTTGHEISADPG, draw=none] (1.002262,-1.624434) -- (2.993213,-1.624434) -- (2.993213,-2.122172) -- (1.002262,-2.122172) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.248869 cm, fill=none, line width=0.022624cm, colorLBEILTTGKLJKFHQI] (1.002262,-1.624434) -- (2.993213,-1.624434) -- (2.993213,-2.122172) -- (1.002262,-2.122172) -- cycle;
+\verbatimfont{\normalsize\fontLBEILTTGADCCDAB}
+\node[opacity=1.000000, above right, colorLBEILTTGKLJKFHQI] at(1.238407, -1.993830) {\verb|Вернуть code|};
+\draw[opacity=1.000000, fill=none, line width=0.022624 cm, colorLBEILTTGKLJKFHQI] (1.997738,-1.307692) -- (1.997738,-1.624434);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
