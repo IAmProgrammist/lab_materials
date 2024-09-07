@@ -295,3 +295,5 @@ TSWLatexianTemp*
 *.idea
 .DS_store
 *.lnk
+
+~$*.docx
