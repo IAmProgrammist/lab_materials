@@ -142,7 +142,7 @@ def solve_context_free_grammar_left(grammar_dict, commands, chain=None, tree=Non
 
         # Если правила нет в доступных грамматиках, возвращаем False
         if commands[step] not in [available_grammar[0] for available_grammar in available_grammars]:
-            return (False, chain, tree)
+            return (False, chain, tree, step)
 
         # Иначе производим замену для цепочки
         apply_index = commands[step]
@@ -159,7 +159,7 @@ def solve_context_free_grammar_left(grammar_dict, commands, chain=None, tree=Non
 
     # Если выполнены не все правила, выходим с ошибкой
     if len(commands) != step:
-        return (False, chain, tree)
+        return (False, chain, tree, step)
 
     return (True, chain, tree)
 \end{minted}
@@ -216,16 +216,18 @@ Process finished with exit code 0
 
     \item Выполнить левый вывод терминальной цепочки в заданной грамматике, построить дерево вывода.
           Определить, существует ли неэквивалентный вывод полученной цепочки и, если существует, представить его деревом вывода.\bigbreak
-          Исходное дерево вывода:\\
+          Исходный вывод и дерево:\\
           \includegraphics[width=140mm]{task2_origin}\\
-          Неэквивалентное дерево вывода:\\
+          \includegraphics[width=140mm]{task2_origin_tree}\\
+          Неэквивалентный вывод и дерево:\\
           \includegraphics[width=140mm]{task2_alternative}\\
+          \includegraphics[width=140mm]{task2_alternative_tree}\\
 
 
 
 
-          \item Написать программу, определяющую, можно ли применить 
-          заданную последовательность правил при левом выводе 
+    \item Написать программу, определяющую, можно ли применить
+          заданную последовательность правил при левом выводе
           цепочки в заданной КС-грамматике.
           \begin{minted}{python3}
 from libs.lab1 import solve_context_free_grammar_left
@@ -239,11 +241,17 @@ if __name__ == '__main__':
     commands = [int(v) - 1 for v in input("Введите последовательность правил: ").split()]
 
     result = solve_context_free_grammar_left(grammar_dict, commands)
-    print(f"Заданную последовательность правил применить {'можно' if result[0] else 'нельзя'}")
+    if result[0]:
+        print("Заданную последовательность правил при левом выводе применить можно.")
+    else:
+        print("Заданную последовательность правил при левом выводе применить нелзя.")
+        print(f"В промежуточной цепочке {result[1]} нельзя применить "
+              f"правило {commands[result[3]] + 1}. {grammar_dict[commands[result[3]]][0]} -> {grammar_dict[commands[result[3]]][1]} "
+              f"под шагом {result[3] + 1}.")
 
           \end{minted}
-        Результат выполнения программы:
-        \begin{minted}{console}
+          Результат выполнения программы:
+          \begin{minted}{console}
 Введите КС-грамматику:
 S -> aAbS
 S -> b
@@ -251,7 +259,8 @@ A -> SAc
 A -> 
 
 Введите последовательность правил: 1 3 2 1 4
-Заданную последовательность правил применить нельзя
+Заданную последовательность правил при левом выводе применить нелзя.
+В промежуточной цепочке abAcbS нельзя применить правило 1. S -> aAbS под шагом 4.
 
 Process finished with exit code 0
   \end{minted}
@@ -260,24 +269,18 @@ Process finished with exit code 0
 
 
 
-  \item Для каждой последовательности правил определить, 
-  можно ли её применить при левом (правом) выводе терминальной цепочки 
-  в заданной КС-грамматике, и, если можно, построить дерево вывода.\\
-  \includegraphics[width=140mm]{task4_1}\\
-  \includegraphics[width=140mm]{task4_2}\\
-  \includegraphics[width=140mm]{task4_3}\\
-  Последовательность правил 1 выполнима при левом выводе.\\
-  Последовательность правил 2 невыполнима.\\
-  Последовательность правил 3 выполнима при правом выводе.\\
-  Последовательность правил 4 невыполнима.\\
+    \item Для каждой последовательности правил определить,
+          можно ли её применить при левом (правом) выводе терминальной цепочки
+          в заданной КС-грамматике, и, если можно, построить дерево вывода.\\
+          \includegraphics[width=140mm]{task4_1}\\
+          \includegraphics[width=140mm]{task4_2}\\
+          \includegraphics[width=140mm]{task4_3}\\
+          \includegraphics[width=140mm]{task4_4}\\
 
-
-
-
-  \item Написать программу, определяющую, можно ли применить заданную
-  последовательность правил при выводе цепочки в заданной
-  КС-грамматике.
-  Исходный код:
+    \item Написать программу, определяющую, можно ли применить заданную
+          последовательность правил при выводе цепочки в заданной
+          КС-грамматике.
+          Исходный код:
           \begin{minted}{python3}
 from libs.lab1 import solve_context_free_grammar
 
@@ -292,9 +295,22 @@ if __name__ == '__main__':
     print(f"Заданную последовательность правил применить {'можно' if any(solve_context_free_grammar(grammar_dict, commands)) else 'нельзя'}")
 \end{minted}
           \begin{minted}{python3}
-def solve_context_free_grammar(grammar_dict, commands, chain=None, tree=None, step=0):
-    # Если команды закончились, выходим из рекурсии
-    if step >= len(commands):
+def solve_context_free_grammar(grammar_dict, rules, chain=None, tree=None, step=0):
+    """
+    Рекурсивная проверка последовательности правил в грамматике
+    
+    1. Если в последовательности правил больше не осталось шагов, выходим из рекурсии.
+    2. Для всех нетерминальных символов в промежуточной цепочке находим правила, которые можно применить.
+    3. Если правила на текущем шаге не окажется в полученном списке правил, значит выходим из рекурсии.
+    4. Иначе получим непосредственный вывод для правила для каждого нетерминала в промежуточной цепочке и перейдём к сдедующему шагу рекурсии.
+    Например для промежуточной цепочки aSbScSi и правила S -> h будут получены следующие непосредтвенные выводы:
+    * aSbScSi => ahbScSi => (рекурсивный вызов)
+    * aSbScSi => aSbhcSi => (рекурсивный вызов)
+    * aSbScSi => aSbSchi => (рекурсивный вызов)
+    """
+
+    # Если в последовательности правил больше не осталось шагов, выходим из рекурсии
+    if step >= len(rules):
         yield (True, chain, tree)
     else:
         # Инициализация цепочки, дерева
@@ -302,33 +318,34 @@ def solve_context_free_grammar(grammar_dict, commands, chain=None, tree=None, st
             chain = "S"
             tree = "S"
 
-        # Определяем доступные грамматики
-        available_grammars = []
+        # Для всех нетерминальных символов в промежуточной цепочке находим правила, которые можно применить
+        available_rules = []
         for i in range(0, len(grammar_dict)):
             grammar = grammar_dict[i]
             if grammar[0] in chain:
-                available_grammars.append((i, grammar))
+                available_rules.append((i, grammar))
 
-        # Если команды нет в доступных грамматиках, возвращаем False
-        if commands[step] not in [available_grammar[0] for available_grammar in available_grammars]:
+        # Если правила на текущем шаге не окажется в полученном списке правил, значит выходим из рекурсии
+        if rules[step] not in [available_grammar[0] for available_grammar in available_rules]:
             pass
         else:
-            # Иначе пытаемся выполнить команду для всех возможных нетерминальных символов по-очереди
-            grammar = grammar_dict[commands[step]]
+            # Иначе получим непосредственный вывод для правила для каждого нетерминала в промежуточной цепочке и перейдём к сдедующему шагу рекурсии
+            grammar = grammar_dict[rules[step]]
             splitted_chain = chain.split(grammar[0])
             splitted_tree = tree.replace(f"{grammar[0]}(", "*").split(grammar[0])
 
             for i in range(0, len(splitted_chain) - 1):
-                # Проивзодим замену для цепочки
+                # Применяем правило для цепочки
                 new_chain = grammar[0].join(splitted_chain[:i+1]) + grammar[1] + grammar[0].join(splitted_chain[i+1:])
 
-                # Производим замену для дерева
+                # Применяем правило для дерева
                 new_tree = (grammar[0].join(splitted_tree[:i+1]) +
                             grammar[0] + "(" + grammar[1] + ")" +
                             grammar[0].join(splitted_tree[i+1:])).replace("*", f"{grammar[0]}(")
 
-                # Вызываем рекурентно преобразования для следующей команды
-                yield from solve_context_free_grammar(grammar_dict, commands, new_chain, new_tree, step + 1)
+                # Вызываем рекурентно функцию для обработки следующего шага
+                yield from solve_context_free_grammar(grammar_dict, rules, new_chain, new_tree, step + 1)
+
 \end{minted}
           Результат выполнения программы:
           \begin{minted}{console}
@@ -344,23 +361,19 @@ A ->
 Process finished with exit code 0
     \end{minted}
     \item Для каждой последовательности правил (см. варианты заданий
-    п.2) определить, можно ли её применить при выводе терминальной
-    цепочки в заданной КС-грамматике, и, если можно, построить дерево
-    вывода и записать эквивалентные левый и правый вывод.\\
+          п.2) определить, можно ли её применить при выводе терминальной
+          цепочки в заданной КС-грамматике, и, если можно, построить дерево
+          вывода и записать эквивалентные левый и правый вывод.\\
 
-    Последовательность правил 1 3 4 5 7 2 7 5 7 выполнима и может использоваться для левого вывода. 
-    Последовательность для эквивалентного правого вывода: 1 5 7 3 4 2 7 5 7. 
-    Цепочка: aaabbabbab\\
-    \includegraphics[width=140mm]{task6_1}\bigbreak
-
-    Последовательность правил 1 1 2 7 5 7 3 2 7 невыполнима \bigbreak
-    
-    Последовательность правил 1 5 7 3 4 2 7 5 7 выполнима и может использоваться для правого вывода. 
-    Последовательность для эквивалентного левого вывода: 1 3 4 5 7 2 7 5 7
-    Цепочка: aaabbabbab\\
-    \includegraphics[width=140mm]{task6_3}\bigbreak
-
-    Последовательность правил 1 3 1 5 2 2 7 7 7 невыполнима
+          Пункт 1:\\
+          \includegraphics[width=140mm]{task6_1_1}\\
+          \includegraphics[width=140mm]{task6_1_2}\bigbreak
+          Пункт 2:\\
+          \includegraphics[width=140mm]{task6_2}\bigbreak
+          Пункт 3:\\
+          \includegraphics[width=140mm]{task6_3}\bigbreak
+          Пункт 4:\\
+          \includegraphics[width=140mm]{task6_4}\bigbreak
 \end{enumerate}
 
 \textbf{Вывод: } в ходе лабораторной работы изучили основные понятия теории формальных языков и грамматик.
