@@ -58,14 +58,14 @@
         \textbf{
             Лабораторная работа №1}}\\
     \normalsize{
-        по дисциплине: Теория автоматов и формальных языков \\
-        тема: «Формальные грамматики. Выводы.»}
+        по дисциплине: Базы данных \\
+        тема: «Разработка структуры базы данных»}
 \end{center}
 \vfill
 \hfill\textbox{
     Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
     \bigbreak
-    Проверили: \\ст. пр. Рязанов Юрий Дмитриевич
+    Проверили: \\ст. пр. Панченко Максим Владимирович
 }
 \vfill\begin{center}
     Белгород 2024 г.
@@ -73,307 +73,46 @@
 \newpage
 \begin{center}
     \textbf{Лабораторная работа №1}\\
-    Формальные грамматики. Выводы.\\
+    Разработка структуры базы данных\\
     Вариант 8
 \end{center}
-\textbf{Цель работы: }изучить основные понятия теории формальных языков и грамматик.
+\textbf{Цель работы: }изучение способов задания инфологической модели данных и создания структуры базы данных в заданной предметной области.
+\textbf{Задание: }Жилищная управляющая компания. База данных должна содержать следующие данные: информацию об исполнителях работ и выполненных работах, жильцах, выставленных им счетах и выполненных ими платежах. Предусмотреть возможность анализа следующих показателей: составить рейтинг злостных неплательщиков, рейтинг исполнителей работ с указанием их доли в статье расходов.
 
 \begin{enumerate}[1.]
-    \item Написать программу, выполняющую левый вывод в заданной
-          КС-грамматике.\\
-          Исходный код:
-          \begin{minted}{python3}
-from libs.lab1 import solve_context_free_grammar_left, get_available_grammars_left
+    \item Выполнить анализ предметной области, выделить основные сущности, атрибуты и связи.\\
+          
+    \textbf{Дом} - для идентификации дома достаточно его адреса 
+    (улица, город, область, страна, номер дома). 
+    Также можем внести доп. информацию о доме, 
+    например его этажность, индекс, дату введения в эксплуатацию.\\
+    \textbf{Задача} - для введения дом в эксплуатацию и его 
+    обслуживания необходимо оформить задачу. У дома может быть 
+    от 0 до N задач. У задачи может быть уникальный номер, к ней 
+    прикреплён дом, рабочие. У каждой хорошей задачи должен быть 
+    дедлайн и срок окончания работы в случае выполнения. 
+    А у не просто хорошей а замечательной задачи ещё должна быть оплата.\\
+    \textbf{Рабочий} - может быть как человеком, так и организацией, 
+    поэтому в качестве ключа можем хранить ИНН а также контактные 
+    сведения – номер телефона, email. У задачи может быть от 0 до N рабочих.\\
+    \textbf{Договор} - договор содержит условия аренды жилья: 
+    кол-во ежемесячной платы, срок аренды и т.д. 
+    В нашем случае будем ещё и держать номер договора. 
+    Договор прикрепляется к дому, так как дом может быть многоквартирным, 
+    у дома может быть от 0 до N договоров.\\
+    \textbf{Жильцы} - содержат контактные данные (номер телефона, email), 
+    ФИО, идентификационные данные – серия и номер паспорта. Может быть 
+    прикреплён к нескольким квартирам посредством наличия 
+    от 0 до N договоров.\\
+    \textbf{Выплаты} - выплата формируется из договора, идентифицируется при 
+    помощи УИП, имеет срок оплаты и дату оплаты договора. У договора может быть
+    от 0 до N выплат.\\
+    Рейтинг жильцов = количество своевременных выплат / общее количество выплат\\
+    Рейтинг рабочих = количество вовремя выполненных работ / общее количество работ\\
+    Доля в статье расходов = для каждой выполненной работы (оплата / количество участников в работе)\\
 
-if __name__ == '__main__':
-    grammar_dict = []
-    print("Введите КС-грамматику:")
-    while len(grammar := input()):
-        splitted_grammar = grammar.split(" -> ")
-        grammar_dict.append((splitted_grammar[0], splitted_grammar[1]))
-    print("Левый вывод: ")
-    i = 1
-    commands = []
-    result = (False, "S", "S")
-    while any([v.isupper() for v in result[1]]):
-        print(f"Шаг {i}")
-        print(f"Промежуточная цепочка: {result[1]}")
-        print(f"Можно применить:")
-        available_grammars = get_available_grammars_left(grammar_dict, result[1])
-        for available_grammar in available_grammars:
-            print(f"{available_grammar[0] + 1}. {available_grammar[1][0]} -> {available_grammar[1][1]}")
-
-        while True:
-            apply_index = int(input("Введите правило: "))
-            result = solve_context_free_grammar_left(grammar_dict, [apply_index - 1], result[1], result[2])
-            if not result[0]:
-                print("Правило не подходит")
-            else:
-                break
-
-    print(f"\nТерминальная цепочка: {result[1]}")
-    print(f"Последовательность правил: {' '.join((str(command) for command in commands))}")
-    print(f"ЛСФ ДВ: {result[2]}")
-\end{minted}
-          \begin{minted}{python3}
-def get_available_grammars_left(grammar_dict, chain):
-    available_grammars = []
-    min_index = len(chain)
-    for i in range(0, len(grammar_dict)):
-        grammar = grammar_dict[i]
-        if (index := chain.find(grammar[0])) != -1 and index < min_index:
-            available_grammars = [(i, grammar)]
-            min_index = index
-        elif index == min_index:
-            available_grammars.append((i, grammar))
-    return available_grammars
-
-def solve_context_free_grammar_left(grammar_dict, commands, chain=None, tree=None):
-    # Инициализация цепочки, дерева
-    if not chain:
-        chain = "S"
-        tree = "S"
-    step = 0
-
-    # Пока в цепочке есть нетерминальные символы и пул правил непустой
-    while any([v.isupper() for v in chain]) and step < len(commands):
-        # Определяем доступные грамматики
-        available_grammars = get_available_grammars_left(grammar_dict, chain)
-
-        # Если правила нет в доступных грамматиках, возвращаем False
-        if commands[step] not in [available_grammar[0] for available_grammar in available_grammars]:
-            return (False, chain, tree, step)
-
-        # Иначе производим замену для цепочки
-        apply_index = commands[step]
-        grammar = grammar_dict[apply_index]
-        splitted_chain = chain.split(grammar[0])
-        chain = splitted_chain[0] + grammar[1] + grammar[0].join(splitted_chain[1:])
-
-        # Производим замену для дерева
-        splitted_tree = tree.replace(f"{grammar[0]}(", "*").split(grammar[0])
-        tree = (splitted_tree[0] + grammar[0] + "(" + grammar[1] + ")" + grammar[0].join(splitted_tree[1:])).replace(
-            "*", f"{grammar[0]}(")
-
-        step += 1
-
-    # Если выполнены не все правила, выходим с ошибкой
-    if len(commands) != step:
-        return (False, chain, tree, step)
-
-    return (True, chain, tree)
-\end{minted}
-          Результат выполнения программы:
-          \begin{minted}{console}
-Введите КС-грамматику:
-S -> aAbS
-S -> b
-A -> SAc
-A -> 
-
-Левый вывод: 
-Шаг 1
-Промежуточная цепочка: S
-Можно применить:
-1. S -> aAbS
-2. S -> b
-Введите правило: 1
-Шаг 1
-Промежуточная цепочка: aAbS
-Можно применить:
-3. A -> SAc
-4. A -> 
-Введите правило: 3
-Шаг 1
-Промежуточная цепочка: aSAcbS
-Можно применить:
-1. S -> aAbS
-2. S -> b
-Введите правило: 2
-Шаг 1
-Промежуточная цепочка: abAcbS
-Можно применить:
-3. A -> SAc
-4. A -> 
-Введите правило: 4
-Шаг 1
-Промежуточная цепочка: abcbS
-Можно применить:
-1. S -> aAbS
-2. S -> b
-Введите правило: 2
-
-Терминальная цепочка: abcbb
-Последовательность правил: 1 3 2 4 2
-ЛСФ ДВ: S(aA(S(b)A()c)bS(b))
-
-Process finished with exit code 0
-    \end{minted}
-
-
-
-
-
-    \item Выполнить левый вывод терминальной цепочки в заданной грамматике, построить дерево вывода.
-          Определить, существует ли неэквивалентный вывод полученной цепочки и, если существует, представить его деревом вывода.\bigbreak
-          Исходный вывод и дерево:\\
-          \includegraphics[width=140mm]{task2_origin}\\
-          \includegraphics[width=140mm]{task2_origin_tree}\\
-          Неэквивалентный вывод и дерево:\\
-          \includegraphics[width=140mm]{task2_alternative}\\
-          \includegraphics[width=140mm]{task2_alternative_tree}\\
-
-
-
-
-    \item Написать программу, определяющую, можно ли применить
-          заданную последовательность правил при левом выводе
-          цепочки в заданной КС-грамматике.
-          \begin{minted}{python3}
-from libs.lab1 import solve_context_free_grammar_left
-
-if __name__ == '__main__':
-    grammar_dict = []
-    print("Введите КС-грамматику:")
-    while len(grammar := input()):
-        splitted_grammar = grammar.split(" -> ")
-        grammar_dict.append((splitted_grammar[0], splitted_grammar[1]))
-    commands = [int(v) - 1 for v in input("Введите последовательность правил: ").split()]
-
-    result = solve_context_free_grammar_left(grammar_dict, commands)
-    if result[0]:
-        print("Заданную последовательность правил при левом выводе применить можно.")
-    else:
-        print("Заданную последовательность правил при левом выводе применить нелзя.")
-        print(f"В промежуточной цепочке {result[1]} нельзя применить "
-              f"правило {commands[result[3]] + 1}. {grammar_dict[commands[result[3]]][0]} -> {grammar_dict[commands[result[3]]][1]} "
-              f"под шагом {result[3] + 1}.")
-
-          \end{minted}
-          Результат выполнения программы:
-          \begin{minted}{console}
-Введите КС-грамматику:
-S -> aAbS
-S -> b
-A -> SAc
-A -> 
-
-Введите последовательность правил: 1 3 2 1 4
-Заданную последовательность правил при левом выводе применить нелзя.
-В промежуточной цепочке abAcbS нельзя применить правило 1. S -> aAbS под шагом 4.
-
-Process finished with exit code 0
-  \end{minted}
-
-
-
-
-
-    \item Для каждой последовательности правил определить,
-          можно ли её применить при левом (правом) выводе терминальной цепочки
-          в заданной КС-грамматике, и, если можно, построить дерево вывода.\\
-          \includegraphics[width=140mm]{task4_1}\\
-          \includegraphics[width=140mm]{task4_2}\\
-          \includegraphics[width=140mm]{task4_3}\\
-          \includegraphics[width=140mm]{task4_4}\\
-
-    \item Написать программу, определяющую, можно ли применить заданную
-          последовательность правил при выводе цепочки в заданной
-          КС-грамматике.
-          Исходный код:
-          \begin{minted}{python3}
-from libs.lab1 import solve_context_free_grammar
-
-if __name__ == '__main__':
-    grammar_dict = []
-    print("Введите КС-грамматику:")
-    while len(grammar := input()):
-        splitted_grammar = grammar.split(" -> ")
-        grammar_dict.append((splitted_grammar[0], splitted_grammar[1]))
-    commands = [int(v) - 1 for v in input("Введите команды: ").split()]
-
-    print(f"Заданную последовательность правил применить {'можно' if any(solve_context_free_grammar(grammar_dict, commands)) else 'нельзя'}")
-\end{minted}
-          \begin{minted}{python3}
-def solve_context_free_grammar(grammar_dict, rules, chain=None, tree=None, step=0):
-    """
-    Рекурсивная проверка последовательности правил в грамматике
-    
-    1. Если в последовательности правил больше не осталось шагов, выходим из рекурсии.
-    2. Для всех нетерминальных символов в промежуточной цепочке находим правила, которые можно применить.
-    3. Если правила на текущем шаге не окажется в полученном списке правил, значит выходим из рекурсии.
-    4. Иначе получим непосредственный вывод для правила для каждого нетерминала в промежуточной цепочке и перейдём к сдедующему шагу рекурсии.
-    Например для промежуточной цепочки aSbScSi и правила S -> h будут получены следующие непосредтвенные выводы:
-    * aSbScSi => ahbScSi => (рекурсивный вызов)
-    * aSbScSi => aSbhcSi => (рекурсивный вызов)
-    * aSbScSi => aSbSchi => (рекурсивный вызов)
-    """
-
-    # Если в последовательности правил больше не осталось шагов, выходим из рекурсии
-    if step >= len(rules):
-        yield (True, chain, tree)
-    else:
-        # Инициализация цепочки, дерева
-        if not chain:
-            chain = "S"
-            tree = "S"
-
-        # Для всех нетерминальных символов в промежуточной цепочке находим правила, которые можно применить
-        available_rules = []
-        for i in range(0, len(grammar_dict)):
-            grammar = grammar_dict[i]
-            if grammar[0] in chain:
-                available_rules.append((i, grammar))
-
-        # Если правила на текущем шаге не окажется в полученном списке правил, значит выходим из рекурсии
-        if rules[step] not in [available_grammar[0] for available_grammar in available_rules]:
-            pass
-        else:
-            # Иначе получим непосредственный вывод для правила для каждого нетерминала в промежуточной цепочке и перейдём к сдедующему шагу рекурсии
-            grammar = grammar_dict[rules[step]]
-            splitted_chain = chain.split(grammar[0])
-            splitted_tree = tree.replace(f"{grammar[0]}(", "*").split(grammar[0])
-
-            for i in range(0, len(splitted_chain) - 1):
-                # Применяем правило для цепочки
-                new_chain = grammar[0].join(splitted_chain[:i+1]) + grammar[1] + grammar[0].join(splitted_chain[i+1:])
-
-                # Применяем правило для дерева
-                new_tree = (grammar[0].join(splitted_tree[:i+1]) +
-                            grammar[0] + "(" + grammar[1] + ")" +
-                            grammar[0].join(splitted_tree[i+1:])).replace("*", f"{grammar[0]}(")
-
-                # Вызываем рекурентно функцию для обработки следующего шага
-                yield from solve_context_free_grammar(grammar_dict, rules, new_chain, new_tree, step + 1)
-
-\end{minted}
-          Результат выполнения программы:
-          \begin{minted}{console}
-Введите КС-грамматику:
-S -> aAbS
-S -> b
-A -> SAc
-A -> 
-
-Введите команды: 1 3 2 1 4
-Заданную последовательность правил применить можно
-
-Process finished with exit code 0
-    \end{minted}
-    \item Для каждой последовательности правил (см. варианты заданий
-          п.2) определить, можно ли её применить при выводе терминальной
-          цепочки в заданной КС-грамматике, и, если можно, построить дерево
-          вывода и записать эквивалентные левый и правый вывод.\\
-
-          Пункт 1:\\
-          \includegraphics[width=140mm]{task6_1_1}\\
-          \includegraphics[width=140mm]{task6_1_2}\bigbreak
-          Пункт 2:\\
-          \includegraphics[width=140mm]{task6_2}\bigbreak
-          Пункт 3:\\
-          \includegraphics[width=140mm]{task6_3}\bigbreak
-          Пункт 4:\\
-          \includegraphics[width=140mm]{task6_4}\bigbreak
+    \item Создать диаграмму «сущность — связь» в нотации Чена.\\
+    \includegraphics[width=180mm]{db_task2}\\
 \end{enumerate}
 
 \textbf{Вывод: } в ходе лабораторной работы изучили основные понятия теории формальных языков и грамматик.
