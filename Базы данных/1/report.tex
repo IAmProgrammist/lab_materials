@@ -113,8 +113,70 @@
 
     \item Создать диаграмму «сущность — связь» в нотации Чена.\\
     \includegraphics[width=180mm]{db_task2}\\
+
+    \item Самостоятельно изучить нотацию IDEF1X для представления диаграммы «сущность-связь». Создать схему базы данных в нотации IDEF1X. \\
+    \includegraphics[width=180mm]{db_task3}\\
+
+    \item Разработать структуру базы данных и составить описание 
+    столбцов таблиц базы данных, включающее: имя столбца, 
+    назначение (какие данные хранятся), тип данных, допускает ли столбец пустые значения.
+
+    \textbf{home}
+    \begin{itemize}
+        \item address: string, адрес, первичный ключ
+        \item commisioning: date, дата введения, необязательное
+        \item floors: number, этажность, обязательное
+        \item index: number, индекс, обязательное
+    \end{itemize}
+    \textbf{contract}
+    \begin{itemize}
+        \item id: number, номер договора, первичный ключ
+        \item transaction\_date: date, дата заключения, обязательное
+        \item until\_date: date, договор до, обязательное
+        \item payment: number, ежемесячная плата, обязательное
+        \item home: string, внешний ключ к home, обязательное
+    \end{itemize}
+    \textbf{resident}
+    \begin{itemize}
+        \item passport\_data: string, серия и номер паспорта, первичный ключ
+        \item snp: string, ФИО
+        \item email: string, эл. почта, необязательное
+        \item phone: string, номер телефона, необязательное
+    \end{itemize}
+    \textbf{residents\_contracts}
+    \begin{itemize}
+        \item resident\_passport\_data: string, серия и номер паспорта жильца, внешний ключ
+        \item contract\_id: number, номер договора, внешний ключ
+    \end{itemize}
+    \textbf{payment}
+    \begin{itemize}
+        \item id: string, уип, первичный ключ
+        \item paid\_date: date, дата оплаты (если пустой, неоплачен), необязательное
+        \item until\_date: date, дедлайн оплаты, обязательное
+        \item contract\_id: number, номер договора, внешний ключ
+    \end{itemize}
+    \textbf{task}
+    \begin{itemize}
+        \item id: number, номер дела, первичный ключ
+        \item payment: number, оплата за задачу, обязательное
+        \item until\_date: date, дедлайн задачи, обязательное
+        \item completed\_date: date, время выполнения задачи 
+        (если пустое, не выполнено), необязательное
+        \item home\_address: string, адрес дома, внешний ключ
+    \end{itemize}
+    \textbf{worker}
+    \begin{itemize}
+        \item inn: string, ИНН, первичный ключ
+        \item email: string, эл. почта, необязательное
+        \item phone: string, номер телефона, необязательное
+    \end{itemize}
+    \textbf{workers\_tasks}
+    \begin{itemize}
+        \item worker\_inn: string, ИНН, внешний ключ
+        \item task\_id: number, номер дела, внешний ключ
+    \end{itemize}
 \end{enumerate}
 
-\textbf{Вывод: } в ходе лабораторной работы изучили основные понятия теории формальных языков и грамматик.
+\textbf{Вывод: } в ходе лабораторной работы изучили способы задания инфологической модели данных и создания структуры базы данных в заданной предметной области.
 
 \end{document}
