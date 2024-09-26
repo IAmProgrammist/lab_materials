@@ -218,6 +218,104 @@ create table workers_tasks(
 
 Итоговая схема:\\
 \includegraphics[width=140mm]{schema}
+
+\item С помощью SQL-запросов выполнить добавление 3–4 записей в каждую таблицу,
+изменение и удаление нескольких записей.
+
+Таблица home:\\
+Вставка:
+\begin{minted}{sql}
+insert into home (address, commisioning, floors, "index") values 
+('г. Васи, ул. Васи д. 5', '2023-05-01', 4, 999100),
+('г. Васи, ул. Васи д. 6', '2023-06-01', 3, 999100),
+('г. Васи, ул. Васи д. 7', '2023-07-01', 6, 999100),
+('г. Васи, ул. Васи д. 8', null, 3, 999100);
+\end{minted}
+Добавление домов в таблицу. Один из них недостроен.\\
+
+Вставка:
+\begin{minted}{sql}
+update home set commisioning = '2024-09-26' where address = 'г. Васи, ул. Васи д. 8';
+\end{minted}
+Введение дома по адресу г. Васи, ул. Васи д. 8 в эксплуатацию обновлением поля commisioning.\\
+
+Удаление:
+\begin{minted}{sql}
+delete from home where address = 'г. Васи, ул. Васи д. 5';
+\end{minted}
+Снос дома по адресу г. Васи, ул. Васи д. 5.\\
+
+Выполним также вставки в:\\
+resident:
+\begin{minted}{sql}
+insert into resident (passport_data, snp, email, phone) values
+('0000 000001', 'Пупкин Василий Петрович', null, null), 
+('0000 000002', 'Пупкин Василий Иванович', 'em@gmail.com', null), 
+('0000 000003', 'Пупкин Василий Дмитриевич', null, '88005553535'), 
+('0000 000004', 'Пупкин Василий Зайцевич', 'em1@gmail.com', '88005553536');
+\end{minted}
+
+contract:
+\begin{minted}{sql}
+insert into contract (transaction_date, until_date, payment, home) values
+('2023-09-09', '2025-09-09', 20000, 'г. Васи, ул. Васи д. 6'),
+('2023-08-09', '2025-09-09', 30000, 'г. Васи, ул. Васи д. 7'),
+('2024-12-09', '2025-09-10', 25000, 'г. Васи, ул. Васи д. 8');
+\end{minted}
+residents\_contracts:
+\begin{minted}{sql}
+insert into residents_contracts (contract_id, resident_passport_data) values
+(1, '0000 000001'),
+(2, '0000 000002'),
+(3, '0000 000003'),
+(1, '0000 000003'),
+(3, '0000 000001');
+\end{minted}
+payment:
+\begin{minted}{sql}
+insert into payment (id, paid_date, until_date, contract_id) values
+('6000021827364758192837480', null,        '2024-12-19', 1),
+('6000021827364758192837470', '2024-2-1',  '2024-1-19',  1),
+('6000021827364758192837490', null,        '2024-12-19', 2),
+('6000021827364758192837500', null,        '2024-12-20', 3);
+\end{minted}
+task:
+\begin{minted}{sql}
+insert into task (payment, completed_date, until_date, home) values
+(1000000, '2022-01-01', '2023-06-01', 'г. Васи, ул. Васи д. 6'),
+(1500000, '2022-02-01', '2023-06-01', 'г. Васи, ул. Васи д. 7'),
+(500000, '2023-06-01', '2024-06-01', 'г. Васи, ул. Васи д. 6'),
+(2000000, '2022-04-01', '2023-06-01', 'г. Васи, ул. Васи д. 8');
+\end{minted}
+worker:
+\begin{minted}{sql}
+insert into worker (inn, email, phone) values
+('182736471829', null, null), 
+('928374635461', 'e312m@gmail.com', null), 
+('918274765621', null, '88005553535'), 
+('789124114908', 'e132m1@gmail.com', '88005553536');
+\end{minted}
+workers\_tasks:
+\begin{minted}{sql}
+insert into workers_tasks (worker_inn, task_id) values
+('928374635461', 1),
+('918274765621', 1),
+('182736471829', 2),
+('789124114908', 3),
+('789124114908', 2);
+\end{minted}
+
+Теперь попробуем "разорвать" контракт - удалим контракт с id = 2.
+\begin{minted}{sql}
+delete from contract where id = 2;
+\end{minted}
+Что успешно и получаем. Связь из residents\_contracts удалилась.
+
+Теперь попробуем оплатить чек:
+\begin{minted}{sql}
+update payment set paid_date = now() where id = '6000021827364758192837480';
+\end{minted}
+
 \end{enumerate}
 
 \textbf{Вывод: } в ходе лабораторной работы изучили основные возможности языка SQL для создания 
