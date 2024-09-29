@@ -177,6 +177,43 @@
 
 \item Преобразовать грамматику $G_1$ в грамматику $G_3$ без цепных правил.
 
+Применим замену края:\\
+
+Исходная грамматика:\\
+1. $T \rightarrow aDE$\\
+2. $\mathbf{T \rightarrow D}$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+5. $E \rightarrow \varepsilon$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
+
+Шаг 1: \\
+1. $T \rightarrow aDE$\\
+2\_1. $T \rightarrow DTAb$\\
+2\_2. $T \rightarrow b$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+5. $E \rightarrow \varepsilon$\\
+6. $A \rightarrow Bbb$\\
+7. $\mathbf{B \rightarrow D}$\\
+
+Шаг 2:\\
+1. $T \rightarrow aDE$\\
+2\_1. $T \rightarrow DTAb$\\
+2\_2. $T \rightarrow b$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+5. $E \rightarrow \varepsilon$\\
+6. $A \rightarrow Bbb$\\
+7\_1. $B \rightarrow DTAb$\\
+7\_2. $B \rightarrow b$\\
+
+Цепных правил не осталось.
+Получили искомую грамматику $G_3$.
+
+Альтернативный вариант:
+
 Исключим из грамматики все нецепные правила. Это правила 1, 3, 4, 5, 6.\\
 2. $T \rightarrow D$\\
 7. $B \rightarrow D$\\
@@ -207,7 +244,7 @@ $M^B = \{D\}$.
 Для правила 4 добавим правило 4\_1. $T \rightarrow b$, так как D принадлежит $M^T = \{D\}$.\\
 Для правила 4 добавим правило 4\_2. $B \rightarrow b$, так как D принадлежит $M^B = \{D\}$.\\
 
-Искомая грамматика $G_3$:
+Искомая грамматика $G_3$:\\
 1. $T \rightarrow aDE$\\
 3. $D \rightarrow DTAb$\\
 3\_1. $T \rightarrow DTAb$\\
@@ -218,15 +255,504 @@ $M^B = \{D\}$.
 5. $E \rightarrow \varepsilon$\\
 6. $A \rightarrow Bbb$\\
 
-\iffalse
 \item Преобразовать грамматику $G_1$ в грамматику $G_4$ без левой рекурсии.\\
-Обозначим нетерминалы грамматики: T, D, E, A, B как $A_1, A_2, A_3, A_4, A_5$ соответственно.\\
-Рассматриваем нетерминал T. \\
-Правил вида $A_1 = A_0a$ в грамматике нет, так как нет $A_0$. Замену края не выполняем.
-Самолеворекурсивных правил тоже нет, замена не выполняется.\\
-Рассматриваем нетерминал D. \\
-Выполняем замену края в правиле  
+
+Алгоритм применим, если грамматика не имеет циклов (цепных правил) и $\varepsilon$-правил.
+Для получения грамматики без $\varepsilon$-правил воспользуемся грамматикой $G_2$.\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow D$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
+Преобразуем эту грамматику так, чтобы в ней не было цепных правил.\\
+
+Исходная грамматика:\\
+1. $T \rightarrow aD$\\
+2. $\mathbf{T \rightarrow D}$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
+
+Выполним замену края:\\
+1. $T \rightarrow aD$\\
+2\_1. $T \rightarrow DTAb$\\
+2\_2. $T \rightarrow b$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $\mathbf{B \rightarrow D}$\\
+
+Выполним замену края:\\
+1. $T \rightarrow aD$\\
+2\_1. $T \rightarrow DTAb$\\
+2\_2. $T \rightarrow b$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7\_1. $B \rightarrow DTAb$\\
+7\_2. $B \rightarrow b$\\
+
+Получили грамматику $G_3'$ без лишних символов, $\varepsilon$-правил и цепных правил:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DTAb$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow DTAb$\\
+8. $B \rightarrow b$\\
+
+Обозначим нетерминалы грамматики: T, D, A, B как $A_1, A_2, A_3, A_4$ соответственно.\\
+1. $A_1 \rightarrow aA_2$\\
+2. $A_1 \rightarrow A_2A_1A_3b$\\
+3. $A_1 \rightarrow b$\\
+4. $A_2 \rightarrow A_2A_1A_3b$\\
+5. $A_2 \rightarrow b$\\
+6. $A_3 \rightarrow A_4bb$\\
+7. $A_4 \rightarrow A_2A_1A_3b$\\
+8. $A_4 \rightarrow b$\\
+
+Рассмотрим нетерминал $A_1$.\\
+Правил вида $A_1 \rightarrow A_0a$ не существует, 
+следовательно замену края выполнять не будем.\\
+Самолеворекурсивных правил для $A_1$ также нет.\\
+
+Рассмотрим нетерминал $A_2$.\\
+Правил вида $A_2 \rightarrow A_1a$ не существует, 
+следовательно замену края выполнять не будем.\\
+Для $A_2$ существует самолеворекурсивное правило 4. 
+Также существует несаморекурсивное правило 5. 
+Заменим эти правила:\\
+1. $A_1 \rightarrow aA_2$\\
+2. $A_1 \rightarrow A_2A_1A_3b$\\
+3. $A_1 \rightarrow b$\\
+9. $A_2 \rightarrow bB_1$\\
+10. $B_1 \rightarrow A_1A_3bB_1$\\
+11. $B_1 \rightarrow \varepsilon$\\
+6. $A_3 \rightarrow A_4bb$\\
+7. $A_4 \rightarrow A_2A_1A_3b$\\
+8. $A_4 \rightarrow b$\\
+
+Рассмотрим нетерминал $A_3$.\\
+Правил вида $A_3 \rightarrow A_2a$ не существует, 
+следовательно замену края выполнять не будем.\\
+Самолеворекурсивных правил для $A_3$ также нет.\\
+
+Рассмотрим нетерминал $A_4$.\\
+Существует правило 7. $A_4 \rightarrow A_2A_1A_3b$, выполним замену края:\\
+1. $A_1 \rightarrow aA_2$\\
+2. $A_1 \rightarrow A_2A_1A_3b$\\
+3. $A_1 \rightarrow b$\\
+9. $A_2 \rightarrow bB_1$\\
+10. $B_1 \rightarrow A_1A_3bB_1$\\
+11. $B_1 \rightarrow \varepsilon$\\
+6. $A_3 \rightarrow A_4bb$\\
+12. $A_4 \rightarrow bB_1A_1A_3b$\\
+8. $A_4 \rightarrow b$\\
+
+Искомая грамматика $G_4$: \\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow bB_1$\\
+5. $B_1 \rightarrow TAbB_1$\\
+6. $B_1 \rightarrow \varepsilon$\\
+7. $A \rightarrow Bbb$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+
+\item Преобразовать грамматику $G_1$ в грамматику $G_5$ без несаморекурсивных
+нетерминалов.
+
+Искходная грамматика:\\
+1. $T \rightarrow aDE$\\
+2. $T \rightarrow D$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+5. $E \rightarrow \varepsilon$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
+
+Нетерминал E несаморекурсивный.\\
+Исключаем правило 5:\\
+5. $E \rightarrow \varepsilon$\\
+Выбираем вхождение символа E в правиле 1 и
+выполняем замену на правую часть правила 5:\\
+1\_1. $T \rightarrow aD$\\
+2. $T \rightarrow D$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
+
+Нетерминал T несаморекурсивный.\\
+Исключаем правила 1\_1, 2:\\
+1\_1. $T \rightarrow aD$\\
+2. $T \rightarrow D$\\
+Выбираем вхождение символа T в правиле 3 и
+выполняем замену на правую часть правил 1\_1, 2:\\
+3\_1. $D \rightarrow DaDAb$\\
+3\_2. $D \rightarrow DDAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
+
+Нетерминал B несаморекурсивный.\\
+Исключаем правило 7:\\
+7. $B \rightarrow D$\\
+Выбираем вхождение символа B в правиле 6 и
+выполняем замену на правую часть правила 7:\\
+3\_1. $D \rightarrow DaDAb$\\
+3\_2. $D \rightarrow DDAb$\\
+4. $D \rightarrow b$\\
+6\_1. $A \rightarrow Dbb$\\
+
+Нетерминал A несаморекурсивный.\\
+Исключаем правило 6\_1:\\
+6\_1. $A \rightarrow Dbb$\\
+Выбираем вхождение символа A в правилах 3\_1, 3\_2 и
+выполняем замену на правую часть правила 6\_1:\\
+3\_1\_1. $D \rightarrow DaDDbbb$\\
+3\_2\_2. $D \rightarrow DDDbbb$\\
+4. $D \rightarrow b$\\
+
+Искомая грамматика $G_5$:\\
+1. $D \rightarrow DaDDbbb$\\
+2. $D \rightarrow DDDbbb$\\
+3. $D \rightarrow b$\\
+
+\item Получить грамматику $G_6$, эквивалентную грамматике $G_1$, в которой
+правая часть каждого правила состоит либо из одного терминала, либо двух нетерминалов.
+
+Для получения грамматики $G_6$ необходимо привести грамматику $G_1$ 
+к нормальной форме Хомского.\\
+Воспользуемся грамматикой $G_3'$, в которой нет цепных правил, $\varepsilon$-правил
+и цепных правил.\\
+Исходная грамматика:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DTAb$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow DTAb$\\
+8. $B \rightarrow b$\\
+
+Выполним пункт 1 алгоритма (преобразование правил вида $A \rightarrow Xa$):\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow TAb$\\
+
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow BN_2$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow TAb$\\
+10. $N_2 \rightarrow bb$\\
+
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow BN_2$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow N_3b$\\
+10. $N_2 \rightarrow bb$\\
+11. $N_3 \rightarrow TA$\\
+
+Выполним пункт 2 алгоритма (преобразование правил вида $A \rightarrow tB$):\\
+1. $T \rightarrow N_4D$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow BN_2$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow N_3b$\\
+10. $N_2 \rightarrow bb$\\
+11. $N_3 \rightarrow TA$\\
+12. $N_4 \rightarrow a$\\
+
+Выполним пункт 3 алгоритма (преобразование правил вида $A \rightarrow Bt$):\\
+1. $T \rightarrow N_4D$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow BN_2$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow N_3T$\\
+10. $N_2 \rightarrow bb$\\
+11. $N_3 \rightarrow TA$\\
+12. $N_4 \rightarrow a$\\
+
+Выполним пункт 4 алгоритма (преобразование правил вида $A \rightarrow tt$):\\
+1. $T \rightarrow N_4D$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow BN_2$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow N_3T$\\
+10. $N_2 \rightarrow TT$\\
+11. $N_3 \rightarrow TA$\\
+12. $N_4 \rightarrow a$\\
+
+Искомая грамматика $G_6$:\\
+1. $T \rightarrow N_4D$\\
+2. $T \rightarrow DN_1$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow DN_1$\\
+5. $D \rightarrow b$\\
+6. $A \rightarrow BN_2$\\
+7. $B \rightarrow DN_1$\\
+8. $B \rightarrow b$\\
+9. $N_1 \rightarrow N_3T$\\
+10. $N_2 \rightarrow TT$\\
+11. $N_3 \rightarrow TA$\\
+12. $N_4 \rightarrow a$\\
+
+\item Получить грамматику $G_7$, эквивалентную грамматике $G_1$, в которой 
+правая часть каждого правила начинается терминалом.
+
+Для получения грамматики $G_7$ 
+необходимо привести грамматику $G_1$ 
+к нормальной форме Грейбах.\\
+
+Используем преобразованную грамматику $G_1$ без левой рекурсии $G_4$:\\
+\iffalse
+1. $T \rightarrow aD$\\              T  _  D
+2. $T \rightarrow DTAb$\\            T  D  _
+3. $T \rightarrow b$\\               T  _  _
+4. $D \rightarrow bB_1$\\            D  _  B1
+5. $B_1 \rightarrow TAbB_1$\\        B1 T  B1
+6. $B_1 \rightarrow \varepsilon$\\   B1 _  _
+7. $A \rightarrow Bbb$\\             A  B  _
+8. $B \rightarrow bB_1TAb$\\         B  _  _
+9. $B \rightarrow b$\\               B  _  _
+
+B1 T  B1
+T  _  D
+T  D  _
+D  _  B1
+A  B  _
+B1 _  _
+B  _  _
+B  _  _
+T  _  _
 \fi
+
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow bB_1$\\
+5. $B_1 \rightarrow TAbB_1$\\
+6. $B_1 \rightarrow \varepsilon$\\
+7. $A \rightarrow Bbb$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+
+Упорядочим грамматику:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+4. $D \rightarrow bB_1$\\
+5. $B_1 \rightarrow TAbB_1$\\
+7. $A \rightarrow Bbb$\\
+6. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+3. $T \rightarrow b$\\
+
+Выполнение замены края:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+4. $D \rightarrow bB_1$\\
+5. $B_1 \rightarrow TAbB_1$\\
+7\_1. $A \rightarrow bB_1TAbbb$\\
+7\_2. $A \rightarrow bbb$\\
+6. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+3. $T \rightarrow b$\\
+
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+4. $D \rightarrow bB_1$\\
+5\_1. $B_1 \rightarrow bAbB_1$\\
+7\_1. $A \rightarrow bB_1TAbbb$\\
+7\_2. $A \rightarrow bbb$\\
+6. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+3. $T \rightarrow b$\\
+
+1. $T \rightarrow aD$\\
+2\_1. $T \rightarrow bB_1TAb$\\
+4. $D \rightarrow bB_1$\\
+5\_1. $B_1 \rightarrow bAbB_1$\\
+7\_1. $A \rightarrow bB_1TAbbb$\\
+7\_2. $A \rightarrow bbb$\\
+6. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+3. $T \rightarrow b$\\
+
+Введём правило $N \rightarrow b$ и выполним замену, где необходимо:\\
+1. $T \rightarrow aD$\\
+2\_1. $T \rightarrow bB_1TAN$\\
+4. $D \rightarrow bB_1$\\
+5\_1. $B_1 \rightarrow bANB_1$\\
+7\_1. $A \rightarrow bB_1TANNN$\\
+7\_2. $A \rightarrow bNN$\\
+6. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAN$\\
+9. $B \rightarrow b$\\
+3. $T \rightarrow b$\\
+10. $N \rightarrow b$\\
+
+Искомая грамматика $G_7$:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow bB_1TAN$\\
+3. $D \rightarrow bB_1$\\
+4. $B_1 \rightarrow bANB_1$\\
+5. $A \rightarrow bB_1TANNN$\\
+6. $A \rightarrow bNN$\\
+7. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAN$\\
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $N \rightarrow b$\\
+
+\item Получить грамматику $G_8$, эквивалентную грамматике $G_1$, в которой 
+правая часть каждого не $\varepsilon$-правила начинается терминалом и любые
+два правила с одинаковой левой частью различаются первым символом в правой части.\\
+Для получения такой грамматики можем проводить множественную левую факторизацию и замену в грамматике $G_7$.\\
+
+\textbf{Модификации: }в ходе выполнения задания было получено крайне большое количество вычислений, поэтому
+из грамматики $G_7$ были удалены правила: $T \rightarrow b$, $T \rightarrow bB_1TAN$.\\
+
+Исходная грамматика:\\
+$T \rightarrow aD$\\
+$A \rightarrow bNN$\\
+$A \rightarrow bB_1TANNN$\\
+$B_1 \rightarrow bANB_1$\\
+$B_1 \rightarrow \varepsilon$\\
+$B \rightarrow b$\\
+$B \rightarrow bB_1TAN$\\
+$D \rightarrow bB_1$\\
+$N \rightarrow b$\\
+
+Выполним левую факторизацию для B:\\
+$T \rightarrow aD$\\
+$A \rightarrow bNN$\\
+$A \rightarrow bB_1TANNN$\\
+$B_1 \rightarrow bANB_1$\\
+$B_1 \rightarrow \varepsilon$\\
+$B \rightarrow BE_1$\\
+$D \rightarrow bB_1$\\
+$N \rightarrow b$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow B_1TAN$\\
+
+Выполним замену для $E_1$:\\
+$T \rightarrow aD$\\
+$A \rightarrow bNN$\\
+$A \rightarrow bB_1TANNN$\\
+$B_1 \rightarrow bANB_1$\\
+$B_1 \rightarrow \varepsilon$\\
+$B \rightarrow BE_1$\\
+$D \rightarrow bB_1$\\
+$N \rightarrow b$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bANB_1TAN$\\
+$E_1 \rightarrow aDAN$\\
+
+Искомая грамматика $G_8$:\\
+1. $T \rightarrow aD$\\
+2. $A \rightarrow bNN$\\
+3. $A \rightarrow bB_1TANNN$\\
+4. $B_1 \rightarrow bANB_1$\\
+5. $B_1 \rightarrow \varepsilon$\\
+6. $B \rightarrow BE_1$\\
+7. $D \rightarrow bB_1$\\
+8. $N \rightarrow b$\\
+9. $E_1 \rightarrow \varepsilon$\\
+10. $E_1 \rightarrow bANB_1TAN$\\
+11. $E_1 \rightarrow aDAN$\\
+
+\item Получить грамматику $G_9$, эквивалентную грамматике $G_1$, в которой
+правая часть каждого правила не содержит двух стоящих рядом нетерминала.
+
+Для получения такой грамматики преобразуем грамматику $G_7$ к операторной КС-грамматике.\\
+Исходная грамматика:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow bB_1TAN$\\
+3. $D \rightarrow bB_1$\\
+4. $B_1 \rightarrow bANB_1$\\
+5. $A \rightarrow bB_1TANNN$\\
+6. $A \rightarrow bNN$\\
+7. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAN$\\
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $N \rightarrow b$\\
+
+Выполним замену символа N во всех правилах, при этом N станет недостижимым и его можно будет удалить.
+1. $T \rightarrow aD$\\
+2. $T \rightarrow bB_1TAb$\\
+3. $D \rightarrow bB_1$\\
+4. $B_1 \rightarrow bAbB_1$\\
+5. $A \rightarrow bB_1TAbbb$\\
+6. $A \rightarrow bbb$\\
+7. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+
+Рассмотрим правило 2. Добавим правило $N_1 \rightarrow B_1TA$ и выполним замену:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow bN_1b$\\
+3. $D \rightarrow bB_1$\\
+4. $B_1 \rightarrow bAbB_1$\\
+5. $A \rightarrow bB_1TAbbb$\\
+6. $A \rightarrow bbb$\\
+7. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $N_1 \rightarrow B_1TA$\\
+
+Рассмотрим правило 8. Заменим $B_1TA$ на $N_1$:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow bN_1b$\\
+3. $D \rightarrow bB_1$\\
+4. $B_1 \rightarrow bAbB_1$\\
+5. $A \rightarrow bB_1TAbbb$\\
+6. $A \rightarrow bbb$\\
+7. $B_1 \rightarrow \varepsilon$\\
+8. $B \rightarrow bN_1b$\\
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $N_1 \rightarrow B_1TA$\\
+
 
 
 \end{enumerate}
