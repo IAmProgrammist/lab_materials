@@ -173,7 +173,14 @@
 4. $D \rightarrow b$\\
 6. $A \rightarrow Bbb$\\
 7. $B \rightarrow D$\\
-В полученной грамматике $G_2$ нет правил вида $A \rightarrow A$, одинаковых правил и $\varepsilon$-правил.
+В полученной грамматике $G_2$ нет правил вида $A \rightarrow A$, одинаковых правил и $\varepsilon$-правил. Получили искомую грамматику:\\
+Искомая грамматика $G_2$:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow D$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
 
 \item Преобразовать грамматику $G_1$ в грамматику $G_3$ без цепных правил.
 
@@ -538,222 +545,710 @@ $M^B = \{D\}$.
 к нормальной форме Грейбах.\\
 
 Используем преобразованную грамматику $G_1$ без левой рекурсии $G_4$:\\
+
+В $G_4$ есть $\varepsilon$-правила. Исключим их и получим грамматику $G_4'$:\\
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+3. $T \rightarrow b$\\
+4. $D \rightarrow bB_1$\\
+5. $B_1 \rightarrow TAbB_1$\\
+6. $B_1 \rightarrow \varepsilon$\\
+7. $A \rightarrow Bbb$\\
+8. $B \rightarrow bB_1TAb$\\
+9. $B \rightarrow b$\\
+
+1. $T \rightarrow aD$\\
+2. $T \rightarrow DTAb$\\
+3. $T \rightarrow b$\\
+4\_1. $D \rightarrow bB_1$\\
+4\_2. $D \rightarrow b$\\
+5\_1. $B_1 \rightarrow TAbB_1$\\
+5\_2. $B_1 \rightarrow TAb$\\
+7. $A \rightarrow Bbb$\\
+8\_1. $B \rightarrow bB_1TAb$\\
+8\_2. $B \rightarrow bTAb$\\
+9. $B \rightarrow b$\\
+
 \iffalse
 1. $T \rightarrow aD$\\              T  _  D
 2. $T \rightarrow DTAb$\\            T  D  _
 3. $T \rightarrow b$\\               T  _  _
-4. $D \rightarrow bB_1$\\            D  _  B1
-5. $B_1 \rightarrow TAbB_1$\\        B1 T  B1
-6. $B_1 \rightarrow \varepsilon$\\   B1 _  _
+4\_1. $D \rightarrow bB_1$\\         D  _  B1
+4\_2. $D \rightarrow b$\\            D  _  _
+5\_1. $B_1 \rightarrow TAbB_1$\\     B1 T  B1
+5\_2. $B_1 \rightarrow TAb$\\        B1 T  _
 7. $A \rightarrow Bbb$\\             A  B  _
-8. $B \rightarrow bB_1TAb$\\         B  _  _
+8\_1. $B \rightarrow bB_1TAb$\\      B  _  _
+8\_2. $B \rightarrow bTAb$\\         B  _  _
 9. $B \rightarrow b$\\               B  _  _
 
+B1 T  _
 B1 T  B1
 T  _  D
 T  D  _
 D  _  B1
 A  B  _
-B1 _  _
+B  _  _
 B  _  _
 B  _  _
 T  _  _
+D  _  _
 \fi
 
-1. $T \rightarrow aD$\\
-2. $T \rightarrow DTAb$\\
-3. $T \rightarrow b$\\
-4. $D \rightarrow bB_1$\\
-5. $B_1 \rightarrow TAbB_1$\\
-6. $B_1 \rightarrow \varepsilon$\\
-7. $A \rightarrow Bbb$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-
 Упорядочим грамматику:\\
-1. $T \rightarrow aD$\\
-2. $T \rightarrow DTAb$\\
-4. $D \rightarrow bB_1$\\
-5. $B_1 \rightarrow TAbB_1$\\
-7. $A \rightarrow Bbb$\\
-6. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-3. $T \rightarrow b$\\
-
-Выполнение замены края:\\
-1. $T \rightarrow aD$\\
-2. $T \rightarrow DTAb$\\
-4. $D \rightarrow bB_1$\\
-5. $B_1 \rightarrow TAbB_1$\\
-7\_1. $A \rightarrow bB_1TAbbb$\\
-7\_2. $A \rightarrow bbb$\\
-6. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-3. $T \rightarrow b$\\
-
-1. $T \rightarrow aD$\\
-2. $T \rightarrow DTAb$\\
-4. $D \rightarrow bB_1$\\
-5\_1. $B_1 \rightarrow bAbB_1$\\
-7\_1. $A \rightarrow bB_1TAbbb$\\
-7\_2. $A \rightarrow bbb$\\
-6. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-3. $T \rightarrow b$\\
-
-1. $T \rightarrow aD$\\
-2\_1. $T \rightarrow bB_1TAb$\\
-4. $D \rightarrow bB_1$\\
-5\_1. $B_1 \rightarrow bAbB_1$\\
-7\_1. $A \rightarrow bB_1TAbbb$\\
-7\_2. $A \rightarrow bbb$\\
-6. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-3. $T \rightarrow b$\\
-
-Введём правило $N \rightarrow b$ и выполним замену, где необходимо:\\
-1. $T \rightarrow aD$\\
-2\_1. $T \rightarrow bB_1TAN$\\
-4. $D \rightarrow bB_1$\\
-5\_1. $B_1 \rightarrow bANB_1$\\
-7\_1. $A \rightarrow bB_1TANNN$\\
-7\_2. $A \rightarrow bNN$\\
-6. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAN$\\
-9. $B \rightarrow b$\\
-3. $T \rightarrow b$\\
-10. $N \rightarrow b$\\
-
-Искомая грамматика $G_7$:\\
-1. $T \rightarrow aD$\\
-2. $T \rightarrow bB_1TAN$\\
-3. $D \rightarrow bB_1$\\
-4. $B_1 \rightarrow bANB_1$\\
-5. $A \rightarrow bB_1TANNN$\\
-6. $A \rightarrow bNN$\\
-7. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAN$\\
+1. $B_1 \rightarrow TAb$\\
+2. $B_1 \rightarrow TAbB_1$\\
+3. $T \rightarrow aD$\\ 
+4. $T \rightarrow DTAb$\\
+5. $D \rightarrow bB_1$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow bB_1TAb$\\ 
+8. $B \rightarrow bTAb$\\ 
 9. $B \rightarrow b$\\
 10. $T \rightarrow b$\\
-11. $N \rightarrow b$\\
+11. $D \rightarrow b$\\
+
+Выполнение замены края:\\
+1. $B_1 \rightarrow TAb$\\
+2. $B_1 \rightarrow TAbB_1$\\
+3. $T \rightarrow aD$\\ 
+4. $T \rightarrow DTAb$\\
+5. $D \rightarrow bB_1$\\
+6\_1. $A \rightarrow bB_1TAbbb$\\
+6\_2. $A \rightarrow bTAbbb$\\
+6\_3. $A \rightarrow bbb$\\
+7. $B \rightarrow bB_1TAb$\\ 
+8. $B \rightarrow bTAb$\\ 
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $D \rightarrow b$\\
+
+1. $B_1 \rightarrow TAb$\\
+2. $B_1 \rightarrow TAbB_1$\\
+3. $T \rightarrow aD$\\ 
+4. $T \rightarrow bB_1TAb$\\
+5. $D \rightarrow bB_1$\\
+6\_1. $A \rightarrow bB_1TAbbb$\\
+6\_2. $A \rightarrow bTAbbb$\\
+6\_3. $A \rightarrow bbb$\\
+7. $B \rightarrow bB_1TAb$\\ 
+8. $B \rightarrow bTAb$\\ 
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $D \rightarrow b$\\
+
+1\_1. $B_1 \rightarrow aDAb$\\
+1\_2. $B_1 \rightarrow bB_1TAbAb$\\
+2\_1. $B_1 \rightarrow aDAbB_1$\\
+2\_2. $B_1 \rightarrow bB_1TAbAbB_1$\\
+3. $T \rightarrow aD$\\ 
+4. $T \rightarrow bB_1TAb$\\
+5. $D \rightarrow bB_1$\\
+6\_1. $A \rightarrow bB_1TAbbb$\\
+6\_2. $A \rightarrow bTAbbb$\\
+6\_3. $A \rightarrow bbb$\\
+7. $B \rightarrow bB_1TAb$\\ 
+8. $B \rightarrow bTAb$\\ 
+9. $B \rightarrow b$\\
+10. $T \rightarrow b$\\
+11. $D \rightarrow b$\\
+
+Искомая грамматика $G_7$:\\
+1. $B_1 \rightarrow aDAb$\\
+2. $B_1 \rightarrow bB_1TAbAb$\\
+3. $B_1 \rightarrow aDAbB_1$\\
+4. $B_1 \rightarrow bB_1TAbAbB_1$\\
+5. $T \rightarrow aD$\\ 
+6. $T \rightarrow bB_1TAb$\\
+7. $D \rightarrow bB_1$\\
+8. $A \rightarrow bB_1TAbbb$\\
+9. $A \rightarrow bTAbbb$\\
+10. $A \rightarrow bbb$\\
+11. $B \rightarrow bB_1TAb$\\ 
+12. $B \rightarrow bTAb$\\ 
+13. $B \rightarrow b$\\
+14. $T \rightarrow b$\\
+15. $D \rightarrow b$\\
 
 \item Получить грамматику $G_8$, эквивалентную грамматике $G_1$, в которой 
 правая часть каждого не $\varepsilon$-правила начинается терминалом и любые
 два правила с одинаковой левой частью различаются первым символом в правой части.\\
 Для получения такой грамматики можем проводить множественную левую факторизацию и замену в грамматике $G_7$.\\
 
-\textbf{Модификации: }в ходе выполнения задания было получено крайне большое количество вычислений, поэтому
-из грамматики $G_7$ были удалены правила: $T \rightarrow b$, $T \rightarrow bB_1TAN$.\\
-
-Исходная грамматика:\\
-$T \rightarrow aD$\\
-$A \rightarrow bNN$\\
-$A \rightarrow bB_1TANNN$\\
-$B_1 \rightarrow bANB_1$\\
-$B_1 \rightarrow \varepsilon$\\
+\textbf{Модификации: }в ходе выполнения задания было выявлено, что грамматика $G_7$
+преобразовать к искомой невозможно, так как алгоримт зациклился.
+Попробуем удалить из грамматики $G_7$ правила 2, 3, 4, 5.\\
+$B_1 \rightarrow aDAb$\\
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bB_1TAbbb$\\
+$A \rightarrow bTAbbb$\\
+$A \rightarrow bbb$\\
+$B \rightarrow bB_1TAb$\\ 
+$B \rightarrow bTAb$\\ 
 $B \rightarrow b$\\
-$B \rightarrow bB_1TAN$\\
-$D \rightarrow bB_1$\\
-$N \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
 
-Выполним левую факторизацию для B:\\
-$T \rightarrow aD$\\
-$A \rightarrow bNN$\\
-$A \rightarrow bB_1TANNN$\\
-$B_1 \rightarrow bANB_1$\\
-$B_1 \rightarrow \varepsilon$\\
-$B \rightarrow BE_1$\\
+Выполним левую факторизацию:\\
+$B_1 \rightarrow aDAb$\\
+$T \rightarrow bB_1TAb$\\
 $D \rightarrow bB_1$\\
-$N \rightarrow b$\\
-$E_1 \rightarrow \varepsilon$\\
-$E_1 \rightarrow B_1TAN$\\
+$A \rightarrow bE_1$\\
+$E_1 \rightarrow B_1TAbbb$\\
+$E_1 \rightarrow TAbbb$\\
+$E_1 \rightarrow bb$\\ 
+$B \rightarrow bE_2$\\
+$E_2 \rightarrow B_1TAb$\\
+$E_2 \rightarrow TAb$\\
+$E_2 \rightarrow \varepsilon$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
 
-Выполним замену для $E_1$:\\
-$T \rightarrow aD$\\
-$A \rightarrow bNN$\\
-$A \rightarrow bB_1TANNN$\\
-$B_1 \rightarrow bANB_1$\\
-$B_1 \rightarrow \varepsilon$\\
-$B \rightarrow BE_1$\\
+Выполним замену:\\
+$B_1 \rightarrow aDAb$\\
+$T \rightarrow bB_1TAb$\\
 $D \rightarrow bB_1$\\
-$N \rightarrow b$\\
-$E_1 \rightarrow \varepsilon$\\
-$E_1 \rightarrow bANB_1TAN$\\
-$E_1 \rightarrow aDAN$\\
+$A \rightarrow bE_1$\\
+$E_1 \rightarrow aDAbTAbbb$\\
+$E_1 \rightarrow bB_1TAbAbbb$\\
+$E_1 \rightarrow bb$\\ 
+$B \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbTAb$\\
+$E_2 \rightarrow bB_1TAbAb$\\
+$E_2 \rightarrow \varepsilon$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним левую факторизацию:\\
+$B_1 \rightarrow aDAb$\\
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_1$\\
+$E_1 \rightarrow aDAbTAbbb$\\
+$E_1 \rightarrow bE_3$\\ 
+$E_3 \rightarrow B_1TAbAbbb$\\
+$E_3 \rightarrow b$\\
+$B \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbTAb$\\
+$E_2 \rightarrow bB_1TAbAb$\\
+$E_2 \rightarrow \varepsilon$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним замену:\\
+$B_1 \rightarrow aDAb$\\
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_1$\\
+$E_1 \rightarrow aDAbTAbbb$\\
+$E_1 \rightarrow bE_3$\\ 
+$E_3 \rightarrow aDAbTAbAbbb$\\
+$E_3 \rightarrow b$\\
+$B \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbTAb$\\
+$E_2 \rightarrow bB_1TAbAb$\\
+$E_2 \rightarrow \varepsilon$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
 
 Искомая грамматика $G_8$:\\
-1. $T \rightarrow aD$\\
-2. $A \rightarrow bNN$\\
-3. $A \rightarrow bB_1TANNN$\\
-4. $B_1 \rightarrow bANB_1$\\
-5. $B_1 \rightarrow \varepsilon$\\
-6. $B \rightarrow BE_1$\\
-7. $D \rightarrow bB_1$\\
-8. $N \rightarrow b$\\
-9. $E_1 \rightarrow \varepsilon$\\
-10. $E_1 \rightarrow bANB_1TAN$\\
-11. $E_1 \rightarrow aDAN$\\
+$B_1 \rightarrow aDAb$\\
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_1$\\
+$B \rightarrow bE_2$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+$E_1 \rightarrow aDAbTAbbb$\\
+$E_1 \rightarrow bE_3$\\ 
+$E_2 \rightarrow aDAbTAb$\\
+$E_2 \rightarrow bB_1TAbAb$\\
+$E_2 \rightarrow \varepsilon$\\
+$E_3 \rightarrow aDAbTAbAbbb$\\
+$E_3 \rightarrow b$\\
+
+\iffalse
+Исходная грамматика:\\
+$B_1 \rightarrow aDAb$\\
+$B_1 \rightarrow bB_1TAbAb$\\
+$B_1 \rightarrow aDAbB_1$\\
+$B_1 \rightarrow bB_1TAbAbB_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bB_1TAbbb$\\
+$A \rightarrow bTAbbb$\\
+$A \rightarrow bbb$\\
+$B \rightarrow bB_1TAb$\\ 
+$B \rightarrow bTAb$\\ 
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним левую факторизацию для $B_1$:\\
+$B_1 \rightarrow aDAb$\\
+$B_1 \rightarrow bB_1TAbAb$\\
+$B_1 \rightarrow aDAbB_1$\\
+$B_1 \rightarrow bB_1TAbAbB_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bB_1TAbbb$\\
+$A \rightarrow bTAbbb$\\
+$A \rightarrow bbb$\\
+$B \rightarrow bB_1TAb$\\ 
+$B \rightarrow bTAb$\\ 
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним замену:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bB_1TAbbb$\\
+$A \rightarrow bTAbbb$\\
+$A \rightarrow bbb$\\
+$B \rightarrow bB_1TAb$\\ 
+$B \rightarrow bTAb$\\ 
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним левую факторизацию для A, B:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_2$\\
+$E_2 \rightarrow B_1TAbbb$\\
+$E_2 \rightarrow TAbbb$\\
+$E_2 \rightarrow bb$\\
+$B \rightarrow bE_3$\\ 
+$E_3 \rightarrow B_1TAb$\\ 
+$E_3 \rightarrow TAb$\\
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним замену:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_2$\\
+$E_2 \rightarrow bB_1TAbAbE_1TAbbb$\\
+$E_2 \rightarrow aDAbE_1TAbbb$\\
+$E_2 \rightarrow aDAbbb$\\
+$E_2 \rightarrow bB_1TAbAbbb$\\
+$E_2 \rightarrow bb$\\
+$B \rightarrow bE_3$\\ 
+$E_3 \rightarrow bB_1TAbAbE_1TAb$\\ 
+$E_3 \rightarrow aDAbE_1TAb$\\ 
+$E_3 \rightarrow aDAb$\\
+$E_3 \rightarrow bB_1TAbAb$\\
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним левую факторизацию для $E_2$, $E_3$:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbE_4$\\
+$E_4 \rightarrow E_1TAbbb$\\
+$E_4 \rightarrow bb$\\
+$E_2 \rightarrow bE_5$\\
+$E_5 \rightarrow B_1TAbAbE_1TAbbb$\\
+$E_5 \rightarrow B_1TAbAbbb$\\
+$E_5 \rightarrow b$\\
+$B \rightarrow bE_3$\\ 
+$E_3 \rightarrow aDAbE_6$\\ 
+$E_6 \rightarrow E_1TAb$\\ 
+$E_6 \rightarrow \varepsilon$\\ 
+$E_3 \rightarrow bB_1TAbAbE_7$\\
+$E_7 \rightarrow E_1TAb$\\
+$E_7 \rightarrow \varepsilon$\\
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним замену для $E_4$, $E_5$, $E_6$, $E_7$:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbE_4$\\
+$E_4 \rightarrow aDAbbb$\\
+$E_4 \rightarrow bB_1TAbAbbb$\\
+$E_4 \rightarrow bB_1TAbAbE_1TAbbb$\\
+$E_4 \rightarrow aDAbE_1TAbbb$\\
+$E_4 \rightarrow bb$\\
+$E_2 \rightarrow bE_5$\\
+$E_5 \rightarrow aDAbE_1TAbAbbb$\\
+$E_5 \rightarrow aDAbE_1TAbAbE_1TAbbb$\\
+$E_5 \rightarrow bB_1TAbAbE_1TAbAbE_1TAbbb$\\
+$E_5 \rightarrow bB_1TAbAbE_1TAbAbbb$\\
+$E_5 \rightarrow b$\\
+$B \rightarrow bE_3$\\ 
+$E_3 \rightarrow aDAbE_6$\\
+$E_6 \rightarrow aDAb$\\ 
+$E_6 \rightarrow bB_1TAbAb$\\ 
+$E_6 \rightarrow bB_1TAbAbE_1TAb$\\ 
+$E_6 \rightarrow aDAbE_1TAb$\\ 
+$E_6 \rightarrow \varepsilon$\\ 
+$E_3 \rightarrow bB_1TAbAbE_7$\\
+$E_7 \rightarrow aDAb$\\
+$E_7 \rightarrow bB_1TAbAb$\\
+$E_7 \rightarrow bB_1TAbAbE_1TAb$\\
+$E_7 \rightarrow aDAbE_1TAb$\\
+$E_7 \rightarrow \varepsilon$\\
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним левую факторизацию:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbE_4$\\
+$E_4 \rightarrow aDAbE_8$\\
+$E_8 \rightarrow E_1TAbbb$\\
+$E_8 \rightarrow bb$\\
+$E_4 \rightarrow bE_9$\\
+$E_9 \rightarrow B_1TAbAbbb$\\
+$E_9 \rightarrow B_1TAbAbE_1TAbbb$\\
+$E_9 \rightarrow b$\\
+$E_2 \rightarrow bE_5$\\
+$E_5 \rightarrow aDAbE_1TAbAbE_{10}$\\
+$E_{10} \rightarrow bb$\\
+$E_{10} \rightarrow E_1TAbbb$\\
+$E_5 \rightarrow bE_{11}$\\
+$E_{11} \rightarrow B_1TAbAbE_1TAbAbE_1TAbbb$\\
+$E_{11} \rightarrow B_1TAbAbE_1TAbAbbb$\\
+$E_{11} \rightarrow \varepsilon$\\
+$B \rightarrow bE_3$\\ 
+$E_3 \rightarrow aDAbE_6$\\
+$E_6 \rightarrow aDAbE_{12}$\\ 
+$E_{12} \rightarrow E_1TAb$\\
+$E_{12} \rightarrow \varepsilon$\\
+$E_6 \rightarrow bB_1TAbAbE_{13}$\\ 
+$E_{13} \rightarrow \varepsilon$\\ 
+$E_{13} \rightarrow E_1TAb$\\
+$E_6 \rightarrow \varepsilon$\\ 
+$E_3 \rightarrow bB_1TAbAbE_7$\\
+$E_7 \rightarrow aDAbE_{14}$\\
+$E_{14} \rightarrow E_1TAb$\\
+$E_{14} \rightarrow \varepsilon$\\
+$E_7 \rightarrow bB_1TAbAbE_{15}$\\
+$E_7 \rightarrow bB_1TAbAb$\\
+$E_{15} \rightarrow \varepsilon$\\
+$E_{15} \rightarrow E_1TAb$\\
+$E_7 \rightarrow \varepsilon$\\
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Выполним замену:\\
+$B_1 \rightarrow bB_1TAbAbE_1$\\
+$B_1 \rightarrow aDAbE_1$\\
+$E_1 \rightarrow \varepsilon$\\
+$E_1 \rightarrow bB_1TAbAbE_1$\\
+$E_1 \rightarrow aDAbE_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAb$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bE_2$\\
+$E_2 \rightarrow aDAbE_4$\\
+$E_4 \rightarrow aDAbE_8$\\
+$E_8 \rightarrow aDAbbb$\\
+$E_8 \rightarrow bB_1TAbAbbb$\\
+$E_8 \rightarrow bB_1TAbAbE_1TAbbb$\\
+$E_8 \rightarrow aDAbE_1TAbbb$\\
+$E_8 \rightarrow bb$\\
+$E_4 \rightarrow bE_9$\\
+$E_9 \rightarrow bB_1TAbAbE_1TAbAbbb$\\
+$E_9 \rightarrow aDAbE_1TAbAbbb$\\
+$E_9 \rightarrow bB_1TAbAbE_1TAbAbE_1TAbbb$\\
+$E_9 \rightarrow aDAbE_1TAbAbE_1TAbbb$\\
+$E_9 \rightarrow b$\\
+$E_2 \rightarrow bE_5$\\
+$E_5 \rightarrow aDAbE_1TAbAbE_{10}$\\
+$E_{10} \rightarrow bb$\\
+$E_{10} \rightarrow aDAbbb$\\
+$E_{10} \rightarrow bB_1TAbAbbb$\\
+$E_{10} \rightarrow bB_1TAbAbE_1TAbbb$\\
+$E_{10} \rightarrow aDAbE_1TAbbb$\\
+$E_5 \rightarrow bE_{11}$\
+$E_{11} \rightarrow bB_1TAbAbE_1TAbAbE_1TAbAbE_1TAbbb$\\
+$E_{11} \rightarrow aDAbE_1TAbAbE_1TAbAbE_1TAbbb$\\
+$E_{11} \rightarrow bB_1TAbAbE_1TAbAbE_1TAbAbbb$\\
+$E_{11} \rightarrow aDAbE_1TAbAbE_1TAbAbbb$\\
+$E_{11} \rightarrow \varepsilon$\\
+$B \rightarrow bE_3$\\ 
+$E_3 \rightarrow aDAbE_6$\\
+$E_6 \rightarrow aDAbE_{12}$\\ 
+$E_{12} \rightarrow aDAb$\\
+$E_{12} \rightarrow bB_1TAbAb$\\
+$E_{12} \rightarrow bB_1TAbAbE_1TAb$\\
+$E_{12} \rightarrow aDAbE_1TAb$\\
+$E_{12} \rightarrow \varepsilon$\\
+$E_6 \rightarrow bB_1TAbAbE_{13}$\\ 
+$E_{13} \rightarrow \varepsilon$\\ 
+$E_{13} \rightarrow E_1TAb$\\
+$E_6 \rightarrow \varepsilon$\\ 
+$E_3 \rightarrow bB_1TAbAbE_7$\\
+$E_7 \rightarrow aDAbE_{14}$\\
+$E_{14} \rightarrow E_1TAb$\\
+$E_{14} \rightarrow \varepsilon$\\
+$E_7 \rightarrow bB_1TAbAbE_{15}$\\
+$E_7 \rightarrow bB_1TAbAb$\\
+$E_{15} \rightarrow \varepsilon$\\
+$E_{15} \rightarrow E_1TAb$\\
+$E_7 \rightarrow \varepsilon$\\
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+
+Дальнейшее преобразование не имеет смысла, так как 
+повторная факторизация и замена, например, правило\\
+$E_{13} \rightarrow E_1TAb$\\
+приведёт к правилу с той же правой частью:\\
+$E_{13} \rightarrow aDAb$\\
+$E_{13} \rightarrow aDAbE_1TAb$\\
+$E_{13} \rightarrow bB_1TAbAb$\\
+$E_{13} \rightarrow bB_1TAbAbE_1TAb$\\
+
+$E_{13} \rightarrow aDAbE_{14}$\\
+$E_{13} \rightarrow bB_1TAbAbE_{14}$\\
+$\mathbf{E_{14} \rightarrow E_1TAb}$\\
+$E_{14} \rightarrow \varepsilon$\\
+
+Алгоритм зациклился. Искомая грамматика $G_8$, эквивалентная $G_1$ недостижима.
+\fi
 
 \item Получить грамматику $G_9$, эквивалентную грамматике $G_1$, в которой
 правая часть каждого правила не содержит двух стоящих рядом нетерминала.
 
 Для получения такой грамматики преобразуем грамматику $G_7$ к операторной КС-грамматике.\\
+Для приведения грамматики $G_7$ к форме Грейбах введём правило: $G \rightarrow b$:\\
 Исходная грамматика:\\
+$B_1 \rightarrow aDAG$\\
+$B_1 \rightarrow bB_1TAGAG$\\
+$B_1 \rightarrow aDAGB_1$\\
+$B_1 \rightarrow bB_1TAGAGB_1$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bB_1TAG$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bB_1TAGGG$\\
+$A \rightarrow bTAGGG$\\
+$A \rightarrow bGG$\\
+$B \rightarrow bB_1TAG$\\ 
+$B \rightarrow bTAG$\\ 
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+$G \rightarrow b$\\
+
+Введём операторные правила:\\
+$B_1 \rightarrow aN_1$\\
+$B_1 \rightarrow bN_2$\\
+$B_1 \rightarrow aN_3$\\
+$B_1 \rightarrow bN_4$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bN_5$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bN_6$\\
+$A \rightarrow bN_7$\\
+$A \rightarrow bN_8$\\
+$B \rightarrow bN_5$\\ 
+$B \rightarrow bN_9$\\ 
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+$G \rightarrow b$\\
+$N_1 \rightarrow DAG$\\
+$N_2 \rightarrow B_1TAGAG$\\
+$N_3 \rightarrow DAGB_1$\\
+$N_4 \rightarrow B_1TAGAGB_1$\\
+$N_5 \rightarrow B_1TAG$\\
+$N_6 \rightarrow B_1TAGGG$\\
+$N_7 \rightarrow TAGGG$\\
+$N_8 \rightarrow GG$\\
+$N_9 \rightarrow TAG$\\
+
+Выполним замену:\\
+$B_1 \rightarrow aN_1$\\
+$B_1 \rightarrow bN_2$\\
+$B_1 \rightarrow aN_3$\\
+$B_1 \rightarrow bN_4$\\
+$T \rightarrow aD$\\ 
+$T \rightarrow bN_5$\\
+$D \rightarrow bB_1$\\
+$A \rightarrow bN_6$\\
+$A \rightarrow bN_7$\\
+$A \rightarrow bN_8$\\
+$B \rightarrow bN_5$\\ 
+$B \rightarrow bN_9$\\ 
+$B \rightarrow b$\\
+$T \rightarrow b$\\
+$D \rightarrow b$\\
+$G \rightarrow b$\\
+$N_1 \rightarrow DbN_6b$\\
+$N_1 \rightarrow DbN_7b$\\
+$N_1 \rightarrow DbN_8b$\\
+$N_2 \rightarrow B_1aDbN_6bAb$\\
+$N_2 \rightarrow B_1aDbN_7bAb$\\
+$N_2 \rightarrow B_1aDbN_8bAb$\\
+$N_2 \rightarrow B_1bN_5bN_6bAb$\\
+$N_2 \rightarrow B_1bN_5bN_7bAb$\\
+$N_2 \rightarrow B_1bN_5bN_8bAb$\\
+$N_3 \rightarrow DbN_6bB_1$\\
+$N_3 \rightarrow DbN_7bB_1$\\
+$N_3 \rightarrow DbN_8bB_1$\\
+$N_4 \rightarrow B_1aDbN_6bAbB_1$\\
+$N_4 \rightarrow B_1aDbN_7bAbB_1$\\
+$N_4 \rightarrow B_1aDbN_8bAbB_1$\\
+$N_4 \rightarrow B_1bN_5bN_6bAbB_1$\\
+$N_4 \rightarrow B_1bN_5bN_7bAbB_1$\\
+$N_4 \rightarrow B_1bN_5bN_8bAbB_1$\\
+$N_5 \rightarrow B_1aDbN_6b$\\
+$N_5 \rightarrow B_1aDbN_7b$\\
+$N_5 \rightarrow B_1aDbN_8b$\\
+$N_5 \rightarrow B_1bN_5bN_6b$\\
+$N_5 \rightarrow B_1bN_5bN_7b$\\
+$N_5 \rightarrow B_1bN_5bN_8b$\\
+$N_6 \rightarrow B_1aDbN_6bGb$\\
+$N_6 \rightarrow B_1aDbN_7bGb$\\
+$N_6 \rightarrow B_1aDbN_8bGb$\\
+$N_6 \rightarrow B_1bN_5bN_6bGb$\\
+$N_6 \rightarrow B_1bN_5bN_7bGb$\\
+$N_6 \rightarrow B_1bN_5bN_8bGb$\\
+$N_7 \rightarrow TbN_6bGb$\\
+$N_7 \rightarrow TbN_7bGb$\\
+$N_7 \rightarrow TbN_8bGb$\\
+$N_8 \rightarrow Gb$\\
+$N_9 \rightarrow TbN_6b$\\
+$N_9 \rightarrow TbN_7b$\\
+$N_9 \rightarrow TbN_8b$\\
+
+Получена искомая грамматика $G_9$:\\
+1. $B_1 \rightarrow aN_1$\\
+2. $B_1 \rightarrow bN_2$\\
+3. $B_1 \rightarrow aN_3$\\
+4. $B_1 \rightarrow bN_4$\\
+5. $T \rightarrow aD$\\ 
+6. $T \rightarrow bN_5$\\
+7. $D \rightarrow bB_1$\\
+8. $A \rightarrow bN_6$\\
+9. $A \rightarrow bN_7$\\
+11. $A \rightarrow bN_8$\\
+12. $B \rightarrow bN_5$\\ 
+13. $B \rightarrow bN_9$\\ 
+14. $B \rightarrow b$\\
+15. $T \rightarrow b$\\
+16. $D \rightarrow b$\\
+17. $G \rightarrow b$\\
+18. $N_1 \rightarrow DbN_6b$\\
+19. $N_1 \rightarrow DbN_7b$\\
+20. $N_1 \rightarrow DbN_8b$\\
+21. $N_2 \rightarrow B_1aDbN_6bAb$\\
+22. $N_2 \rightarrow B_1aDbN_7bAb$\\
+23. $N_2 \rightarrow B_1aDbN_8bAb$\\
+24. $N_2 \rightarrow B_1bN_5bN_6bAb$\\
+25. $N_2 \rightarrow B_1bN_5bN_7bAb$\\
+26. $N_2 \rightarrow B_1bN_5bN_8bAb$\\
+27. $N_3 \rightarrow DbN_6bB_1$\\
+28. $N_3 \rightarrow DbN_7bB_1$\\
+29. $N_3 \rightarrow DbN_8bB_1$\\
+30. $N_4 \rightarrow B_1aDbN_6bAbB_1$\\
+31. $N_4 \rightarrow B_1aDbN_7bAbB_1$\\
+32. $N_4 \rightarrow B_1aDbN_8bAbB_1$\\
+33. $N_4 \rightarrow B_1bN_5bN_6bAbB_1$\\
+34. $N_4 \rightarrow B_1bN_5bN_7bAbB_1$\\
+35. $N_4 \rightarrow B_1bN_5bN_8bAbB_1$\\
+36. $N_5 \rightarrow B_1aDbN_6b$\\
+37. $N_5 \rightarrow B_1aDbN_7b$\\
+38. $N_5 \rightarrow B_1aDbN_8b$\\
+39. $N_5 \rightarrow B_1bN_5bN_6b$\\
+40. $N_5 \rightarrow B_1bN_5bN_7b$\\
+41. $N_5 \rightarrow B_1bN_5bN_8b$\\
+42. $N_6 \rightarrow B_1aDbN_6bGb$\\
+43. $N_6 \rightarrow B_1aDbN_7bGb$\\
+44. $N_6 \rightarrow B_1aDbN_8bGb$\\
+45. $N_6 \rightarrow B_1bN_5bN_6bGb$\\
+46. $N_6 \rightarrow B_1bN_5bN_7bGb$\\
+47. $N_6 \rightarrow B_1bN_5bN_8bGb$\\
+48. $N_7 \rightarrow TbN_6bGb$\\
+49. $N_7 \rightarrow TbN_7bGb$\\
+50. $N_7 \rightarrow TbN_8bGb$\\
+51. $N_8 \rightarrow Gb$\\
+52. $N_9 \rightarrow TbN_6b$\\
+53. $N_9 \rightarrow TbN_7b$\\
+54. $N_9 \rightarrow TbN_8b$\\
+
+\item Получить грамматику $G_{10}$, эквивалентную грамматике $G_1$, в которой
+любой символ занимает либо только крайнюю правую позицию в правых частях правил, 
+либо находится левее самого правого символа в правых частях правил.
+
+Возьмём грамматику $G_2$:\\
 1. $T \rightarrow aD$\\
-2. $T \rightarrow bB_1TAN$\\
-3. $D \rightarrow bB_1$\\
-4. $B_1 \rightarrow bANB_1$\\
-5. $A \rightarrow bB_1TANNN$\\
-6. $A \rightarrow bNN$\\
-7. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAN$\\
-9. $B \rightarrow b$\\
-10. $T \rightarrow b$\\
-11. $N \rightarrow b$\\
+2. $T \rightarrow D$\\
+3. $D \rightarrow DTAb$\\
+4. $D \rightarrow b$\\
+6. $A \rightarrow Bbb$\\
+7. $B \rightarrow D$\\
 
-Выполним замену символа N во всех правилах, при этом N станет недостижимым и его можно будет удалить.
-1. $T \rightarrow aD$\\
-2. $T \rightarrow bB_1TAb$\\
-3. $D \rightarrow bB_1$\\
-4. $B_1 \rightarrow bAbB_1$\\
-5. $A \rightarrow bB_1TAbbb$\\
-6. $A \rightarrow bbb$\\
-7. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-10. $T \rightarrow b$\\
-
-Рассмотрим правило 2. Добавим правило $N_1 \rightarrow B_1TA$ и выполним замену:\\
-1. $T \rightarrow aD$\\
-2. $T \rightarrow bN_1b$\\
-3. $D \rightarrow bB_1$\\
-4. $B_1 \rightarrow bAbB_1$\\
-5. $A \rightarrow bB_1TAbbb$\\
-6. $A \rightarrow bbb$\\
-7. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bB_1TAb$\\
-9. $B \rightarrow b$\\
-10. $T \rightarrow b$\\
-11. $N_1 \rightarrow B_1TA$\\
-
-Рассмотрим правило 8. Заменим $B_1TA$ на $N_1$:\\
-1. $T \rightarrow aD$\\
-2. $T \rightarrow bN_1b$\\
-3. $D \rightarrow bB_1$\\
-4. $B_1 \rightarrow bAbB_1$\\
-5. $A \rightarrow bB_1TAbbb$\\
-6. $A \rightarrow bbb$\\
-7. $B_1 \rightarrow \varepsilon$\\
-8. $B \rightarrow bN_1b$\\
-9. $B \rightarrow b$\\
-10. $T \rightarrow b$\\
-11. $N_1 \rightarrow B_1TA$\\
-
-
+Введём правило $N \rightarrow \varepsilon$. Добавим символ N к концу всех правил:\\
+1. $T \rightarrow aDN$\\
+2. $T \rightarrow DN$\\
+3. $D \rightarrow DTAbN$\\
+4. $D \rightarrow bN$\\
+6. $A \rightarrow BbbN$\\
+7. $B \rightarrow DN$\\
+8. $N \rightarrow \varepsilon$\\
+Если выполним замену символа N во всех правилах, получим эквивалентную $G_2$, 
+а значит и $G_1$ грамматику. Символ N занимает только крайнюю правую позицию в правилах.
+Остальные символы находятся левее него.\\
+Получили искомую грамматику $G_{10}$:\\
+1. $T \rightarrow aDN$\\
+2. $T \rightarrow DN$\\
+3. $D \rightarrow DTAbN$\\
+4. $D \rightarrow bN$\\
+6. $A \rightarrow BbbN$\\
+7. $B \rightarrow DN$\\
+8. $N \rightarrow \varepsilon$\\
 
 \end{enumerate}
 
