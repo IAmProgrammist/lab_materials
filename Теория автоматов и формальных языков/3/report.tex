@@ -177,7 +177,7 @@ S → 0$N_2$\\
 S → 1$N_2$\\
 S → 011\\
 S → 111\\
-S → \\
+S → 10\\
 S → 11\\
 $N_1$ → 0$N_1$\\
 $N_1$ → 1$N_1$\\
@@ -370,7 +370,7 @@ S'3 обозначим как допускающее состояние, так 
 0 & S3 & S5 & S3 & S5 & S3 & S'2 & S'2 & S'2 \\
 \hline
 \end{tabular}\\
-\includegraphics[width=100mm]{task3_new_non_determined}
+\includegraphics[width=120mm]{task3_new_non_determined}
 
 Преобразуем недетерминированный распознаватель в детерминированный:\\
 
@@ -399,82 +399,34 @@ S'3 обозначим как допускающее состояние, так 
 \end{tabular}\\
 \includegraphics[width=100mm]{task3_new_determined}
 
-\iffalse
-Пусть у нас будет исходный распознаватель языка $L_3$. В начальном состоянии S1 мы итеративно 
-получаем 0 и 1, для окончания работы переходим в состояние S2 под действием символа
-1, из него можем попасть в допускающие состояния S3 или S4 под действием символов 0 и 1 соответственно, 
-так как если 1 - предпоследний символ, то строку можем закончить либо 1 либо 0. 
-Если же предпоследний символ - 0, то из состояния S1 можно перейти в состояние S5 
-под действием символа 0. Однако из S5 мы теперь можем попасть только в S3, так как если предпоследний 
-символ - 0, то последним обязательно должен быть 1. Получили недетерминированный конечный алгоритм
-без ε-переходов:\\
-\begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-    & $\downarrow$ & & 1 & 1 & \\
-    \hline
-    & S1 & S2 & S3 & S4 & S5 \\
-    \hline
-    1 & S1, S2 & S4 & & & S4 \\
-    \hline
-    0 & S1, S5 & S3 & & & \\
-    \hline
-\end{tabular}
-\includegraphics[width=70mm]{task3_non_determined}\\
-
-Преобразуем распознаватель в детерминированный:\\
-\begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-    & & & & &\\
-    \hline
-    & \{S1\} & \{S1, S2\} & \{S1, S5\} & \{S1, S2, S4\} & \{S1, S5, S3\}\\
-    \hline
-    1 & \{S1, S2\} & \{S1, S2, S4\} & \{S1, S2, S4\} & \{S1, S2, S4\} & \{S1, S2, S4\}\\
-    \hline
-    0 & \{S1, S5\} & \{S1, S5, S3\} & \{S1, S5\} & \{S1, S5, S3\} & \{S1, S5\}\\
-    \hline
-\end{tabular} 
-
-\begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-    & $\downarrow$ & & & 1 & 1 \\
-    \hline
-    & S1 & S2 & S3 & S4 & S5 \\
-    \hline
-    1 & S2 & S4 & S4 & S4 & S4 \\
-    \hline
-    0 & S3 & S5  & S3 & S5 & S3 \\
-    \hline
-\end{tabular}
-\includegraphics[width=70mm]{task3_determined}\\
-
 Полученный распознаватель является детерминированным, однако является ли он 
 минимальным?\\
 В распознавателе нет состояний, недостижимых из начального.\\
 Перейдём к поиску и исключению эквивалентных состояний:\\
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
     \hline
-    & $\downarrow$ & & & 1 & 1 &\\
+    & $\downarrow$ & 1&1&1&&\\
     \hline
-    & S1 & S2 & S3 & S4 & S5 &\\
+      & S1 & S2 & S3 & S4 & S5&\\
     \hline
-    1 & S2 & S4 & S4 & S4 & S4& \\
+    1 & S2 & S3 & S3 & S2 & S2&\\
     \hline
-    0 & S3 & S5  & S3 & S5 & S3& \\
+    0 & S5 & S4 & S4 & S5 & S5&\\
     \hline
 \end{tabular}
 
-Отвергающие состояния \{S1, S2, S3\} объединим в класс K1 0-эквивалентных состояний, 
-а допускающие состояния \{S4, S5\} - в класс K2.
+Отвергающие состояния \{S1, S5\} объединим в класс K1 0-эквивалентных состояний, 
+а допускающие состояния \{S2, S3, S4\} - в класс K2.
 
 \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
-    & \multicolumn{4}{c|}{K1} & \multicolumn{2}{c|}{K2} \\
+    & \multicolumn{3}{c|}{K1} & \multicolumn{3}{c|}{K2} \\
     \hline
-    & S1 & S2 & S3&    & S4 & S5 \\
+      & S1 & S5 &    & S2 & S3 & S4 \\
     \hline
-    1 & K1 & K2 & K2 & K1 & K2 & K2 \\
+    1 & K2 & K2 & K1 & K2 & K2 & K2 \\
     \hline
-    0 & K1 & K2  & K1 & K1 & K2 & K1 \\
+    0 & K1 & K1 & K1 & K2 & K2 & K1 \\
     \hline
 \end{tabular}
 
@@ -484,111 +436,109 @@ S'3 обозначим как допускающее состояние, так 
 
 \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
-    & \multicolumn{2}{c|}{K1} & K2 & K3 & K4 & K5 \\
+    & \multicolumn{2}{c|}{K1} & K2 & \multicolumn{2}{c|}{K3} & K4 \\
     \hline
-      & S1 &    & S3 & S2 & S4 & S5 \\
+      & S1 & S5 &    & S2 & S3 & S4 \\
     \hline
-    1 & K3 & K1 & K4 & K4 & K4 & K4 \\
+    1 & K3 & K3 & K2 & K3 & K3 & K3 \\
     \hline
-    0 & K2 & K1 & K2 & K5 & K5 & K2 \\
-    \hline
-\end{tabular}
-
-Получили таблицу переходов в классы 1-эквивалентных состояний. На основе 
-этой таблицы можем построить таблицу переходов в классы 2-эквивалентных 
-состояний. 
-
-\begin{tabular}{|c|c|c|c|c|c|c|}
-    \hline
-      & K1 & K2 & K3 & K4 & K5 & K6 \\
-    \hline
-      & S1 &    & S3 & S2 & S4 & S5 \\
-    \hline
-    1 & K4 & K2 & K5 & K5 & K5 & K5 \\
-    \hline
-    0 & K3 & K2 & K3 & K6 & K6 & K3 \\
+    0 & K1 & K1 & K2 & K4 & K4 & K1 \\
     \hline
 \end{tabular}
 
-Ни в одном из получившихся классов эквивалентных состояний не получилось
-более одного столбца, значит распознаватель является минимальным. 
+По таблице видно, что классы 2-эквивалентных состояний совпадают с
+классами 1-эквивалентных состояний, следовательно, классы 1-эквивалентных 
+состояний представляют собой классы эквивалентных состояний.\\
+
+Таблица переходов минимального распознавателя:\\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+  & $\downarrow$ & & 1 & 1 \\
+\hline
+  & K1 & K2 & K3 & K4\\
+\hline
+1 & K3 & K2 & K3 & K3\\
+\hline
+0 & K1 & K2 & K4 & K1\\
+\hline
+
+\end{tabular}\\
+
+Переобозначим K1 как S1, K3 как S2, K4 как S3:\\
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+    & $\downarrow$ & 1 & 1 \\
+\hline
+  & S1 & S2 & S3\\
+\hline
+1 & S2 & S2 & S2\\
+\hline
+0 & S1 & S3 & S1\\
+\hline
+
+\end{tabular}\\
+\includegraphics[width=70mm]{task3_new_determined_minimal}
 
 Построили минимальный детерминированный конечный распознаватель языка $L_3$.
-\fi
-Построили минимальный детерминированный конечный распознаватель языка $L_3$.
+
+Сравним полученнный распознаватель с распознавателем, полученным в прошлой версии 
+лабораторной работы:\\
+\includegraphics[width=70mm]{task3_determined}\\
+Во-первых, исходная версия предполагала обязательное наличие хотя бы двух
+символов в цепочках, следовательно распознаватели будут формировать 
+разные языки, такое различие возникло из-за неверной
+интерпретации словесного описания языка.\\
+Во-вторых, в новой версии гораздо меньше состояний и переходов, что 
+положительно влияет на производительность, понижает сложность отладки и 
+сокращает набор тестовых данных.\\
+
 \item Написать программу компиляционного типа для реализации
 минимального детерминированного конечного распознавателя языка $L_3$.
 
 \begin{minted}{python3}
 MESSAGES = {
-    -1: "Отвергнуть, последовательность пуста",
-    -2: "Отвергнуть, невалидный входной символ",
-    -3: "Отвергнуть, слишком короткая цепочка",
-    -4: "Отвергнуть, последние два символа не содержат 1",
-    0: "Допустить"
+    -1: "Отвергнуть, невалидный входной символ",
+    0:  "Отвергнуть, цепочка не содержит 1 на одной из двух последних позиций",
+    1:  "Допустить",
+    2:  "Допустить"
 }
 
-def S1(input):
-    if len(input) == 0:
-        return -1
 
-    if input[0] == '1':
-        return S2(input[1:])
-    elif input[0] == '0':
-        return S3(input[1:])
-    else:
-        return -2
+def l3_validator(l3_input):
+    original_input = l3_input
+    s = 0
+    while len(l3_input) > 0 and s >= 0:
+        current_symbol = l3_input[0]
+        if s == 0:
+            if current_symbol == "1":
+                s = 1
+            elif current_symbol == "0":
+                s = 0
+            else:
+                s = -1
+                break
+        elif s == 1:
+            if current_symbol == "1":
+                s = 1
+            elif current_symbol == "0":
+                s = 2
+            else:
+                s = -1
+                break
+        elif s == 2:
+            if current_symbol == "1":
+                s = 1
+            elif current_symbol == "0":
+                s = 0
+            else:
+                s = -1
+                break
 
-def S2(input):
-    if len(input) == 0:
-        return -3
+        l3_input = l3_input[1:]
 
-    if input[0] == '1':
-        return S4(input[1:])
-    elif input[0] == '0':
-        return S5(input[1:])
-    else:
-        return -2
-
-def S3(input):
-    if len(input) == 0:
-        return -4
-
-    if input[0] == '1':
-        return S4(input[1:])
-    elif input[0] == '0':
-        return S3(input[1:])
-    else:
-        return -2
-
-
-def S4(input):
-    if len(input) == 0:
-        return 0
-
-    if input[0] == '1':
-        return S4(input[1:])
-    elif input[0] == '0':
-        return S5(input[1:])
-    else:
-        return -2
-
-
-def S5(input):
-    if len(input) == 0:
-        return 0
-
-    if input[0] == '1':
-        return S4(input[1:])
-    elif input[0] == '0':
-        return S3(input[1:])
-    else:
-        return -2
-
-def L3validator(input):
-    result = S1(input)
-    print(input, MESSAGES[result])
-    return result
+    print(original_input, MESSAGES[s])
+    return s
 \end{minted}
 
 \item Написать программу интерпретационного типа для реализации
@@ -596,59 +546,59 @@ def L3validator(input):
 
 \begin{minted}{python3}
 MESSAGES = {
-    0: "Отвергнуть, последовательность пуста",             # -1
-    3: "Отвергнуть, невалидный входной символ",            # -2
-    1: "Отвергнуть, слишком короткая цепочка",             # -3
-    2: "Отвергнуть, последние два символа не содержат 1",  # -4
-    4: "Допустить",                                       # 0
+    -1: "Отвергнуть, невалидный входной символ",
+    0: "Отвергнуть, цепочка не содержит 1 на одной из двух последних позиций",
+    1: "Допустить",
 }
 
-PERMITTING = [3, 4]
+PERMITTING = [1, 2]
 
 MATRIX = {
-    "1": [1, 3, 3, 3, 3],
-    "0": [2, 4, 2, 4, 2]
+    "1": [1, 1, 1],
+    "0": [0, 2, 0]
 }
 
-def L3validator(input):
-    input_origin = input
-    S = 0
-    while len(input) > 0 and S >= 0:
-        S = MATRIX[input[0]][S]
-        input = input[1:]
 
-    if S in PERMITTING:
-        S = 4
+def l3_validator(l3_input):
+    original_input = l3_input
+    s = 0
+    while len(l3_input) > 0 and s >= 0:
+        current_symbol = l3_input[0]
+        if current_symbol in MATRIX:
+            s = MATRIX[l3_input[0]][s]
+        else:
+            s = -1
+            break
 
-    print(input_origin, MESSAGES[S])
-    return S
+        l3_input = l3_input[1:]
+
+    if s in PERMITTING:
+        s = 1
+
+    print(original_input, MESSAGES[s])
+    return s
 \end{minted}
 
 \item Подобрать наборы тестовых данных так, чтобы в процессе тестирования
 сработал каждый переход конечного распознавателя.
 
 \begin{enumerate}
-    \item 10001101 - уникальные тестируемые переходы отмечены красным
-    \item 11 - уникальные тестируемые переходы отмечены зелёным
-    \item 01 - уникальные тестируемые переходы отмечены голубым
+    \item 0110100 - использование всех переходов
+    \item 21 - переход в ошибку
 \end{enumerate}
-
-\includegraphics[width=70mm]{task6}\\
 
 Тесты для компиляционного варианта программы:\\
 \begin{minted}{python3}
 # Тестовые данные для всех переходов
-assert L3validator("10001101") == 0
-assert L3validator("11") == 0
-assert L3validator("01") == 0
+assert l3_validator("0110100") == 0
+assert l3_validator("21") == -1
 \end{minted}
 
 Тесты для интерпретационного варианта программы:\\
 \begin{minted}{python3}
 # Тестовые данные для всех переходов
-assert L3validator("10001101") == 4
-assert L3validator("11") == 4
-assert L3validator("01") == 4
+assert l3_validator("0110100") == 0
+assert l3_validator("21") == -1
 \end{minted}
 
 \item Подобрать наборы тестовых данных так, чтобы в процессе тестирования
@@ -658,29 +608,26 @@ assert L3validator("01") == 4
 \begin{enumerate}
     \item <пустая строка> - состояние S1
     \item 1 - состояние S2
-    \item 0 - состояние S3
-    \item 11 - состояние S4
-    \item 10 - состояние S5
+    \item 10 - состояние S3
+    \item 21 - состояние ошибки
 \end{enumerate}
 
 Тесты для компиляционного варианта программы:\\
 \begin{minted}{python3}
 # Тестовые данные для всех состояний
-assert L3validator("") == -1
-assert L3validator("1") == -3
-assert L3validator("0") == -4
-assert L3validator("11") == 0
-assert L3validator("10") == 0
+assert l3_validator("") == 0
+assert l3_validator("1") == 1
+assert l3_validator("10") == 2
+assert l3_validator("21") == -1
 \end{minted}
 
 Тесты для интерпретационного варианта программы:\\
 \begin{minted}{python3}
 # Тестовые данные для всех состояний
-assert L3validator("") == 0
-assert L3validator("1") == 1
-assert L3validator("0") == 2
-assert L3validator("11") == 4
-assert L3validator("10") == 4
+assert l3_validator("") == 0
+assert l3_validator("1") == 1
+assert l3_validator("10") == 1
+assert l3_validator("21") == -1
 \end{minted}
 
 \item Выполнить тестирование программ для реализации минимального
@@ -688,28 +635,24 @@ assert L3validator("10") == 4
 
 Результаты выполнения компиляционного варианта программы:\\
 \begin{minted}{console}
-10001101 Допустить
-11 Допустить
-01 Допустить
- Отвергнуть, последовательность пуста
-1 Отвергнуть, слишком короткая цепочка
-0 Отвергнуть, последние два символа не содержат 1
-11 Допустить
+0110100 Отвергнуть, цепочка не содержит 1 на одной из двух последних позиций
+21 Отвергнуть, невалидный входной символ
+ Отвергнуть, цепочка не содержит 1 на одной из двух последних позиций
+1 Допустить
 10 Допустить
+21 Отвергнуть, невалидный входной символ
 
 Process finished with exit code 0
 \end{minted}
 
 Результаты выполнения интерпретационного варианта программы:\\
 \begin{minted}{console}
-10001101 Допустить
-11 Допустить
-01 Допустить
- Отвергнуть, последовательность пуста
-1 Отвергнуть, слишком короткая цепочка
-0 Отвергнуть, последние два символа не содержат 1
-11 Допустить
+0110100 Отвергнуть, цепочка не содержит 1 на одной из двух последних позиций
+21 Отвергнуть, невалидный входной символ
+ Отвергнуть, цепочка не содержит 1 на одной из двух последних позиций
+1 Допустить
 10 Допустить
+21 Отвергнуть, невалидный входной символ
 
 Process finished with exit code 0
 \end{minted}
