@@ -289,7 +289,7 @@ $N_7$ → ε\\
 ε-замыкания: ε(S1) = \{S1, S2, S3\}, ε(S2) = \{S2, S3\}, ε(S3) = \{S3\}, ε(S4) = \{S4\}\\
 \begin{tabular}{|c|c|c|c|c|}
     \hline
-    & $\downarrow$ & $\downarrow$ & & 1\\
+    & $\downarrow$ & $\downarrow$ & $\downarrow$ & 1\\
     \hline
     & \begin{tabular}{c}ε(S1)\\\{S1, S2, S3\}\end{tabular} & \begin{tabular}{c}ε(S2)\\\{S2, S3\}\end{tabular} & \begin{tabular}{c}ε(S3)\\\{S3\}\end{tabular} & \begin{tabular}{c}ε(S4)\\\{S4\}\end{tabular} \\
     \hline
@@ -301,13 +301,13 @@ $N_7$ → ε\\
 
 \begin{tabular}{|c|c|c|c|c|}
     \hline
-    & $\downarrow$ & $\downarrow$ & & 1\\
+    & $\downarrow$ & $\downarrow$ & $\downarrow$ & 1\\
     \hline
     & S1 & S2 & S3 & S4 \\
     \hline
-    1 & S2, S3, S4 & S2, S3, S4 & S4 & \\
-    \hline
-    0 & S2, S3 & S2, S3 & & \\
+    1 & S2, S4 & S2, S4 & S4 & \\
+    \hline 
+    0 & S2 & S2 & & \\
     \hline
 \end{tabular} 
 
@@ -318,17 +318,17 @@ $N_7$ → ε\\
     \hline
     & & &\\
     \hline
-    & \{S1, S2\} & \{S2, S3\} & \{S2, S3, S4\}\\
+    & \{S1, S2, S3\} & \{S2\}         & \{S2, S4\}\\
     \hline
-    1 & \{S2, S3, S4\} & \{S2, S3, S4\} & \{S2, S3, S4\}\\
+    1 & \{S2, S4\}   & \{S2, S4\}     & \{S2, S4\}\\
     \hline
-    0 & \{S2, S3\} & \{S2, S3\} & \{S2, S3\}\\
+    0 & \{S2\}       & \{S2\}         & \{S2\}\\
     \hline
 \end{tabular} 
 
 Обозначим множества состояний как S'1, S'2, S'3...\\
-S'1 обозначим как начальное состояние, солгасно алгоритму, а 
-S'3 обозначим как допускающее состояние, так как множество $\{S2, S3, S4\}$
+S'1 обозначим как начальное состояние, согласно алгоритму, а 
+S'3 обозначим как допускающее состояние, так как множество $\{S2, S4\}$
 включает в себя допускающее состояние S4.
 
 \begin{tabular}{|c|c|c|c|}
