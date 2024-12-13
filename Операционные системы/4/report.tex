@@ -108,6 +108,14 @@
 
 
 Сообщение об инициализации нашего драйвера в консоли:
+\begin{minted}{console}
+/ # dmesg | grep "lab4_os"
+[    0.602466] lab4_os: --------------------------
+[    0.602664] lab4_os: initialize lab4_os module!
+[    0.602744] lab4_os: now you can queue strings
+[    0.602821] lab4_os: watching for changes...
+[    0.602890] lab4_os: --------------------------
+\end{minted}
 
 Перейдём к самому драйверу:\\
 \textbf{shared.h}
@@ -195,7 +203,6 @@ impl Operations for OS4Lab {
         writer: &mut impl IoBufferWriter,
         offset: u64,
     ) -> Result<usize> {
-        pr_info!("File for queue device was read\n");
         let offset = offset.try_into()?;
         
         // Получить мьютексы для устройства
@@ -205,15 +212,18 @@ impl Operations for OS4Lab {
         let begin_index = data.begin_index.lock();
         let end_index = data.end_index.lock();
         
+        pr_info!("Peek operation started. Queue len: {}\n", *count);
+        
         if *count == 0 {
-            pr_info!("Queue is empty - nothing to peek!\n");
-            return Ok(0);
+            pr_err!("Peek operation failed. Nothing to look at.\n");
+            return Err(EPERM);
         }
         
         let vec = &(*queue)[*begin_index];
         
         let len = core::cmp::min(writer.len(), vec.len().saturating_sub(offset));
         writer.write_slice(&vec[offset..][..len])?;
+        pr_info!("Peek operation succeeded.\n");
         Ok(len)
     }
 
@@ -228,7 +238,6 @@ impl Operations for OS4Lab {
         reader: &mut impl IoBufferReader,
         _offset: u64,
     ) -> Result<usize> {
-        pr_info!("File for queue device was written\n");
         // Будем считывать все данные без буферизации
         let copy = reader.read_all()?;
         let len = copy.len();
@@ -241,33 +250,36 @@ impl Operations for OS4Lab {
         let mut end_index = data.end_index.lock();
         
         if copy.starts_with(b"enqueue ") {
-            pr_info!("Enqueue operation started queue len: {}, count: {}\n", (*queue).len(), *count);
+            pr_info!("Enqueue operation started. Queue len: {}\n", *count);
             let copy = copy.strip_prefix(b"enqueue ");
             
             if (*queue).len() == *count {
-                pr_info!("Enqueue overflow\n");
-                return Ok(len);
+                pr_err!("Enqueue overflow.\n");
+                return Err(ENOSPC);
             }
             
             if let Some(valid_copy) = copy {
                 (*queue)[*end_index] = valid_copy.try_to_vec()?;
                 *end_index = (*end_index + 1) % (*queue).len();
                 *count += 1;
-                pr_info!("Enqueue args count: {} begin: {} end: {}\n", *count, *begin_index, *end_index);
+                pr_info!("Enqueue operation succeeded. Queue len: {}\n", *count);
             } else {
-                pr_info!("Enqueue somehow failed\n");
-                return Ok(len);
+                pr_err!("Enqueue command parse error.\n");
+                return Err(EINVAL);
             }
         } else if copy.starts_with(b"dequeue") {
-            pr_info!("Dequeue operation started\n");
+            pr_info!("Dequeue operation started. Queue len: {}\n", *count);
             if *count == 0 {
-                return Ok(len);
+                pr_err!("Dequeue operation failed. Nothing to delete.\n");
+                return Err(EPERM);
             }
             
             *begin_index = (*begin_index + 1) % (*queue).len();
             *count -= 1;
+            pr_info!("Dequeue operation succeeded. Queue len: {}\n", *count);
         } else {
-            return Ok(len);
+            pr_err!("Unable to parse command. Queue len: {}\n", *count);
+            return Err(EINVAL);
         }
         
         Ok(len)
@@ -289,8 +301,1200 @@ dereference (разыменовать) наш объект и в дальней�
 нужно послать "dequeue". peek будет выполняться при попытке считать данные из драйвера - 
 он будет возвращать элемент на вершине очереди.
 
+Скрипт, тестирующий драйвер:\\
+\textbf{test.sh}
+\begin{minted}{bash}
+#!/bin/bash
+
+DEVICE="/dev/queue"
+if [ ! -e "$DEVICE" ]; then
+    echo "Error: Device $DEVICE doesn't exists."
+    exit 1
+fi
+
+echo "Starting testing of $DEVICE..."
+
+# Последовательное тестирование
+for i in $(seq 1 50); do
+    # Чтение результата из устройства
+    input=$((i*3))
+    echo "enqueue $input" | tee "$DEVICE" > /dev/null
+    if [ $? -ne 0 ]; then
+        echo "Unable to write: $input"
+        exit 2
+    fi
+done
+
+for i in $(seq 1 50); do
+    input=$((i*3))
+    # Чтение результата из устройства
+    result=$(cat "$DEVICE")
+    if [ $? -ne 0 ]; then
+        echo "Unable to read"
+        exit 3
+    fi
+
+    if [ "$result" -ne "$input" ]; then
+        echo "Error during sequential read. Expected = $input, actual: $result"
+        exit 4
+    fi
+
+    # Удаляем элемент из очереди
+    echo "dequeue" | tee "$DEVICE" > /dev/null
+    if [ $? -ne 0 ]; then
+        echo "Unable to write: $input"
+        exit 2
+    fi
+done
+
+echo "Sequential test completed"
+
+# Параллельное тестирование
+for i in $(seq 1 50); do
+    input=$((i*3))
+    (echo "enqueue $input" | tee "$DEVICE" > /dev/null) &
+done
+wait
+
+for i in $(seq 1 50); do
+    input=$((i*3))
+    # Чтение результата из устройства
+    result=$(cat "$DEVICE")
+    if [ $? -ne 0 ]; then
+        echo "Unable to read"
+        exit 3
+    fi
+
+    # Удаляем элемент из очереди
+    echo "dequeue" | tee "$DEVICE" > /dev/null
+    if [ $? -ne 0 ]; then
+        echo "Unable to write: $input"
+        exit 2
+    fi
+done
+
+echo "Parallel test completed"
+
+echo "Testing completed successfully!"
+exit 0
+\end{minted}
+
 Результат выполнения программы:\\
+\begin{minted}{console}
+/home # dmesg | grep "lab4_os"
+[    0.614252] lab4_os: --------------------------
+[    0.614467] lab4_os: initialize lab4_os module!
+[    0.614610] lab4_os: now you can queue strings
+[    0.614691] lab4_os: watching for changes...
+[    0.614757] lab4_os: --------------------------
+[   64.402518] lab4_os: Queue device was opened
+[   64.403371] lab4_os: Enqueue operation started. Queue len: 0
+[   64.403662] lab4_os: Enqueue operation succeeded. Queue len: 1
+[   64.419995] lab4_os: Queue device was opened
+[   64.420572] lab4_os: Enqueue operation started. Queue len: 1
+[   64.420586] lab4_os: Enqueue operation succeeded. Queue len: 2
+[   64.436168] lab4_os: Queue device was opened
+[   64.436735] lab4_os: Enqueue operation started. Queue len: 2
+[   64.436750] lab4_os: Enqueue operation succeeded. Queue len: 3
+[   64.452653] lab4_os: Queue device was opened
+[   64.453210] lab4_os: Enqueue operation started. Queue len: 3
+[   64.453224] lab4_os: Enqueue operation succeeded. Queue len: 4
+[   64.468824] lab4_os: Queue device was opened
+[   64.469407] lab4_os: Enqueue operation started. Queue len: 4
+[   64.469427] lab4_os: Enqueue operation succeeded. Queue len: 5
+[   64.484848] lab4_os: Queue device was opened
+[   64.485393] lab4_os: Enqueue operation started. Queue len: 5
+[   64.485407] lab4_os: Enqueue operation succeeded. Queue len: 6
+[   64.501023] lab4_os: Queue device was opened
+[   64.501579] lab4_os: Enqueue operation started. Queue len: 6
+[   64.501593] lab4_os: Enqueue operation succeeded. Queue len: 7
+[   64.517368] lab4_os: Queue device was opened
+[   64.517943] lab4_os: Enqueue operation started. Queue len: 7
+[   64.517957] lab4_os: Enqueue operation succeeded. Queue len: 8
+[   64.534120] lab4_os: Queue device was opened
+[   64.534867] lab4_os: Enqueue operation started. Queue len: 8
+[   64.534890] lab4_os: Enqueue operation succeeded. Queue len: 9
+[   64.553203] lab4_os: Queue device was opened
+[   64.553821] lab4_os: Enqueue operation started. Queue len: 9
+[   64.553838] lab4_os: Enqueue operation succeeded. Queue len: 10
+[   64.570488] lab4_os: Queue device was opened
+[   64.571251] lab4_os: Enqueue operation started. Queue len: 10
+[   64.571270] lab4_os: Enqueue operation succeeded. Queue len: 11
+[   64.587891] lab4_os: Queue device was opened
+[   64.588489] lab4_os: Enqueue operation started. Queue len: 11
+[   64.588503] lab4_os: Enqueue operation succeeded. Queue len: 12
+[   64.604463] lab4_os: Queue device was opened
+[   64.605051] lab4_os: Enqueue operation started. Queue len: 12
+[   64.605066] lab4_os: Enqueue operation succeeded. Queue len: 13
+[   64.621016] lab4_os: Queue device was opened
+[   64.621593] lab4_os: Enqueue operation started. Queue len: 13
+[   64.621609] lab4_os: Enqueue operation succeeded. Queue len: 14
+[   64.637622] lab4_os: Queue device was opened
+[   64.638186] lab4_os: Enqueue operation started. Queue len: 14
+[   64.638201] lab4_os: Enqueue operation succeeded. Queue len: 15
+[   64.654194] lab4_os: Queue device was opened
+[   64.654771] lab4_os: Enqueue operation started. Queue len: 15
+[   64.654786] lab4_os: Enqueue operation succeeded. Queue len: 16
+[   64.670496] lab4_os: Queue device was opened
+[   64.671056] lab4_os: Enqueue operation started. Queue len: 16
+[   64.671070] lab4_os: Enqueue operation succeeded. Queue len: 17
+[   64.686854] lab4_os: Queue device was opened
+[   64.687397] lab4_os: Enqueue operation started. Queue len: 17
+[   64.687411] lab4_os: Enqueue operation succeeded. Queue len: 18
+[   64.702657] lab4_os: Queue device was opened
+[   64.703375] lab4_os: Enqueue operation started. Queue len: 18
+[   64.703390] lab4_os: Enqueue operation succeeded. Queue len: 19
+[   64.718610] lab4_os: Queue device was opened
+[   64.719150] lab4_os: Enqueue operation started. Queue len: 19
+[   64.719165] lab4_os: Enqueue operation succeeded. Queue len: 20
+[   64.734755] lab4_os: Queue device was opened
+[   64.735308] lab4_os: Enqueue operation started. Queue len: 20
+[   64.735322] lab4_os: Enqueue operation succeeded. Queue len: 21
+[   64.750596] lab4_os: Queue device was opened
+[   64.751160] lab4_os: Enqueue operation started. Queue len: 21
+[   64.751175] lab4_os: Enqueue operation succeeded. Queue len: 22
+[   64.766658] lab4_os: Queue device was opened
+[   64.767213] lab4_os: Enqueue operation started. Queue len: 22
+[   64.767225] lab4_os: Enqueue operation succeeded. Queue len: 23
+[   64.782589] lab4_os: Queue device was opened
+[   64.783149] lab4_os: Enqueue operation started. Queue len: 23
+[   64.783164] lab4_os: Enqueue operation succeeded. Queue len: 24
+[   64.803082] lab4_os: Queue device was opened
+[   64.803708] lab4_os: Enqueue operation started. Queue len: 24
+[   64.803726] lab4_os: Enqueue operation succeeded. Queue len: 25
+[   64.819544] lab4_os: Queue device was opened
+[   64.820166] lab4_os: Enqueue operation started. Queue len: 25
+[   64.820184] lab4_os: Enqueue operation succeeded. Queue len: 26
+[   64.835475] lab4_os: Queue device was opened
+[   64.836327] lab4_os: Enqueue operation started. Queue len: 26
+[   64.836356] lab4_os: Enqueue operation succeeded. Queue len: 27
+[   64.852297] lab4_os: Queue device was opened
+[   64.852869] lab4_os: Enqueue operation started. Queue len: 27
+[   64.852883] lab4_os: Enqueue operation succeeded. Queue len: 28
+[   64.868907] lab4_os: Queue device was opened
+[   64.869484] lab4_os: Enqueue operation started. Queue len: 28
+[   64.869498] lab4_os: Enqueue operation succeeded. Queue len: 29
+[   64.885319] lab4_os: Queue device was opened
+[   64.885889] lab4_os: Enqueue operation started. Queue len: 29
+[   64.885904] lab4_os: Enqueue operation succeeded. Queue len: 30
+[   64.902044] lab4_os: Queue device was opened
+[   64.902626] lab4_os: Enqueue operation started. Queue len: 30
+[   64.902641] lab4_os: Enqueue operation succeeded. Queue len: 31
+[   64.918680] lab4_os: Queue device was opened
+[   64.919255] lab4_os: Enqueue operation started. Queue len: 31
+[   64.919270] lab4_os: Enqueue operation succeeded. Queue len: 32
+[   64.934992] lab4_os: Queue device was opened
+[   64.935560] lab4_os: Enqueue operation started. Queue len: 32
+[   64.935574] lab4_os: Enqueue operation succeeded. Queue len: 33
+[   64.951406] lab4_os: Queue device was opened
+[   64.952071] lab4_os: Enqueue operation started. Queue len: 33
+[   64.952092] lab4_os: Enqueue operation succeeded. Queue len: 34
+[   64.967881] lab4_os: Queue device was opened
+[   64.968625] lab4_os: Enqueue operation started. Queue len: 34
+[   64.968644] lab4_os: Enqueue operation succeeded. Queue len: 35
+[   64.984293] lab4_os: Queue device was opened
+[   64.984863] lab4_os: Enqueue operation started. Queue len: 35
+[   64.984877] lab4_os: Enqueue operation succeeded. Queue len: 36
+[   65.000683] lab4_os: Queue device was opened
+[   65.001263] lab4_os: Enqueue operation started. Queue len: 36
+[   65.001277] lab4_os: Enqueue operation succeeded. Queue len: 37
+[   65.016980] lab4_os: Queue device was opened
+[   65.017555] lab4_os: Enqueue operation started. Queue len: 37
+[   65.017570] lab4_os: Enqueue operation succeeded. Queue len: 38
+[   65.033586] lab4_os: Queue device was opened
+[   65.034159] lab4_os: Enqueue operation started. Queue len: 38
+[   65.034174] lab4_os: Enqueue operation succeeded. Queue len: 39
+[   65.050195] lab4_os: Queue device was opened
+[   65.050772] lab4_os: Enqueue operation started. Queue len: 39
+[   65.050787] lab4_os: Enqueue operation succeeded. Queue len: 40
+[   65.066384] lab4_os: Queue device was opened
+[   65.066945] lab4_os: Enqueue operation started. Queue len: 40
+[   65.066960] lab4_os: Enqueue operation succeeded. Queue len: 41
+[   65.082719] lab4_os: Queue device was opened
+[   65.083275] lab4_os: Enqueue operation started. Queue len: 41
+[   65.083289] lab4_os: Enqueue operation succeeded. Queue len: 42
+[   65.098860] lab4_os: Queue device was opened
+[   65.099672] lab4_os: Enqueue operation started. Queue len: 42
+[   65.099690] lab4_os: Enqueue operation succeeded. Queue len: 43
+[   65.115221] lab4_os: Queue device was opened
+[   65.115903] lab4_os: Enqueue operation started. Queue len: 43
+[   65.115923] lab4_os: Enqueue operation succeeded. Queue len: 44
+[   65.131774] lab4_os: Queue device was opened
+[   65.132350] lab4_os: Enqueue operation started. Queue len: 44
+[   65.132368] lab4_os: Enqueue operation succeeded. Queue len: 45
+[   65.148140] lab4_os: Queue device was opened
+[   65.148734] lab4_os: Enqueue operation started. Queue len: 45
+[   65.148749] lab4_os: Enqueue operation succeeded. Queue len: 46
+[   65.164767] lab4_os: Queue device was opened
+[   65.165341] lab4_os: Enqueue operation started. Queue len: 46
+[   65.165356] lab4_os: Enqueue operation succeeded. Queue len: 47
+[   65.181658] lab4_os: Queue device was opened
+[   65.182237] lab4_os: Enqueue operation started. Queue len: 47
+[   65.182253] lab4_os: Enqueue operation succeeded. Queue len: 48
+[   65.198032] lab4_os: Queue device was opened
+[   65.198607] lab4_os: Enqueue operation started. Queue len: 48
+[   65.198622] lab4_os: Enqueue operation succeeded. Queue len: 49
+[   65.214627] lab4_os: Queue device was opened
+[   65.215202] lab4_os: Enqueue operation started. Queue len: 49
+[   65.215220] lab4_os: Enqueue operation succeeded. Queue len: 50
+[   65.247602] lab4_os: Queue device was opened
+[   65.248245] lab4_os: Peek operation started. Queue len: 50
+[   65.248349] lab4_os: Peek operation succeeded.
+[   65.248625] lab4_os: Peek operation started. Queue len: 50
+[   65.248646] lab4_os: Peek operation succeeded.
+[   65.264591] lab4_os: Queue device was opened
+[   65.265146] lab4_os: Dequeue operation started. Queue len: 50
+[   65.265186] lab4_os: Dequeue operation succeeded. Queue len: 49
+[   65.279054] lab4_os: Queue device was opened
+[   65.279212] lab4_os: Peek operation started. Queue len: 49
+[   65.279226] lab4_os: Peek operation succeeded.
+[   65.279455] lab4_os: Peek operation started. Queue len: 49
+[   65.279478] lab4_os: Peek operation succeeded.
+[   65.295765] lab4_os: Queue device was opened
+[   65.296356] lab4_os: Dequeue operation started. Queue len: 49
+[   65.296374] lab4_os: Dequeue operation succeeded. Queue len: 48
+[   65.310433] lab4_os: Queue device was opened
+[   65.310602] lab4_os: Peek operation started. Queue len: 48
+[   65.310615] lab4_os: Peek operation succeeded.
+[   65.310849] lab4_os: Peek operation started. Queue len: 48
+[   65.310869] lab4_os: Peek operation succeeded.
+[   65.326421] lab4_os: Queue device was opened
+[   65.326966] lab4_os: Dequeue operation started. Queue len: 48
+[   65.326979] lab4_os: Dequeue operation succeeded. Queue len: 47
+[   65.340698] lab4_os: Queue device was opened
+[   65.340857] lab4_os: Peek operation started. Queue len: 47
+[   65.340869] lab4_os: Peek operation succeeded.
+[   65.341092] lab4_os: Peek operation started. Queue len: 47
+[   65.341110] lab4_os: Peek operation succeeded.
+[   65.356593] lab4_os: Queue device was opened
+[   65.357144] lab4_os: Dequeue operation started. Queue len: 47
+[   65.357155] lab4_os: Dequeue operation succeeded. Queue len: 46
+[   65.371160] lab4_os: Queue device was opened
+[   65.371342] lab4_os: Peek operation started. Queue len: 46
+[   65.371355] lab4_os: Peek operation succeeded.
+[   65.371595] lab4_os: Peek operation started. Queue len: 46
+[   65.371615] lab4_os: Peek operation succeeded.
+[   65.387889] lab4_os: Queue device was opened
+[   65.388467] lab4_os: Dequeue operation started. Queue len: 46
+[   65.388481] lab4_os: Dequeue operation succeeded. Queue len: 45
+[   65.402588] lab4_os: Queue device was opened
+[   65.402754] lab4_os: Peek operation started. Queue len: 45
+[   65.402768] lab4_os: Peek operation succeeded.
+[   65.402998] lab4_os: Peek operation started. Queue len: 45
+[   65.403017] lab4_os: Peek operation succeeded.
+[   65.420002] lab4_os: Queue device was opened
+[   65.420559] lab4_os: Dequeue operation started. Queue len: 45
+[   65.420571] lab4_os: Dequeue operation succeeded. Queue len: 44
+[   65.434232] lab4_os: Queue device was opened
+[   65.434418] lab4_os: Peek operation started. Queue len: 44
+[   65.434431] lab4_os: Peek operation succeeded.
+[   65.434666] lab4_os: Peek operation started. Queue len: 44
+[   65.434684] lab4_os: Peek operation succeeded.
+[   65.450785] lab4_os: Queue device was opened
+[   65.451370] lab4_os: Dequeue operation started. Queue len: 44
+[   65.451408] lab4_os: Dequeue operation succeeded. Queue len: 43
+[   65.466400] lab4_os: Queue device was opened
+[   65.466598] lab4_os: Peek operation started. Queue len: 43
+[   65.466612] lab4_os: Peek operation succeeded.
+[   65.466909] lab4_os: Peek operation started. Queue len: 43
+[   65.466935] lab4_os: Peek operation succeeded.
+[   65.483059] lab4_os: Queue device was opened
+[   65.483747] lab4_os: Dequeue operation started. Queue len: 43
+[   65.483764] lab4_os: Dequeue operation succeeded. Queue len: 42
+[   65.498034] lab4_os: Queue device was opened
+[   65.498193] lab4_os: Peek operation started. Queue len: 42
+[   65.498206] lab4_os: Peek operation succeeded.
+[   65.498438] lab4_os: Peek operation started. Queue len: 42
+[   65.498456] lab4_os: Peek operation succeeded.
+[   65.515531] lab4_os: Queue device was opened
+[   65.516235] lab4_os: Dequeue operation started. Queue len: 42
+[   65.516247] lab4_os: Dequeue operation succeeded. Queue len: 41
+[   65.530677] lab4_os: Queue device was opened
+[   65.530840] lab4_os: Peek operation started. Queue len: 41
+[   65.530853] lab4_os: Peek operation succeeded.
+[   65.531072] lab4_os: Peek operation started. Queue len: 41
+[   65.531091] lab4_os: Peek operation succeeded.
+[   65.547730] lab4_os: Queue device was opened
+[   65.548507] lab4_os: Dequeue operation started. Queue len: 41
+[   65.548524] lab4_os: Dequeue operation succeeded. Queue len: 40
+[   65.563148] lab4_os: Queue device was opened
+[   65.563319] lab4_os: Peek operation started. Queue len: 40
+[   65.563333] lab4_os: Peek operation succeeded.
+[   65.563573] lab4_os: Peek operation started. Queue len: 40
+[   65.563592] lab4_os: Peek operation succeeded.
+[   65.580097] lab4_os: Queue device was opened
+[   65.580708] lab4_os: Dequeue operation started. Queue len: 40
+[   65.580722] lab4_os: Dequeue operation succeeded. Queue len: 39
+[   65.595894] lab4_os: Queue device was opened
+[   65.596075] lab4_os: Peek operation started. Queue len: 39
+[   65.596089] lab4_os: Peek operation succeeded.
+[   65.596339] lab4_os: Peek operation started. Queue len: 39
+[   65.596359] lab4_os: Peek operation succeeded.
+[   65.613178] lab4_os: Queue device was opened
+[   65.613762] lab4_os: Dequeue operation started. Queue len: 39
+[   65.613775] lab4_os: Dequeue operation succeeded. Queue len: 38
+[   65.628031] lab4_os: Queue device was opened
+[   65.628236] lab4_os: Peek operation started. Queue len: 38
+[   65.628250] lab4_os: Peek operation succeeded.
+[   65.628483] lab4_os: Peek operation started. Queue len: 38
+[   65.628504] lab4_os: Peek operation succeeded.
+[   65.644613] lab4_os: Queue device was opened
+[   65.645184] lab4_os: Dequeue operation started. Queue len: 38
+[   65.645196] lab4_os: Dequeue operation succeeded. Queue len: 37
+[   65.659383] lab4_os: Queue device was opened
+[   65.659550] lab4_os: Peek operation started. Queue len: 37
+[   65.659564] lab4_os: Peek operation succeeded.
+[   65.659861] lab4_os: Peek operation started. Queue len: 37
+[   65.659884] lab4_os: Peek operation succeeded.
+[   65.675847] lab4_os: Queue device was opened
+[   65.676392] lab4_os: Dequeue operation started. Queue len: 37
+[   65.676405] lab4_os: Dequeue operation succeeded. Queue len: 36
+[   65.690452] lab4_os: Queue device was opened
+[   65.690616] lab4_os: Peek operation started. Queue len: 36
+[   65.690629] lab4_os: Peek operation succeeded.
+[   65.690849] lab4_os: Peek operation started. Queue len: 36
+[   65.690869] lab4_os: Peek operation succeeded.
+[   65.706887] lab4_os: Queue device was opened
+[   65.707480] lab4_os: Dequeue operation started. Queue len: 36
+[   65.707493] lab4_os: Dequeue operation succeeded. Queue len: 35
+[   65.722042] lab4_os: Queue device was opened
+[   65.722211] lab4_os: Peek operation started. Queue len: 35
+[   65.722226] lab4_os: Peek operation succeeded.
+[   65.722462] lab4_os: Peek operation started. Queue len: 35
+[   65.722482] lab4_os: Peek operation succeeded.
+[   65.738654] lab4_os: Queue device was opened
+[   65.739219] lab4_os: Dequeue operation started. Queue len: 35
+[   65.739232] lab4_os: Dequeue operation succeeded. Queue len: 34
+[   65.753457] lab4_os: Queue device was opened
+[   65.753640] lab4_os: Peek operation started. Queue len: 34
+[   65.753655] lab4_os: Peek operation succeeded.
+[   65.753891] lab4_os: Peek operation started. Queue len: 34
+[   65.753911] lab4_os: Peek operation succeeded.
+[   65.770089] lab4_os: Queue device was opened
+[   65.770659] lab4_os: Dequeue operation started. Queue len: 34
+[   65.770672] lab4_os: Dequeue operation succeeded. Queue len: 33
+[   65.784907] lab4_os: Queue device was opened
+[   65.785089] lab4_os: Peek operation started. Queue len: 33
+[   65.785103] lab4_os: Peek operation succeeded.
+[   65.785343] lab4_os: Peek operation started. Queue len: 33
+[   65.785363] lab4_os: Peek operation succeeded.
+[   65.801753] lab4_os: Queue device was opened
+[   65.802323] lab4_os: Dequeue operation started. Queue len: 33
+[   65.802335] lab4_os: Dequeue operation succeeded. Queue len: 32
+[   65.816547] lab4_os: Queue device was opened
+[   65.816711] lab4_os: Peek operation started. Queue len: 32
+[   65.816728] lab4_os: Peek operation succeeded.
+[   65.816964] lab4_os: Peek operation started. Queue len: 32
+[   65.816983] lab4_os: Peek operation succeeded.
+[   65.832863] lab4_os: Queue device was opened
+[   65.833425] lab4_os: Dequeue operation started. Queue len: 32
+[   65.833441] lab4_os: Dequeue operation succeeded. Queue len: 31
+[   65.848720] lab4_os: Queue device was opened
+[   65.848878] lab4_os: Peek operation started. Queue len: 31
+[   65.848892] lab4_os: Peek operation succeeded.
+[   65.849117] lab4_os: Peek operation started. Queue len: 31
+[   65.849135] lab4_os: Peek operation succeeded.
+[   65.865144] lab4_os: Queue device was opened
+[   65.865756] lab4_os: Dequeue operation started. Queue len: 31
+[   65.865770] lab4_os: Dequeue operation succeeded. Queue len: 30
+[   65.880296] lab4_os: Queue device was opened
+[   65.880487] lab4_os: Peek operation started. Queue len: 30
+[   65.880501] lab4_os: Peek operation succeeded.
+[   65.880730] lab4_os: Peek operation started. Queue len: 30
+[   65.880760] lab4_os: Peek operation succeeded.
+[   65.896768] lab4_os: Queue device was opened
+[   65.897335] lab4_os: Dequeue operation started. Queue len: 30
+[   65.897347] lab4_os: Dequeue operation succeeded. Queue len: 29
+[   65.911348] lab4_os: Queue device was opened
+[   65.911534] lab4_os: Peek operation started. Queue len: 29
+[   65.911548] lab4_os: Peek operation succeeded.
+[   65.911885] lab4_os: Peek operation started. Queue len: 29
+[   65.911907] lab4_os: Peek operation succeeded.
+[   65.927397] lab4_os: Queue device was opened
+[   65.928066] lab4_os: Dequeue operation started. Queue len: 29
+[   65.928082] lab4_os: Dequeue operation succeeded. Queue len: 28
+[   65.941956] lab4_os: Queue device was opened
+[   65.942113] lab4_os: Peek operation started. Queue len: 28
+[   65.942126] lab4_os: Peek operation succeeded.
+[   65.942347] lab4_os: Peek operation started. Queue len: 28
+[   65.942366] lab4_os: Peek operation succeeded.
+[   65.958714] lab4_os: Queue device was opened
+[   65.959275] lab4_os: Dequeue operation started. Queue len: 28
+[   65.959288] lab4_os: Dequeue operation succeeded. Queue len: 27
+[   65.973980] lab4_os: Queue device was opened
+[   65.974153] lab4_os: Peek operation started. Queue len: 27
+[   65.974167] lab4_os: Peek operation succeeded.
+[   65.974410] lab4_os: Peek operation started. Queue len: 27
+[   65.974430] lab4_os: Peek operation succeeded.
+[   65.990593] lab4_os: Queue device was opened
+[   65.991151] lab4_os: Dequeue operation started. Queue len: 27
+[   65.991164] lab4_os: Dequeue operation succeeded. Queue len: 26
+[   66.005978] lab4_os: Queue device was opened
+[   66.006137] lab4_os: Peek operation started. Queue len: 26
+[   66.006150] lab4_os: Peek operation succeeded.
+[   66.006379] lab4_os: Peek operation started. Queue len: 26
+[   66.006396] lab4_os: Peek operation succeeded.
+[   66.030401] lab4_os: Queue device was opened
+[   66.030979] lab4_os: Dequeue operation started. Queue len: 26
+[   66.030992] lab4_os: Dequeue operation succeeded. Queue len: 25
+[   66.046340] lab4_os: Queue device was opened
+[   66.046506] lab4_os: Peek operation started. Queue len: 25
+[   66.046519] lab4_os: Peek operation succeeded.
+[   66.046753] lab4_os: Peek operation started. Queue len: 25
+[   66.046772] lab4_os: Peek operation succeeded.
+[   66.063608] lab4_os: Queue device was opened
+[   66.064375] lab4_os: Dequeue operation started. Queue len: 25
+[   66.064392] lab4_os: Dequeue operation succeeded. Queue len: 24
+[   66.079154] lab4_os: Queue device was opened
+[   66.079357] lab4_os: Peek operation started. Queue len: 24
+[   66.079369] lab4_os: Peek operation succeeded.
+[   66.079584] lab4_os: Peek operation started. Queue len: 24
+[   66.079604] lab4_os: Peek operation succeeded.
+[   66.098001] lab4_os: Queue device was opened
+[   66.098642] lab4_os: Dequeue operation started. Queue len: 24
+[   66.098655] lab4_os: Dequeue operation succeeded. Queue len: 23
+[   66.113632] lab4_os: Queue device was opened
+[   66.113794] lab4_os: Peek operation started. Queue len: 23
+[   66.113807] lab4_os: Peek operation succeeded.
+[   66.114041] lab4_os: Peek operation started. Queue len: 23
+[   66.114058] lab4_os: Peek operation succeeded.
+[   66.131473] lab4_os: Queue device was opened
+[   66.132157] lab4_os: Dequeue operation started. Queue len: 23
+[   66.132172] lab4_os: Dequeue operation succeeded. Queue len: 22
+[   66.147858] lab4_os: Queue device was opened
+[   66.148056] lab4_os: Peek operation started. Queue len: 22
+[   66.148068] lab4_os: Peek operation succeeded.
+[   66.148320] lab4_os: Peek operation started. Queue len: 22
+[   66.148343] lab4_os: Peek operation succeeded.
+[   66.165337] lab4_os: Queue device was opened
+[   66.165920] lab4_os: Dequeue operation started. Queue len: 22
+[   66.165934] lab4_os: Dequeue operation succeeded. Queue len: 21
+[   66.180865] lab4_os: Queue device was opened
+[   66.181052] lab4_os: Peek operation started. Queue len: 21
+[   66.181062] lab4_os: Peek operation succeeded.
+[   66.181306] lab4_os: Peek operation started. Queue len: 21
+[   66.181322] lab4_os: Peek operation succeeded.
+[   66.197955] lab4_os: Queue device was opened
+[   66.198544] lab4_os: Dequeue operation started. Queue len: 21
+[   66.198556] lab4_os: Dequeue operation succeeded. Queue len: 20
+[   66.213748] lab4_os: Queue device was opened
+[   66.213942] lab4_os: Peek operation started. Queue len: 20
+[   66.213954] lab4_os: Peek operation succeeded.
+[   66.214203] lab4_os: Peek operation started. Queue len: 20
+[   66.214225] lab4_os: Peek operation succeeded.
+[   66.230762] lab4_os: Queue device was opened
+[   66.231586] lab4_os: Dequeue operation started. Queue len: 20
+[   66.231604] lab4_os: Dequeue operation succeeded. Queue len: 19
+[   66.246887] lab4_os: Queue device was opened
+[   66.247051] lab4_os: Peek operation started. Queue len: 19
+[   66.247065] lab4_os: Peek operation succeeded.
+[   66.247311] lab4_os: Peek operation started. Queue len: 19
+[   66.247328] lab4_os: Peek operation succeeded.
+[   66.264449] lab4_os: Queue device was opened
+[   66.265021] lab4_os: Dequeue operation started. Queue len: 19
+[   66.265033] lab4_os: Dequeue operation succeeded. Queue len: 18
+[   66.280555] lab4_os: Queue device was opened
+[   66.280771] lab4_os: Peek operation started. Queue len: 18
+[   66.280783] lab4_os: Peek operation succeeded.
+[   66.281027] lab4_os: Peek operation started. Queue len: 18
+[   66.281043] lab4_os: Peek operation succeeded.
+[   66.298048] lab4_os: Queue device was opened
+[   66.298658] lab4_os: Dequeue operation started. Queue len: 18
+[   66.298672] lab4_os: Dequeue operation succeeded. Queue len: 17
+[   66.313293] lab4_os: Queue device was opened
+[   66.313483] lab4_os: Peek operation started. Queue len: 17
+[   66.313497] lab4_os: Peek operation succeeded.
+[   66.313717] lab4_os: Peek operation started. Queue len: 17
+[   66.313736] lab4_os: Peek operation succeeded.
+[   66.330458] lab4_os: Queue device was opened
+[   66.331060] lab4_os: Dequeue operation started. Queue len: 17
+[   66.331071] lab4_os: Dequeue operation succeeded. Queue len: 16
+[   66.346288] lab4_os: Queue device was opened
+[   66.346467] lab4_os: Peek operation started. Queue len: 16
+[   66.346481] lab4_os: Peek operation succeeded.
+[   66.346698] lab4_os: Peek operation started. Queue len: 16
+[   66.346716] lab4_os: Peek operation succeeded.
+[   66.363206] lab4_os: Queue device was opened
+[   66.363895] lab4_os: Dequeue operation started. Queue len: 16
+[   66.363912] lab4_os: Dequeue operation succeeded. Queue len: 15
+[   66.378916] lab4_os: Queue device was opened
+[   66.379126] lab4_os: Peek operation started. Queue len: 15
+[   66.379138] lab4_os: Peek operation succeeded.
+[   66.379390] lab4_os: Peek operation started. Queue len: 15
+[   66.379410] lab4_os: Peek operation succeeded.
+[   66.396024] lab4_os: Queue device was opened
+[   66.396596] lab4_os: Dequeue operation started. Queue len: 15
+[   66.396610] lab4_os: Dequeue operation succeeded. Queue len: 14
+[   66.411606] lab4_os: Queue device was opened
+[   66.411906] lab4_os: Peek operation started. Queue len: 14
+[   66.411921] lab4_os: Peek operation succeeded.
+[   66.412170] lab4_os: Peek operation started. Queue len: 14
+[   66.412190] lab4_os: Peek operation succeeded.
+[   66.429578] lab4_os: Queue device was opened
+[   66.430199] lab4_os: Dequeue operation started. Queue len: 14
+[   66.430210] lab4_os: Dequeue operation succeeded. Queue len: 13
+[   66.444705] lab4_os: Queue device was opened
+[   66.444881] lab4_os: Peek operation started. Queue len: 13
+[   66.444892] lab4_os: Peek operation succeeded.
+[   66.445136] lab4_os: Peek operation started. Queue len: 13
+[   66.445153] lab4_os: Peek operation succeeded.
+[   66.461765] lab4_os: Queue device was opened
+[   66.462407] lab4_os: Dequeue operation started. Queue len: 13
+[   66.462419] lab4_os: Dequeue operation succeeded. Queue len: 12
+[   66.477336] lab4_os: Queue device was opened
+[   66.477498] lab4_os: Peek operation started. Queue len: 12
+[   66.477511] lab4_os: Peek operation succeeded.
+[   66.477732] lab4_os: Peek operation started. Queue len: 12
+[   66.477752] lab4_os: Peek operation succeeded.
+[   66.494633] lab4_os: Queue device was opened
+[   66.495204] lab4_os: Dequeue operation started. Queue len: 12
+[   66.495217] lab4_os: Dequeue operation succeeded. Queue len: 11
+[   66.509769] lab4_os: Queue device was opened
+[   66.509986] lab4_os: Peek operation started. Queue len: 11
+[   66.509998] lab4_os: Peek operation succeeded.
+[   66.510258] lab4_os: Peek operation started. Queue len: 11
+[   66.510277] lab4_os: Peek operation succeeded.
+[   66.526378] lab4_os: Queue device was opened
+[   66.526934] lab4_os: Dequeue operation started. Queue len: 11
+[   66.526946] lab4_os: Dequeue operation succeeded. Queue len: 10
+[   66.542232] lab4_os: Queue device was opened
+[   66.542416] lab4_os: Peek operation started. Queue len: 10
+[   66.542429] lab4_os: Peek operation succeeded.
+[   66.542673] lab4_os: Peek operation started. Queue len: 10
+[   66.542691] lab4_os: Peek operation succeeded.
+[   66.559327] lab4_os: Queue device was opened
+[   66.559958] lab4_os: Dequeue operation started. Queue len: 10
+[   66.559975] lab4_os: Dequeue operation succeeded. Queue len: 9
+[   66.575148] lab4_os: Queue device was opened
+[   66.575370] lab4_os: Peek operation started. Queue len: 9
+[   66.575387] lab4_os: Peek operation succeeded.
+[   66.575636] lab4_os: Peek operation started. Queue len: 9
+[   66.575738] lab4_os: Peek operation succeeded.
+[   66.592573] lab4_os: Queue device was opened
+[   66.593134] lab4_os: Dequeue operation started. Queue len: 9
+[   66.593147] lab4_os: Dequeue operation succeeded. Queue len: 8
+[   66.608183] lab4_os: Queue device was opened
+[   66.608357] lab4_os: Peek operation started. Queue len: 8
+[   66.608368] lab4_os: Peek operation succeeded.
+[   66.608603] lab4_os: Peek operation started. Queue len: 8
+[   66.608622] lab4_os: Peek operation succeeded.
+[   66.625199] lab4_os: Queue device was opened
+[   66.625775] lab4_os: Dequeue operation started. Queue len: 8
+[   66.625788] lab4_os: Dequeue operation succeeded. Queue len: 7
+[   66.640780] lab4_os: Queue device was opened
+[   66.640968] lab4_os: Peek operation started. Queue len: 7
+[   66.640980] lab4_os: Peek operation succeeded.
+[   66.641235] lab4_os: Peek operation started. Queue len: 7
+[   66.641253] lab4_os: Peek operation succeeded.
+[   66.657603] lab4_os: Queue device was opened
+[   66.658207] lab4_os: Dequeue operation started. Queue len: 7
+[   66.658218] lab4_os: Dequeue operation succeeded. Queue len: 6
+[   66.673492] lab4_os: Queue device was opened
+[   66.673688] lab4_os: Peek operation started. Queue len: 6
+[   66.673702] lab4_os: Peek operation succeeded.
+[   66.673930] lab4_os: Peek operation started. Queue len: 6
+[   66.673949] lab4_os: Peek operation succeeded.
+[   66.690274] lab4_os: Queue device was opened
+[   66.690919] lab4_os: Dequeue operation started. Queue len: 6
+[   66.690932] lab4_os: Dequeue operation succeeded. Queue len: 5
+[   66.705527] lab4_os: Queue device was opened
+[   66.705692] lab4_os: Peek operation started. Queue len: 5
+[   66.705705] lab4_os: Peek operation succeeded.
+[   66.705937] lab4_os: Peek operation started. Queue len: 5
+[   66.705953] lab4_os: Peek operation succeeded.
+[   66.722445] lab4_os: Queue device was opened
+[   66.723032] lab4_os: Dequeue operation started. Queue len: 5
+[   66.723042] lab4_os: Dequeue operation succeeded. Queue len: 4
+[   66.737501] lab4_os: Queue device was opened
+[   66.737661] lab4_os: Peek operation started. Queue len: 4
+[   66.737674] lab4_os: Peek operation succeeded.
+[   66.737899] lab4_os: Peek operation started. Queue len: 4
+[   66.737918] lab4_os: Peek operation succeeded.
+[   66.754533] lab4_os: Queue device was opened
+[   66.755116] lab4_os: Dequeue operation started. Queue len: 4
+[   66.755129] lab4_os: Dequeue operation succeeded. Queue len: 3
+[   66.769772] lab4_os: Queue device was opened
+[   66.769949] lab4_os: Peek operation started. Queue len: 3
+[   66.769960] lab4_os: Peek operation succeeded.
+[   66.770218] lab4_os: Peek operation started. Queue len: 3
+[   66.770234] lab4_os: Peek operation succeeded.
+[   66.787112] lab4_os: Queue device was opened
+[   66.787769] lab4_os: Dequeue operation started. Queue len: 3
+[   66.787785] lab4_os: Dequeue operation succeeded. Queue len: 2
+[   66.802515] lab4_os: Queue device was opened
+[   66.802676] lab4_os: Peek operation started. Queue len: 2
+[   66.802689] lab4_os: Peek operation succeeded.
+[   66.802919] lab4_os: Peek operation started. Queue len: 2
+[   66.802936] lab4_os: Peek operation succeeded.
+[   66.819797] lab4_os: Queue device was opened
+[   66.820459] lab4_os: Dequeue operation started. Queue len: 2
+[   66.820473] lab4_os: Dequeue operation succeeded. Queue len: 1
+[   66.835410] lab4_os: Queue device was opened
+[   66.835845] lab4_os: Peek operation started. Queue len: 1
+[   66.835863] lab4_os: Peek operation succeeded.
+[   66.836103] lab4_os: Peek operation started. Queue len: 1
+[   66.836122] lab4_os: Peek operation succeeded.
+[   66.853268] lab4_os: Queue device was opened
+[   66.853880] lab4_os: Dequeue operation started. Queue len: 1
+[   66.853897] lab4_os: Dequeue operation succeeded. Queue len: 0
+[   67.295462] lab4_os: Queue device was opened
+[   67.327318] lab4_os: Queue device was opened
+[   67.350905] lab4_os: Queue device was opened
+[   67.351563] lab4_os: Enqueue operation started. Queue len: 0
+[   67.351578] lab4_os: Enqueue operation succeeded. Queue len: 1
+[   67.366834] lab4_os: Queue device was opened
+[   67.367461] lab4_os: Enqueue operation started. Queue len: 1
+[   67.367476] lab4_os: Enqueue operation succeeded. Queue len: 2
+[   67.378879] lab4_os: Queue device was opened
+[   67.379538] lab4_os: Enqueue operation started. Queue len: 2
+[   67.379551] lab4_os: Enqueue operation succeeded. Queue len: 3
+[   67.390364] lab4_os: Queue device was opened
+[   67.391016] lab4_os: Enqueue operation started. Queue len: 3
+[   67.391030] lab4_os: Enqueue operation succeeded. Queue len: 4
+[   67.398696] lab4_os: Queue device was opened
+[   67.399321] lab4_os: Enqueue operation started. Queue len: 4
+[   67.399333] lab4_os: Enqueue operation succeeded. Queue len: 5
+[   67.403224] lab4_os: Queue device was opened
+[   67.410262] lab4_os: Queue device was opened
+[   67.410834] lab4_os: Enqueue operation started. Queue len: 5
+[   67.410847] lab4_os: Enqueue operation succeeded. Queue len: 6
+[   67.443200] lab4_os: Queue device was opened
+[   67.478144] lab4_os: Queue device was opened
+[   67.478759] lab4_os: Enqueue operation started. Queue len: 6
+[   67.478775] lab4_os: Enqueue operation succeeded. Queue len: 7
+[   67.483094] lab4_os: Queue device was opened
+[   67.500036] lab4_os: Queue device was opened
+[   67.500643] lab4_os: Enqueue operation started. Queue len: 7
+[   67.500658] lab4_os: Enqueue operation succeeded. Queue len: 8
+[   67.503175] lab4_os: Queue device was opened
+[   67.508233] lab4_os: Enqueue operation started. Queue len: 8
+[   67.508259] lab4_os: Enqueue operation succeeded. Queue len: 9
+[   67.514662] lab4_os: Queue device was opened
+[   67.515302] lab4_os: Enqueue operation started. Queue len: 9
+[   67.515314] lab4_os: Enqueue operation succeeded. Queue len: 10
+[   67.518409] lab4_os: Queue device was opened
+[   67.518971] lab4_os: Enqueue operation started. Queue len: 10
+[   67.518987] lab4_os: Enqueue operation succeeded. Queue len: 11
+[   67.524196] lab4_os: Queue device was opened
+[   67.524955] lab4_os: Enqueue operation started. Queue len: 11
+[   67.524969] lab4_os: Enqueue operation succeeded. Queue len: 12
+[   67.526779] lab4_os: Enqueue operation started. Queue len: 12
+[   67.526799] lab4_os: Enqueue operation succeeded. Queue len: 13
+[   67.538156] lab4_os: Queue device was opened
+[   67.538733] lab4_os: Enqueue operation started. Queue len: 13
+[   67.538747] lab4_os: Enqueue operation succeeded. Queue len: 14
+[   67.551917] lab4_os: Enqueue operation started. Queue len: 14
+[   67.551950] lab4_os: Enqueue operation succeeded. Queue len: 15
+[   67.561527] lab4_os: Enqueue operation started. Queue len: 15
+[   67.561557] lab4_os: Enqueue operation succeeded. Queue len: 16
+[   67.566042] lab4_os: Queue device was opened
+[   67.566629] lab4_os: Enqueue operation started. Queue len: 16
+[   67.566644] lab4_os: Enqueue operation succeeded. Queue len: 17
+[   67.576541] lab4_os: Queue device was opened
+[   67.577260] lab4_os: Enqueue operation started. Queue len: 17
+[   67.577272] lab4_os: Enqueue operation succeeded. Queue len: 18
+[   67.582664] lab4_os: Queue device was opened
+[   67.583231] lab4_os: Enqueue operation started. Queue len: 18
+[   67.583245] lab4_os: Enqueue operation succeeded. Queue len: 19
+[   67.583973] lab4_os: Queue device was opened
+[   67.584564] lab4_os: Enqueue operation started. Queue len: 19
+[   67.584577] lab4_os: Enqueue operation succeeded. Queue len: 20
+[   67.592062] lab4_os: Queue device was opened
+[   67.592678] lab4_os: Enqueue operation started. Queue len: 20
+[   67.592694] lab4_os: Enqueue operation succeeded. Queue len: 21
+[   67.603950] lab4_os: Enqueue operation started. Queue len: 21
+[   67.603993] lab4_os: Enqueue operation succeeded. Queue len: 22
+[   67.616033] lab4_os: Queue device was opened
+[   67.616678] lab4_os: Enqueue operation started. Queue len: 22
+[   67.616694] lab4_os: Enqueue operation succeeded. Queue len: 23
+[   67.622320] lab4_os: Queue device was opened
+[   67.622915] lab4_os: Enqueue operation started. Queue len: 23
+[   67.622929] lab4_os: Enqueue operation succeeded. Queue len: 24
+[   67.626827] lab4_os: Queue device was opened
+[   67.627414] lab4_os: Enqueue operation started. Queue len: 24
+[   67.627427] lab4_os: Enqueue operation succeeded. Queue len: 25
+[   67.630333] lab4_os: Queue device was opened
+[   67.630926] lab4_os: Enqueue operation started. Queue len: 25
+[   67.630939] lab4_os: Enqueue operation succeeded. Queue len: 26
+[   67.635814] lab4_os: Enqueue operation started. Queue len: 26
+[   67.635844] lab4_os: Enqueue operation succeeded. Queue len: 27
+[   67.637925] lab4_os: Queue device was opened
+[   67.638672] lab4_os: Enqueue operation started. Queue len: 27
+[   67.638685] lab4_os: Enqueue operation succeeded. Queue len: 28
+[   67.656600] lab4_os: Queue device was opened
+[   67.657243] lab4_os: Enqueue operation started. Queue len: 28
+[   67.657256] lab4_os: Enqueue operation succeeded. Queue len: 29
+[   67.661361] lab4_os: Queue device was opened
+[   67.662129] lab4_os: Enqueue operation started. Queue len: 29
+[   67.662143] lab4_os: Enqueue operation succeeded. Queue len: 30
+[   67.674000] lab4_os: Queue device was opened
+[   67.674618] lab4_os: Enqueue operation started. Queue len: 30
+[   67.674632] lab4_os: Enqueue operation succeeded. Queue len: 31
+[   67.678851] lab4_os: Queue device was opened
+[   67.679407] lab4_os: Enqueue operation started. Queue len: 31
+[   67.679420] lab4_os: Enqueue operation succeeded. Queue len: 32
+[   67.691309] lab4_os: Queue device was opened
+[   67.693651] lab4_os: Queue device was opened
+[   67.694276] lab4_os: Enqueue operation started. Queue len: 32
+[   67.694290] lab4_os: Enqueue operation succeeded. Queue len: 33
+[   67.707240] lab4_os: Queue device was opened
+[   67.710650] lab4_os: Queue device was opened
+[   67.711213] lab4_os: Enqueue operation started. Queue len: 33
+[   67.711227] lab4_os: Enqueue operation succeeded. Queue len: 34
+[   67.714814] lab4_os: Queue device was opened
+[   67.715461] lab4_os: Enqueue operation started. Queue len: 34
+[   67.715473] lab4_os: Enqueue operation succeeded. Queue len: 35
+[   67.717668] lab4_os: Queue device was opened
+[   67.718254] lab4_os: Enqueue operation started. Queue len: 35
+[   67.718267] lab4_os: Enqueue operation succeeded. Queue len: 36
+[   67.728342] lab4_os: Queue device was opened
+[   67.728947] lab4_os: Enqueue operation started. Queue len: 36
+[   67.728960] lab4_os: Enqueue operation succeeded. Queue len: 37
+[   67.739885] lab4_os: Queue device was opened
+[   67.740527] lab4_os: Enqueue operation started. Queue len: 37
+[   67.740540] lab4_os: Enqueue operation succeeded. Queue len: 38
+[   67.748800] lab4_os: Enqueue operation started. Queue len: 38
+[   67.748828] lab4_os: Enqueue operation succeeded. Queue len: 39
+[   67.757028] lab4_os: Queue device was opened
+[   67.757630] lab4_os: Enqueue operation started. Queue len: 39
+[   67.757643] lab4_os: Enqueue operation succeeded. Queue len: 40
+[   67.762580] lab4_os: Queue device was opened
+[   67.763254] lab4_os: Enqueue operation started. Queue len: 40
+[   67.763266] lab4_os: Enqueue operation succeeded. Queue len: 41
+[   67.767341] lab4_os: Queue device was opened
+[   67.770140] lab4_os: Queue device was opened
+[   67.770761] lab4_os: Enqueue operation started. Queue len: 41
+[   67.770775] lab4_os: Enqueue operation succeeded. Queue len: 42
+[   67.773994] lab4_os: Queue device was opened
+[   67.774615] lab4_os: Enqueue operation started. Queue len: 42
+[   67.774627] lab4_os: Enqueue operation succeeded. Queue len: 43
+[   67.776685] lab4_os: Queue device was opened
+[   67.777308] lab4_os: Enqueue operation started. Queue len: 43
+[   67.777318] lab4_os: Enqueue operation succeeded. Queue len: 44
+[   67.779097] lab4_os: Enqueue operation started. Queue len: 44
+[   67.779117] lab4_os: Enqueue operation succeeded. Queue len: 45
+[   67.782765] lab4_os: Queue device was opened
+[   67.783475] lab4_os: Enqueue operation started. Queue len: 45
+[   67.783489] lab4_os: Enqueue operation succeeded. Queue len: 46
+[   67.784363] lab4_os: Queue device was opened
+[   67.784938] lab4_os: Enqueue operation started. Queue len: 46
+[   67.784949] lab4_os: Enqueue operation succeeded. Queue len: 47
+[   67.788562] lab4_os: Queue device was opened
+[   67.789139] lab4_os: Enqueue operation started. Queue len: 47
+[   67.789151] lab4_os: Enqueue operation succeeded. Queue len: 48
+[   67.791962] lab4_os: Queue device was opened
+[   67.792586] lab4_os: Enqueue operation started. Queue len: 48
+[   67.792598] lab4_os: Enqueue operation succeeded. Queue len: 49
+[   67.794594] lab4_os: Enqueue operation started. Queue len: 49
+[   67.794618] lab4_os: Enqueue operation succeeded. Queue len: 50
+[   67.833014] lab4_os: Queue device was opened
+[   67.833220] lab4_os: Peek operation started. Queue len: 50
+[   67.833231] lab4_os: Peek operation succeeded.
+[   67.833500] lab4_os: Peek operation started. Queue len: 50
+[   67.833521] lab4_os: Peek operation succeeded.
+[   67.851201] lab4_os: Queue device was opened
+[   67.851837] lab4_os: Dequeue operation started. Queue len: 50
+[   67.851853] lab4_os: Dequeue operation succeeded. Queue len: 49
+[   67.866737] lab4_os: Queue device was opened
+[   67.866923] lab4_os: Peek operation started. Queue len: 49
+[   67.866935] lab4_os: Peek operation succeeded.
+[   67.867189] lab4_os: Peek operation started. Queue len: 49
+[   67.867208] lab4_os: Peek operation succeeded.
+[   67.884318] lab4_os: Queue device was opened
+[   67.884901] lab4_os: Dequeue operation started. Queue len: 49
+[   67.884914] lab4_os: Dequeue operation succeeded. Queue len: 48
+[   67.900086] lab4_os: Queue device was opened
+[   67.900280] lab4_os: Peek operation started. Queue len: 48
+[   67.900291] lab4_os: Peek operation succeeded.
+[   67.900567] lab4_os: Peek operation started. Queue len: 48
+[   67.900590] lab4_os: Peek operation succeeded.
+[   67.917375] lab4_os: Queue device was opened
+[   67.917944] lab4_os: Dequeue operation started. Queue len: 48
+[   67.917956] lab4_os: Dequeue operation succeeded. Queue len: 47
+[   67.933385] lab4_os: Queue device was opened
+[   67.933550] lab4_os: Peek operation started. Queue len: 47
+[   67.933564] lab4_os: Peek operation succeeded.
+[   67.933801] lab4_os: Peek operation started. Queue len: 47
+[   67.933820] lab4_os: Peek operation succeeded.
+[   67.950776] lab4_os: Queue device was opened
+[   67.951436] lab4_os: Dequeue operation started. Queue len: 47
+[   67.951450] lab4_os: Dequeue operation succeeded. Queue len: 46
+[   67.966505] lab4_os: Queue device was opened
+[   67.966700] lab4_os: Peek operation started. Queue len: 46
+[   67.966711] lab4_os: Peek operation succeeded.
+[   67.966953] lab4_os: Peek operation started. Queue len: 46
+[   67.966971] lab4_os: Peek operation succeeded.
+[   67.983846] lab4_os: Queue device was opened
+[   67.984505] lab4_os: Dequeue operation started. Queue len: 46
+[   67.984519] lab4_os: Dequeue operation succeeded. Queue len: 45
+[   67.999497] lab4_os: Queue device was opened
+[   67.999693] lab4_os: Peek operation started. Queue len: 45
+[   67.999708] lab4_os: Peek operation succeeded.
+[   68.000022] lab4_os: Peek operation started. Queue len: 45
+[   68.000041] lab4_os: Peek operation succeeded.
+[   68.016722] lab4_os: Queue device was opened
+[   68.017290] lab4_os: Dequeue operation started. Queue len: 45
+[   68.017304] lab4_os: Dequeue operation succeeded. Queue len: 44
+[   68.032544] lab4_os: Queue device was opened
+[   68.032719] lab4_os: Peek operation started. Queue len: 44
+[   68.032732] lab4_os: Peek operation succeeded.
+[   68.032986] lab4_os: Peek operation started. Queue len: 44
+[   68.033003] lab4_os: Peek operation succeeded.
+[   68.050120] lab4_os: Queue device was opened
+[   68.050740] lab4_os: Dequeue operation started. Queue len: 44
+[   68.050753] lab4_os: Dequeue operation succeeded. Queue len: 43
+[   68.066044] lab4_os: Queue device was opened
+[   68.066256] lab4_os: Peek operation started. Queue len: 43
+[   68.066268] lab4_os: Peek operation succeeded.
+[   68.066534] lab4_os: Peek operation started. Queue len: 43
+[   68.066553] lab4_os: Peek operation succeeded.
+[   68.083571] lab4_os: Queue device was opened
+[   68.084259] lab4_os: Dequeue operation started. Queue len: 43
+[   68.084272] lab4_os: Dequeue operation succeeded. Queue len: 42
+[   68.099821] lab4_os: Queue device was opened
+[   68.100039] lab4_os: Peek operation started. Queue len: 42
+[   68.100052] lab4_os: Peek operation succeeded.
+[   68.100317] lab4_os: Peek operation started. Queue len: 42
+[   68.100336] lab4_os: Peek operation succeeded.
+[   68.117615] lab4_os: Queue device was opened
+[   68.118252] lab4_os: Dequeue operation started. Queue len: 42
+[   68.118264] lab4_os: Dequeue operation succeeded. Queue len: 41
+[   68.133435] lab4_os: Queue device was opened
+[   68.133646] lab4_os: Peek operation started. Queue len: 41
+[   68.133664] lab4_os: Peek operation succeeded.
+[   68.133926] lab4_os: Peek operation started. Queue len: 41
+[   68.133944] lab4_os: Peek operation succeeded.
+[   68.151823] lab4_os: Queue device was opened
+[   68.152447] lab4_os: Dequeue operation started. Queue len: 41
+[   68.152462] lab4_os: Dequeue operation succeeded. Queue len: 40
+[   68.167889] lab4_os: Queue device was opened
+[   68.168088] lab4_os: Peek operation started. Queue len: 40
+[   68.168101] lab4_os: Peek operation succeeded.
+[   68.168353] lab4_os: Peek operation started. Queue len: 40
+[   68.168369] lab4_os: Peek operation succeeded.
+[   68.185683] lab4_os: Queue device was opened
+[   68.186263] lab4_os: Dequeue operation started. Queue len: 40
+[   68.186276] lab4_os: Dequeue operation succeeded. Queue len: 39
+[   68.201208] lab4_os: Queue device was opened
+[   68.201398] lab4_os: Peek operation started. Queue len: 39
+[   68.201437] lab4_os: Peek operation succeeded.
+[   68.201678] lab4_os: Peek operation started. Queue len: 39
+[   68.201697] lab4_os: Peek operation succeeded.
+[   68.219538] lab4_os: Queue device was opened
+[   68.220222] lab4_os: Dequeue operation started. Queue len: 39
+[   68.220234] lab4_os: Dequeue operation succeeded. Queue len: 38
+[   68.236036] lab4_os: Queue device was opened
+[   68.236200] lab4_os: Peek operation started. Queue len: 38
+[   68.236213] lab4_os: Peek operation succeeded.
+[   68.236453] lab4_os: Peek operation started. Queue len: 38
+[   68.236477] lab4_os: Peek operation succeeded.
+[   68.253671] lab4_os: Queue device was opened
+[   68.254292] lab4_os: Dequeue operation started. Queue len: 38
+[   68.254302] lab4_os: Dequeue operation succeeded. Queue len: 37
+[   68.268716] lab4_os: Queue device was opened
+[   68.268884] lab4_os: Peek operation started. Queue len: 37
+[   68.268897] lab4_os: Peek operation succeeded.
+[   68.269123] lab4_os: Peek operation started. Queue len: 37
+[   68.269142] lab4_os: Peek operation succeeded.
+[   68.286496] lab4_os: Queue device was opened
+[   68.287070] lab4_os: Dequeue operation started. Queue len: 37
+[   68.287084] lab4_os: Dequeue operation succeeded. Queue len: 36
+[   68.301416] lab4_os: Queue device was opened
+[   68.301580] lab4_os: Peek operation started. Queue len: 36
+[   68.301594] lab4_os: Peek operation succeeded.
+[   68.301823] lab4_os: Peek operation started. Queue len: 36
+[   68.301842] lab4_os: Peek operation succeeded.
+[   68.318003] lab4_os: Queue device was opened
+[   68.318608] lab4_os: Dequeue operation started. Queue len: 36
+[   68.318621] lab4_os: Dequeue operation succeeded. Queue len: 35
+[   68.332861] lab4_os: Queue device was opened
+[   68.333083] lab4_os: Peek operation started. Queue len: 35
+[   68.333101] lab4_os: Peek operation succeeded.
+[   68.333317] lab4_os: Peek operation started. Queue len: 35
+[   68.333336] lab4_os: Peek operation succeeded.
+[   68.349824] lab4_os: Queue device was opened
+[   68.350417] lab4_os: Dequeue operation started. Queue len: 35
+[   68.350430] lab4_os: Dequeue operation succeeded. Queue len: 34
+[   68.365782] lab4_os: Queue device was opened
+[   68.366007] lab4_os: Peek operation started. Queue len: 34
+[   68.366022] lab4_os: Peek operation succeeded.
+[   68.366291] lab4_os: Peek operation started. Queue len: 34
+[   68.366310] lab4_os: Peek operation succeeded.
+[   68.383562] lab4_os: Queue device was opened
+[   68.384239] lab4_os: Dequeue operation started. Queue len: 34
+[   68.384254] lab4_os: Dequeue operation succeeded. Queue len: 33
+[   68.401045] lab4_os: Queue device was opened
+[   68.401235] lab4_os: Peek operation started. Queue len: 33
+[   68.401248] lab4_os: Peek operation succeeded.
+[   68.401528] lab4_os: Peek operation started. Queue len: 33
+[   68.401548] lab4_os: Peek operation succeeded.
+[   68.418441] lab4_os: Queue device was opened
+[   68.419099] lab4_os: Dequeue operation started. Queue len: 33
+[   68.419110] lab4_os: Dequeue operation succeeded. Queue len: 32
+[   68.434432] lab4_os: Queue device was opened
+[   68.434619] lab4_os: Peek operation started. Queue len: 32
+[   68.434629] lab4_os: Peek operation succeeded.
+[   68.434870] lab4_os: Peek operation started. Queue len: 32
+[   68.434888] lab4_os: Peek operation succeeded.
+[   68.452366] lab4_os: Queue device was opened
+[   68.453125] lab4_os: Dequeue operation started. Queue len: 32
+[   68.453140] lab4_os: Dequeue operation succeeded. Queue len: 31
+[   68.468464] lab4_os: Queue device was opened
+[   68.468628] lab4_os: Peek operation started. Queue len: 31
+[   68.468641] lab4_os: Peek operation succeeded.
+[   68.468878] lab4_os: Peek operation started. Queue len: 31
+[   68.468896] lab4_os: Peek operation succeeded.
+[   68.485637] lab4_os: Queue device was opened
+[   68.486238] lab4_os: Dequeue operation started. Queue len: 31
+[   68.486249] lab4_os: Dequeue operation succeeded. Queue len: 30
+[   68.501854] lab4_os: Queue device was opened
+[   68.502051] lab4_os: Peek operation started. Queue len: 30
+[   68.502067] lab4_os: Peek operation succeeded.
+[   68.502304] lab4_os: Peek operation started. Queue len: 30
+[   68.502323] lab4_os: Peek operation succeeded.
+[   68.519865] lab4_os: Queue device was opened
+[   68.520517] lab4_os: Dequeue operation started. Queue len: 30
+[   68.520528] lab4_os: Dequeue operation succeeded. Queue len: 29
+[   68.535668] lab4_os: Queue device was opened
+[   68.535941] lab4_os: Peek operation started. Queue len: 29
+[   68.535954] lab4_os: Peek operation succeeded.
+[   68.536200] lab4_os: Peek operation started. Queue len: 29
+[   68.536218] lab4_os: Peek operation succeeded.
+[   68.553627] lab4_os: Queue device was opened
+[   68.554271] lab4_os: Dequeue operation started. Queue len: 29
+[   68.554281] lab4_os: Dequeue operation succeeded. Queue len: 28
+[   68.569556] lab4_os: Queue device was opened
+[   68.569724] lab4_os: Peek operation started. Queue len: 28
+[   68.569739] lab4_os: Peek operation succeeded.
+[   68.569988] lab4_os: Peek operation started. Queue len: 28
+[   68.570007] lab4_os: Peek operation succeeded.
+[   68.587176] lab4_os: Queue device was opened
+[   68.587835] lab4_os: Dequeue operation started. Queue len: 28
+[   68.587848] lab4_os: Dequeue operation succeeded. Queue len: 27
+[   68.602962] lab4_os: Queue device was opened
+[   68.603154] lab4_os: Peek operation started. Queue len: 27
+[   68.603166] lab4_os: Peek operation succeeded.
+[   68.603450] lab4_os: Peek operation started. Queue len: 27
+[   68.603471] lab4_os: Peek operation succeeded.
+[   68.620741] lab4_os: Queue device was opened
+[   68.621401] lab4_os: Dequeue operation started. Queue len: 27
+[   68.621439] lab4_os: Dequeue operation succeeded. Queue len: 26
+[   68.636814] lab4_os: Queue device was opened
+[   68.636982] lab4_os: Peek operation started. Queue len: 26
+[   68.636996] lab4_os: Peek operation succeeded.
+[   68.637236] lab4_os: Peek operation started. Queue len: 26
+[   68.637256] lab4_os: Peek operation succeeded.
+[   68.653966] lab4_os: Queue device was opened
+[   68.654605] lab4_os: Dequeue operation started. Queue len: 26
+[   68.654619] lab4_os: Dequeue operation succeeded. Queue len: 25
+[   68.686320] lab4_os: Queue device was opened
+[   68.686519] lab4_os: Peek operation started. Queue len: 25
+[   68.686536] lab4_os: Peek operation succeeded.
+[   68.686814] lab4_os: Peek operation started. Queue len: 25
+[   68.686833] lab4_os: Peek operation succeeded.
+[   68.704180] lab4_os: Queue device was opened
+[   68.704786] lab4_os: Dequeue operation started. Queue len: 25
+[   68.704800] lab4_os: Dequeue operation succeeded. Queue len: 24
+[   68.719804] lab4_os: Queue device was opened
+[   68.719995] lab4_os: Peek operation started. Queue len: 24
+[   68.720007] lab4_os: Peek operation succeeded.
+[   68.720263] lab4_os: Peek operation started. Queue len: 24
+[   68.720281] lab4_os: Peek operation succeeded.
+[   68.740813] lab4_os: Queue device was opened
+[   68.741490] lab4_os: Dequeue operation started. Queue len: 24
+[   68.741504] lab4_os: Dequeue operation succeeded. Queue len: 23
+[   68.757013] lab4_os: Queue device was opened
+[   68.757208] lab4_os: Peek operation started. Queue len: 23
+[   68.757220] lab4_os: Peek operation succeeded.
+[   68.757463] lab4_os: Peek operation started. Queue len: 23
+[   68.757485] lab4_os: Peek operation succeeded.
+[   68.774200] lab4_os: Queue device was opened
+[   68.774844] lab4_os: Dequeue operation started. Queue len: 23
+[   68.774855] lab4_os: Dequeue operation succeeded. Queue len: 22
+[   68.790081] lab4_os: Queue device was opened
+[   68.790278] lab4_os: Peek operation started. Queue len: 22
+[   68.790289] lab4_os: Peek operation succeeded.
+[   68.790543] lab4_os: Peek operation started. Queue len: 22
+[   68.790563] lab4_os: Peek operation succeeded.
+[   68.807155] lab4_os: Queue device was opened
+[   68.807894] lab4_os: Dequeue operation started. Queue len: 22
+[   68.807908] lab4_os: Dequeue operation succeeded. Queue len: 21
+[   68.823127] lab4_os: Queue device was opened
+[   68.823324] lab4_os: Peek operation started. Queue len: 21
+[   68.823336] lab4_os: Peek operation succeeded.
+[   68.823584] lab4_os: Peek operation started. Queue len: 21
+[   68.823604] lab4_os: Peek operation succeeded.
+[   68.840749] lab4_os: Queue device was opened
+[   68.841397] lab4_os: Dequeue operation started. Queue len: 21
+[   68.841413] lab4_os: Dequeue operation succeeded. Queue len: 20
+[   68.856296] lab4_os: Queue device was opened
+[   68.856472] lab4_os: Peek operation started. Queue len: 20
+[   68.856486] lab4_os: Peek operation succeeded.
+[   68.856712] lab4_os: Peek operation started. Queue len: 20
+[   68.856731] lab4_os: Peek operation succeeded.
+[   68.873663] lab4_os: Queue device was opened
+[   68.874233] lab4_os: Dequeue operation started. Queue len: 20
+[   68.874248] lab4_os: Dequeue operation succeeded. Queue len: 19
+[   68.889196] lab4_os: Queue device was opened
+[   68.889384] lab4_os: Peek operation started. Queue len: 19
+[   68.889396] lab4_os: Peek operation succeeded.
+[   68.889627] lab4_os: Peek operation started. Queue len: 19
+[   68.889648] lab4_os: Peek operation succeeded.
+[   68.906913] lab4_os: Queue device was opened
+[   68.907555] lab4_os: Dequeue operation started. Queue len: 19
+[   68.907569] lab4_os: Dequeue operation succeeded. Queue len: 18
+[   68.922888] lab4_os: Queue device was opened
+[   68.923082] lab4_os: Peek operation started. Queue len: 18
+[   68.923096] lab4_os: Peek operation succeeded.
+[   68.923355] lab4_os: Peek operation started. Queue len: 18
+[   68.923374] lab4_os: Peek operation succeeded.
+[   68.940551] lab4_os: Queue device was opened
+[   68.941172] lab4_os: Dequeue operation started. Queue len: 18
+[   68.941183] lab4_os: Dequeue operation succeeded. Queue len: 17
+[   68.955817] lab4_os: Queue device was opened
+[   68.956017] lab4_os: Peek operation started. Queue len: 17
+[   68.956032] lab4_os: Peek operation succeeded.
+[   68.956255] lab4_os: Peek operation started. Queue len: 17
+[   68.956274] lab4_os: Peek operation succeeded.
+[   68.972651] lab4_os: Queue device was opened
+[   68.973222] lab4_os: Dequeue operation started. Queue len: 17
+[   68.973235] lab4_os: Dequeue operation succeeded. Queue len: 16
+[   68.987909] lab4_os: Queue device was opened
+[   68.988108] lab4_os: Peek operation started. Queue len: 16
+[   68.988122] lab4_os: Peek operation succeeded.
+[   68.988344] lab4_os: Peek operation started. Queue len: 16
+[   68.988363] lab4_os: Peek operation succeeded.
+[   69.004789] lab4_os: Queue device was opened
+[   69.005369] lab4_os: Dequeue operation started. Queue len: 16
+[   69.005383] lab4_os: Dequeue operation succeeded. Queue len: 15
+[   69.019650] lab4_os: Queue device was opened
+[   69.019943] lab4_os: Peek operation started. Queue len: 15
+[   69.019960] lab4_os: Peek operation succeeded.
+[   69.020189] lab4_os: Peek operation started. Queue len: 15
+[   69.020205] lab4_os: Peek operation succeeded.
+[   69.037156] lab4_os: Queue device was opened
+[   69.037747] lab4_os: Dequeue operation started. Queue len: 15
+[   69.037760] lab4_os: Dequeue operation succeeded. Queue len: 14
+[   69.053028] lab4_os: Queue device was opened
+[   69.053241] lab4_os: Peek operation started. Queue len: 14
+[   69.053253] lab4_os: Peek operation succeeded.
+[   69.053507] lab4_os: Peek operation started. Queue len: 14
+[   69.053526] lab4_os: Peek operation succeeded.
+[   69.070737] lab4_os: Queue device was opened
+[   69.071288] lab4_os: Dequeue operation started. Queue len: 14
+[   69.071301] lab4_os: Dequeue operation succeeded. Queue len: 13
+[   69.084939] lab4_os: Queue device was opened
+[   69.085097] lab4_os: Peek operation started. Queue len: 13
+[   69.085110] lab4_os: Peek operation succeeded.
+[   69.085530] lab4_os: Peek operation started. Queue len: 13
+[   69.085551] lab4_os: Peek operation succeeded.
+[   69.101799] lab4_os: Queue device was opened
+[   69.102369] lab4_os: Dequeue operation started. Queue len: 13
+[   69.102381] lab4_os: Dequeue operation succeeded. Queue len: 12
+[   69.116595] lab4_os: Queue device was opened
+[   69.116754] lab4_os: Peek operation started. Queue len: 12
+[   69.116767] lab4_os: Peek operation succeeded.
+[   69.117006] lab4_os: Peek operation started. Queue len: 12
+[   69.117027] lab4_os: Peek operation succeeded.
+[   69.132790] lab4_os: Queue device was opened
+[   69.133371] lab4_os: Dequeue operation started. Queue len: 12
+[   69.133385] lab4_os: Dequeue operation succeeded. Queue len: 11
+[   69.149248] lab4_os: Queue device was opened
+[   69.149423] lab4_os: Peek operation started. Queue len: 11
+[   69.149437] lab4_os: Peek operation succeeded.
+[   69.149679] lab4_os: Peek operation started. Queue len: 11
+[   69.149700] lab4_os: Peek operation succeeded.
+[   69.165914] lab4_os: Queue device was opened
+[   69.166685] lab4_os: Dequeue operation started. Queue len: 11
+[   69.166702] lab4_os: Dequeue operation succeeded. Queue len: 10
+[   69.181613] lab4_os: Queue device was opened
+[   69.181808] lab4_os: Peek operation started. Queue len: 10
+[   69.181824] lab4_os: Peek operation succeeded.
+[   69.182052] lab4_os: Peek operation started. Queue len: 10
+[   69.182072] lab4_os: Peek operation succeeded.
+[   69.199177] lab4_os: Queue device was opened
+[   69.199853] lab4_os: Dequeue operation started. Queue len: 10
+[   69.199870] lab4_os: Dequeue operation succeeded. Queue len: 9
+[   69.215672] lab4_os: Queue device was opened
+[   69.215938] lab4_os: Peek operation started. Queue len: 9
+[   69.215954] lab4_os: Peek operation succeeded.
+[   69.216206] lab4_os: Peek operation started. Queue len: 9
+[   69.216224] lab4_os: Peek operation succeeded.
+[   69.233071] lab4_os: Queue device was opened
+[   69.233656] lab4_os: Dequeue operation started. Queue len: 9
+[   69.233669] lab4_os: Dequeue operation succeeded. Queue len: 8
+[   69.248741] lab4_os: Queue device was opened
+[   69.248921] lab4_os: Peek operation started. Queue len: 8
+[   69.248936] lab4_os: Peek operation succeeded.
+[   69.249196] lab4_os: Peek operation started. Queue len: 8
+[   69.249214] lab4_os: Peek operation succeeded.
+[   69.266651] lab4_os: Queue device was opened
+[   69.267226] lab4_os: Dequeue operation started. Queue len: 8
+[   69.267238] lab4_os: Dequeue operation succeeded. Queue len: 7
+[   69.282241] lab4_os: Queue device was opened
+[   69.282439] lab4_os: Peek operation started. Queue len: 7
+[   69.282456] lab4_os: Peek operation succeeded.
+[   69.282682] lab4_os: Peek operation started. Queue len: 7
+[   69.282700] lab4_os: Peek operation succeeded.
+[   69.299360] lab4_os: Queue device was opened
+[   69.300035] lab4_os: Dequeue operation started. Queue len: 7
+[   69.300053] lab4_os: Dequeue operation succeeded. Queue len: 6
+[   69.314832] lab4_os: Queue device was opened
+[   69.315002] lab4_os: Peek operation started. Queue len: 6
+[   69.315013] lab4_os: Peek operation succeeded.
+[   69.315260] lab4_os: Peek operation started. Queue len: 6
+[   69.315276] lab4_os: Peek operation succeeded.
+[   69.331797] lab4_os: Queue device was opened
+[   69.332371] lab4_os: Dequeue operation started. Queue len: 6
+[   69.332386] lab4_os: Dequeue operation succeeded. Queue len: 5
+[   69.347531] lab4_os: Queue device was opened
+[   69.347692] lab4_os: Peek operation started. Queue len: 5
+[   69.347768] lab4_os: Peek operation succeeded.
+[   69.348014] lab4_os: Peek operation started. Queue len: 5
+[   69.348033] lab4_os: Peek operation succeeded.
+[   69.365869] lab4_os: Queue device was opened
+[   69.366555] lab4_os: Dequeue operation started. Queue len: 5
+[   69.366566] lab4_os: Dequeue operation succeeded. Queue len: 4
+[   69.382467] lab4_os: Queue device was opened
+[   69.382635] lab4_os: Peek operation started. Queue len: 4
+[   69.382648] lab4_os: Peek operation succeeded.
+[   69.382880] lab4_os: Peek operation started. Queue len: 4
+[   69.382900] lab4_os: Peek operation succeeded.
+[   69.399858] lab4_os: Queue device was opened
+[   69.400455] lab4_os: Dequeue operation started. Queue len: 4
+[   69.400468] lab4_os: Dequeue operation succeeded. Queue len: 3
+[   69.415169] lab4_os: Queue device was opened
+[   69.415378] lab4_os: Peek operation started. Queue len: 3
+[   69.415390] lab4_os: Peek operation succeeded.
+[   69.415633] lab4_os: Peek operation started. Queue len: 3
+[   69.415653] lab4_os: Peek operation succeeded.
+[   69.432735] lab4_os: Queue device was opened
+[   69.433392] lab4_os: Dequeue operation started. Queue len: 3
+[   69.433402] lab4_os: Dequeue operation succeeded. Queue len: 2
+[   69.448633] lab4_os: Queue device was opened
+[   69.448837] lab4_os: Peek operation started. Queue len: 2
+[   69.448852] lab4_os: Peek operation succeeded.
+[   69.449095] lab4_os: Peek operation started. Queue len: 2
+[   69.449114] lab4_os: Peek operation succeeded.
+[   69.465825] lab4_os: Queue device was opened
+[   69.466455] lab4_os: Dequeue operation started. Queue len: 2
+[   69.466469] lab4_os: Dequeue operation succeeded. Queue len: 1
+[   69.481571] lab4_os: Queue device was opened
+[   69.481743] lab4_os: Peek operation started. Queue len: 1
+[   69.481756] lab4_os: Peek operation succeeded.
+[   69.481996] lab4_os: Peek operation started. Queue len: 1
+[   69.482014] lab4_os: Peek operation succeeded.
+[   69.498367] lab4_os: Queue device was opened
+[   69.498921] lab4_os: Dequeue operation started. Queue len: 1
+[   69.498933] lab4_os: Dequeue operation succeeded. Queue len: 0
+\end{minted}
 Результат прогона тестов:\\
+\begin{minted}{console}
+Starting testing of /dev/queue...
+Sequential test completed
+Parallel test completed
+Testing completed successfully!
+\end{minted}
 
 
 \textbf{Вывод: } в ходе лабораторной работы изучили основы разработки драйверов для ядра Linux с использованием языка
