@@ -123,7 +123,7 @@ includelib dbghelp.lib
 	callers db 1024 dup(?)
 	printtracemodule db "Module begin address: 0x%p", 13, 10
 	db "Module name: %s", 13, 10, 0
-	symgetsymfromaddr64failedmsg db "SymGetLineFromAddr64 failed. Exit code: %d", 13, 10, 0
+	symgetsymfromaddr64failedmsg db "SymGetLineFromAddr failed. Exit code: %d", 13, 10, 0
 	symgetsymfromaddr64subprogram db "Subprogram name: %s, Instruction offset from function beginning: %u", 13, 10, 0
 	symgetlinefromaddrloc db "Subprogram '%s' is located at '%s'", 13, 10
 	db "Address: 0x%p", 13, 10
@@ -338,7 +338,31 @@ end start
 
 \section{Результаты выполнения программы.}
 \begin{minted}{console}
-Insert here please!
+C:\Users\vladi\Workspace\Assembler\computing_systems_architecture\hw>pause
+Для продолжения нажмите любую клавишу . . .
+
+C:\Users\vladi\Workspace\Assembler\computing_systems_architecture\hw>hw.exe
+------- Level 0, address 0x004011B3 ------- 
+Defining function name and module at address 0x004011B3
+Module begin address: 0x00400000
+Module name: C:\Users\vladi\Workspace\Assembler\computing_systems_architecture\hw\hw.exe
+SymGetLineFromAddr failed. Exit code: 487
+
+------- Level 1, address 0x77B9CEBB -------
+Defining function name and module at address 0x77B9CEBB
+Module begin address: 0x77B30000
+Module name: C:\WINDOWS\SYSTEM32\ntdll.dll
+Subprogram name: RtlInitializeExceptionChain, Instruction offset from function beginning: 107
+SymGetLineFromAddr failed. Exit code: 487
+
+------- Level 2, address 0x77B9CE41 -------
+Defining function name and module at address 0x77B9CE41
+Module begin address: 0x77B30000
+Module name: C:\WINDOWS\SYSTEM32\ntdll.dll
+Subprogram name: RtlGetAppContainerNamedObjectPath, Instruction offset from function beginning: 561
+SymGetLineFromAddr failed. Exit code: 487
+
+
 \end{minted}
 
 \section{Заключение}
