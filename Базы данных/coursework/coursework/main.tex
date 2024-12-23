@@ -761,6 +761,151 @@ github-runner подлючается по ssh к серверу
   \item Логин в ghcr.io и пулл всех образов
   \item Запуск приложения с помощью docker-compose
 \end{enumerate}
+
+Основной пайплайн:
+\begin{minted}{yaml}
+name: Build and deploy
+run-name: ${{ github.actor }} is running build and deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Repository Name to Lowercase
+        id: set_repo_name
+        run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push backend
+        uses: int128/kaniko-action@v1
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO_NAME }}/backend
+          cache: true
+          cache-repository: ghcr.io/${{ env.REPO_NAME }}/backend/cache
+          context: django_backend
+
+      - name: Build and Push frontend
+        uses: int128/kaniko-action@v1
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO_NAME }}/frontend
+          cache: true
+          cache-repository: ghcr.io/${{ env.REPO_NAME }}/frontend/cache
+          context: react_frontend
+
+      - name: Build and Push nginx
+        uses: int128/kaniko-action@v1
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO_NAME }}/nginx
+          cache: true
+          cache-repository: ghcr.io/${{ env.REPO_NAME }}/nginx/cache
+          context: nginx
+
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup SSH
+        shell: bash
+        run: |
+          eval `ssh-agent -s`
+          mkdir -p ~/.ssh/
+          touch ~/.ssh/id_rsa
+          echo -e "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh/id_rsa
+          ssh-keyscan -H 82.97.246.215 >> ~/.ssh/known_hosts
+      - name: Run Ansible Script
+        shell: bash
+        env:
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          ansible-playbook -i ansible/inventory.ini ansible/deploy-playbook.yaml
+\end{minted}
+
+Плейбук Ansible:
+\begin{minted}{yaml}
+- name: deploy
+  hosts: all
+  tasks:
+    - name: Ensure ansible user is in the docker group
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+      become: yes
+
+    - name: Restart Docker
+      ansible.builtin.service:
+        name: docker
+        state: restarted
+      become: yes
+
+    - name: create app dir
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/application"
+        state: directory
+
+    - name: copy .env
+      ansible.builtin.template:
+        src: example.env.j2
+        dest: "{{ ansible_env.HOME }}/application/.env"
+
+    - name: copy docker-compose.yaml
+      ansible.builtin.template:
+        src: docker-compose.yaml.j2
+        dest: "{{ ansible_env.HOME }}/application/docker-compose.yaml"
+
+    - name: Check if docker-compose.yaml exists
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/application/docker-compose.yaml"
+      register: compose_file_status
+
+    - debug:
+        var: compose_file_status.stat.exists
+    
+    - name: Log into private registry and force re-authorization
+      docker_login:
+        registry: ghcr.io
+        username: Exophyray
+        password: "{{ lookup('env', 'GHCR_PAT') }}"
+        reauthorize: yes
+    
+    - name: Pull backend image
+      ansible.builtin.shell: docker pull ghcr.io/iamprogrammist/bookstu/backend:latest
+      become: yes
+
+    - name: Pull frontend image
+      ansible.builtin.shell: docker pull ghcr.io/iamprogrammist/bookstu/frontend:latest
+      become: yes
+
+    - name: Pull nginx image
+      ansible.builtin.shell: docker pull ghcr.io/iamprogrammist/bookstu/nginx:latest
+      become: yes
+
+    - name: start app
+      community.docker.docker_compose_v2:
+        project_src: "{{ ansible_env.HOME }}/application"
+        state: present
+        recreate: always
+\end{minted}
+
 \subsection{Автоматизация бекапов}
 У планировщика задач crontab на бекенде запускается задачка по автоматичексому бекапу
 по контейнеру бд при помощи при помощи команды pg\_dump. 
