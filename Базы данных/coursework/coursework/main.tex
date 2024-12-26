@@ -385,6 +385,33 @@ class AuthorFilter(filters.FilterSet):
         model = Author
         fields = []
 \end{minted}
+\subsubsection{Документация}
+Одним из инструментов, позволяющих вести автоматическую документацию для доступных
+методов сервера является Swagger. Он предоставляет удобный визуальный интерфейс
+для взаимодействия с сервером. 
+Воспользуемся библиотекой drf-yasg, она собирает доступные эндпоинты соззданные при 
+помощи Django Rest Framework и отображает при помощи Swagger UI, возволяющим открыть
+документацию в браузере.
+\begin{minted}{python3}
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="My API",
+        default_version='v1',
+        description="Test description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@myapi.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+\end{minted}
+\includegraphics[width=140mm]{swagger.jpg}
+
 \subsubsection{Собираем всё вместе}
 Теперь, кажется, всё готово для объявления API. Сделать это можно следующим образом:
 \begin{minted}{python3}
@@ -916,6 +943,64 @@ jobs:
 
 В дальнейшем можно будет восстановить
 базу данных при помощи pg\_restore.
+
+\subsection{Автоматизация сборки ошибок}
+Наиболее распространённым инструментом сборки ошибок является Sentry DSN. 
+Он позволяет собирать ошибки при выполнении приложений, что позволит в будущем 
+проанализировать их и исправить баги. Sentry в приложении собирает данные об ошибках и затем
+отправляет отчёт на сервер Sentry DSN. Однако Sentry на текущий момент недоступен, 
+альтернативной является GlitchTip. Сервис использует то же API, что и 
+Sentry, что позволяет использовать те же библиотеки для отправки данных
+из приложений, что и для традиционного сервиса Sentry DSN. Подключим библиотеки
+на фронтенде:
+\begin{minted}{js}
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux';
+import { App } from "./App"
+import {store} from './redux/store';
+import * as Sentry from "@sentry/browser";
+import { SENTRY_DSN } from "envconsts";
+
+Sentry.init({ dsn: SENTRY_DSN });
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+\end{minted}
+
+И на бекенде:
+\begin{minted}{python3}
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+ 
+sentry_sdk.init(
+    dsn="https://e293f045a5cf46e4a05faa1558ea8db2@app.glitchtip.com/9663",
+    integrations=[DjangoIntegration()],
+    auto_session_tracking=False,
+    traces_sample_rate=0
+)
+\end{minted}
+
+Примеры отчётов:\\
+\includegraphics[width=140mm]{error_front.png}\\
+Данный баг на фронтенде был вызван намеренно обращением к несуществуещему полю.\\
+\includegraphics[width=140mm]{error_back.png}\\
+Данный баг на бекенде вызван тем, что если пользователь был создан не через 
+метод signup, у него нет сущности Profile. Был принят риск, так как в обычных условиях
+пользователь проходит обязательный флоу регистрации через эндпоинт signup, который
+и создаёт Profile.\\
 
 \section{Работа приложения}
 
