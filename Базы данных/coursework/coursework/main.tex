@@ -1,0 +1,1119 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize, tabsize=4}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize, tabsize=4}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=3cm,right=1.5cm,
+top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{capt-of}
+\usepackage{caption} %заголовки плавающих объектов
+\usepackage{tocloft}
+
+\renewcommand{\baselinestretch}{1.3}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\titleformat*{\section}{\centering\bfseries}
+\titleformat*{\subsection}{\centering\bfseries}
+\newcommand{\anonsection}[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Add dots between section titles and page numbers
+\renewcommand{\cftsecpagefont}{\normalfont} % Set the font for section page numbers
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\newbox\namebox
+\newdimen\signboxdim
+
+\def\signature#1{%
+    \setbox\namebox=\hbox{#1}
+    \signboxdim=\dimexpr(\wd\namebox+1cm)
+    \parbox[t]{\signboxdim}{%
+        \centering
+%           \mbox{}\leaders\hbox to .4em{\hss.\hss}\hskip\nameboxdim\mbox{}\\   % for dots
+            \hrulefill\\    % for a line
+            #1
+        \par}%
+    }
+\pretolerance10000
+
+\begin{document}
+\linespread{1.3}
+	\setlength{\parskip}{0cm}
+\justifying
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            КУРСОВОЙ ПРОЕКТ}}\\
+    \normalsize{
+        по дисциплине: Базы данных \\
+        тема: «Библиотека»}
+\end{center}
+\vfill
+\begin{center}
+    Автор работы \signature{\small{(подпись)}} Пахомов Владислав Андреевич ПВ-223\bigbreak
+    Автор работы \signature{\small{(подпись)}} Романов Максим Николаевич ПВ-223\bigbreak
+    Автор работы \signature{\small{(подпись)}} Тухтаров Александр Романович ПВ-223\bigbreak
+    Руководитель проекта \signature{\small{(подпись)}} Панченко Максим Владимирович
+\end{center}
+\vfill
+\begin{center}
+    Оценка \signature{}
+\end{center}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+
+\renewcommand{\contentsname}{Оглавление}
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+\anonsection{Название, цель, постановка задачи}
+
+\textbf{Название: }Библиотека\bigbreak
+\textbf{Цель: }Разработка приложения для учёта и хранения базы данных библиотеки, 
+поддерживающего распределение по ролям, выгрузку отчётов в файл, автоматическое
+создание бекапов.\bigbreak
+\textbf{Задачи}
+\begin{itemize}
+    \item Анализ предметной области
+    \item Разработать базу данных
+    \begin{itemize}
+      \item Разработать модель сущность-связь
+    \end{itemize}
+    \item Разработать приложение
+    \begin{itemize}
+      \item Выбрать стек технологий
+      \item Разработать API, позволяющее взаимодействовать с базой данных
+      \item Разработать пользовательский интерфейс для взаимодействия с API
+    \end{itemize}
+    \item Настройка автоматических процессов
+    \begin{itemize}
+      \item Разработка процессов автоматической доставки актуальной версии приложения пользователю
+      \item Разработка автоматических бекапов
+    \end{itemize}
+\end{itemize}
+
+\section{Анализ предметной области}
+
+\subsection{Объекты и связи между ними}
+Библиотека содержит \textbf{книги}, у книг есть 
+их описание, название, авторы, жанры, издательский дом. Однако
+в библиотекке может быть множество книг с одинаковым описанием, 
+поэтому можно выделить также сущность \textbf{описание книги}, 
+которое в свою очередь будет содержать авторов, жанры, издательский дом, 
+описание, ISBN, изображение. А у книги можем оставить только её
+инвентарный номер и состояние. \textbf{Издательский дом}, \textbf{жанр} - 
+словари, которые содержат только название и описание. \textbf{Автор} тоже
+своего рода словарь, однако он также содержит фамилию, отчество и изображение.
+У книги должна быть \textbf{запись в журнале}, чтобы вести учёт передачи книги. 
+Она может содержать дату выдачи, ожидаемую дату возврата и настоящую дату возврата.
+Нам нужно знать, кому выдали книгу, поэтому у записи в журнале должна быть связь с
+\textbf{пользователем} - читателем библиотеки. Пользователь должен содержать ФИО, 
+номер телефона, почту и паспортные данные. Объект \textbf{изображение} также можем 
+выделить.
+
+\subsection{Роли}
+\textbf{Обычный пользователь} неаутентифицированный пользователь. 
+Может просматривать книги, описания книги, издательский 
+дом, жанр, авторов, изображения.\\
+\textbf{Читатель} может всё, что умеет обычный пользователь а также может 
+просматривать только свои записи в журнале, только информацию о себе, 
+создавать изображения. \\
+\textbf{Библиотекарь} умеет делать всё то же, что и читатель, но ещё дополнительно может
+создавать, изменять, удалять просматривать все записи в журнале; создавать, изменять, удалять книги; 
+просматривать всех пользователей; создавать, изменять, удалять описание книги. \\
+\textbf{Администратор} умеет делать всё то же, что и библиотекарь, но ещё и может создавать, 
+изменять, удалять авторов, жанры, издательства.\\
+\textbf{Суперпользователь} умеет абсолютно всё, не имеет ограничений.\\
+
+\subsection{Дополнительная логика}
+Необходимо уметь поддерживать корректное состояние журнала, дата выдачи не должна противоречить
+датам возврата и выдачи прошлым записям; дата возврата также не должна противоречить датам 
+получения следующих объектов. Дата возврата должна быть больше даты выдачи.
+
+\section{Разработка базы данных}
+В качестве базы данных была выбрана база данных PostgreSQL. 
+\subsection{Модель сущность-связь}
+\includegraphics[width=140mm]{er.png}
+
+\section{Разработать приложение}
+Для манипуляции базы данных было принято использовать клиент-серверное приложение.
+
+\subsection{Сервер}
+В качестве фреймворка был использован Django. 
+\subsubsection{Интерфейс}
+Для взаимодействия с
+приложениями используется API (класс ModelViewSet). Плюс этого подхода заключается
+в том, что для приложения можно будет в дальнейшем использовать множество 
+пользовательских интерфейсов, например можно будет иметь сайт, мобильное приложение, 
+телеграм бот, которые будут взаимодействовать через один API. 
+В качестве протокола был использован REST с базовыми операциями CRUD, которые предоставляются
+ModelViewSet. Плюсом этого протокола является широкая поддержка, документация и большое количество
+примеров. Можно было бы использовать, например, gRPC. Он бы позволил установить 
+строгую типизацию ответов и запросов и высокую производительность, однако протокол всё ещё слабо
+поддерживается и библиотек для Django нет. 
+\subsubsection{Авторизация и аутентификация}
+При регистрации пользователя будем принимать и валидировать его данные при помощи формы, если данные корректны - 
+будем создавать нативного пользователя Django и привязывать к нему профиль. Важно также отметить, что 
+новому пользователю по умолчанию добавляется группа reader, которая представляет роль читатель. При
+логине проверим, что логин пользователя (его почта или телефон) существуют и пароль подходит. Если они подходят, 
+значит аутентифицируем пользователя.
+\begin{minted}{python3}
+@require_http_methods(["POST"])
+def user_signup(request):
+    form = SignUpForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse(json.loads(form.errors.as_json()), status=400)
+
+    email = form.cleaned_data.get('email')
+    raw_password = form.cleaned_data.get('password1')
+
+    user = User.objects.create_user(username=email,
+                                    password=raw_password)
+
+    authenticate(username=email, password=raw_password)
+    login(request, user)
+
+    user_profile = Profile(
+        user=user,
+        phone_number=form.cleaned_data.get('phone_number'),
+        surname=form.cleaned_data.get('surname'),
+        name=form.cleaned_data.get('name'),
+        patronymics=form.cleaned_data.get('patronymics'),
+        passport_data=form.cleaned_data.get('passport_data')
+    )
+    user_profile.save()
+
+    # Дефолтная группа читателя, нужна чтобы вручную не проставлять всем юзерам права вручную
+    reader, created = Group.objects.get_or_create(name='reader')
+    reader.user_set.add(user)
+
+    return JsonResponse({}, status=200)
+
+
+@require_http_methods(["POST"])
+def user_login(request):
+    form = LoginForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse(json.loads(form.errors.as_json()), status=400)
+
+    raw_login = form.cleaned_data.get('login')
+    raw_password = form.cleaned_data.get('password')
+
+    single_profile = Profile.objects.filter(phone_number=raw_login).first()
+
+    if not single_profile:
+        single_user = User.objects.filter(username=raw_login).first()
+
+        if not single_user:
+            return JsonResponse({"message": "User doesn't exists"}, status=400)
+
+        raw_email = single_user.username
+    else:
+        raw_email = single_profile.user.username
+
+    user = authenticate(request=request, username=raw_email, password=raw_password)
+
+    if user:
+        login(request, user)
+        return JsonResponse({}, status=200)
+
+    return JsonResponse({"message": "User doesn't exists"}, status=400) 
+
+\end{minted}
+ 
+В Django по умолчанию для авторизации пользователя используются сессии (SessionAuthentication). Сессия задаётся при помощи 
+Cookie session, при помощи которого в дальнейшем пользователь и аутентифицируется в запросах. Также для опасных 
+действий в Django предусмотрен ещё один механизм - CSRF-токены. Дело в том, что украсть Cookie сессии довольно легко, 
+злоумышленник сможет выполнять от имени пользователя опасные действия, связанные с изменением базы данных. 
+Для этого был придуман CSRF токен, при каждом опасном действии он должен прикрепляться к запросу в форме
+и в заголовке запроса. При отправке опасного запроса CSRF-токена просрачивается, и пользователю нужно будет
+запросить новый токен. Добавим эндпоинт для генерации CSRF.
+\begin{minted}{python3}
+def csrf_ensure(request):
+  token = get_token(request)
+  return JsonResponse({"csrf": token}, status=200)
+\end{minted}
+
+\subsubsection{Модель}
+Django содержит довольно мощную ORM, задать модель можно при помощи Model, там же 
+и укажем валидаторы для полей:
+\begin{minted}{python3}
+from django.db import models
+from django_backend.models import FileModel
+from django_backend.validators.author import (
+    validate_name,
+    validate_surname,
+    validate_patronymics,
+)
+
+
+class Author(models.Model):
+    id = models.AutoField(primary_key=True)
+    surname = models.TextField(blank=False, null=False, validators=[validate_surname])
+    name = models.TextField(blank=False, null=False, validators=[validate_name])
+    patronymics = models.TextField(blank=True, null=False, validators=[validate_patronymics])
+    description = models.TextField(blank=False, null=False)
+    icon = models.ForeignKey(FileModel, null=True, on_delete=models.SET_NULL)
+\end{minted}
+
+\subsubsection{Сериализация}
+Для сериализации и десериализации объекта используется ModelSerializer. 
+Он указывает, какие поля модели используются для сериализации и десериализации:
+\begin{minted}{python3}
+from rest_framework import serializers
+from django_backend.models import Author
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('name', 'surname', 'patronymics', 'description', 'icon', 'id')
+
+\end{minted}
+
+\subsubsection{Проверка прав}
+Для проверки прав используется BasePermission. В нём можно задать права для индивидуального
+объекта и для вызываемого метода:
+\begin{minted}{python3}
+from rest_framework.permissions import BasePermission
+
+class AuthorPermission(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user.is_superuser or
+            request.method == "GET" or
+            request.method == "POST" and request.user.has_perm("django_backend.add_author") or
+            request.method in ["PUT", "PATCH"] and request.user.has_perm("django_backend.change_author") or
+            request.method == "DELETE" and request.user.has_perm("django_backend.delete_author")
+        )
+
+\end{minted}
+
+\subsubsection{Фильтрация, пагинация, упорядочивание}
+Фильтрация, пагинация и упорядочивание очень важны для производительности проекта. Дело в том, что
+запрашивать абсолютно все ресурсы - очень ресурсоёмкая операция. Поэтому для оптимизации используется 
+фильтрация, пагинация и упорядочивание. Пагинация выдаёт ограниченное небольшое число ресурсов. А для 
+удобной навигации по небольшому окну выбранных ресурсов будем использовать фильтры и упорядочивание.  
+
+Пользователю чаще всего будет удобней искать по строке, а не по отдельным атрибутам модели. Поэтому
+в фильтрах будем добавлять ещё один параметр q, который и будет содержать поиск по строке по нескольким
+атрибутам.
+
+Упорядочивание задаётся в ModelViewSet.
+
+Ранее было обозначено, что для API был использован класс ModelViewSet. Этот класс содержится в
+пакете Django Rest Framework, он в свою очередь содержит готовый инструментарий для указанного функционала.\\
+Пагинация:\\
+\begin{minted}{python3}
+from rest_framework import pagination
+
+
+class CustomPagination(pagination.PageNumberPagination):
+    page_size = 2
+    page_size_query_param = "size"
+    max_page_size = 50
+    page_query_param = "page"
+\end{minted}
+Фильтрация (пример):\\
+\begin{minted}{python3}
+from rest_framework import generics
+from django_filters import rest_framework as filters
+from django_backend.models import Author
+from django_backend.filters.base import NumberInFilter
+from django.db.models import Q
+
+
+class AuthorFilter(filters.FilterSet):
+    id = NumberInFilter(field_name="id", lookup_expr="in")
+    q = filters.CharFilter(method='q_author_custom_filter')
+
+    def q_author_custom_filter(self, queryset, name, value):
+        return queryset.filter(
+            Q(surname__icontains=value) |
+            Q(name__icontains=value) |
+            Q(patronymics__icontains=value)
+        )
+
+    class Meta:
+        model = Author
+        fields = []
+\end{minted}
+\subsubsection{Документация}
+Одним из инструментов, позволяющих вести автоматическую документацию для доступных
+методов сервера является Swagger. Он предоставляет удобный визуальный интерфейс
+для взаимодействия с сервером. 
+Воспользуемся библиотекой drf-yasg, она собирает доступные эндпоинты соззданные при 
+помощи Django Rest Framework и отображает при помощи Swagger UI, возволяющим открыть
+документацию в браузере.
+\begin{minted}{python3}
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="My API",
+        default_version='v1',
+        description="Test description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@myapi.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+\end{minted}
+\includegraphics[width=140mm]{swagger.jpg}
+
+\subsubsection{Собираем всё вместе}
+Теперь, кажется, всё готово для объявления API. Сделать это можно следующим образом:
+\begin{minted}{python3}
+from django_backend.models import Author
+from django_backend.serializers import AuthorSerializer, AuthorShortSerializer
+from rest_framework import viewsets
+from django_backend.pagintaion import CustomPagination
+from django_filters import rest_framework as filters
+from django_backend.filters import AuthorFilter
+from rest_framework.filters import OrderingFilter
+from django_backend.permissions import AuthorPermission
+
+
+class AuthorModelViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    pagination_class = CustomPagination
+    filterset_class = AuthorFilter
+    filter_backends = (filters.DjangoFilterBackend, OrderingFilter,)
+    permission_classes = (AuthorPermission,)
+    ordering_fields = ('id', 'surname')
+\end{minted}
+Здесь задаются все раннее объявленные объекты, откуда выбираются данные (queryset). После чего
+можно подключить API к бекенду
+\begin{minted}{python3}
+from django.contrib import admin
+from django.urls import path
+from django.urls import re_path as url, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.static import serve
+from django.conf.urls.static import static
+from django_backend.views.user import urlpatterns as user_urlpatterns
+from django_backend.views.file import urlpatterns as file_urlpatterns
+from rest_framework.routers import DefaultRouter, SimpleRouter
+router = DefaultRouter()
+
+...
+
+from django_backend.views.author import AuthorModelViewSet
+
+...
+
+router.register(r"authors", AuthorModelViewSet, 'authors')
+
+...
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    *user_urlpatterns,
+    *file_urlpatterns,
+    path('api/', include(router.urls))
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+\end{minted}
+
+\subsection{Пользовательский интерфейс}
+В качестве пользовательского интерфейса было принято решение использовать Single 
+Page Application. Плюс этого подхода в том, что такой сайт получается и работает 
+быстрее, чем при Server Side Rendering, кроме того нагрузка на сервер сильно снизится. 
+Однако такой сайт не получится индексировать поисковыми движками. Нам это вряд-ли понадобится, 
+это приложения для локальной библиотеки, а не глобальной.
+
+Для поддержки типизации используется TypeScript. 
+Для отображения используется React и MUI Material с 
+большим количеством готовых компонентов. 
+Для взаимодействия с API и кеширования ответов с сервера
+используется RTK Query.
+
+\subsubsection{Взаимодействие с API}
+Объявим типы запросов, ответов при помощи TypeScript:
+\begin{minted}{js}
+import { PageableListQuery, PageableListResponse, SearcheableListQuery, SortableListQuery } from "./base"
+import { CSRFMiddlewareTokenQueryFormMixin } from "./csrf"
+import { FileObj } from "./file"
+
+// Базовые модели
+export interface AuthorShort {
+    id: number | string
+    name: string
+    surname: string
+    patronymics: string
+    icon: FileObj["id"]
+}
+
+export interface Author extends AuthorShort {
+    description: string
+}
+
+// Запросы
+export interface AuthorListQuery extends PageableListQuery, SortableListQuery, SearcheableListQuery {
+    id?: Author["id"][]
+    short?: boolean
+}
+
+export interface AuthorQuery {
+    id: Author["id"]
+    short?: boolean
+}
+
+export interface AuthorCreateQuery extends Exclude<Author, "id">, CSRFMiddlewareTokenQueryFormMixin { }
+
+export interface AuthorUpdateQuery extends Author, CSRFMiddlewareTokenQueryFormMixin { }
+
+export interface AuthorDeleteQuery extends CSRFMiddlewareTokenQueryFormMixin {
+    id: AuthorShort["id"]
+}
+
+// Ответы
+export interface AuthorListResponse extends PageableListResponse<AuthorShort | Author> { }
+
+export type AuthorResponse = AuthorShort | Author;
+
+export interface AuthorCreateResponse extends Author { }
+
+export interface AuthorUpdateResponse extends Author { }
+
+export type AuthorDeleteResponse = {}
+\end{minted}
+
+И API взаимодействия с ресурсом:
+
+\begin{minted}{js}
+import { BaseApiBuilder } from "../api/baseApi";
+import { shortBase } from "../types/base";
+import { constructFormData, withQueryParams } from "./utils";
+import { QUERY_TAGS } from "../types/tags";
+import {
+    AuthorCreateQuery,
+    AuthorCreateResponse,
+    AuthorDeleteQuery,
+    AuthorDeleteResponse,
+    AuthorListQuery,
+    AuthorListResponse,
+    AuthorQuery,
+    AuthorResponse,
+    AuthorUpdateQuery,
+    AuthorUpdateResponse
+} from "../types/author";
+
+export const authorsBase = "authors";
+export const authorsShortBase = shortBase + authorsBase;
+
+export const endpoints = (builder: BaseApiBuilder) => ({
+    getAuthorList: builder.query<AuthorListResponse, AuthorListQuery>({
+        query: ({ short = true, ...data }) => withQueryParams(`/${short ? authorsShortBase : authorsBase }/`, data),
+        providesTags: (result, error) => error ? [] : [
+            QUERY_TAGS.Author,
+            ...(result.results.map((item) => ({ type: QUERY_TAGS.Author, id: item.id })))
+        ]
+    }),
+    getAuthor: builder.query<AuthorResponse, AuthorQuery>({
+        query: ({ short = true, id }) => withQueryParams(`/${short ? authorsShortBase : authorsBase}/${id}/`, {}),
+        providesTags: (result, error) => error ? [] : [
+            { type: QUERY_TAGS.Author, id: result.id }
+        ]
+    }),
+    createAuthor: builder.mutation<AuthorCreateResponse, AuthorCreateQuery>({
+        query: ({ ...data }) => ({
+            url: withQueryParams(`/${authorsBase}/`, {}),
+            method: "POST",
+            body: constructFormData(data)
+        }),
+        invalidatesTags: (result, error) => error ? [] : [
+            QUERY_TAGS.Author,
+            { type: QUERY_TAGS.Author, id: result.id }
+        ]
+    }),
+    updateAuthor: builder.mutation<AuthorUpdateResponse, AuthorUpdateQuery>({
+        query: ({ id, ...data }) => ({
+            url: withQueryParams(`/${authorsBase}/${id}/`, {}),
+            method: "PUT",
+            body: constructFormData(data)
+        }),
+        invalidatesTags: (_result, _error, arg) => [
+            { type: QUERY_TAGS.Author, id: arg.id }
+        ]
+    }),
+    deleteAuthor: builder.mutation<AuthorDeleteResponse, AuthorDeleteQuery>({
+        query: ({ id }) => ({
+            url: withQueryParams(`/${authorsBase}/${id}/`, {}),
+            method: "DELETE"
+        }),
+        invalidatesTags: (_result, error, arg) => error ? [] : [
+            QUERY_TAGS.Author,
+            { type: QUERY_TAGS.Author, id: arg.id }
+        ]
+    })
+})
+\end{minted}
+
+RTK Query понимает, когда ему нужно выполнить перезапрос на ресурс при помощи тегов. 
+Так при получении авторов мы указываем индивидуальные теги авторов и общий тег авторов.
+Теперь, например, при обновлении автора, в котором указан конкретный тег пользователя, 
+будет обновлён запрос на авторов, который включал обновлённого пользователя. В этом ещё один
+плюс пагинации, нам не придётся запрашивать всех пользователей сразу.
+
+\subsubsection{Дополнительный функционал}
+Если ошибка содержит сообщение, было бы удобно отображать его при помощи снекбара. 
+Если мы используем формы, было бы удобно подсветить некорректные поля. Для 
+использования форм используем библиотеку React Hook Form. Напишем для этого хук:
+\begin{minted}{js}
+import { enqueueSnackbar, useSnackbar } from "notistack";
+import { useEffect, useRef } from "react";
+import { FieldError, ServerError, ShowErrorProps } from "./types";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
+export function useShowError({
+    isError,
+    error,
+    formMethods,
+    resourceMapping = {},
+    onNotFound = () => { },
+    onResourceForbidden = () => { }
+}: ShowErrorProps) {
+    const { enqueueSnackbar } = useSnackbar();
+
+    useEffect(() => {
+        if (!isError) return;
+        if (!(error as FetchBaseQueryError)?.status) return;
+        const fetchError = error as FetchBaseQueryError;
+
+        const serverError = fetchError?.data as ServerError;
+        let messageShown = false;
+
+        if (serverError?.message) {
+            enqueueSnackbar({
+                message: serverError?.message,
+                variant: "error"
+            });
+            messageShown = true;
+        }
+
+        if (formMethods) {
+            for (const [resourceKey, resourceValues] of Object.entries(serverError)) {
+                if (Array.isArray(resourceValues)) {
+                    if (!resourceMapping[resourceKey]) {
+                        formMethods.setError(resourceKey, { type: "validate", message: typeof resourceValues[0] === 'string' ? resourceValues[0] : (resourceValues[0] as FieldError).message })
+                    } else {
+                        formMethods.setError(resourceMapping[resourceKey], { type: "validate", message: typeof resourceValues[0] === 'string' ? resourceValues[0] : (resourceValues[0] as FieldError).message })
+                    }
+                }
+            }
+        } else if (!messageShown) {
+            enqueueSnackbar({
+                message: "Отправленные данные содержат ошибки",
+                variant: "error",
+            })
+        }
+
+    }, [isError]);
+}
+\end{minted}
+У нас есть поиск по строке, и было бы довольно ресурсозатратно, если бы мы отправляли 
+каждый раз, когда пользователь бы печатал символ. Для решения этой проблемы есть debounce:
+
+Для сохранения текущего состояния там где используется лист было бы 
+удобно кешировать параметры в параметрах запроса и в локальной памяти. 
+Также для этого используется свой хук:
+\begin{minted}{js}
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
+export const SP_ROOT = "page_state"
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+export function useSearchParamsFilter<T>(key, useParams = true) {
+    const [decodedParams, setDecodedParams] = useState<T>();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // При загрузке страницы
+    useLayoutEffect(() => {
+        const encoded = searchParams.get(SP_ROOT) || localStorage.getItem(key);
+        const decoded = JSON.parse(encoded || "{}");
+
+        // Обновить программные параметры поиска
+        setDecodedParams(decoded);
+        // Обновить параметры поиска страницы
+        !isEmpty(decoded) && useParams && setSearchParams({...searchParams, [SP_ROOT]: encoded}, {replace: true});
+    }, [useParams, key]);
+
+    // При обновлении расположения
+    useEffect(() => {
+        if (!useParams) return;
+        if (!searchParams.has(SP_ROOT)) return;
+        // Получаем объект из параметров запроса и декодируем его
+        const encoded = searchParams.get(SP_ROOT) || "{}";
+        const decoded = JSON.parse(encoded || "{}");
+
+        // Обновить программные параметры поиска
+        setDecodedParams(decoded)
+        // Обновляем в памяти браузера объект
+        localStorage.setItem(key, encoded);
+    }, [searchParams, useParams, key]);
+
+    // Перезаписать параметры поиска
+    const setParams = (setObject: T) => {
+        const encoded = JSON.stringify(setObject);
+        if (useParams)
+            setSearchParams({...searchParams, [SP_ROOT]: encoded}) 
+        else {
+            setDecodedParams(setObject);
+            localStorage.setItem(key, encoded);
+        }
+    }
+
+    // Обновить параметры поиска
+    const patchParams = (patchObject: Partial<T>) => {
+        let copy = {...decodedParams};
+        for (const key in patchObject) {
+            if (patchObject[key] === null && copy.hasOwnProperty(key)) delete copy[key];
+            else if (patchObject[key] !== null) copy[key] = patchObject[key];
+        }
+
+        setParams(copy);
+    }
+
+    return {params: decodedParams, setParams, patchParams}
+}
+\end{minted}
+
+\subsubsection{Страницы}
+Страница создания отрисовывает форму и отправляет её на бекенд, если необходимо, то запрашивает связанные
+ресурсы.\\
+\includegraphics[width=140mm]{create.png}\\
+
+Страница обновления запрашивает конкретный объект и также как и создание отображает форму.
+Страница листа отображает ресурсы с пагинацией, фильтрацией и сортировкой.\\
+\includegraphics[width=140mm]{list.png}\\
+
+Страница отображения конкретного ресурса отображает конкретный ресурс.\\
+\includegraphics[width=140mm]{view.png}\\
+
+Каждая из страниц может выполнять дополнительные запросы, так например страница конкретного жанра
+может запрашивать книги с текущим жанром. Гибкое API и роутинг с использованием выше описанного хука
+позволяет даже перейти на страницу с жанром.\\
+\includegraphics[width=140mm]{view2.png}\\
+
+\subsubsection{Экспорт отчётов}
+Страница журнала позволяет экспортировать отчёт без пагинации. Для этого приложение
+обращается по специальному запросу на бекенд, получает отчёт в нужном формате и загружает его.\\
+\includegraphics[width=140mm]{export.png}
+
+\section{Автоматизация}
+\subsection{Автоматизация процессов доставки}
+Стек используемых технологий: ansible, docker, docker-compose, github-workflow(CICD), 
+У проекта есть 2 сборки: локальная и удаленная. 
+
+Локальная собирается с помощью docker-compose.yaml используя образы, 
+которые получаются в результате написаных Dockerfiles. 
+Изначально, в шаблоне монорепозитория был нерабочий (неправильно собирал фронтенд) docker-compose, 
+что было исправлено. локальная сборка проекта теперь работает корректно.
+
+Удаленная сборка происходит иначе.
+Был настроен сервер. Описание пайплайна:
+тригеррится при пуше на ветку main
+логин в github container registry
+
+Далее билдятся и пушатся в ghcr образы бэкенда, фронтенда и nginx (postgresql не пушится, т. к. используется стандартный образ postgres:13-alpine)
+На этом заканчивается подготовительная часть (build)
+
+Далее начинается часть deploy
+github-runner подлючается по ssh к серверу
+Запускает ansible-playbook deploy-playbook.yaml
+Шаги плейбука:
+\begin{enumerate}
+  \item Проверка прав 
+  \item Рестарт докера 
+  \item Создание директории приложения
+  \item Копирование переменных среды
+  \item Копирует из шаблона docker-compose и проверяет его существование
+  \item Логин в ghcr.io и пулл всех образов
+  \item Запуск приложения с помощью docker-compose
+\end{enumerate}
+
+Основной пайплайн:
+\begin{minted}{yaml}
+name: Build and deploy
+run-name: ${{ github.actor }} is running build and deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Repository Name to Lowercase
+        id: set_repo_name
+        run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push backend
+        uses: int128/kaniko-action@v1
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO_NAME }}/backend
+          cache: true
+          cache-repository: ghcr.io/${{ env.REPO_NAME }}/backend/cache
+          context: django_backend
+
+      - name: Build and Push frontend
+        uses: int128/kaniko-action@v1
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO_NAME }}/frontend
+          cache: true
+          cache-repository: ghcr.io/${{ env.REPO_NAME }}/frontend/cache
+          context: react_frontend
+
+      - name: Build and Push nginx
+        uses: int128/kaniko-action@v1
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO_NAME }}/nginx
+          cache: true
+          cache-repository: ghcr.io/${{ env.REPO_NAME }}/nginx/cache
+          context: nginx
+
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup SSH
+        shell: bash
+        run: |
+          eval `ssh-agent -s`
+          mkdir -p ~/.ssh/
+          touch ~/.ssh/id_rsa
+          echo -e "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh/id_rsa
+          ssh-keyscan -H 82.97.246.215 >> ~/.ssh/known_hosts
+      - name: Run Ansible Script
+        shell: bash
+        env:
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          ansible-playbook -i ansible/inventory.ini ansible/deploy-playbook.yaml
+\end{minted}
+
+Плейбук Ansible:
+\begin{minted}{yaml}
+- name: deploy
+  hosts: all
+  tasks:
+    - name: Ensure ansible user is in the docker group
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+      become: yes
+
+    - name: Restart Docker
+      ansible.builtin.service:
+        name: docker
+        state: restarted
+      become: yes
+
+    - name: create app dir
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/application"
+        state: directory
+
+    - name: copy .env
+      ansible.builtin.template:
+        src: example.env.j2
+        dest: "{{ ansible_env.HOME }}/application/.env"
+
+    - name: copy docker-compose.yaml
+      ansible.builtin.template:
+        src: docker-compose.yaml.j2
+        dest: "{{ ansible_env.HOME }}/application/docker-compose.yaml"
+
+    - name: Check if docker-compose.yaml exists
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/application/docker-compose.yaml"
+      register: compose_file_status
+
+    - debug:
+        var: compose_file_status.stat.exists
+    
+    - name: Log into private registry and force re-authorization
+      docker_login:
+        registry: ghcr.io
+        username: Exophyray
+        password: "{{ lookup('env', 'GHCR_PAT') }}"
+        reauthorize: yes
+    
+    - name: Pull backend image
+      ansible.builtin.shell: docker pull ghcr.io/iamprogrammist/bookstu/backend:latest
+      become: yes
+
+    - name: Pull frontend image
+      ansible.builtin.shell: docker pull ghcr.io/iamprogrammist/bookstu/frontend:latest
+      become: yes
+
+    - name: Pull nginx image
+      ansible.builtin.shell: docker pull ghcr.io/iamprogrammist/bookstu/nginx:latest
+      become: yes
+
+    - name: start app
+      community.docker.docker_compose_v2:
+        project_src: "{{ ansible_env.HOME }}/application"
+        state: present
+        recreate: always
+\end{minted}
+
+Темплейт Ansible:
+\begin{minted}{yaml}
+version: "3.7"
+
+services:
+  backend:
+    image: ghcr.io/iamprogrammist/bookstu/backend:latest
+    volumes:
+      - django_static_volume:/usr/src/app/static
+      - django_media_volume:/usr/src/app/media
+      - django_volume:/usr/src/app
+    hostname: backend
+    expose:
+      - 8000
+    env_file:
+      - .env
+    command: ./entrypoint.sh
+    links:
+      - database
+    depends_on:
+      - database
+
+  database:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: 'always'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    depends_on:
+      - db_backup
+
+  db_backup:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./backups:/backups
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    entrypoint: ["sh", "-c", "while true; do PGPASSWORD='SuperDockerPassword5432!!!' ceci_aguilera_react_django_nginx_postgresql-database-1 pg_dump -U docker docker > '/backups/db_backup_$(date +%Y%m%d_%H%M%S).sql'; sleep 86400; done"]
+
+  db_migrate:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - django_volume:/usr/src/app
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    entrypoint: ["sh", "-c", "python3 manage.py migrate"]
+
+  frontend:
+    image: ghcr.io/iamprogrammist/bookstu/frontend:latest
+    volumes:
+      - react_static_volume:/nginx
+    hostname: frontend
+    expose:
+      - 3000
+    env_file:
+      - .env
+    command: cp -r /usr/src/app/build/ /nginx/
+    links:
+      - backend
+
+  nginx:
+    restart: always
+    image: ghcr.io/iamprogrammist/bookstu/nginx:latest
+    volumes:
+      - django_static_volume:/usr/src/app/django_files/static
+      - django_media_volume:/usr/src/app/media
+      - react_static_volume:/usr/src/app/react_files
+    ports:
+      - 80:80
+    links:
+      - frontend
+
+volumes:
+  postgres_data:
+  django_static_volume:
+  django_media_volume:
+  react_static_volume:
+  django_volume:
+\end{minted}
+
+\subsection{Автоматизация бекапов}
+У планировщика задач crontab на бекенде запускается задачка по автоматичексому бекапу
+по контейнеру бд при помощи при помощи команды pg\_dump. 
+
+\begin{minted}{console}
+0 2 * * * sudo docker exec -e PGPASSWORD='SuperDockerPassword5432!!!' ceci_aguilera_react_django_nginx_postgresql-database-1 pg_dump -U docker docker > "/path/to/backup/db_backup_$(date +\%Y\%m\%d_\%H\%M\%S).sql" 2>> /path/to/backup/backup_error.log
+\end{minted}
+
+В дальнейшем можно будет восстановить
+базу данных при помощи pg\_restore.
+
+\subsection{Автоматизация сборки ошибок}
+Наиболее распространённым инструментом сборки ошибок является Sentry DSN. 
+Он позволяет собирать ошибки при выполнении приложений, что позволит в будущем 
+проанализировать их и исправить баги. Sentry в приложении собирает данные об ошибках и затем
+отправляет отчёт на сервер Sentry DSN. Однако Sentry на текущий момент недоступен, 
+альтернативной является GlitchTip. Сервис использует то же API, что и 
+Sentry, что позволяет использовать те же библиотеки для отправки данных
+из приложений, что и для традиционного сервиса Sentry DSN. Подключим библиотеки
+на фронтенде:
+\begin{minted}{js}
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux';
+import { App } from "./App"
+import {store} from './redux/store';
+import * as Sentry from "@sentry/browser";
+import { SENTRY_DSN } from "envconsts";
+
+Sentry.init({ dsn: SENTRY_DSN });
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+\end{minted}
+
+И на бекенде:
+\begin{minted}{python3}
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+ 
+sentry_sdk.init(
+    dsn="https://e293f045a5cf46e4a05faa1558ea8db2@app.glitchtip.com/9663",
+    integrations=[DjangoIntegration()],
+    auto_session_tracking=False,
+    traces_sample_rate=0
+)
+\end{minted}
+
+Примеры отчётов:\\
+\includegraphics[width=140mm]{error_front.png}\\
+Данный баг на фронтенде был вызван намеренно обращением к несуществуещему полю.\\
+\includegraphics[width=140mm]{error_back.png}\\
+Данный баг на бекенде вызван тем, что если пользователь был создан не через 
+метод signup, у него нет сущности Profile. Был принят риск, так как в обычных условиях
+пользователь проходит обязательный флоу регистрации через эндпоинт signup, который
+и создаёт Profile.\\
+
+\section{Работа приложения}
+
+Протестировать портал можно на адресе http://82.97.246.215/
+
+Ссылка на репозиторий: https://github.com/IAmProgrammist/BookSTU
+
+\section{Вывод о проделанной работе}
+В ходе работы разработали клиент-серверное приложение библиотеки, позволяющее
+вести учёт передачи книг а также базу книг с оптимизированными методами передачи
+данных. Познакомились с принципами REST и способом организации API, 
+современными методами разработки SPA, работой с CI/CD для автоматической сборки
+и деплоя приложения из репозитория.
+\newpage
+
+\section{Список источников и литературы}
+\begin{enumerate}
+    \item Django Documentation [Электронный ресурс] \\Режим доступа: https://docs.djangoproject.com/en/5.1/
+    \item Django REST framework [Электронный ресурс] \\Режим доступа: https://www.django-rest-framework.org/
+    \item React [Электронный ресурс] \\Режим доступа: https://react.dev/
+    \item Redux Toolkit [Электронный ресурс] \\Режим доступа: https://redux-toolkit.js.org/rtk-query/overview
+    \item React Hook Form [Электронный ресурс] \\Режим доступа: https://react-hook-form.com/docs/useform
+\end{enumerate}
+
+\end{document}
