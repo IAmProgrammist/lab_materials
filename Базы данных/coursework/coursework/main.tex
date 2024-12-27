@@ -933,6 +933,97 @@ jobs:
         recreate: always
 \end{minted}
 
+Темплейт Ansible:
+\begin{minted}{yaml}
+version: "3.7"
+
+services:
+  backend:
+    image: ghcr.io/iamprogrammist/bookstu/backend:latest
+    volumes:
+      - django_static_volume:/usr/src/app/static
+      - django_media_volume:/usr/src/app/media
+      - django_volume:/usr/src/app
+    hostname: backend
+    expose:
+      - 8000
+    env_file:
+      - .env
+    command: ./entrypoint.sh
+    links:
+      - database
+    depends_on:
+      - database
+
+  database:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: 'always'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    depends_on:
+      - db_backup
+
+  db_backup:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./backups:/backups
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    entrypoint: ["sh", "-c", "while true; do PGPASSWORD='SuperDockerPassword5432!!!' ceci_aguilera_react_django_nginx_postgresql-database-1 pg_dump -U docker docker > '/backups/db_backup_$(date +%Y%m%d_%H%M%S).sql'; sleep 86400; done"]
+
+  db_migrate:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - django_volume:/usr/src/app
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    entrypoint: ["sh", "-c", "python3 manage.py migrate"]
+
+  frontend:
+    image: ghcr.io/iamprogrammist/bookstu/frontend:latest
+    volumes:
+      - react_static_volume:/nginx
+    hostname: frontend
+    expose:
+      - 3000
+    env_file:
+      - .env
+    command: cp -r /usr/src/app/build/ /nginx/
+    links:
+      - backend
+
+  nginx:
+    restart: always
+    image: ghcr.io/iamprogrammist/bookstu/nginx:latest
+    volumes:
+      - django_static_volume:/usr/src/app/django_files/static
+      - django_media_volume:/usr/src/app/media
+      - react_static_volume:/usr/src/app/react_files
+    ports:
+      - 80:80
+    links:
+      - frontend
+
+volumes:
+  postgres_data:
+  django_static_volume:
+  django_media_volume:
+  react_static_volume:
+  django_volume:
+\end{minted}
+
 \subsection{Автоматизация бекапов}
 У планировщика задач crontab на бекенде запускается задачка по автоматичексому бекапу
 по контейнеру бд при помощи при помощи команды pg\_dump. 
