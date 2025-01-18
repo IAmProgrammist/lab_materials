@@ -29,7 +29,7 @@ jobs:
         run: npm ci
       - name: Build Quartz
         working-directory: ./.quartz
-        run: (find ../ -maxdepth 1 -mindepth 1 -not -path "../.*" | head | xargs -I {} cp {} ./content -r) & npx quartz build
+        run: (find ../ -maxdepth 1 -mindepth 1 -not -path "../.*" | xargs -I {} cp -r {} ./content) & npx quartz build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
