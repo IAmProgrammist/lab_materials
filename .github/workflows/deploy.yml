@@ -32,7 +32,6 @@ jobs:
         working-directory: ./.quartz
         run: find ../ -maxdepth 1 -mindepth 1 -not -path "../.*" | head | xargs -I {} cp {} ./content -r
       - name: Upload artifact
-        working-directory: ./.quartz
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
