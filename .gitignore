@@ -298,14 +298,9 @@ TSWLatexianTemp*
 
 ~$*.docx
 
-# to exclude Obsidian workspace settings (including plugin and hotkey configurations)
-.obsidian/*
-
-# OR only to exclude workspace cache
-.obsidian/workspace/*
-
-# Exclude plugins
-.obsidian/plugins/*
+.obsidian/workspace.json
+.obsidian/graph.json
+.obsidian/appearance.json
 
 # Exclude consultant specific files "personal"
 05*-*Personal/
