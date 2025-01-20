@@ -67,7 +67,7 @@
       "date-modified-source-of-truth": "file system",
       "format": "YYYY-MM-DDTHH:mm:ss.sssZ",
       "convert-to-utc": true,
-      "update-on-file-contents-updated": "never"
+      "update-on-file-contents-updated": "after 30 seconds"
     },
     "yaml-title": {
       "enabled": false,
@@ -273,8 +273,8 @@
   "lintOnSave": true,
   "recordLintOnSaveLogs": false,
   "displayChanged": true,
-  "lintOnFileChange": false,
-  "displayLintOnFileChangeNotice": false,
+  "lintOnFileChange": true,
+  "displayLintOnFileChangeNotice": true,
   "settingsConvertedToConfigKeyValues": true,
   "foldersToIgnore": [],
   "filesToIgnore": [],
