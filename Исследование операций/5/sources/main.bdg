@@ -1,0 +1,1 @@
+{"data":[{"data":"Начало","type":"bd_element_terminator"},{"data":"Подготовить входные данные","type":"bd_element_process"},{"data":"Вывод ответа","type":"bd_element_preprocess"},{"data":"Конец","type":"bd_element_terminator"}],"type":"bd_element_container"}

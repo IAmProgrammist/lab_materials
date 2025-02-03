@@ -1,0 +1,86 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report5.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgMSQSHGNT}
+\begin{lrbox}{\bdgMSQSHGNT}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontMSQSHGNTDCMPOJ[Scale=0.743454, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorMSQSHGNTSRRCJKE}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorMSQSHGNTMDDGBGS}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorMSQSHGNTLPAPSII}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.279601 cm, fill=colorMSQSHGNTSRRCJKE, draw=none] (-0.005245,0.005245) -- (9.000000,0.005245) -- (9.000000,-0.553957) -- (-0.005245,-0.553957) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.279601 cm, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (-0.005245,0.005245) -- (9.000000,0.005245) -- (9.000000,-0.553957) -- (-0.005245,-0.553957) -- cycle;
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(0.274357, -0.396592) {\verb|solveDualSimplexMethod(sourceSystem, sourceFunc, extr, EPS)|};
+\draw[opacity=1.000000, fill=colorMSQSHGNTSRRCJKE, draw=none] (2.383062, -1.978298) -- (4.497377, -3.035456) -- (6.611693, -1.978298) -- (4.497377, -0.921140) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (2.383062, -1.978298) -- (4.497377, -3.035456) -- (6.611693, -1.978298) -- (4.497377, -0.921140) --cycle;
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(3.075808, -2.088625) {\verb|Если экстремум - MIN|};
+\draw[opacity=1.000000, rounded corners=0.611695 cm, fill=colorMSQSHGNTSRRCJKE, draw=none] (2.050596,-3.402639) -- (6.944158,-3.402639) -- (6.944158,-4.626030) -- (2.050596,-4.626030) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.611695 cm, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (2.050596,-3.402639) -- (6.944158,-3.402639) -- (6.944158,-4.626030) -- (2.050596,-4.626030) -- cycle;
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(2.774987, -3.791414) {\verb|То получаем двойственную |};
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(2.930840, -4.129528) {\verb|задачу и решаем её той |};
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(3.715294, -4.468665) {\verb|же функцией|};
+\draw[opacity=1.000000, fill=none, line width=0.015736 cm, colorMSQSHGNTLPAPSII] (4.497377,-3.035456) -- (4.497377,-3.402639);
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(4.269783, -3.268941) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015736cm, colorMSQSHGNTLPAPSII] (6.611693, -1.978298) -- (7.206432, -1.978298) -- (7.206432, -3.402639);
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(7.129850, -1.873388) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015736cm, colorMSQSHGNTLPAPSII] (7.206432, -3.402639) -- (7.206432, -4.993213) -- (4.497377, -4.993213);
+\draw[opacity=1.000000, fill=none, line width=0.015736cm, colorMSQSHGNTLPAPSII] (4.497377, -4.626030) -- (4.497377, -4.993213) -- (4.497377, -4.993213);
+\draw[opacity=1.000000, fill=none, line width=0.015736 cm, colorMSQSHGNTLPAPSII] (4.497377,-0.553957) -- (4.497377,-0.921140);
+\draw[fill=colorMSQSHGNTSRRCJKE, draw=none, opacity=1.000000] (2.050494,-5.360397) -- (6.944261,-5.360397) -- (6.944261,-5.895011) -- (2.050494,-5.895011) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (2.050494,-5.360397) -- (6.944261,-5.360397) -- (6.944261,-5.895011) -- (2.050494,-5.895011) -- cycle;
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(2.207857, -5.737647) {\verb|Вводим дополнительные переменные|};
+\draw[opacity=1.000000, fill=none, line width=0.015736 cm, colorMSQSHGNTLPAPSII] (4.497377,-4.993213) -- (4.497377,-5.360397);
+\draw[fill=colorMSQSHGNTSRRCJKE, draw=none, opacity=1.000000] (2.038348,-6.262195) -- (6.956406,-6.262195) -- (6.956406,-6.794375) -- (2.038348,-6.794375) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (2.038348,-6.262195) -- (6.956406,-6.262195) -- (6.956406,-6.794375) -- (2.038348,-6.794375) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (2.118175,-6.262195) -- (6.876579,-6.262195) -- (6.876579,-6.794375) -- (2.118175,-6.794375) -- cycle;
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(2.275539, -6.637011) {\verb|Решаем обычным симплекс-методом|};
+\draw[opacity=1.000000, fill=none, line width=0.015736 cm, colorMSQSHGNTLPAPSII] (4.497377,-5.895011) -- (4.497377,-6.262195);
+\draw[opacity=1.000000, rounded corners=0.267691 cm, fill=colorMSQSHGNTSRRCJKE, draw=none] (2.225685,-7.161559) -- (6.769070,-7.161559) -- (6.769070,-7.696941) -- (2.225685,-7.696941) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.267691 cm, fill=none, line width=0.026227cm, colorMSQSHGNTLPAPSII] (2.225685,-7.161559) -- (6.769070,-7.161559) -- (6.769070,-7.696941) -- (2.225685,-7.696941) -- cycle;
+\verbatimfont{\normalsize\fontMSQSHGNTDCMPOJ}
+\node[opacity=1.000000, above right, colorMSQSHGNTLPAPSII] at(2.493375, -7.539577) {\verb|Возвращаем последнюю строчку|};
+\draw[opacity=1.000000, fill=none, line width=0.015736 cm, colorMSQSHGNTLPAPSII] (4.497377,-6.794375) -- (4.497377,-7.161559);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{9.000000cm}{!}{\usebox{\bdgMSQSHGNT}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

@@ -1,0 +1,2607 @@
+\documentclass[a4paper, 12pt, oneside]{article}
+
+\setlength{\parindent}{0}
+\setlength{\parskip}{0}
+
+\usepackage[english,russian]{babel}
+\usepackage{titlesec}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{standalone}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=3cm,right=1.5cm,
+    top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathletters]{ucs}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{titlesec}
+
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usepackage{booktabs}
+\usetikzlibrary{backgrounds}
+\usepackage{capt-of}
+\usepackage{caption} %заголовки плавающих объектов
+
+\captionsetup[figure]{name=Рисунок}
+
+\newcounter{labeltablecounter}
+\renewcommand{\thelabeltablecounter}{
+    \arabic{labeltablecounter}
+}
+
+\DeclareCaptionFormat{tablecaption}
+{
+    \begin{flushright}
+        \textit{#1}
+    \end{flushright}
+    \begin{center}
+        \textbf{#3}
+    \end{center}
+}
+
+\DeclareCaptionFormat{imagecaption}
+{%
+    #1#2#3
+}
+
+
+\captionsetup{format=custom}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+    \parbox{.45\textwidth}{#1}
+}
+
+\newcommand\makenewfig[3] {
+    \captionsetup{format=imagecaption}
+    \begin{center}
+        #1
+        \nopagebreak
+        \captionof{figure}{#2}
+        \nopagebreak
+        \label{#3}
+    \end{center}
+}
+
+\newcommand\labeltable[3] {
+    \captionsetup{format=tablecaption}
+    \begin{table}[H]
+        \caption{#2}
+        \begin{center}
+            #1
+        \end{center}
+        \label{#3}
+    \end{table}
+}
+
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+\newcommand{\anonsection}[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+
+\newcommand{\specialcell}[2][c]{%
+    \begin{tabular}[#1]{@{}c@{}}
+        #2
+    \end{tabular}}
+
+\begin{document}
+    \linespread{1.5}
+    \setlength{\parskip}{0cm}
+
+    \pagenumbering{gobble}
+
+    \justifying
+    \begin{center}
+        \small{
+            МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+            \bigbreak
+            ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+            \bigbreak
+            \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+            \bigbreak
+            Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+    \end{center}
+
+    \vfill
+    \begin{center}
+        \large{
+            \textbf{
+                Учебно-ознакомительная практика}}\\
+        \normalsize{
+            по дисциплине: Основы программирования
+        }
+    \end{center}
+    \vfill
+    \hfill\textbox{
+        Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+        \bigbreak
+        Проверили: Новожен Никита Викторович\\
+        Черников Сергей Викторович
+    }
+    \vfill\begin{center}
+              Белгород 2023 г.
+    \end{center}
+    \newpage
+    \renewcommand{\contentsname}{Оглавление}
+    \tableofcontents\newpage
+    \begin{center}
+        Вариант 10\\
+    \end{center}
+
+
+    \section{Линейные алгоритмы}
+
+    \subsection{Задание варианта}
+    Найти корни квадратного уравнения, заданного своими коэффициентами, с положительным дискриминантом; подстановкой в уравнение убедиться в погрешности вычислений.
+
+    \subsection{Обоснование}
+    Корни уравнения находим по формуле $x_1 = \frac{-b + \sqrt{D}}{2 \cdot a}$ и $x_2 = \frac{-b - \sqrt{D}}{2 \cdot a}$, где $D = b^2 - 4 \cdot a \cdot c$
+
+    \subsection{Спецификация}
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void solveSquareEquation(float a, float b, float c, float *x1, float *x2)|
+        \item Назначение: принимает коэффициенты уравнения вида \mintinline{C}|a| $\cdot x^2 + $\mintinline{C}|b|$ \cdot x + $\mintinline{C}|c|$ = 0$, сохраняет его корни в \mintinline{C}|x1|, \mintinline{C}|x2|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task1}}{Функция solveSquareEquation}{ris:task1}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+#include <math.h>
+
+void solveSquareEquation(float a, float b, float c, float *x1, float *x2) {
+    float sqrtD = sqrtf(b * b - 4 * a * c);
+    *x1 = (-b + sqrtD) / (2 * a);
+    *x2 = (-b - sqrtD) / (2 * a);
+}
+    \end{minted}
+    \bigbreak
+    \labeltable{
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+            \hline
+            a    & b            & c               & $x_1$  (факт.) & $x_2$  (факт.) & $|F(x_1)|$             & $|F(x_2)|$             \\
+            \hline
+            2    & -12          & 16              & 2.000000     & 4.000000     & 0                      & 0                      \\
+            \hline
+            2    & $-6\sqrt{2}$ & 16              & 1.414214     & 2.828427     &                        &                        \\
+            \hline
+            2    & 4            & -16             & 2.000000     & -4.000000    & 0                      & 0                      \\
+            \hline
+            1.5  & -6           & $-\frac{14}{3}$ & 4.666667     & -0.666667    & $2.666667\cdot10^{-6}$ & $2.666667\cdot10^{-6}$ \\
+            \hline
+            2    & 6            & 0               & -3.000000    & 0.000000     & 0                      & 0                      \\
+            \hline
+            3    & 1            & 0               & -0.333333    & 0.000000     & $3.333333\cdot10^{-7}$ & 0                      \\
+            \hline
+            2    & -6           & 0               & 3.000000     & 0.000000     & 0                      & 0                      \\
+            \hline
+            3    & -1           & 0               & 0.333333     & 0.000000     & $3.333333\cdot10^{-7}$ & 0                      \\
+            \hline
+            2    & 12           & 16              & -2.000000    & -4.000000    & 0                      & 0                      \\
+            \hline
+            2    & $6\sqrt{2}$  & 8               & -1.414214    & -2.828427    & $1.237795\cdot10^{-6}$ & $3.528354\cdot10^{-6}$ \\
+            \hline
+            -2   & -12          & -16             & -2.000000    & -4.000000    & 0                      & 0                      \\
+            \hline
+            -2   & $-6\sqrt{2}$ & -8              & 1.414214     & 2.828427     & $1.237795\cdot10^{-6}$ & $3.528354\cdot10^{-6}$ \\
+            \hline
+            -2   & 4            & 16              & -2.000000    & 4.000000     & 0                      & 0                      \\
+            \hline
+            -1.5 & -6           & $\frac{14}{3}$  & -4.666667    & 0.666667     & $2.666667\cdot10^{-6}$ & $2.666667\cdot10^{-6}$ \\
+            \hline
+            -2   & -6           & 0               & -3.000000    & 0.000000     & 0                      & 0                      \\
+            \hline
+            -3   & -1           & 0               & -0.333333    & 0.000000     & $3.333333\cdot10^{-7}$ & 0                      \\
+            \hline
+            -2   & 6            & 0               & 3.000000     & 0.000000     & 0                      & 0                      \\
+            \hline
+            -3   & 1            & 0               & 0.333333     & -0.000000    & $3.333333\cdot10^{-7}$ & 0                      \\
+            \hline
+            -2   & 12           & -16             & 2.000000     & 4.000000     & 0                      & 0                      \\
+            \hline
+            2    & $-6\sqrt{2}$ & 8               & 1.414214     & 2.828427     & $1.237795\cdot10^{-6}$ & $3.528354\cdot10^{-6}$ \\
+            \hline
+        \end{tabular}
+    }{Результаты выполнения функции}{tab:task1-res-table}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            a    & b            & c               & $x_1$           & $x_2$          \\
+            \hline
+            2    & -12          & 16              & 2               & 4              \\
+            \hline
+            2    & $-6\sqrt{2}$ & 16              & $\sqrt{2}$      & $2\sqrt{2}$    \\
+            \hline
+            2    & 4            & -16             & 2               & -4             \\
+            \hline
+            1.5  & -6           & $-\frac{14}{3}$ & $4\frac{2}{3}$  & $-\frac{2}{3}$ \\
+            \hline
+            2    & 6            & 0               & -3              & 0              \\
+            \hline
+            3    & 1            & 0               & $-\frac{1}{3}$  & 0              \\
+            \hline
+            2    & -6           & 0               & 3               & 0              \\
+            \hline
+            3    & -1           & 0               & $\frac{1}{3}$   & 0              \\
+            \hline
+            2    & 12           & 16              & -2              & -4             \\
+            \hline
+            2    & $6\sqrt{2}$  & 8               & $-\sqrt{2}$     & $-2\sqrt{2}$   \\
+            \hline
+            -2   & -12          & -16             & -2              & -4             \\
+            \hline
+            -2   & $-6\sqrt{2}$ & -8              & $\sqrt{2}$      & $2\sqrt{2}$    \\
+            \hline
+            -2   & 4            & 16              & -2              & 4              \\
+            \hline
+            -1.5 & -6           & $\frac{14}{3}$  & $-4\frac{2}{3}$ & $\frac{2}{3}$  \\
+            \hline
+            -2   & -6           & 0               & -3              & 0              \\
+            \hline
+            -3   & -1           & 0               & $-\frac{1}{3}$  & 0              \\
+            \hline
+            -2   & 6            & 0               & 3               & 0              \\
+            \hline
+            -3   & 1            & 0               & $\frac{1}{3}$   & 0              \\
+            \hline
+            -2   & 12           & -16             & 2               & 4              \\
+            \hline
+            2    & $-6\sqrt{2}$ & 8               & $\sqrt{2}$      & $2\sqrt{2}$    \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные solveSquareEquation}{tab:task1-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task1tests}}{Результат выполнения тестов функции solveSquareEquation}
+
+
+    \section{Разветвляющиеся алгоритмы}
+
+    \subsection{Задание варианта}
+    Можно ли на прямоугольном участке застройки размером a на b метров разместить два дома размером в планер q на p и r на s метров? Дома можно располагать только параллельно сторонам участка.
+
+    \subsection{Обоснование}
+    \textbf{Обоснование:}
+
+    Легче всего данную задачу представить в графическом формате. Возможно 8 способов расстановки домов:\\
+    \makenewfig{\includegraphics[width=80mm]{/task2}}{Все возможные перестановки домов}
+    Если одна из расстановок помещается в a на b - значит дома разместить можно, иначе - нет.
+
+    \subsection{Спецификация}
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static int max(int a, int b)|
+        \item Назначение: Возвращает максимальное из \mintinline{C}|a| и \mintinline{C}|b|
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void solveSquareEquation(float a, float b, float c, float *x1, float *x2)|
+        \item Назначение: принимает коэффициенты уравнения вида \mintinline{C}|a| $\cdot x^2 + $\mintinline{C}|b|$ \cdot x + $\mintinline{C}|c|$ = 0$, сохраняет его корни в \mintinline{C}|x1|, \mintinline{C}|x2|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task2_max}}{Функция max}{ris:task2_max}
+    \makenewfig{\input{dbg_texs/task2}}{Функция canPlaceTwoHousesInSquare}{ris:task2}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+#include <stdbool.h>
+
+static int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+bool canPlaceTwoHousesInSquare(int a, int b, int p, int q, int r, int s) {
+    return max(p, s) <= a && q + r <= b ||
+           max(p, r) <= a && q + s <= b ||
+           max(q, s) <= a && p + r <= b ||
+           max(q, r) <= a && p + s <= b ||
+           p + s <= a && max(q, r) <= b ||
+           p + r <= a && max(q, s) <= b ||
+           q + s <= a && max(p, r) <= b ||
+           q + r <= a && max(p, s) <= b;
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            a = 0, b = 0,
+            p = 2, q = 3,
+            r = 1, s = 5    & false               \\
+            \hline
+            a = 2, b = 5,
+            p = 2, q = 3,
+            r = 1, s = 5    & false               \\
+            \hline
+            a = 1, b = 500,
+            p = 2, q = 3,
+            r = 1, s = 5    & false               \\
+            \hline
+            a = 4, b = 6,
+            p = 4, q = 2,
+            r = 4, s = 4    & true                \\
+            \hline
+            a = 4, b = 8,
+            p = 2, q = 5,
+            r = 3, s = 3    & true                \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные canPlaceTwoHousesInSquare}{tab:task2-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task2tests}}{Результат выполнения тестов функции canPlaceTwoHousesInSquare}
+
+
+    \section{Циклические и итерационные алгоритмы}
+
+    \subsection{Задание варианта}
+    Известно время начала и окончания (например, 6:00 и 24:00) работы некоторого пригородного автобусного маршрута с одним автобусом на линии, а также протяжённость маршрута в минутах (в один конец) и время отдыха на конечных остановках. Составить суточное расписание этого маршрута (моменты отправления с конечных пунктов) без учета времени на обед и пересменку.
+
+    \subsection{Обоснование}
+    Будем определять время начала работы в минутах и общее время работы.
+    В цикле инициаилизирующее выражение - инициализируем счётчик *scheduleSize = 0,
+    на каждой итерации цикла будет его постепенно увеличивать.
+    В условии возобновлении цикла будем проверять, что время старта +
+    время работы (работник вряд-ли будет счастлив, если выедет ровно во время окончания
+    рабочего дня и будет работать дополнительно, например, 2 часа) не будет
+    превышать общее время работы.
+    Пока это условие выполняется, будем сохранять время выезда в массив.
+    Также в условии возобновления цикла проверим, что мы не превысим максимальное количество
+    записей в расписании, иначе можем получить ошибку во время выполнения программы.
+
+    \subsection{Спецификация}
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|getBusSchedule(Clock start, Clock end, int restTime, int travelTime, Clock *schedule,|\\
+        \mintinline{C}|int *scheduleSize, int maxScheduleSize)|
+        \item Назначение: сохраняет в массив \mintinline{C}|schedule| максимального размера\\ \mintinline{C}|maxScheduleSize| расписание автобуса при условии, что он начинает работу в
+        \mintinline{C}|start|, оканчивает в \mintinline{C}|end|, отдыхает на остановках \mintinline{C}|restTime| имеет длительность маршрута \mintinline{C}|travelTime|. Сохраняет количество записей в \mintinline{C}|scheduleSize|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task3}}{Функция getBusSchedule}{ris:task3}
+
+    \subsection{Код программы}
+    \begin{minted}{C++}
+#include <stddef.h>
+
+#include "Tasks.h"
+
+#define MINUTES_IN_HOURS 60
+
+// Содержит время - hours (часы) и minutes (минуты)
+typedef struct Clock {
+    int hours;
+    int minutes;
+} Clock;
+
+void getBusSchedule(Clock start, Clock end, int restTime, int travelTime, Clock *schedule, int *scheduleSize, int maxScheduleSize) {
+    // Определяем время начала работы и её окончания
+    int workTimeStart = start.hours * MINUTES_IN_HOURS + start.minutes;
+    int workTimeTotal = end.hours * MINUTES_IN_HOURS + end.minutes - workTimeStart;
+
+    for (*scheduleSize = 0; *scheduleSize < maxScheduleSize &&
+    *scheduleSize * (restTime + travelTime) + travelTime <= workTimeTotal;
+    (*scheduleSize)++) {
+        // Определяем время отправки в минутах
+        int dispatchTime = workTimeStart + (*scheduleSize) * (restTime + travelTime);
+        // И сохраняем это время в расписание
+        schedule[*scheduleSize] = (Clock) {dispatchTime / MINUTES_IN_HOURS,
+                                           dispatchTime % MINUTES_IN_HOURS};
+    }
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат  \\
+            \hline
+            \begin{tabular}{c}
+                begin = 12:00,
+                end = 12:00,     \\
+                restTime = 12,
+                travelTime = 12, \\
+                MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & schedule = \{\}      \\
+            \hline
+            \begin{tabular}{c}
+                begin = 12:00,
+                end = 10:00,     \\
+                restTime = 12,
+                travelTime = 12, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & schedule = \{\}      \\
+            \hline
+            \begin{tabular}{c}
+                begin = 12:00,
+                end = 12:11,     \\
+                restTime = 12,
+                travelTime = 12, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & schedule = \{\}      \\
+            \hline
+            \begin{tabular}{c}
+                begin = 12:00,
+                end = 12:12,     \\
+                restTime = 12,
+                travelTime = 12, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & schedule = \{12:00\} \\
+            \hline
+            \begin{tabular}{c}
+                begin = 10:00,
+                end = 12:12,     \\
+                restTime = 10,
+                travelTime = 15, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            &
+            \begin{tabular}{c}
+                schedule = \{10:00, 10:25, 10:50,\\ 11:15, 11:40\}
+            \end{tabular} \\
+            \hline
+            \begin{tabular}{c}
+                begin = 10:00,
+                end = 11:00,    \\
+                restTime = 10,
+                travelTime = 0, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & \begin{tabular}{c}
+                  schedule = \{10:00, 10:10, 10:20, \\10:30, 10:40, 10:50, 11:00\}
+            \end{tabular} \\
+            \hline
+            \begin{tabular}{c}
+                begin = 10:00,
+                end = 11:00,     \\
+                restTime = 0,
+                travelTime = 10, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & \begin{tabular}{c}
+                  schedule = \{10:00, 10:10, 10:20, \\10:30, 10:40, 10:50\}
+            \end{tabular} \\
+            \hline
+            \begin{tabular}{c}
+                begin = 10:00,
+                end = 11:00,    \\
+                restTime = 0,
+                travelTime = 0, \\MAX\_SCHEDULE\_SIZE = 1000
+            \end{tabular}
+            & \begin{tabular}{c}
+                  scheduleSize = 1000
+            \end{tabular} \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные getBusSchedule}{tab:task3-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task3tests}}{Результат выполнения тестов функции getBusSchedule}
+
+
+    \section{Простейшие операции над массивами}
+
+    \subsection{Задание варианта}
+    Найти среднее арифметическое элементов каждой строки матрицы $Q(l, m)$ и вычесть его из элементов этой строки.
+
+    \subsection{Обоснование}
+    Сначала вычислим среднее для каждой строчки матрицы, потом вычислим среднее строчки из каждого элемента строчки.
+
+    \subsection{Спецификация}
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void subtractMiddleOfLineFromEveryLine(double **matrix, int l, int m)|
+        \item Назначение: из каждого элемента строчки матрицы \mintinline{C}|matrix| размером \mintinline{C}|l|$\times$\mintinline{C}|m| вычитает среднее строчки.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task4}}{Функция subtractMiddleOfLineFromEveryLine}{ris:task4}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+#include "Tasks.h"
+
+void subtractMiddleOfLineFromEveryLine(double **matrix, int l, int m) {
+    for (int i = 0; i < l; i++) {
+        // Для каждой строчки высчитаем среднее.
+        // Сначала высчитаем сумму
+        double middle = 0;
+
+        for (int j = 0; j < m; j++)
+            middle += matrix[i][j];
+
+        // После этого можем поделить сумму на m - кол-во элементов - и получить среднее
+        middle /= m;
+
+        // Остаётся только вычесть её из каждого элемента в строке
+        for (int j = 0; j < m; j++)
+            matrix[i][j] -= middle;
+    }
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline Пустая матрица
+            & Пустая матрица \\
+            \hline
+            \begin{pmatrix}
+                5 & 1 & 4 & 2 & 3
+            \end{pmatrix} & \begin{pmatrix}
+                                2 & -2 & 1 & -1& 0
+            \end{pmatrix}
+            \\
+            \hline
+            \begin{pmatrix}
+                5 \\ 1 \\ 4 \\ 2 \\ 3
+            \end{pmatrix} & \begin{pmatrix}
+                                2 \\ -2 \\ 1 \\  -1\\ 0
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                5 & 1 & 4 & 2 & 3 \\
+                5 & 5 & 5 & 5 & 5 \\
+                3 & 1 & 1 & 1 & 3 \\
+                0 & 0 & 5 & 0 & 0 \\
+                5 & 4 & 3 & 4 & 5 \\
+            \end{pmatrix} & \begin{pmatrix}
+                                2   & -2   & 1    & -1   & 0   \\
+                                0   & 0    & 0    & 0    & 0   \\
+                                1.2 & -0.8 & -0.8 & -0.8 & 1.2 \\
+                                -1  & -1   & 4    & -1   & -1  \\
+                                0.8 & -0.2 & -1.2 & -0.2 & 0.8 \\
+            \end{pmatrix}
+            \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные subtractMiddleOfLineFromEveryLine}{tab:task4-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task4tests}}{Результат выполнения тестов функции subtractMiddleOfLineFromEveryLine}
+
+
+    \section{Векторы и матрицы}
+
+    \subsection{Задание варианта}
+    По кругу располагаются $n$ человек. Ведущий считает по кругу, начиная с первого, и выводит («казнит») $m$-го человека. Круг смыкается, счёт возобновляется со следующего после «казнённого»; так продолжается, пока «в живых» останется только один человек. Найти номер оставшегося «в живых» человека, а также для заданного найти такое $m > 1$, при котором «в живых» останется первый.
+
+    \subsection{Обоснование}
+    Логично предположить что в круге из одного человека при любом шаге он будет победителем.
+    Теперь рассмотрим задачу из двух людей.
+    Вычеркнем из этого круга человека в зависимости от m - мы получим оставшегося победителя.
+    Рассмотрим задачу с большим количество людей, например 5.
+    Будем проходиться по кругу с шагом m, вычеркнем из этого круга m человека.
+    У нас останется 4 человека, мы уже знаем решение этой задачи, поэтому на основе этих данных мы можем определить текущего победителя для n и m по формуле\\
+    $res[n][m] = (m + res[n - 1][m] - 1) \% n + 1$\\
+    на основе этой формулы можем составить матрицу, где элемент с индексом n и m содержит ответ на задачу.
+
+    \subsection{Спецификация}
+
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static JosephProblemMatrix createJosephProblemMatrix(int nn)|
+        \item Назначение: возвращает структуру, содержащую указатель на матрицу шириной и длиной \mintinline{C}|nn| и её длину.
+        Ячейка матрицы в i ряду и j столбце является ответом задача Иосифа Флавия, где (i + 1) - количество людей в круге,
+        (j + 1) - шаг с которым казнят людей в кругу.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void freeJosephProblemMatrix(JosephProblemMatrix matrix)|
+        \item Назначение: освобождает память выделенную на объект \mintinline{C}|matrix|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|int josephProblemFindSurvivor(int n, int m)|
+        \item Назначение: возвращает номер выжившего в задаче Иосифа Флавия в кругу из \mintinline{C}|n| человек с шагом \mintinline{C}|m|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|int josephProblemFindMForSurvivorOne(int n)|
+        \item Назначение: возвращает шаг при котором в задаче Иосифа Флавия в кругу из \mintinline{C}|n| людей выжившим является человек с 1 номером.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task5}}{Функция createJosephProblemMatrix}{ris:task5}\\
+    \makenewfig{\input{dbg_texs/task5_free}}{Функция freeJosephProblemMatrix}{ris:task5_free}\\
+    \makenewfig{\input{dbg_texs/task5_josephProblemFindSurvivor}}{Функция josephProblemFindSurvivor}{ris:task5_josephProblemFindSurvivor}\\
+    \makenewfig{\input{dbg_texs/task5_josephProblemFindMForSurvivorOne}}{Функция josephProblemFindMForSurvivorOne}{ris:task5_josephProblemFindMForSurvivorOne}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+#include <stddef.h>
+#include <stdlib.h>
+
+#include "Tasks.h"
+
+typedef struct JosephProblemMatrix {
+    int **matrix;
+    int n;
+} JosephProblemMatrix;
+
+static JosephProblemMatrix createJosephProblemMatrix(int nn) {
+    // Сформируем матрицу таким образом, что res[i][j] содержит номер "выжившего"
+    // При этом i - изначальное количество людей в круге, j - шаг с которым будут
+    // Казнить людей.
+
+    int **res = malloc(nn * sizeof(int *));
+
+    for (int i = 0; i < nn; i++)
+        res[i] = malloc(sizeof(int) * nn);
+
+    if (nn <= 0)
+        return (JosephProblemMatrix) {NULL, 0};
+
+    // Логично предположить что в круге из одного человека при любом шаге
+    // он будет победителем. Так и делаем, всю первую строку матрицы
+    // инициализируем единицей
+    for (int i = 0; i < nn; i++)
+        res[0][i] = 1;
+
+    for (int m = 1; m <= nn; m++)
+        // Теперь попробуем рассчитать победителя для конкретной ячейки
+        // Допустим, мы казним одного человека. В итоге в круге останется
+        // n - 1 человек. Шаг мы тоже знаем - m, значит нам остаётся только
+        // вычислить победителя на основе информации о номере человека выжившем при кол-ве
+        // людей меньше на 1 с тем же шагом.
+        for (int n = 1; n < nn; n++) {
+            res[n][m - 1] = (m + res[n - 1][m - 1] - 1) % (n + 1) + 1;
+        }
+
+    // Возвращаем матрицу
+    return (JosephProblemMatrix) {res, nn};
+}
+
+void freeJosephProblemMatrix(JosephProblemMatrix matrix) {
+    for (int i = 0; i < matrix.n; i++)
+        free(matrix.matrix[i]);
+
+    free(matrix.matrix);
+}
+
+int josephProblemFindSurvivor(int n, int m) {
+    // Получаем матрицу
+    JosephProblemMatrix matrix = createJosephProblemMatrix(n);
+
+    int res = -1;
+    if (matrix.matrix != NULL) {
+        int indexM = (m - 1) % n;
+        // Получаем результат для конкретной ячейки
+        res = matrix.matrix[n - 1][indexM];
+    }
+
+    // Удаляем матрицу
+    freeJosephProblemMatrix(matrix);
+
+    // Возвращаем рзультат
+    return res;
+}
+
+int josephProblemFindMForSurvivorOne(int n) {
+    int m = -1;
+
+    // Здесь просто переберём все возможные шаги
+    for (int i = 2; i <= n; i++)
+        if (josephProblemFindSurvivor(n, i) == 1)
+            m = i;
+
+    return m;
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            n = 5, m = 1    & 5                   \\
+            \hline
+            n = 5, m = 2    & 3                   \\
+            \hline
+            n = 5, m = 3    & 4                   \\
+            \hline
+            n = 5, m = 4    & 1                   \\
+            \hline
+            n = 5, m = 5    & 2                   \\
+            \hline
+            n = 5, m = 6    & 5                   \\
+            \hline
+            n = 5, m = 7    & 3                   \\
+            \hline
+            n = 5, m = 8    & 4                   \\
+            \hline
+            n = 5, m = 9    & 1                   \\
+            \hline
+            n = 5, m = 10   & 2                   \\
+            \hline
+            n = 0, m = 0    & -1                  \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные josephProblemFindSurvivor}{tab:task5-test1-table}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            n = 7           & -1                  \\
+            \hline
+            n = 0           & -1                  \\
+            \hline
+            n = 10          & 8                   \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные josephProblemFindMForSurvivorOne}{tab:task5-test2-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task5tests}}{Результат выполнения тестов функции josephProblemFindMForSurvivorOne и josephProblemFindSurvivor}
+
+
+    \section{Линейный поиск}
+
+    \subsection{Задание варианта}
+    Матрица $L(n, k)$ состоит из нулей и единиц. Найти в ней самую длинную цепочку подряд стоящих нулей по горизонтали, вертикали или диагонали.
+
+    \subsection{Обоснование}
+    Чтобы найти самую длинную последовательность, необходимо пройтись по всем линиям, столбцам и диагоналям матрицы и найти в ней самую длинную последовательность.
+    Для определения наибольшей длины последовательности создадим два счётчика - максимальная длина и текущая.
+    Дальше переберём элементы.
+    Если элемент - ноль, увеличим счётчик на 1, сравнивая с максимальной длиной.
+    Если она больше максимальной - присваиваем текущую длину.
+    Иначе если элемент 1 - сбрасываем счётчик.
+    С проходом по линиям и столбцам всё довольно легко.
+    Для прохода по всем диагоналям будем выполнять следующие действия.
+    Для каждого элемента крайнего левого столбца будем перебирать элементы диагонали начинающейся с текущей точки проходящей сверху слева - вправо вниз.
+    Для каждого элемента крайнего правого столбца будем перебирать элементы диагонали начинающейся с текущей точки проходящей сверху справа - влево вниз.
+    Для верхней границы будем перебирать все элементы двух видов диагонали, как слева вверх направо вниз, так и справа вверх налево вниз.
+
+    \subsection{Спецификация}
+
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void findLongestZeroSubsequence(bool *arr, int size, int *begin, int *end)|
+        \item Назначение: находит начало и конец наидлиннейшей подпоследовательности последовательности \mintinline{C}|arr|
+        размером \mintinline{C}|size| из нулей и сохраняет её начало в \mintinline{C}|begin| и конец в \mintinline{C}|end|
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void getLine(bool **matrix, int k, int lineIndex, bool *line)|
+        \item Назначение: сохраняет в \mintinline{C}|line| ряд по индексу \mintinline{C}|lineIndex| матрицы \mintinline{C}|matrix|
+        с количеством столбцов \mintinline{C}|k|
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void getColumn(bool **matrix, int n, int columnIndex, bool *column)|
+        \item Назначение: сохраняет в \mintinline{C}|column| столбец по индексу \mintinline{C}|columnIndex| матрицы \mintinline{C}|matrix|
+        с количеством рядов \mintinline{C}|n|
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void getDiagonalTopLeftToBottomRight(bool **matrix, int n, int k, |\\
+        \mintinline{C}|int iStart, int jStart, bool *diagonal, int *diagonalSize)|
+        \item Назначение: сохраняет в \mintinline{C}|diagonal| диагональ и её размер в \mintinline{C}|diagonalSize| по индексу (\mintinline{C}|iStart|; \mintinline{C}|jStart|) матрицы \mintinline{C}|matrix|
+        размером \mintinline{C}|n| $\times$ \mintinline{C}|k|.
+        Диагональ проходит сверху слева - справа вниз.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void getDiagonalTopRightToBottomLeft(bool **matrix, int n, int k, |\\
+        \mintinline{C}|int iStart, int jStart, bool *diagonal, int *diagonalSize)|
+        \item Назначение: сохраняет в \mintinline{C}|diagonal| диагональ и её размер в \mintinline{C}|diagonalSize| по индексу (\mintinline{C}|iStart|; \mintinline{C}|jStart|) матрицы \mintinline{C}|matrix|
+        размером \mintinline{C}|n| $\times$ \mintinline{C}|k|.
+        Диагональ проходит сверху справа - влево вниз.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void processLine(bool **matrix, int k, int lineIndex, |\\
+        \mintinline{C}|MatrixIndex *longestZeroSubsequenceBegin, MatrixIndex *longestZeroSubsequenceEnd,|\\
+        \mintinline{C}|int *maxSubsequenceSize, bool *buf)|
+        \item Назначение: находит в ряду по индексу \mintinline{C}|lineIndex| в матрице \mintinline{C}|matrix|
+        с количеством столбцов \mintinline{C}|k| наидлиннейшую подпоследовательность из нулей и сохраняет её начало в
+        \mintinline{C}|longestZeroSubsequenceBegin|, конец в \mintinline{C}|longestZeroSubsequenceEnd|, размер подпоследовательности в
+        \mintinline{C}|maxSubsequenceSize|.
+        Принимает ссылку на буфер \mintinline{C}|buf| для хранения временных значений.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void processColumn(bool **matrix, int n, int columnIndex, |\\
+        \mintinline{C}|MatrixIndex *longestZeroSubsequenceBegin, MatrixIndex *longestZeroSubsequenceEnd,|\\
+        \mintinline{C}|int *maxSubsequenceSize, bool *buf)|
+        \item Назначение: находит в столбце по индексу \mintinline{C}|columnIndex| в матрице \mintinline{C}|matrix|
+        с количеством рядов \mintinline{C}|n| наидлиннейшую подпоследовательность из нулей и сохраняет её начало в
+        \mintinline{C}|longestZeroSubsequenceBegin|, конец в \mintinline{C}|longestZeroSubsequenceEnd|, размер подпоследовательности в
+        \mintinline{C}|maxSubsequenceSize|.
+        Принимает ссылку на буфер \mintinline{C}|buf| для хранения временных значений.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void processDiagonalTopLeftToBottomRight(bool **matrix, int n, int k, |\\
+        \mintinline{C}|int row, int column, MatrixIndex *longestZeroSubsequenceBegin, MatrixIndex *longestZeroSubsequenceEnd,|\\
+        \mintinline{C}|int *maxSubsequenceSize, bool *buf)|
+        \item Назначение: находит в диагонале проходящей сверху слева - вправо вниз по индексу (\mintinline{C}|row|; \mintinline{C}|column|)
+        в матрице \mintinline{C}|matrix| размером \mintinline{C}|n| $\times$ \mintinline{C}|k| наидлиннейшую
+        подпоследовательность из нулей и сохраняет её начало в
+        \mintinline{C}|longestZeroSubsequenceBegin|, конец в \mintinline{C}|longestZeroSubsequenceEnd|, размер подпоследовательности в
+        \mintinline{C}|maxSubsequenceSize|.
+        Принимает ссылку на буфер \mintinline{C}|buf| для хранения временных значений.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void processDiagonalTopRightToBottomLeft(bool **matrix, int n, int k, |\\
+        \mintinline{C}|int row, int column, MatrixIndex *longestZeroSubsequenceBegin, MatrixIndex *longestZeroSubsequenceEnd,|\\
+        \mintinline{C}|int *maxSubsequenceSize, bool *buf)|
+        \item Назначение: находит в диагонале проходящей сверху справа - влево вниз по индексу (\mintinline{C}|row|; \mintinline{C}|column|)
+        в матрице \mintinline{C}|matrix| размером \mintinline{C}|n| $\times$ \mintinline{C}|k| наидлиннейшую
+        подпоследовательность из нулей и сохраняет её начало в
+        \mintinline{C}|longestZeroSubsequenceBegin|, конец в \mintinline{C}|longestZeroSubsequenceEnd|, размер подпоследовательности в
+        \mintinline{C}|maxSubsequenceSize|.
+        Принимает ссылку на буфер \mintinline{C}|buf| для хранения временных значений.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static int max(int a, int b)|
+        \item Назначение: Возвращает максимальное из \mintinline{C}|a| и \mintinline{C}|b|
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void findLongestZeroLineInMatrix(bool **matrix, int n, int k,|\\
+        \mintinline{C}|MatrixIndex *longestZeroSubsequenceBegin, MatrixIndex *longestZeroSubsequenceEnd,|\\
+        \mintinline{C}|int *maxSubsequenceSize)|
+        \item Назначение: Находит в матрице \mintinline{C}|matrix| размером \mintinline{C}|n| $\times$ \mintinline{C}|k|
+        наидлиннейшую
+        подпоследовательность из нулей и сохраняет её начало в
+        \mintinline{C}|longestZeroSubsequenceBegin|, конец в \mintinline{C}|longestZeroSubsequenceEnd|, размер подпоследовательности в
+        \mintinline{C}|maxSubsequenceSize|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task6_1_findLongestZeroSubsequence}}{Функция findLongestZeroSubsequence}{ris:task6_1_findLongestZeroSubsequence}\\
+    \makenewfig{\input{dbg_texs/task6_2_getLine}}{Функция getLine}{ris:task6_2_getLine}\\
+    \makenewfig{\input{dbg_texs/task6_3_getColumn}}{Функция getColumn}{ris:task6_3_getColumn}\\
+    \makenewfig{\input{dbg_texs/task6_4_getDiagonalTopLeftToBottomRight}}{Функция getDiagonalTopLeftToBottomRight}{ris:task6_4_getDiagonalTopLeftToBottomRight}\\
+    \makenewfig{\input{dbg_texs/task6_5_getDiagonalTopRightToBottomLeft}}{Функция getDiagonalTopRightToBottomLeft}{ris:task6_5_getDiagonalTopRightToBottomLeft}\\
+    \makenewfig{\input{dbg_texs/task6_6_processLine}}{Функция processLine}{ris:task6_6_processLine}\\
+    \makenewfig{\input{dbg_texs/task6_7_processColumn}}{Функция processColumn}{ris:task6_7_processColumn}\\
+    \makenewfig{\input{dbg_texs/task6_8_processDiagonalTopLeftToBottomRight}}{Функция processDiagonalTopLeftToBottomRight}{ris:task6_8_processDiagonalTopLeftToBottomRight}\\
+    \makenewfig{\input{dbg_texs/task6_9_processDiagonalTopRightToBottomLeft}}{Функция processDiagonalTopRightToBottomLeft}{ris:task6_9_processDiagonalTopRightToBottomLeft}\\
+    \makenewfig{\input{dbg_texs/task6_10_max}}{Функция max}{ris:task6_10_max}\\
+    \makenewfig{\input{dbg_texs/task6_11_findLongestZeroLineInMatrix}}{Функция findLongestZeroLineInMatrix}{ris:task6_11_findLongestZeroLineInMatrix}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+#include <stdlib.h>
+#include <stdbool.h>
+
+#include "Tasks.h"
+
+static void findLongestZeroSubsequence(bool *arr, int size, int *begin, int *end) {
+    int cLen = 0;
+    int mLen = 0;
+    int tmpBegin = 0;
+    *begin = 0;
+    *end = 0;
+
+    for (int i = 0; i < size; i++) {
+        if (!arr[i]) {
+            cLen++;
+
+            if (cLen > mLen) {
+                mLen = cLen;
+                *begin = tmpBegin;
+                *end = i + 1;
+            }
+        } else {
+            tmpBegin = i + 1;
+            cLen = 0;
+        }
+    }
+}
+
+static void getLine(bool **matrix, int k, int lineIndex, bool *line) {
+    for (int j = 0; j < k; j++)
+        line[j] = matrix[lineIndex][j];
+}
+
+static void getColumn(bool **matrix, int n, int columnIndex, bool *column) {
+    for (int j = 0; j < n; j++)
+        column[j] = matrix[j][columnIndex];
+}
+
+static void getDiagonalTopLeftToBottomRight(bool **matrix, int n, int k, int iStart, int jStart, bool *diagonal, int *diagonalSize) {
+    for (int i = iStart, j = jStart; i < n && j < k; i++, j++)
+        diagonal[(*diagonalSize)++] = matrix[i][j];
+}
+
+static void getDiagonalTopRightToBottomLeft(bool **matrix, int n, int k, int iStart, int jStart, bool *diagonal, int *diagonalSize) {
+    for (int i = iStart, j = jStart; i < n && j >= 0; i++, j--)
+        diagonal[(*diagonalSize)++] = matrix[i][j];
+}
+
+static void processLine(bool **matrix, int k, int lineIndex, MatrixIndex *longestZeroSubsequenceBegin,
+                 MatrixIndex *longestZeroSubsequenceEnd, int *maxSubsequenceSize, bool *buf) {
+    getLine(matrix, k, lineIndex, buf);
+
+    int indexBegin, indexEnd;
+    findLongestZeroSubsequence(buf, k, &indexBegin, &indexEnd);
+
+    int subSequenceSize = indexEnd - indexBegin;
+    if (subSequenceSize > *maxSubsequenceSize) {
+        *maxSubsequenceSize = subSequenceSize;
+        *longestZeroSubsequenceBegin = (MatrixIndex) {lineIndex, indexBegin};
+        *longestZeroSubsequenceEnd = (MatrixIndex) {lineIndex, indexEnd - 1};
+    }
+}
+
+static void processColumn(bool **matrix, int n, int columnIndex, MatrixIndex *longestZeroSubsequenceBegin,
+                   MatrixIndex *longestZeroSubsequenceEnd, int *maxSubsequenceSize, bool *buf) {
+    getColumn(matrix, n, columnIndex, buf);
+
+    int indexBegin, indexEnd;
+    findLongestZeroSubsequence(buf, n, &indexBegin, &indexEnd);
+
+    int subSequenceSize = indexEnd - indexBegin;
+    if (subSequenceSize > *maxSubsequenceSize) {
+        *maxSubsequenceSize = subSequenceSize;
+        *longestZeroSubsequenceBegin = (MatrixIndex) {indexBegin, columnIndex};
+        *longestZeroSubsequenceEnd = (MatrixIndex) {indexEnd - 1, columnIndex};
+    }
+}
+
+static void processDiagonalTopLeftToBottomRight(bool **matrix, int n, int k, int row, int column,
+                                         MatrixIndex *longestZeroSubsequenceBegin,
+                                         MatrixIndex *longestZeroSubsequenceEnd, int *maxSubsequenceSize, bool *buf) {
+    int bufSize = 0;
+    getDiagonalTopLeftToBottomRight(matrix, n, k, row, column, buf, &bufSize);
+
+    int indexBegin, indexEnd;
+    findLongestZeroSubsequence(buf, bufSize, &indexBegin, &indexEnd);
+
+    int subSequenceSize = indexEnd - indexBegin;
+    if (subSequenceSize > *maxSubsequenceSize) {
+        *maxSubsequenceSize = subSequenceSize;
+        *longestZeroSubsequenceBegin = (MatrixIndex) {row + indexBegin, column + indexBegin};
+        *longestZeroSubsequenceEnd = (MatrixIndex) {row + indexBegin + subSequenceSize - 1, column + indexBegin + subSequenceSize - 1};
+    }
+}
+
+static void processDiagonalTopRightToBottomLeft(bool **matrix, int n, int k, int row, int column,
+                                         MatrixIndex *longestZeroSubsequenceBegin,
+                                         MatrixIndex *longestZeroSubsequenceEnd, int *maxSubsequenceSize, bool *buf) {
+    int bufSize = 0;
+    getDiagonalTopRightToBottomLeft(matrix, n, k, row, column, buf, &bufSize);
+
+    int indexBegin, indexEnd;
+    findLongestZeroSubsequence(buf, bufSize, &indexBegin, &indexEnd);
+
+    int subSequenceSize = indexEnd - indexBegin;
+    if (subSequenceSize > *maxSubsequenceSize) {
+        *maxSubsequenceSize = subSequenceSize;
+        *longestZeroSubsequenceBegin = (MatrixIndex) {row + indexBegin, column - indexBegin};
+        *longestZeroSubsequenceEnd = (MatrixIndex) {row + indexBegin + subSequenceSize - 1, column - indexBegin - subSequenceSize + 1};
+    }
+}
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+void findLongestZeroLineInMatrix(bool **matrix, int n, int k, MatrixIndex *longestZeroSubsequenceBegin,
+                                 MatrixIndex *longestZeroSubsequenceEnd, int *maxSubsequenceSize) {
+    bool *buf = malloc(sizeof(bool) * max(n, k));
+    *maxSubsequenceSize = 0;
+    *longestZeroSubsequenceBegin = (MatrixIndex) {0, 0};
+    *longestZeroSubsequenceEnd = (MatrixIndex) {0, 0};
+
+    // Сначала пройдёмся по строчкам
+    for (int i = 0; i < n; i++) {
+        processLine(matrix, k, i, longestZeroSubsequenceBegin, longestZeroSubsequenceEnd, maxSubsequenceSize, buf);
+        // Для каждой строчки здесь же будем находить диагональ слева сверху до нижней правой части с левого края матрицы
+        processDiagonalTopLeftToBottomRight(matrix, n, k, i, 0, longestZeroSubsequenceBegin,
+                                            longestZeroSubsequenceEnd, maxSubsequenceSize, buf);
+        // И диагональ сверху справа до нижней левой части с правого края матрицы
+        processDiagonalTopRightToBottomLeft(matrix, n, k, i, k - 1, longestZeroSubsequenceBegin,
+                                            longestZeroSubsequenceEnd, maxSubsequenceSize, buf);
+    }
+
+    // Потом пройдёмся по столбцам
+     for (int i = 0; i < k; i++) {
+        processColumn(matrix, n, i, longestZeroSubsequenceBegin, longestZeroSubsequenceEnd, maxSubsequenceSize, buf);
+        // Для каждого столбца будем находить оба вида диагоналей.
+        processDiagonalTopLeftToBottomRight(matrix, n, k, 0, i, longestZeroSubsequenceBegin,
+                                            longestZeroSubsequenceEnd, maxSubsequenceSize, buf);
+        processDiagonalTopRightToBottomLeft(matrix, n, k, 0, i, longestZeroSubsequenceBegin,
+                                            longestZeroSubsequenceEnd, maxSubsequenceSize, buf);
+    }
+
+    free(buf);
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            $()$ & Пустая последовательность \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 \\
+                1 & 1 & 1 \\
+                1 & 1 & 1 \\
+            \end{pmatrix} & Пустая последовательность \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 \\
+                1 & 0 & 1 \\
+                1 & 1 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & 1          & 1 \\
+                1 & \mathbf{0} & 1 \\
+                1 & 1          & 1 \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 & 1 & 1 \\
+                0 & 0 & 0 & 0 & 0 \\
+                1 & 1 & 1 & 1 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1          & 1          & 1          & 1          & 1          \\
+                \mathbf{0} & \mathbf{0} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\
+                1          & 1          & 1          & 1          & 1          \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 & 1 \\
+                1 & 1 & 0 & 0 & 0 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & 1 & 1          & 1          & 1          \\
+                1 & 1 & 1          & 1          & 1          \\
+                1 & 1 & \mathbf{0} & \mathbf{0} & \mathbf{0} \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 0 \\
+                1 & 1 & 0 \\
+                1 & 1 & 0 \\
+                1 & 1 & 0 \\
+                1 & 1 & 0 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & 1 & \mathbf{0} \\
+                1 & 1 & \mathbf{0} \\
+                1 & 1 & \mathbf{0} \\
+                1 & 1 & \mathbf{0} \\
+                1 & 1 & \mathbf{0} \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 \\
+                1 & 1 & 1 \\
+                1 & 1 & 1 \\
+                1 & 0 & 1 \\
+                1 & 0 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & 1          & 1 \\
+                1 & 1          & 1 \\
+                1 & 1          & 1 \\
+                1 & \mathbf{0} & 1 \\
+                1 & \mathbf{0} & 1 \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 0 \\
+                1 & 1 & 0 & 1 \\
+                1 & 0 & 1 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & 1          & 1          & 1          \\
+                1 & 1          & 1          & 1          \\
+                1 & 1          & 1          & \mathbf{0} \\
+                1 & 1          & \mathbf{0} & 1          \\
+                1 & \mathbf{0} & 1          & 1          \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 & 1 \\
+                1 & 1 & 0 & 1 \\
+                1 & 0 & 1 & 1 \\
+                1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & 1          & 1          & 1 \\
+                1 & 1          & \mathbf{0} & 1 \\
+                1 & \mathbf{0} & 1          & 1 \\
+                1 & 1          & 1          & 1 \\
+                1 & 1          & 1          & 1 \\
+            \end{pmatrix} \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные findLongestZeroLineInMatrix}{tab:task6-test-table}
+    \begin{center}
+        \begin{tabular}{|c|c|}
+            \hline
+            \begin{pmatrix}
+                1 & 1 & 1 & 1 \\
+                0 & 1 & 1 & 1 \\
+                1 & 0 & 1 & 1 \\
+                1 & 1 & 0 & 1 \\
+                1 & 1 & 1 & 0 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1          & 1          & 1          & 1          \\
+                \mathbf{0} & 1          & 1          & 1          \\
+                1          & \mathbf{0} & 1          & 1          \\
+                1          & 1          & \mathbf{0} & 1          \\
+                1          & 1          & 1          & \mathbf{0} \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 0 & 1 & 1 \\
+                1 & 1 & 0 & 1 \\
+                1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1 & \mathbf{0} & 1          & 1 \\
+                1 & 1          & \mathbf{0} & 1 \\
+                1 & 1          & 1          & 1 \\
+                1 & 1          & 1          & 1 \\
+                1 & 1          & 1          & 1 \\
+            \end{pmatrix} \\
+            \hline
+            \begin{pmatrix}
+                1 & 0 & 1 & 0 & 1 \\
+                1 & 1 & 0 & 0 & 0 \\
+                1 & 1 & 0 & 1 & 1 \\
+                1 & 0 & 0 & 0 & 1 \\
+                0 & 1 & 1 & 1 & 1 \\
+            \end{pmatrix} &
+            \begin{pmatrix}
+                1          & 0          & 1          & 0          & 1 \\
+                1          & 1          & 0          & \mathbf{0} & 0 \\
+                1          & 1          & \mathbf{0} & 1          & 1 \\
+                1          & \mathbf{0} & 0          & 0          & 1 \\
+                \mathbf{0} & 1          & 1          & 1          & 1 \\
+            \end{pmatrix} \\
+            \hline
+
+        \end{tabular}
+    \end{center}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task6tests}}{Результат выполнения тестов функции findLongestZeroLineInMatrix}
+
+
+    \section{Арифметика}
+
+    \subsection{Задание варианта}
+    Пусть $m$ натуральных чисел заданы своими цифрами в $q$-ичной системе счисления, хранящимися в строках матрицы $K(m, n)$.
+    Найти сумму этих чисел в той же системе, не вычисляя самих чисел $(q \leq 10)$.
+
+    \subsection{Обоснование}
+    Будем перебирать цифры числа с конца.
+    Для всех чисел будем находить сумму всех цифр и перенос из предыдущего разряда, остаток от деления этой суммы на основание сформирует в новом числе цифру, целочисленное деление - перенос в следующий разряд.
+    Будем выполнять это жействие до тех пор пока не закончатся цифры.
+
+    \subsection{Спецификация}
+
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void sum(unsigned int **numbers, int m, int n, int q, unsigned int *ans)|
+        \item Назначение: вычисляет сумму чисел \mintinline{C}|numbers| количеством \mintinline{C}|m| с количеством цифр \mintinline{C}|n|
+        в \mintinline{C}|q|-ичной системе счисления и записывает сумму в той же системе счисления в \mintinline{C}|ans|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task7}}{Функция sum}{ris:task7}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+void sum(unsigned int **numbers, int m, int n, int q, unsigned int *ans) {
+    unsigned int nextRank = 0;
+
+    // Будем идти с конца чисел
+    for (int digitIndex = n - 1; digitIndex >= 0; digitIndex--) {
+        // Посчитаем сумму цифр. Сумме цифр сразу присваиваем перенос из предыдущего разряда.
+        unsigned int sum = nextRank;
+
+        // Из каждого числа добавляем цифру
+        for (int numIndex = 0; numIndex < m; numIndex++)
+            sum += numbers[numIndex][digitIndex];
+
+        // В текущий разряд записываем остаток от суммы
+        ans[digitIndex] = sum % q;
+        // В следующий разряд переносим целочисленное деление
+        nextRank = sum / q;
+    }
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            \begin{tabular}{c}
+                numbers = $()$, \\m = 0, n = 0, q = 3
+            \end{tabular} & ans = $000_3$ \\
+            \hline
+            \begin{tabular}{c}
+                numbers = \begin{pmatrix}
+                              0 & 1 & 0 \\
+                              1 & 1 & 1 \\
+                \end{pmatrix}, \\m = 2, n = 3, q = 2
+            \end{tabular} & ans = $101_2$ \\
+            \hline
+            \begin{tabular}{c}
+                numbers = \begin{pmatrix}
+                              0 & 3 & 2 \\
+                              1 & 1 & 1 \\
+                \end{pmatrix}, \\m = 2, n = 3, q = 4
+            \end{tabular} & ans = $103_4$ \\
+            \hline
+            \begin{tabular}{c}
+                numbers = \begin{pmatrix}
+                              0 & 3 & 2 \\
+                              1 & 1 & 1 \\
+                              1 & 2 & 1 \\
+                              0 & 0 & 3 \\
+                \end{pmatrix}, \\m = 4, n = 3, q = 4
+            \end{tabular} & ans = $232_4$ \\
+            \hline
+            \begin{tabular}{c}
+                numbers = \begin{pmatrix}
+                              0 & 3 & 2 & 0 \\
+                              0 & 0 & 1 & 1 \\
+                              0 & 0 & 0 & 1 \\
+                              1 & 0 & 0 & 1 \\
+                \end{pmatrix}, \\m = 4, n = 4, q = 2
+            \end{tabular} & ans = $1111_2$ \\
+            \hline
+            \begin{tabular}{c}
+                numbers = \begin{pmatrix}
+                              0 & 3 & 2 \\
+                              2 & 1 & 1 \\
+                              1 & 2 & 0 \\
+                              0 & 3 & 0 \\
+                \end{pmatrix}, \\m = 4, n = 3, q = 4
+            \end{tabular} & ans = $113_4$ \\
+            \hline
+            \begin{tabular}{c}
+                numbers = \begin{pmatrix}
+                              0 & 0 & 0 \\
+                              0 & 0 & 0 \\
+                              0 & 0 & 0 \\
+                \end{pmatrix}, \\m = 3, n = 3, q = 3
+            \end{tabular} & ans = $000_3$ \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные sum}{tab:task7-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task7tests}}{Результат выполнения тестов функции sum}
+
+
+    \section{Геометрия и теория множеств}
+
+    \subsection{Задание варианта}
+    Найти площадь многоугольника (не обязательно выпуклого), заданного координатами своих вершин на плоскости в порядке обхода по или против часовой стрелки.
+
+    \subsection{Обоснование}
+    Площадь многоугольника можно найти методом трапеций.
+    Опустим из каждой точки многоугольника перпендикуляр к $Ox$, две соседние точки и их перпендикуляры будут образовывать трапецию.
+    Если вторая точка находится правеке текущей, прибавляем сумму к итоговой, иначе - отнимаем.
+    Итоговая сумма будет равна сумме по модулю, так как знак суммарной площади зависит от порядка обхода.
+    Формула для вычисления площади:\\
+    $S=|\sum_{i = 0}^{n}\frac{(points_i.x - points{(i + 1) \% n}.x) \cdot (points_i.y + points_{(i + 1) \% n}.y)}{2}|$, где points - массив точек.
+
+    \subsection{Спецификация}
+
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|double getArea(Point *points, int pointsAmount)|
+        \item Назначение: воозвращает сумму многоугольника, заданного массивом точек \mintinline{C}|points| размером \mintinline{C}|pointsAmount|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+    \makenewfig{\input{dbg_texs/task8}}{Функция getArea}{ris:task8}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+#include <math.h>
+
+#include "Tasks.h"
+
+double getArea(Point *points, int pointsAmount) {
+    double areaTotal = 0;
+
+    for (int i = 0; i < pointsAmount; i++)
+        areaTotal += (points[i].x - points[(i + 1) % pointsAmount].x) *
+                (points[i].y + points[(i + 1) % pointsAmount].y) / 2;
+
+    areaTotal = fabs(areaTotal);
+
+    return areaTotal;
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            \begin{tabular}{c}
+                pointsAmount = 0
+            \end{tabular}   & 0                   \\
+            \hline
+            \begin{tabular}{c}
+                points =\\(1, 1)\\(5, 5)\\pointsAmount = 2
+            \end{tabular}   & 0                \\
+            \hline
+            \begin{tabular}{c}
+                points =\\(0, 0)\\(5, 5)\\(5, 0)\\pointsAmount = 3
+            \end{tabular}   & 12.5                \\
+            \hline
+            \begin{tabular}{c}
+                points =\\(2, 1)\\(5, 3)\\(6, 6)\\(5, 7)\\(3, 6)\\(2, 8)\\(1, 5)\\pointsAmount = 7
+            \end{tabular}   & 19.5                \\
+            \hline
+            \begin{tabular}{c}
+                points =\\(2, 1)\\(1, 5)\\(2, 8)\\(3, 6)\\(5, 7)\\(6, 6)\\(5, 3)\\pointsAmount = 7
+            \end{tabular}   & 19.5                \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные getArea}{tab:task8-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task8tests}}{Результат выполнения тестов функции getArea}
+
+
+    \section{Линейная алгебра и сжатие информации}
+
+    \subsection{Задание варианта}
+    Матрица $A(n, n)$ системы линейных уравнений $AX = B$ приведена к
+    верхнетреугольному виду и упакована в одномерный массив.
+    Найти вектор решения $X$ последовательной подстановкой, не распаковывая $A$.
+
+    \subsection{Обоснование}
+    Рассмотрим для примера матрицу 3 на 3\\
+    \begin{pmatrix}
+        x_1 & x_2 & x_3 \\
+        0   & x_4 & x_5 \\
+        0   & 0   & x_6 \\
+    \end{pmatrix} $\times$
+    \begin{pmatrix}
+        t_1 & t_2 & t_3 \\
+        t_4 & t_5 & t_6 \\
+        t_7 & t_8 & t_9 \\
+    \end{pmatrix} $=$
+    \begin{pmatrix}
+        b_1 & b_2 & b_3 \\
+        b_4 & b_5 & b_6 \\
+        b_7 & b_8 & b_9 \\
+    \end{pmatrix}\\
+    \begin{pmatrix}
+        x_1 \cdot t_1 + x_2 \cdot t_4 + x_3 \cdot t_7 & x_1 \cdot t_2 + x_2 \cdot t_5 + x_3 \cdot t_8 & x_1 \cdot t_3 + x_2 \cdot t_6 + x_3 \cdot t_9 \\
+        x_4\cdot t_4 + x_5\cdot t_7                   & x_4\cdot t_2 + x_5\cdot t_5                   & x_4\cdot t_6 + x_5\cdot t_9                   \\
+        x_6\cdot t_7                                  & x_6\cdot t_8                                  & x_6\cdot t_9                                  \\
+    \end{pmatrix}
+    $=$
+    \begin{pmatrix}
+        b_1 & b_2 & b_3 \\
+        b_4 & b_5 & b_6 \\
+        b_7 & b_8 & b_9 \\
+    \end{pmatrix}\\
+    Можно заметить, что легко можно вычислить $t_7, t_8, t_9$.
+    Далее на основе вычисленных $t_7, t_8, t_9$ можно вычислить $t_4, t_5, t_6$, и так далее до тех пор пока не получим полную матрицу $X$.
+
+    \subsection{Спецификация}
+
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void findX(double *matrixA, int n, double **matrixB, double **matrixX)|
+        \item Назначение: находит в уравнении вида $AX=B$ вектор $X$, где $A$ -  \mintinline{C}|matrixA|, верхнетреугольная упакованная матрица,
+        \mintinline{C}|n| - размер стороны матриц, $B$ -  \mintinline{C}|matrixB|. Сохраняет ответ $X$ в \mintinline{C}|matrixX|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+
+    \makenewfig{\input{dbg_texs/task9}}{Функция findX}{ris:task9}
+
+    \subsection{Код программы}
+    \begin{minted}{C}
+void findX(double *matrixA, int n, double **matrixB, double **matrixX) {
+    /*
+    Здесь верхнетреугольная матрица matrixA
+
+               {1, -2, 0}
+     matrixA = {0, 4, 17} -> {1, -2, 0, 4, 17, 1}
+               {0, 0, 1}
+
+     */
+    // Кол-во элементов в одной линии верхнетреугольной матрицы. Будем идти снизу-вверх и справа-налево по этой матрице
+    int elementsAmountOnA = 1;
+    // Общее количество элементов в упакованной верхнетреугольной матрице
+    int totalCompressedMatrixElements = ((n + 1) * n) / 2;
+
+    // Заполним матрицу нулями
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            matrixX[i][j] = 0;
+
+    // Счётчик для линии
+    for (int line = n - 1; line >= 0; line--) {
+
+        // Индекс с которого будет начинаться упакованная верхнетреугольная матрица в line
+        int matrixABegIndex = (elementsAmountOnA * (elementsAmountOnA - 1)) / 2;
+
+        // Далее будем перебирать все элементы верхнетреугольной матрицы в этой линии
+        for (int elementNumber = 0; elementNumber < elementsAmountOnA; elementNumber++)
+            // Если мы достигли конца линии (самый левый элемент), значит мы может легко вычислить элемент из x
+            if (elementNumber == elementsAmountOnA - 1)
+                for (int j = 0; j < n; j++)
+                    matrixX[line][j] =
+                            (matrixB[line][j] - matrixX[line][j]) /
+                            matrixA[totalCompressedMatrixElements - matrixABegIndex - 1 - elementNumber];
+        // Иначе будем вычислять части массива X суммируя произведение текущего элемента упакованной матрицы и
+        // элемента ниже.
+        else
+                for (int j = 0; j < n; j++)
+                    matrixX[line][j] += matrixA[totalCompressedMatrixElements - matrixABegIndex - 1 - elementNumber] *
+                            matrixX[n - 1 - elementNumber][j];
+
+        // На следующей линии будет на 1 элемент больше
+        elementsAmountOnA++;
+    }
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            $A=(), B=()$ & $X=()$ \\
+            \hline
+            $A=(4), B=(-8)$ & $X=(-2)$ \\
+            \hline
+
+            \begin{tabular}{c}
+                $A=\begin{pmatrix}
+                       4 & 1 & 3  \\
+                       0 & 2 & 0  \\
+                       0 & 0 & -9 \\
+                \end{pmatrix}$ или \\
+                $A=\{4, 1, 3, 2, 0, -9\}$ \\
+                в упакованном виде, \\
+                $B=\begin{pmatrix}
+                       -31 & 99  & 18  \\
+                       8   & 0   & 2   \\
+                       81  & -45 & -63 \\
+                \end{pmatrix}$
+            \end{tabular} &
+            $X=\begin{pmatrix}
+                   -2 & 21 & -1 \\
+                   4  & 0  & 1  \\
+                   -9 & 5  & 7  \\
+            \end{pmatrix}$ \\
+            \hline
+            \begin{tabular}{c}
+                $A=\begin{pmatrix}
+                       4 & 1 & 3  & 3 \\
+                       0 & 2 & 0  & 0 \\
+                       0 & 0 & -9 & 5 \\
+                       0 & 0 & 0  & 6 \\
+                \end{pmatrix}$ или \\
+                $A=\{4, 1, 3, 3, 2, 0, 0,-9, 5, 6\}$ \\
+                в упакованном виде, \\
+                $B=\begin{pmatrix}
+                       -19 & 72  & 54 & 87  \\
+                       8   & 0   & 2  & 12  \\
+                       101 & -90 & -3 & -37 \\
+                       24  & -54 & 72 & 42  \\
+                \end{pmatrix}$
+            \end{tabular} &
+            $X=\begin{pmatrix}
+                   -2 & 21 & -1 & 9 \\
+                   4  & 0  & 1  & 6 \\
+                   -9 & 5  & 7  & 8 \\
+                   4  & -9 & 12 & 7 \\
+            \end{pmatrix}$ \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные findX}{tab:task9-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task9tests}}{Результат выполнения тестов функции findX}
+
+
+    \section{Алгоритмы обработки символьной информации}
+
+    \subsection{Задание варианта}
+    Заданный список русских фамилий (вместе с именами и отчествами) упорядочить по алфавиту.
+    Проверить (и исправить, если нужно) написание собственных имен с прописных букв.
+
+    \subsection{Обоснование}
+
+    Задача разделяется на две подзадачи: сделать первые буквы ФИО заглавными и отсортировать список ФИО по фамилии.
+    Русские символы в кодировке UTF-8 состоят из двух char и имеют следующие значения\\
+    \label{g}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Символ & HEX        \\
+            \hline
+            Ë      & 0xDO, 0x81 \\
+            \hline
+            А      & 0xDO, 0x90 \\
+            \hline
+            Б      & 0xDO, 0x91 \\
+            \hline
+            В      & 0xDO, 0x92 \\
+            \hline
+            Г      & 0xDO, 0x93 \\
+            \hline
+            Д      & 0xDO, 0x94 \\
+            \hline
+            E      & 0xDO, 0x95 \\
+            \hline
+            Ж      & 0xDO, 0x96 \\
+            \hline
+            З      & 0xDO, 0x97 \\
+            \hline
+            И      & 0xDO, 0x98 \\
+            \hline
+            Й      & 0xDO, 0x99 \\
+            \hline
+            К      & 0xDO, 0x9A \\
+            \hline
+            Л      & 0xDO, 0x9B \\
+            \hline
+            М      & 0xDO, 0x9C \\
+            \hline
+            Н      & 0xDO, 0x9D \\
+            \hline
+            О      & 0xDO, 0x9E \\
+            \hline
+            П      & 0xDO, 0x9F \\
+            \hline
+            Р      & 0xDO, 0xA0 \\
+            \hline
+            С      & 0xDO, 0xA1 \\
+            \hline
+            Т      & 0xDO, 0xA2 \\
+            \hline
+            У      & 0xDO, 0xA3 \\
+            \hline
+            Ф      & 0xDO, 0xA4 \\
+            \hline
+            Х      & 0xDO, 0xA5 \\
+            \hline
+            Ц      & 0xDO, 0xA6 \\
+            \hline
+            Ч      & 0xDO, 0xA7 \\
+            \hline
+            Ш      & 0xDO, 0xA8 \\
+            \hline
+            Щ      & 0xDO, 0xA9 \\
+            \hline
+            Ъ      & 0xDO, 0xAA \\
+            \hline
+            Ы      & 0xDO, 0xAB \\
+            \hline
+        \end{tabular}
+        \begin{tabular}{|c|c|}
+            \hline
+            Ь & 0xDO, 0xAC \\
+            \hline
+            Э & 0xDO, 0xAD \\
+            \hline
+            Ю & 0xDO, 0xAE \\
+            \hline
+            Я & 0xDO, 0xAF \\
+            \hline
+        \end{tabular}
+        \begin{tabular}{|c|c|}
+            \hline
+            Символ & HEX        \\
+            \hline
+            а      & 0xDO, 0xB0 \\
+            \hline
+            б      & 0xDO, 0xB1 \\
+            \hline
+            в      & 0xDO, 0xB2 \\
+            \hline
+            г      & 0xDO, 0xB3 \\
+            \hline
+            д      & 0xDO, 0xB4 \\
+            \hline
+            е      & 0xDO, 0xB5 \\
+            \hline
+            ж      & 0xDO, 0xB6 \\
+            \hline
+            з      & 0xDO, 0xB7 \\
+            \hline
+            и      & 0xDO, 0xB8 \\
+            \hline
+            й      & 0xDO, 0xB9 \\
+            \hline
+            к      & 0xDO, 0xBA \\
+            \hline
+            л      & 0xDO, 0xBB \\
+            \hline
+            м      & 0xDO, 0xBC \\
+            \hline
+            н      & 0xDO, 0xBD \\
+            \hline
+            о      & 0xDO, 0xBE \\
+            \hline
+            п      & 0xDO, 0xBF \\
+            \hline
+            р      & 0xD1, 0x80 \\
+            \hline
+            с      & 0xD1, 0x81 \\
+            \hline
+            т      & 0xD1, 0x82 \\
+            \hline
+            у      & 0xD1, 0x83 \\
+            \hline
+            ф      & 0xD1, 0x84 \\
+            \hline
+            х      & 0xD1, 0x85 \\
+            \hline
+            ц      & 0xD1, 0x86 \\
+            \hline
+            ч      & 0xD1, 0x87 \\
+            \hline
+            ш      & 0xD1, 0x88 \\
+            \hline
+            щ      & 0xD1, 0x89 \\
+            \hline
+            ъ      & 0xD1, 0x8A \\
+            \hline
+            ы      & 0xD1, 0x8B \\
+            \hline
+            ь      & 0xD1, 0x8C \\
+            \hline
+        \end{tabular}
+        \begin{tabular}{|c|c|}
+            \hline
+            э & 0xD1, 0x8D \\
+            \hline
+            ю & 0xD1, 0x8E \\
+            \hline
+            я & 0xD1, 0x8F \\
+            \hline
+            ё & 0xD1, 0x91 \\
+            \hline
+        \end{tabular}
+    }{Русские символы в UTF-8 кодировке}{tab:task10-char-table}
+    Символ в UTF-8 нельзя уместить в char, однако можно поместить в short.
+    Первая вспомогательная функция будет возвращать код русского символа в short - он будет содержать два char.
+    Вторая вспомогательная функция - запись short в массив.
+    Согласно \textit{таблице \ref{tab:task10-char-table}}, прописные буквы подразделяются на три неразрывные области: ё (0xD191), а-п [0xDOB0; 0xDOBF]
+    и р-я [0xD180; 0xD18F].
+    На основании этих областей будем отнимать от кода текущего символа разницу между кодом прописного и заглавного.
+    Например для е получение кода заглавного Е будет выглядеть так: code(е) - (code(а) - code(А)).
+    Полученный код заглавного символа запишем в массив.
+    Перейдём к второй подзадаче.
+    Для сортировки воспользуемся функцией qsort, если бы исходный текст был в кодировке ASCII, где каждый символ занимает 8 бит, в качестве компаратора мы могли бы использовать стандартный strcmp,
+    однако мы используем русские символы в кодировке UTF-8, где используется 16 бит на русский символ.
+    Кроме того, порядок символов согласно \textit{таблице \ref{tab:task10-char-table}} имеет другой порядок относительно алфавита,
+    поэтому необходимо определить ещё одну функцию, которая определяет приоритет символов в алфавите.
+    И уже с использованием этой функции можно сранивать русские строки аналогично strcmp.
+
+    \subsection{Спецификация}
+
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static uint16_t getRuCode(unsigned char *beg)|
+        \item Назначение: возвращает значение двухбайтового символа \mintinline{C}|beg|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void writeRuCodeToChar(uint16_t code, unsigned char *beg)|
+        \item Назначение: записывает двухбайтовое значение символа \mintinline{C}|code| в \mintinline{C}|beg|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static void firstLetterToupperRu(unsigned char *beg)|
+        \item Назначение: делает первый символ русской строки \mintinline{C}|beg| заглавным.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void validateProperName(ProperName name)|
+        \item Назначение: проверяет и исправляет имя собственное \mintinline{C}|name|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void validateFullName(FullName fullName)|
+        \item Назначение: проверяет и исправляет фамилию, имя, отчество в \mintinline{C}|fullName|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|int getRuPriority(unsigned char *a)|
+        \item Назначение: возвращает приоритет русского символа \mintinline{C}|a|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|int getRuPriority(unsigned char *a)|
+        \item Назначение: возвращает приоритет русского символа \mintinline{C}|a|.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|static int fullNameComparator(const void *a, const void *b)|
+        \item Назначение: возвращает 0, если фамилия \mintinline{C}|a| = фамилии \mintinline{C}|b|, значение > 0 если фамилия \mintinline{C}|a| > фамилии \mintinline{C}|b|, иначе - значение < 0.
+    \end{enumerate}
+    \hline
+    \begin{enumerate}
+        \item Заголовок:  \mintinline{C}|void sortBySurname(FullName *namesList, int size)|
+        \item Назначение: проверяет и исправляет имена собственые а также сортирует по фамилии список ФИО \mintinline{C}|namesList| размером \mintinline{C}|size|.
+    \end{enumerate}
+
+    \subsection{Блок-схема}
+
+    \makenewfig{\input{dbg_texs/task10_1_getRuCode}}{Функция getRuCode}{ris:task10_1_getRuCode}\\
+    \makenewfig{\input{dbg_texs/task10_2_writeRuCodeToChar}}{Функция writeRuCodeToChar}{ris:task10_2_writeRuCodeToChar}\\
+    \makenewfig{\input{dbg_texs/task10_3_firstLetterToupperRu}}{Функция firstLetterToupperRu}{ris:task10_3_firstLetterToupperRu}\\
+    \makenewfig{\input{dbg_texs/task10_4_validateProperName}}{Функция validateProperName}{ris:task10_4_validateProperName}\\
+    \makenewfig{\input{dbg_texs/task10_5_validateFullName}}{Функция validateFullName}{ris:task10_5_validateFullName}\\
+    \makenewfig{\rotatebox{90}{
+        \input{dbg_texs/task10_6_getRuPriority}
+    }}{Функция getRuPriority}{ris:task10_6_getRuPriority}\\
+    \makenewfig{\input{dbg_texs/task10_7_fullNameComparator}}{Функция fullNameComparator}{ris:task10_7_fullNameComparator}\\
+    \makenewfig{\input{dbg_texs/task10_8_sortBySurname}}{Функция sortBySurname}{ris:task10_8_sortBySurname}
+
+    \subsection{Код программы}
+
+    \textbf{Код программы:}\\
+    \begin{minted}{C}
+#include <stdlib.h>
+#include <stdint.h>
+
+#include "Tasks.h"
+
+// beg содержит ссылку на русский символ в кодировке UTF-8
+static uint16_t getRuCode(unsigned char *beg) {
+    // Русский символ в UTF-8 состоит из двух байтов, поэтому сохраняем результат в двухбайтовый беззнаковый тип.
+    return (((uint16_t) beg[0]) << 8) + ((uint16_t) beg[1]);
+}
+
+// beg содержит ссылку на русский символ в кодировке UTF-8
+static void writeRuCodeToChar(uint16_t code, unsigned char *beg) {
+    // Русский символ в UTF-8 состоит из двух байтов, поэтому просто копируем их
+    beg[0] = (code & 0xFF00) >> 8;
+    beg[1] = code & 0x00FF;
+}
+
+static void firstLetterToupperRu(unsigned char *beg) {
+    uint16_t code = getRuCode(beg);
+
+    // Отдельная проверка для ё, потому что она совсем в другом месте в таблице UTF-8
+    if (code == getRuCode("ё"))
+        writeRuCodeToChar(getRuCode("Ë"), beg);
+    // Проверка для а-п, их коды: 0xD0B0 - 0xD0BF
+    else if (code >= getRuCode("а") && code <= getRuCode("п"))
+        writeRuCodeToChar(code - (getRuCode("а") - getRuCode("А")), beg);
+    // Почему-то между п и р большой пробел, причём только для прописных букв.
+    // Поэтому выполняем отдельную проверку для них. Границы р-я: 0xD1080 - 0xD18F
+    else if (code >= getRuCode("р") && code <= getRuCode("я"))
+        writeRuCodeToChar(code - (getRuCode("р") - getRuCode("Р")), beg);
+}
+
+void validateProperName(ProperName name) {
+    // Делаем первый символ имени заглавным
+    firstLetterToupperRu(name.name);
+}
+
+void validateFullName(FullName fullName) {
+    // Проверяем имя, фамилию и отчество на валидность
+    validateProperName(fullName.name);
+    validateProperName(fullName.surname);
+    validateProperName(fullName.patronymic);
+}
+
+// Приоритет русских символов
+int getRuPriority(unsigned char *a) {
+    // Если хоть один из символов ноль-символ - возвращаем 0. Для удобства работы с аналогом strcmp.
+    if (!*a || !a[1]) return 0;
+
+    // Получаем код символа
+    int aCode = getRuCode(a);
+
+    if (aCode >= getRuCode("А") && aCode <= getRuCode("Е"))
+        return aCode - getRuCode("А") + 1;
+    else if (aCode == getRuCode("Ë"))
+        return 7;
+    else if (aCode >= getRuCode("Ж") && aCode <= getRuCode("Я"))
+        return aCode - getRuCode("Ж") + 8;
+    else if (aCode >= getRuCode("а") && aCode <= getRuCode("е"))
+        return aCode - getRuCode("а") + 34;
+    else if (aCode == getRuCode("ё"))
+        return 40;
+    else if (aCode >= getRuCode("ж") && aCode <= getRuCode("п"))
+        return aCode - getRuCode("ж") + 41;
+    else if (aCode >= getRuCode("р") && aCode <= getRuCode("я"))
+        return aCode - getRuCode("р") + 51;
+
+    // Если получить приоритет не удалось - ставим символ в самую последнюю очередь.
+    return 67;
+}
+
+// Замена strcmp, но для русских символов в UTF-8
+static int fullNameComparator(const void *a, const void *b) {
+    unsigned char* aNameSurname = (*(FullName *) a).surname.name;
+    unsigned char* bNameSurname = (*(FullName *) b).surname.name;
+
+    int aNameCode = getRuPriority(aNameSurname);
+    int bNameCode = getRuPriority(bNameSurname);
+    while (aNameCode && bNameCode && aNameCode == bNameCode) {
+        aNameSurname += 2;
+        bNameSurname += 2;
+
+        aNameCode = getRuPriority(aNameSurname);
+        bNameCode = getRuPriority(bNameSurname);
+    }
+
+    return aNameCode - bNameCode;
+}
+
+// Так как кодировка в задании не была уточнена, реализовал алгоритм для кодировки UTF-8.
+// получилось "самую капельку" сложнее, зато интереснее.
+void sortBySurname(FullName *namesList, int size) {
+    for (int i = 0; i < size; i++)
+        validateFullName(namesList[i]);
+
+    qsort(namesList, size, sizeof(FullName), fullNameComparator);
+}
+    \end{minted}
+
+    \subsection{Тестовые данные}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            Тестовые данные & Ожидаемый результат \\
+            \hline
+            \begin{tabular}{c}
+                namesList =                    \\
+                фадей трифонов витальевич      \\
+                инесса филатова фомовна        \\
+                белла пестова даниловна        \\
+                ибрагим пестовааееее романович \\
+                степан пестоваб игнатович      \\
+                фадей богданов витальевич      \\
+                инесса ё фомовна               \\
+                белла ёа даниловна             \\
+                ибрагим ёааа романович         \\
+                степан ёаав игнатович          \\
+            \end{tabular} &
+            \begin{tabular}{c}
+                namesList =                    \\
+                Фадей Богданов Витальевич      \\
+                Инесса Ë Фомовна               \\
+                Белла Ëа Даниловна             \\
+                Ибрагим Ëааа Романович         \\
+                Степан Ëаав Игнатович          \\
+                Белла Пестова Даниловна        \\
+                Ибрагим Пестовааееее Романович \\
+                Степан Пестоваб Игнатович      \\
+                Фадей Трифонов Витальевич      \\
+                Инесса Филатова Фомовна        \\
+            \end{tabular} \\
+            \hline
+        \end{tabular}
+    }{Тестовые данные findX}{tab:task10-test-table}
+
+    \subsection{Результат выполнения тестов}
+    \makenewfig{
+        \includegraphics[width=120mm]{/task10tests}}{Результат выполнения тестов функции sortBySurname}
+
+
+    \section{Аналитическая геометрия}
+
+    \subsection{Задание варианта}
+    Даны точки $A (-4; 0), B(1; -3), C(4; -2)$. Построить прямую $l$, проходящую через $A$ и параллельно $BC$ в диапазоне
+    $x \in [-1; 3]$ с шагом $\triangle = 0.25$
+
+    \subsection{Обоснование}
+    Для уравнения $y = kx + b$ найдём коэффициенты. Так как $y$ должен быть параллелен $BC$, то $k_y = k_{BC}$\\
+    $k_{BC} = \frac{\triangle y}{\triangle x} = \frac{-3 - (-2)}{1 - 4} = \frac{-1}{-3} = \frac{1}{3}$\\
+    Прямая $y$ должна проходить через точку $A$, следовательно\\
+    $0 = \frac{1}{3} \cdot (-4) + b$\\
+    $b = \frac{4}{3}$
+    \bigbreak
+    Таким образом получили уравнение: $y = \frac{1}{3}x + \frac{4}{3}$.
+    Уравнение $y$ описывает искомую прямую $l$.\\
+
+    \subsection{Таблица значений}
+    \labeltable{
+        \begin{tabular}{|c|c|}
+            \hline
+            x     & y                \\
+            \hline
+            -1    & 1                \\
+            \hline
+            -0.75 & $1\frac{1}{12}$  \\
+            \hline
+            -0.5  & $1\frac{1}{6}$   \\
+            \hline
+            -0.25 & $1\frac{1}{4}$   \\
+            \hline
+            0     & $1\frac{1}{3}$   \\
+            \hline
+            0.25  & $1\frac{5}{12}$  \\
+            \hline
+            0.5   & $1\frac{1}{2}$   \\
+            \hline
+            0.75  & $1\frac{7}{12}$  \\
+            \hline
+            1     & $1\frac{2}{3}$   \\
+            \hline
+            1.25  & $1\frac{3}{4}$   \\
+            \hline
+            1.5   & $1\frac{5}{6}$   \\
+            \hline
+            1.75  & $1\frac{11}{12}$ \\
+            \hline
+            2     & $2$              \\
+            \hline
+            2.25  & $2\frac{1}{12}$  \\
+            \hline
+            2.5   & $2\frac{1}{6}$   \\
+            \hline
+            2.75  & $2\frac{1}{4}$   \\
+            \hline
+            3     & $2\frac{1}{3}$   \\
+            \hline
+        \end{tabular}
+    }{Таблица значений функции $y$}{tab:task11-values-table}
+
+    \subsection{График}
+    \makenewfig{
+        \begin{tikzpicture}
+
+            \begin{axis}
+                [
+                grid=both,
+                axis lines = middle,
+                xlabel = {$x$},
+                ylabel = {$y$},
+                minor tick num = 1,
+                width = 10cm,
+                height = 10cm]
+                \addplot coordinates {
+                    (-1.00000, 1.00000)
+                    (-0.75000, 1.08333)
+                    (-0.50000, 1.16667)
+                    (-0.25000, 1.25000)
+                    (0.00000, 1.33333)
+                    (0.25000, 1.41667)
+                    (0.50000, 1.50000)
+                    (0.75000, 1.58333)
+                    (1.00000, 1.66667)
+                    (1.25000, 1.75000)
+                    (1.50000, 1.83333)
+                    (1.75000, 1.91667)
+                    (2.00000, 2.00000)
+                    (2.25000, 2.08333)
+                    (2.50000, 2.16667)
+                    (2.75000, 2.25000)
+                    (3.00000, 2.33333)
+                };
+
+                \addplot[mark=*] coordinates {(-4,0)} node[pin=45:{$A$}]{} ;
+                \addplot[mark=*] coordinates {(1,-3)} node[pin=100:{$B$}]{} ;
+                \addplot[mark=*] coordinates {(4,-2)} node[pin=150:{$C$}]{} ;
+
+                \addplot[blue] {(1/3) * x + (4 / 3)} node[pin=230:{$l$}]{};
+                \addplot[red] {(1/3) * x - (10 / 3)};
+            \end{axis}
+
+        \end{tikzpicture}
+    }{Прямая $l$, проходящая через $A$ параллельная $BC$}{ris:task11}
+
+
+    \section{Кривые второго порядка на плоскости}
+
+    \subsection{Задание варианта}
+    Постройте гиперболы (диапазон и шаг выберите самостоятельно).\\
+    $1) 16x^2 - 9y^2 = 144\\2) \frac{y^2}{81} - \frac{x^2}{64} = 1$\\
+
+    \subsection{Обоснование}
+    \begin{enumerate}
+        \item $16x^2 - 9y^2 = 144$\\
+        $y^2 = \frac{16x^2 - 144}{9}$\\
+        $y = \frac{\pm \sqrt{16x^2 - 144}}{3}$\\
+        $D(y): 16x^2 - 144 \geq 0$\\
+        $(4x - 12)(4x + 12) \geq 0$ - гипербола с ветвями направленными вверх, значит\\
+        $D(y) \in (-\infty; -3] \cup [3; \infty)$.\\
+
+        \item $\frac{y^2}{81} - \frac{x^2}{64} = 1$\\
+        $y^2 = 81(\frac{x^2 + 64}{64})$\\
+        $y = \frac{9}{8}\sqrt{64 + x^2}$\\
+        $D(y) \in (-\infty; \infty)$, так как $64 + x^2 > 0$ при любом $x$.\\
+    \end{enumerate}
+
+    \subsection{Таблица значений}
+
+    \begin{enumerate}
+        \item Область перебора: $[-5; -3] \cup [3; 5]; \triangle = 0.5$.\bigbreak
+        \labeltable{
+            \begin{tabular}{|c|c|}
+                \hline
+                x    & y                         \\
+                \hline
+                -5   & $\pm5\frac{1}{3}$         \\
+                \hline
+                -4.5 & $\pm2\sqrt{5}$            \\
+                \hline
+                -4   & $\pm\frac{4\sqrt{7}}{3}$  \\
+                \hline
+                -3.5 & $\pm\frac{2\sqrt{13}}{3}$ \\
+                \hline
+                -3   & $0$                       \\
+                \hline
+                3    & $0$                       \\
+                \hline
+                3.5  & $\pm\frac{2\sqrt{13}}{3}$ \\
+                \hline
+                4    & $\pm\frac{4\sqrt{7}}{3}$  \\
+                \hline
+                4.5  & $\pm2\sqrt{5}$            \\
+                \hline
+                5    & $\pm5\frac{1}{3}$         \\
+                \hline
+            \end{tabular}
+        }{Таблица значений функции $y$}{tab:task12-values1-table}
+        \item Область перебора: $[-5; 5]; \triangle = 0.5$.\bigbreak
+        \labeltable{
+            \begin{tabular}{|c|c|}
+                \hline
+                x    & y                           \\
+                \hline
+                -5   & $\pm\frac{9\sqrt{89}}{8}$   \\
+                \hline
+                -4.5 & $\pm\frac{9\sqrt{337}}{16}$ \\
+                \hline
+                -4   & $\pm\frac{9\sqrt{5}}{2}$    \\
+                \hline
+                -3.5 & $\pm\frac{9\sqrt{305}}{16}$ \\
+                \hline
+                -3   & $\pm\frac{9\sqrt{73}}{8}$   \\
+                \hline
+                -2.5 & $\pm\frac{9\sqrt{281}}{16}$ \\
+                \hline
+                -2   & $\pm\frac{9\sqrt{17}}{4}$   \\
+                \hline
+                -1.5 & $\pm\frac{9\sqrt{265}}{16}$ \\
+                \hline
+                -1   & $\pm\frac{9\sqrt{65}}{8}$   \\
+                \hline
+                -0.5 & $\pm\frac{9\sqrt{257}}{16}$ \\
+                \hline
+                0    & $\pm9$                      \\
+                \hline
+                0.5  & $\pm\frac{9\sqrt{257}}{16}$ \\
+                \hline
+                1    & $\pm\frac{9\sqrt{65}}{8}$   \\
+                \hline
+                1.5  & $\pm\frac{9\sqrt{265}}{16}$ \\
+                \hline
+                2    & $\pm\frac{9\sqrt{17}}{4}$   \\
+                \hline
+                2.5  & $\pm\frac{9\sqrt{281}}{16}$ \\
+                \hline
+                3    & $\pm\frac{9\sqrt{73}}{8}$   \\
+                \hline
+                3.5  & $\pm\frac{9\sqrt{305}}{16}$ \\
+                \hline
+                4    & $\pm\frac{9\sqrt{5}}{2}$    \\
+                \hline
+                4.5  & $\pm\frac{9\sqrt{337}}{16}$ \\
+                \hline
+                5    & $\pm\frac{9\sqrt{89}}{8}$   \\
+                \hline
+            \end{tabular}
+        }{Таблица значений функции $y$}{tab:task12-values2-table}
+    \end{enumerate}
+
+    \subsection{График}
+    \begin{enumerate}
+        \item \makenewfig{
+            \begin{tikzpicture}
+
+                \begin{axis}
+                    [
+                    grid=both,
+                    axis lines = middle,
+                    xlabel = {$x$},
+                    ylabel = {$y$},
+                    minor tick num = 1,
+                    width = 10cm,
+                    height = 10cm]
+                    \addplot [blue] coordinates {
+                        (-5.00000, 5.33333)
+                        (-4.50000, 4.47214)
+                        (-4.00000, 3.52767)
+                        (-3.50000, 2.40370)
+                        (-3.00000, 0.00000)
+                    };
+                    \addplot [blue] coordinates {
+                        (3.0000, 0.00000)
+                        (3.50000, 2.40370)
+                        (4.00000, 3.52767)
+                        (4.50000, 4.47214)
+                        (5.00000, 5.33333)
+                    };
+                    \addplot [blue] coordinates {
+                        (-5.00000, -5.33333)
+                        (-4.50000, -4.47214)
+                        (-4.00000, -3.52767)
+                        (-3.50000, -2.40370)
+                        (-3.00000, -0.00000)
+                    };
+                    \addplot [blue] coordinates {
+                        (3.0000, 0.00000)
+                        (3.50000, -2.40370)
+                        (4.00000, -3.52767)
+                        (4.50000, -4.47214)
+                        (5.00000, -5.33333)
+                    };
+                \end{axis}
+
+            \end{tikzpicture}
+        }{График гиперболы $16x^2 - 9y^2 = 144$}{ris:task12_1}
+        \item \makenewfig{
+            \begin{tikzpicture}
+
+                \begin{axis}
+                    [
+                    grid=both,
+                    axis lines = middle,
+                    xlabel = {$x$},
+                    ylabel = {$y$},
+                    minor tick num = 1,
+                    width = 10cm,
+                    height = 10cm]
+                    \addplot [blue] coordinates {
+                        (-5.00000, 10.61323)
+                        (-4.50000, 10.32613)
+                        (-4.00000, 10.06231)
+                        (-3.50000, 9.82364)
+                        (-3.00000, 9.61200)
+                        (-2.50000, 9.42922)
+                        (-2.00000, 9.27699)
+                        (-1.50000, 9.15684)
+                        (-1.00000, 9.07004)
+                        (-0.50000, 9.01756)
+                        (0.00000, 9.00000)
+                        (0.50000, 9.01756)
+                        (1.00000, 9.07004)
+                        (1.50000, 9.15684)
+                        (2.00000, 9.27699)
+                        (2.50000, 9.42922)
+                        (3.00000, 9.61200)
+                        (3.50000, 9.82364)
+                        (4.00000, 10.06231)
+                        (4.50000, 10.32613)
+                        (5.00000, 10.61323)
+                    };
+                    \addplot [blue] coordinates {
+                        (-5.00000, -10.61323)
+                        (-4.50000, -10.32613)
+                        (-4.00000, -10.06231)
+                        (-3.50000, -9.82364)
+                        (-3.00000, -9.61200)
+                        (-2.50000, -9.42922)
+                        (-2.00000, -9.27699)
+                        (-1.50000, -9.15684)
+                        (-1.00000, -9.07004)
+                        (-0.50000, -9.01756)
+                        (0.00000, -9.00000)
+                        (0.50000, -9.01756)
+                        (1.00000, -9.07004)
+                        (1.50000, -9.15684)
+                        (2.00000, -9.27699)
+                        (2.50000, -9.42922)
+                        (3.00000, -9.61200)
+                        (3.50000, -9.82364)
+                        (4.00000, -10.06231)
+                        (4.50000, -10.32613)
+                        (5.00000, -10.61323)
+                    };
+                \end{axis}
+
+            \end{tikzpicture}
+        }{График гиперболы $\frac{y^2}{81} - \frac{x^2}{64} = 1$}{ris:task12_2}
+    \end{enumerate}
+
+
+    \section{Графическое решение систем уравнений}
+
+    \subsection{Задание варианта}
+    $\begin{cases}
+         y^2 = x\\
+         y^2 = -x^2 + 9
+    \end{cases}$
+    в диапазоне $0 \leq x \leq 4$ с шагом $\triangle = 0.2$
+
+    \subsection{Обоснование}
+    $y_1^2 = x$\\
+    $y_1 = \pm\sqrt{x}$\bigbreak
+    $y_2^2=9-x^2$\\
+    $y_2=\pm\sqrt{9-x^2}$
+
+    \subsection{Таблица значений}
+    \labeltable{
+        \begin{tabular}{|c|c|c|}
+            \hline
+            x   & $y_1$            & $y_2$            \\
+            \hline
+            0   & 0                & $\pm3$           \\
+            \hline
+            0.2 & $\pm0.447213595$ & $\pm2.993325909$ \\
+            \hline
+            0.4 & $\pm0.632455532$ & $\pm2.973213749$ \\
+            \hline
+            0.6 & $\pm0.774596669$ & $\pm2.939387691$ \\
+            \hline
+            0.8 & $\pm0.894427191$ & $\pm2.891366459$ \\
+            \hline
+            1   & $\pm1$           & $\pm2.828427125$ \\
+            \hline
+            1.2 & $\pm1.095445115$ & $\pm2.749545417$ \\
+            \hline
+            1.4 & $\pm1.183215957$ & $\pm2.653299832$ \\
+            \hline
+            1.6 & $\pm1.264911064$ & $\pm2.537715508$ \\
+            \hline
+            1.8 & $\pm1.341640786$ & $\pm2.4$         \\
+            \hline
+            2   & $\pm1.414213562$ & $\pm2.236067977$ \\
+            \hline
+            2.2 & $\pm1.483239697$ & $\pm2.039607805$ \\
+            \hline
+            2.4 & $\pm1.549193338$ & $\pm1.8$         \\
+            \hline
+            2.6 & $\pm1.61245155$  & $\pm1.496662955$ \\
+            \hline
+            2.8 & $\pm1.673320053$ & $\pm1.077032961$ \\
+            \hline
+            3   & $\pm1.732050808$ & 0                \\
+            \hline
+            3.2 & $\pm1.788854382$ & Нет решения      \\
+            \hline
+            3.4 & $\pm1.843908891$ & Нет решения      \\
+            \hline
+            3.6 & $\pm1.897366596$ & Нет решения      \\
+            \hline
+            3.8 & $\pm1.949358869$ & Нет решения      \\
+            \hline
+            4   & $\pm2$           & Нет решения      \\
+            \hline
+        \end{tabular}
+    }{Таблица значений функций $y_1$ и $y_2$}{tab:task13-values-table}
+    \subsection{График}
+
+    \makenewfig{
+        \begin{tikzpicture}
+
+            \begin{axis}
+                [
+                grid=both,
+                axis lines = middle,
+                title = Система уравнений,
+                xlabel = {$x$},
+                ylabel = {$y$},
+                minor tick num = 1,
+                width = 10cm,
+                height = 10cm]
+                \addplot [blue] coordinates {
+                    (0.00000, 0.00000)
+                    (0.20000, 0.44721)
+                    (0.40000, 0.63246)
+                    (0.60000, 0.77460)
+                    (0.80000, 0.89443)
+                    (1.00000, 1.00000)
+                    (1.20000, 1.09545)
+                    (1.40000, 1.18322)
+                    (1.60000, 1.26491)
+                    (1.80000, 1.34164)
+                    (2.00000, 1.41421)
+                    (2.20000, 1.48324)
+                    (2.40000, 1.54919)
+                    (2.60000, 1.61245)
+                    (2.80000, 1.67332)
+                    (3.00000, 1.73205)
+                    (3.20000, 1.78885)
+                    (3.40000, 1.84391)
+                    (3.60000, 1.89737)
+                    (3.80000, 1.94936)
+                    (4.00000, 2.00000)
+                } ;
+                \addplot [blue] coordinates {
+                    (0.00000, 0.00000)
+                    (0.20000, -0.44721)
+                    (0.40000, -0.63246)
+                    (0.60000, -0.77460)
+                    (0.80000, -0.89443)
+                    (1.00000, -1.00000)
+                    (1.20000, -1.09545)
+                    (1.40000, -1.18322)
+                    (1.60000, -1.26491)
+                    (1.80000, -1.34164)
+                    (2.00000, -1.41421)
+                    (2.20000, -1.48324)
+                    (2.40000, -1.54919)
+                    (2.60000, -1.61245)
+                    (2.80000, -1.67332)
+                    (3.00000, -1.73205)
+                    (3.20000, -1.78885)
+                    (3.40000, -1.84391)
+                    (3.60000, -1.89737)
+                    (3.80000, -1.94936)
+                    (4.00000, -2.00000)
+                }node[pin=130:{$y_1$}]{};
+
+                \addplot [red] coordinates {
+                    (0.00000, 3.00000)
+                    (0.20000, 2.99333)
+                    (0.40000, 2.97321)
+                    (0.60000, 2.93939)
+                    (0.80000, 2.89137)
+                    (1.00000, 2.82843)
+                    (1.20000, 2.74955)
+                    (1.40000, 2.65330)
+                    (1.60000, 2.53772)
+                    (1.80000, 2.40000)
+                    (2.00000, 2.23607)
+                    (2.20000, 2.03961)
+                    (2.40000, 1.80000)
+                    (2.60000, 1.49666)
+                    (2.80000, 1.07703)
+                    (3.00000, 0.00000)
+                } node[pin=45:{$y_2$}]{};
+                \addplot [red] coordinates {
+                    (0.00000, -3.00000)
+                    (0.20000, -2.99333)
+                    (0.40000, -2.97321)
+                    (0.60000, -2.93939)
+                    (0.80000, -2.89137)
+                    (1.00000, -2.82843)
+                    (1.20000, -2.74955)
+                    (1.40000, -2.65330)
+                    (1.60000, -2.53772)
+                    (1.80000, -2.40000)
+                    (2.00000, -2.23607)
+                    (2.20000, -2.03961)
+                    (2.40000, -1.80000)
+                    (2.60000, -1.49666)
+                    (2.80000, -1.07703)
+                    (3.00000, 0.00000)
+                };
+
+                \addplot[mark=*] coordinates {(2.541381265, 1.594171027)} node[pin=45:{$x_1$}]{} ;
+                \addplot[mark=*] coordinates {(2.541381265, -1.594171027)} node[pin=280:{$x_2$}]{} ;
+            \end{axis}
+        \end{tikzpicture}
+    }{Графики функций $y_1$, $y_2$}{ris:task13}
+    \bigbreak
+    Решение системы уравнений: $(2.541381265, 1.594171027)$,\\$(2.541381265, -1.594171027)$.
+
+
+    \section{Плоскость в трёхмерном пространстве}
+
+    \subsection{Задание варианта}
+    Построить плоскость, параллельную плоскости $Oxy$ и пересекающую ось $Oz$ в точке $M(0, 0, 20)$; при $0 \leq x $ ≤ $ 10$
+    с шагом $\triangle = 1$; $-5 \leq y $ ≤ $ 5$ с шагом $\triangle = 1$.
+
+    \subsection{Обоснование}
+    Плоскость, параллельная $Oxy$ имеет вид $Cz + D = 0$.
+    Подставим в уравнение координаты точки M.\\
+    $C \cdot 20 + D = 0$\\
+    $D = -C \cdot 20$\\
+    $Cz - C \cdot 20 = 0  | :C$\\
+    $z = 20$ - искомое уравнение.
+
+    \subsection{Таблица значений}
+    \labeltable{
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            x / y & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 \\
+            \hline
+            -5    & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            -4    & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            -3    & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            -2    & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            -1    & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            0     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            1     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            2     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            3     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            4     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+            5     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
+            \hline
+        \end{tabular}
+    }{Таблица значений функции плоскости}{tab:task14-values-table}
+
+    \subsection{График}
+
+    \makenewfig{
+        \begin{tikzpicture}
+
+            \begin{axis}
+                [
+                xlabel = {$x$},
+                ylabel = {$y$},
+                zlabel={$z$}]
+                \addplot3[
+                samples = 20,
+                samples y = 8,
+                only marks,
+                blue
+                ] coordinates {
+                    (-5, 0, 20) (-5, 1, 20) (-5, 2, 20) (-5, 3, 20) (-5, 4, 20) (-5, 5, 20) (-5, 6, 20) (-5, 7, 20) (-5, 8, 20) (-5, 9, 20) (-5, 10, 20)
+                    (-4, 0, 20) (-4, 1, 20) (-4, 2, 20) (-4, 3, 20) (-4, 4, 20) (-4, 5, 20) (-4, 6, 20) (-4, 7, 20) (-4, 8, 20) (-4, 9, 20) (-4, 10, 20)
+                    (-3, 0, 20) (-3, 1, 20) (-3, 2, 20) (-3, 3, 20) (-3, 4, 20) (-3, 5, 20) (-3, 6, 20) (-3, 7, 20) (-3, 8, 20) (-3, 9, 20) (-3, 10, 20)
+                    (-2, 0, 20) (-2, 1, 20) (-2, 2, 20) (-2, 3, 20) (-2, 4, 20) (-2, 5, 20) (-2, 6, 20) (-2, 7, 20) (-2, 8, 20) (-2, 9, 20) (-2, 10, 20)
+                    (-1, 0, 20) (-1, 1, 20) (-1, 2, 20) (-1, 3, 20) (-1, 4, 20) (-1, 5, 20) (-1, 6, 20) (-1, 7, 20) (-1, 8, 20) (-1, 9, 20) (-1, 10, 20)
+                    (0, 0, 20) (0, 1, 20) (0, 2, 20) (0, 3, 20) (0, 4, 20) (0, 5, 20) (0, 6, 20) (0, 7, 20) (0, 8, 20) (0, 9, 20) (0, 10, 20)
+                    (1, 0, 20) (1, 1, 20) (1, 2, 20) (1, 3, 20) (1, 4, 20) (1, 5, 20) (1, 6, 20) (1, 7, 20) (1, 8, 20) (1, 9, 20) (1, 10, 20)
+                    (2, 0, 20) (2, 1, 20) (2, 2, 20) (2, 3, 20) (2, 4, 20) (2, 5, 20) (2, 6, 20) (2, 7, 20) (2, 8, 20) (2, 9, 20) (2, 10, 20)
+                    (3, 0, 20) (3, 1, 20) (3, 2, 20) (3, 3, 20) (3, 4, 20) (3, 5, 20) (3, 6, 20) (3, 7, 20) (3, 8, 20) (3, 9, 20) (3, 10, 20)
+                    (4, 0, 20) (4, 1, 20) (4, 2, 20) (4, 3, 20) (4, 4, 20) (4, 5, 20) (4, 6, 20) (4, 7, 20) (4, 8, 20) (4, 9, 20) (4, 10, 20)
+                    (5, 0, 20) (5, 1, 20) (5, 2, 20) (5, 3, 20) (5, 4, 20) (5, 5, 20) (5, 6, 20) (5, 7, 20) (5, 8, 20) (5, 9, 20) (5, 10, 20)
+                };
+            \end{axis}
+        \end{tikzpicture}
+    }{График плоскости, параллельной $Oxy$ проходящей через $M(0, 0, 20)$}{ris:task14}
+
+
+    \section{Поверхность второго порядка в трёхмерном пространстве}
+
+    \subsection{Задание варианта}
+    Построить верхнюю часть гиперболоида, заданного уравнением $\frac{x^2}{25} + \frac{y^2}{16} - \frac{z^2}{9} = 1$,
+    лежащую в диапазоне $-5 \leq x $ ≤ $ 5$ с шагом $\triangle = 1$ и $-3 \leq y $ ≤ $ 3$ с шагом $\triangle = 0.5$.
+
+    \subsection{Обоснование}
+    $\frac{x^2}{25} + \frac{y^2}{16} - \frac{z^2}{9} = 1$\\
+    $\frac{z^2}{9} = \frac{x^2}{25} + \frac{y^2}{16} - 1$\\
+    $z^2 = \frac{9x^2}{25} + \frac{9y^2}{16} - 9$\\
+    $z = \sqrt{\frac{9x^2}{25} + \frac{9y^2}{16} - 9}$, так как по условию нужно получить только верхнюю часть гиперболоида,
+    будем брать результат с плюсом.
+
+    \subsection{Таблица значений}
+    \labeltable{
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            x / y & -5         & -4  & -3          & -2          & -1          & 0           & 1           & 2           & 3           & 4   & 5          \\
+            \hline
+            -3    & 2.88140591 & 1.8 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 1.8 & 2.88140591 \\
+            \hline
+            -2.5  & 2.70416346 & 1.5 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 1.5 & 2.70416346 \\
+            \hline
+            -2    & 2.55       & 1.2 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 1.2 & 2.55 \\
+            \hline
+            -1.5  & 2.42332416 & 0.9 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0.9 & 2.42332416 \\
+            \hline
+            -1    & 2.3286262  & 0.6 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0.6 & 2.3286262 \\
+            \hline
+            -0.5  & 2.26991189 & 0.3 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0.3 & 2.26991189 \\
+            \hline
+            0     & 2.25       & 0   & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0 & 2.25 \\
+            \hline
+            0.5   & 2.26991189 & 0.3 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0.3 & 2.26991189 \\
+            \hline
+            1     & 2.3286262  & 0.6 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0.6 & 2.3286262 \\
+            \hline
+            1.5   & 2.42332416 & 0.9 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 0.9 & 2.42332416 \\
+            \hline
+            2     & 2.55       & 1.2 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 1.2 & 2.55 \\
+            \hline
+            2.5   & 2.70416346 & 1.5 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 1.5 & 2.70416346 \\
+            \hline
+            3     & 2.88140591 & 1.8 & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ & 1.8 & 2.88140591 \\
+            \hline
+        \end{tabular}
+    }{Таблица значений гиперболоида}{tab:task15-values-table}
+
+    \subsection{График}
+    \makenewfig{
+        \begin{tikzpicture}
+
+            \begin{axis}
+                [
+                xlabel = {$x$},
+                ylabel = {$y$},
+                zlabel={$z$}]
+                \addplot3[
+                samples = 20,
+                samples y = 8,
+                only marks,
+                blue
+                ] coordinates {
+                    (-5, -3, 2.881405907) (-4, -3, 1.8) (4, -3, 1.8) (5, -3, 2.881405907)
+                    (-5, -2.5, 2.704163457) (-4, -2.5, 1.5)  (4, -2.5, 1.5) (5, -2.5, 2.704163457)
+                    (-5, -2, 2.55) (-4, -2, 1.2)  (4, -2, 1.2) (5, -2, 2.55)
+                    (-5, -1.5, 2.423324163) (-4, -1.5, 0.9) (4, -1.5, 0.9) (5, -1.5, 2.423324163)
+                    (-5, -1, 2.328626204) (-4, -1, 0.6)  (4, -1, 0.6) (5, -1, 2.328626204)
+                    (-5, -0.5, 2.269911893) (-4, -0.5, 0.3)  (4, -0.5, 0.3) (5, -0.5, 2.269911893)
+                    (-5, 0, 2.25) (-4, 0, 0)  (4, 0, 0) (5, 0, 2.25)
+                    (-5, 0.5, 2.269911893) (-4, 0.5, 0.3) (4, 0.5, 0.3) (5, 0.5, 2.269911893)
+                    (-5, 1, 2.328626204) (-4, 1, 0.6)  (4, 1, 0.6) (5, 1, 2.328626204)
+                    (-5, 1.5, 2.423324163) (-4, 1.5, 0.9)  (4, 1.5, 0.9) (5, 1.5, 2.423324163)
+                    (-5, 2, 2.55) (-4, 2, 1.2)  (4, 2, 1.2) (5, 2, 2.55)
+                    (-5, 2.5, 2.704163457) (-4, 2.5, 1.5) (4, 2.5, 1.5) (5, 2.5, 2.704163457)
+                    (-5, 3, 2.881405907) (-4, 3, 1.8) (4, 3, 1.8) (5, 3, 2.881405907)
+                };
+            \end{axis}
+        \end{tikzpicture}
+    }{График поверхности $\frac{x^2}{25} + \frac{y^2}{16} - \frac{z^2}{9} = 1$}{ris:task15}
+
+% Литра http://www.pm298.ru/reshenie/dsere.php
+
+\end{document}

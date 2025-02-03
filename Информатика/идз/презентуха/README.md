@@ -1,0 +1,1 @@
+Ссылка на презентацию: https://docs.google.com/presentation/d/1vVOTuPCL3I-vTQAyE3URrCWw4FkjYjKX/edit?usp=sharing&ouid=111754423437024546438&rtpof=true&sd=true

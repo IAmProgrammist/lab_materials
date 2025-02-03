@@ -1,0 +1,70 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report3.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgEAJTSFK}
+\begin{lrbox}{\bdgEAJTSFK}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontEAJTSFKHFHDICCB[Scale=0.693004, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorEAJTSFKGIKCSJN}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEAJTSFKLHCEQEO}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorEAJTSFKRBHFPTR}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.225771 cm, fill=colorEAJTSFKGIKCSJN, draw=none] (2.094473,0.004890) -- (3.900637,0.004890) -- (3.900637,-0.446652) -- (2.094473,-0.446652) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.225771 cm, fill=none, line width=0.024448cm, colorEAJTSFKRBHFPTR] (2.094473,0.004890) -- (3.900637,0.004890) -- (3.900637,-0.446652) -- (2.094473,-0.446652) -- cycle;
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(2.606429, -0.299966) {\verb|Начало|};
+\draw[fill=colorEAJTSFKGIKCSJN, draw=none, opacity=1.000000] (1.117511,-0.788918) -- (4.877600,-0.788918) -- (4.877600,-1.538916) -- (1.117511,-1.538916) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024448cm, colorEAJTSFKRBHFPTR] (1.117511,-0.788918) -- (4.877600,-0.788918) -- (4.877600,-1.538916) -- (1.117511,-1.538916) -- cycle;
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(1.264196, -1.122184) {\verb|Подготовить входные данные|};
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(1.869896, -1.392230) {\verb|matrix и function|};
+\draw[opacity=1.000000, fill=none, line width=0.014669 cm, colorEAJTSFKRBHFPTR] (2.997555,-0.446652) -- (2.997555,-0.788918);
+\draw[opacity=1.000000, fill=colorEAJTSFKGIKCSJN, draw=none] (-0.004890, -2.984072) -- (0.270833, -1.881183) -- (6.000000, -1.881183) -- (5.724278, -2.984072) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024448cm, colorEAJTSFKRBHFPTR] (-0.004890, -2.984072) -- (0.270833, -1.881183) -- (6.000000, -1.881183) -- (5.724278, -2.984072) --cycle;
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(2.138904, -2.186038) {\verb|Вывести ответ|};
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(2.084947, -2.511712) {\verb|(вызов функции |};
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(0.270831, -2.837386) {\verb|solveSystemOfLinearEquationsBigPenalties)|};
+\draw[opacity=1.000000, fill=none, line width=0.014669 cm, colorEAJTSFKRBHFPTR] (2.997555,-1.538916) -- (2.997555,-1.881183);
+\draw[opacity=1.000000, rounded corners=0.239976 cm, fill=colorEAJTSFKGIKCSJN, draw=none] (2.037651,-3.326339) -- (3.957459,-3.326339) -- (3.957459,-3.806291) -- (2.037651,-3.806291) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.239976 cm, fill=none, line width=0.024448cm, colorEAJTSFKRBHFPTR] (2.037651,-3.326339) -- (3.957459,-3.326339) -- (3.957459,-3.806291) -- (2.037651,-3.806291) -- cycle;
+\verbatimfont{\normalsize\fontEAJTSFKHFHDICCB}
+\node[opacity=1.000000, above right, colorEAJTSFKRBHFPTR] at(2.673636, -3.659605) {\verb|Конец|};
+\draw[opacity=1.000000, fill=none, line width=0.014669 cm, colorEAJTSFKRBHFPTR] (2.997555,-2.984072) -- (2.997555,-3.326339);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgEAJTSFK}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

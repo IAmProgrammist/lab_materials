@@ -1,0 +1,184 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			РГЗ}}\\
+	\normalsize{
+		по дисциплине: Математическая логика и теория алгоритмов}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: ст. пр. Куценко Дмитрий\\Александрович
+}
+\vfill\begin{center}
+	Белгород \the\year г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{РГЗ}
+\end{center}
+\begin{enumerate}
+    \item (6.3) Вывести в исчислении высказываний: $A \rightarrow \overline{\overline{A}}$. 
+\begin{minted}{console}
+(* Задание 6.3
+
+Проверим на то, что A -> ~~A непротиворечиво.*)
+
+Theorem task1: forall A: Prop, A -> ~~A.
+
+Proof.
+intros.
+tauto.
+Qed.
+
+(* Так как силлогизм A -> ~~A непротиворечив, можно добавить его в правила вывода
+в натуральное исчисление высказываний. Можно использовать теорему task1 
+для доказательства *)
+
+Goal forall A: Prop, A -> ~~A.
+
+Proof.
+intros.
+apply task1.
+exact H.
+Qed.
+
+(* Доказано. *)
+\end{minted}
+\item (12.12) Доказать, что формула $\vdash \overline{A \wedge \overline{A}}$ выводима в исчислении высказываний.
+\begin{minted}{console}
+(* Задание 12.12
+
+Проверим то, что теорема (~(A /\ ~A)) тождественно истинна.*)
+
+Axiom demorgan: forall A: Prop, ~A \/ A -> (~(A /\ ~A)).
+Axiom noThird: forall A: Prop, True -> ~A \/ A.
+Theorem task2: forall A: Prop, True -> (~(A /\ ~A)).
+
+Proof.
+intros.
+apply demorgan.
+apply noThird.
+exact H.
+Qed.
+
+(* Теорема (~(A /\ ~A)) тождественно истинна, 
+а значит можно добавить её в качестве
+аксиомы в аксиоматическое исчисление высказываний и 
+использовать для доказательства*)
+
+Goal forall A: Prop, True -> ~(A /\ ~A).
+
+Proof.
+intros.
+apply task2.
+exact H.
+Qed.
+
+(* Доказано.*) 
+\end{minted}
+\item Построить выводы формулы $(A \wedge B) \rightarrow C \vdash A \rightarrow (B \rightarrow C)$ в различных исчислениях высказываний
+\begin{minted}{console}
+(* Задание 15.10 
+
+((A /\ B) -> C) -> (A -> (B -> C))
+*)
+
+Goal forall A B C: Prop, ((A /\ B) -> C) -> (A -> (B -> C)).
+
+Axiom addImpl: forall A B C: Prop, ((A /\ B) -> C) -> (A /\ B) -> C.
+Axiom remConj: forall A B: Prop, A -> B -> A /\ B.
+
+Proof.
+intros.
+eapply addImpl.
+- exact H.
+- apply remConj.
+  * exact H0.
+  * exact H1.
+Qed.
+
+(* Доказано в натуральном исчислении высказываний. *)
+\end{minted}
+
+\item (20.11 - задание 20.10 было заменено из-за невозможности доказать его в Coq. см. \href{https://stackoverflow.com/questions/35518303/is-this-relationship-between-forall-and-exists-provable-in-coq-intuitionistic-lo}{здесь}.) Доказать $\exists x A(x) \vdash \overline{\forall x \overline{A(x)}}$ в исчислении предикатов.
+
+\begin{minted}{console}
+(* Задание 20.11
+
+exists A(x) -> ~(forall (~A x))
+*)
+
+
+Section Task4.
+Variable A : nat -> Prop.
+Theorem task4: (exists x, A x) -> ~(forall y, ~A y).
+Proof.
+  intros H1 H2.
+  destruct H1 as [y H3].
+  apply H2 in H3.
+  contradiction.
+Qed.
+End Task4.
+
+(* Доказано. *)
+\end{minted}
+
+\end{enumerate}
+\end{document}

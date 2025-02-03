@@ -1,0 +1,61 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report4.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgOCGSIP}
+\begin{lrbox}{\bdgOCGSIP}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontOCGSIPRDLCRAPJ[Scale=0.742797, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorOCGSIPHFLBMC}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOCGSIPEQEICONH}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOCGSIPDDCMAIK}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.279354 cm, fill=colorOCGSIPHFLBMC, draw=none] (0.226221,0.005241) -- (4.768538,0.005241) -- (4.768538,-0.553467) -- (0.226221,-0.553467) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.279354 cm, fill=none, line width=0.026204cm, colorOCGSIPDDCMAIK] (0.226221,0.005241) -- (4.768538,0.005241) -- (4.768538,-0.553467) -- (0.226221,-0.553467) -- cycle;
+\verbatimfont{\normalsize\fontOCGSIPRDLCRAPJ}
+\node[opacity=1.000000, above right, colorOCGSIPDDCMAIK] at(0.505576, -0.396242) {\verb|getAnswerTransportTask(c, x)|};
+\draw[fill=colorOCGSIPHFLBMC, draw=none, opacity=1.000000] (-0.005241,-0.920327) -- (5.000000,-0.920327) -- (5.000000,-1.811732) -- (-0.005241,-1.811732) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026204cm, colorOCGSIPDDCMAIK] (-0.005241,-0.920327) -- (5.000000,-0.920327) -- (5.000000,-1.811732) -- (-0.005241,-1.811732) -- cycle;
+\verbatimfont{\normalsize\fontOCGSIPRDLCRAPJ}
+\node[opacity=1.000000, above right, colorOCGSIPDDCMAIK] at(0.151985, -1.313621) {\verb|Считаем сумму result = cij * xij, |};
+\verbatimfont{\normalsize\fontOCGSIPRDLCRAPJ}
+\node[opacity=1.000000, above right, colorOCGSIPDDCMAIK] at(1.578632, -1.654506) {\verb|для всех i, j |};
+\draw[opacity=1.000000, fill=none, line width=0.015723 cm, colorOCGSIPDDCMAIK] (2.497380,-0.553467) -- (2.497380,-0.920327);
+\draw[opacity=1.000000, rounded corners=0.274236 cm, fill=colorOCGSIPHFLBMC, draw=none] (1.234791,-2.178591) -- (3.759969,-2.178591) -- (3.759969,-2.727063) -- (1.234791,-2.727063) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.274236 cm, fill=none, line width=0.026204cm, colorOCGSIPDDCMAIK] (1.234791,-2.178591) -- (3.759969,-2.178591) -- (3.759969,-2.727063) -- (1.234791,-2.727063) -- cycle;
+\verbatimfont{\normalsize\fontOCGSIPRDLCRAPJ}
+\node[opacity=1.000000, above right, colorOCGSIPDDCMAIK] at(1.509027, -2.569838) {\verb|Вернуть result|};
+\draw[opacity=1.000000, fill=none, line width=0.015723 cm, colorOCGSIPDDCMAIK] (2.497380,-1.811732) -- (2.497380,-2.178591);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{5.000000cm}{!}{\usebox{\bdgOCGSIP}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

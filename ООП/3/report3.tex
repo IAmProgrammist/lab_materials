@@ -1,0 +1,118 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №3}}\\
+    \normalsize{
+        по дисциплине: ООП \\
+        тема: «Объектная декомпозиция»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Черников Сергей Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №3}\\
+    «Объектная декомпозиция»\\
+    Вариант 10
+\end{center}
+\textbf{Цель работы: }приобретение навыков выполнения объектной
+декомпозиции, выявления объектов и отношений между ними в заданной
+предметной области.
+
+для указанных в варианте заданий выполнить
+объектную декомпозицию, построить диаграмму взаимодействия объектов
+(минимум 7 объектов).\\
+
+\textbf{Задание 1}\\
+Программа для воспроизведения музыкальных файлов\\
+Выполним объектную декомпозицию программу для воспроизведения музыкальных файлов. 
+Пользователь может накладывать различные эффекты, добавлять в плейлист треки, изменять их порядок, 
+ставить на паузу, изменять громкость воспроизведения.
+Эти процессы можно моделировать при помощи 7 объектов: 
+плеер, плейлист, трек, библиотека эффектов, эхо, эквалайзер, компрессор.\\
+\includegraphics[width=190mm]{task1}\\
+Эффекты получают сообщения добавления, сообщения инициируются библиотекой эффектов и плеером
+в соответствии с командой пользователя. Добавление/удаление трека инициируется плейлистом, плеером, 
+пользователем. Сообщение об изменении порядка треков в плейлисте и текущем треке инициируется плеером, 
+пользователем. Сообщения о паузе, изменении громкости приходят в плеер от пользователя.\\
+
+\textbf{Задание 2}\\
+Компьютерная игра в жанре «Стратегия» с произвольным заданием концепции\\
+Выполним объектную декомпозицию игры. 
+Игрок может создавать город, улучшать его, строить фермы, шахты и получать от них ресурсы. 
+Также строить казармы, тренировать воинов и нападать при помощи них на врагов.
+Эти процессы можно моделировать при помощи 7 объектов: 
+игрок, город, ферма, шахта, казармы, воин, враг.\\
+\includegraphics[width=190mm]{task2}\\
+Воин может защищаться от врагов и атаковать их, также воин
+может получить сообщение о перемещении от казармы при помощи \"Направить\".
+Это сообщение в казарму приходит от игрока. Сообщение о начале работы и постройке 
+приходит из города в объекты шахты, фермы, казармы. Игрок также может 
+улучшить город, это сообщение приходит в город. \\
+
+\textbf{Вывод: } в ходе лабораторной работы приобретены навыки выполнения объектной
+декомпозиции, выявления объектов и отношений между ними в заданной
+предметной области.
+
+\end{document}

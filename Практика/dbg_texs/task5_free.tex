@@ -1,0 +1,59 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorPANHKENGOSTOEFQF}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontPANHKENGKLGLCLRM[Scale=1.074543, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorPANHKENGOSTOEFQF}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorPANHKENGKQKLEN}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorPANHKENGAHPERHGS}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.416983 cm, fill=colorPANHKENGKQKLEN, draw=none] (1.345716,0.007582) -- (8.646702,0.007582) -- (8.646702,-0.826384) -- (1.345716,-0.826384) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.416983 cm, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (1.345716,0.007582) -- (8.646702,0.007582) -- (8.646702,-0.826384) -- (1.345716,-0.826384) -- cycle;
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(1.748193, -0.585469) {\verb|freeJosephProblemMatrix(matrix)|};
+        \draw[opacity=1.000000, fill=colorPANHKENGKQKLEN, draw=none] (0.371494, -3.669447) -- (2.683851, -1.357089) -- (7.308567, -1.357089) -- (9.620925, -3.669447) -- (7.308567, -5.981804) -- (2.683851, -5.981804) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (0.371494, -3.669447) -- (2.683851, -1.357089) -- (7.308567, -1.357089) -- (9.620925, -3.669447) -- (7.308567, -5.981804) -- (2.683851, -5.981804) --cycle;
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(2.895590, -3.754536) {\verb|i := 0, matrix.n - 1|};
+        \draw[fill=colorPANHKENGKQKLEN, draw=none, opacity=1.000000] (2.350265,-6.512509) -- (7.642153,-6.512509) -- (7.642153,-7.346475) -- (2.350265,-7.346475) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (2.350265,-6.512509) -- (7.642153,-6.512509) -- (7.642153,-7.346475) -- (2.350265,-7.346475) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (2.475360,-6.512509) -- (7.517058,-6.512509) -- (7.517058,-7.346475) -- (2.475360,-7.346475) -- cycle;
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(2.701415, -7.105560) {\verb|free(matrix.matrix[i])|};
+        \draw[opacity=1.000000, fill=none, line width=0.037908 cm, colorPANHKENGAHPERHGS] (4.996209,-5.981804) -- (4.996209,-6.512509);
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(4.761638, -6.370154) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (4.996209, -7.346475) -- (4.996209, -7.877180) -- (-0.007582, -7.877180) -- (-0.007582, -3.669447) -- (0.371494, -3.669447);
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(9.788173, -3.442002) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (9.620925, -3.669447) -- (10.000000, -3.669447) -- (10.000000, -8.256255) -- (4.996209, -8.256255);
+        \draw[opacity=1.000000, fill=none, line width=0.037908 cm, colorPANHKENGAHPERHGS] (4.996209,-0.826384) -- (4.996209,-1.357089);
+        \draw[fill=colorPANHKENGKQKLEN, draw=none, opacity=1.000000] (2.661107,-8.786960) -- (7.331312,-8.786960) -- (7.331312,-9.620925) -- (2.661107,-9.620925) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (2.661107,-8.786960) -- (7.331312,-8.786960) -- (7.331312,-9.620925) -- (2.661107,-9.620925) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (2.786202,-8.786960) -- (7.206217,-8.786960) -- (7.206217,-9.620925) -- (2.786202,-9.620925) -- cycle;
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(3.001504, -9.380010) {\verb|free(matrix.matrix)|};
+        \draw[opacity=1.000000, fill=none, line width=0.037908 cm, colorPANHKENGAHPERHGS] (4.996209,-8.256255) -- (4.996209,-8.786960);
+        \draw[opacity=1.000000, rounded corners=0.416983 cm, fill=colorPANHKENGKQKLEN, draw=none] (3.328279,-10.151630) -- (6.664139,-10.151630) -- (6.664139,-10.985595) -- (3.328279,-10.985595) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.416983 cm, fill=none, line width=0.037908cm, colorPANHKENGAHPERHGS] (3.328279,-10.151630) -- (6.664139,-10.151630) -- (6.664139,-10.985595) -- (3.328279,-10.985595) -- cycle;
+        \verbatimfont{\normalsize\fontPANHKENGKLGLCLRM}
+        \node[opacity=1.000000, above right, colorPANHKENGAHPERHGS] at(4.466641, -10.744680) {\verb|Выход|};
+        \draw[opacity=1.000000, fill=none, line width=0.037908 cm, colorPANHKENGAHPERHGS] (4.996209,-9.620925) -- (4.996209,-10.151630);
+    \end{tikzpicture}
+\end{document}

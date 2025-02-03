@@ -1,0 +1,1 @@
+{"data":[{"data":"getColumn(matrix, n, columnIndex, column)","type":"bd_element_terminator"},{"data":{"data":"j := 0, n - 1","body":{"data":[{"data":"column[j] := matrix[j][columnIndex]","type":"bd_element_process"}],"type":"bd_element_container"}},"type":"bd_element_modifier"},{"data":"Выход (column)","type":"bd_element_terminator"}],"type":"bd_element_container"}

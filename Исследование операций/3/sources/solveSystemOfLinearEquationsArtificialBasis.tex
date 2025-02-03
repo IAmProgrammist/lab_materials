@@ -1,0 +1,156 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report3.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgCHATIOP}
+\begin{lrbox}{\bdgCHATIOP}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontCHATIOPSNRIJT[Scale=0.720370, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorCHATIOPRCFOPNDK}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorCHATIOPMJLTSTB}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorCHATIOPKFGDNBQP}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.270920 cm, fill=colorCHATIOPRCFOPNDK, draw=none] (-0.005083,0.005083) -- (9.000000,0.005083) -- (9.000000,-0.536757) -- (-0.005083,-0.536757) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.270920 cm, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (-0.005083,0.005083) -- (9.000000,0.005083) -- (9.000000,-0.536757) -- (-0.005083,-0.536757) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(0.265838, -0.384278) {\verb|solveSystemOfLinearEquationsArtificialBasis(matrix, function)|};
+\draw[fill=colorCHATIOPRCFOPNDK, draw=none, opacity=1.000000] (1.949992,-0.892539) -- (7.044925,-0.892539) -- (7.044925,-2.074966) -- (1.949992,-2.074966) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.949992,-0.892539) -- (7.044925,-0.892539) -- (7.044925,-2.074966) -- (1.949992,-2.074966) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.127356,-0.892539) -- (6.867561,-0.892539) -- (6.867561,-2.074966) -- (2.127356,-2.074966) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.279834, -1.258820) {\verb|Получаем расширенную матрицу для |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.422348, -1.583953) {\verb|решения вспомогательной задачи|};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.788157, -1.922488) {\verb|(вызов getDataForAuxTask)|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-0.536757) -- (4.497459,-0.892539);
+\draw[fill=colorCHATIOPRCFOPNDK, draw=none, opacity=1.000000] (1.881179,-2.430749) -- (7.113738,-2.430749) -- (7.113738,-3.568132) -- (1.881179,-3.568132) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.881179,-2.430749) -- (7.113738,-2.430749) -- (7.113738,-3.568132) -- (1.881179,-3.568132) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.051787,-2.430749) -- (6.943131,-2.430749) -- (6.943131,-3.568132) -- (2.051787,-3.568132) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.204264, -2.797030) {\verb|Решаем полученную вспомогательную |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.901945, -3.077119) {\verb|задачу симплекс методом|};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.299129, -3.415654) {\verb|(вызов solveSimplexMethodMaxRaw)|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-2.074966) -- (4.497459,-2.430749);
+\draw[opacity=1.000000, fill=colorCHATIOPRCFOPNDK, draw=none] (1.644371, -5.350459) -- (4.497459, -6.777003) -- (7.350546, -5.350459) -- (4.497459, -3.923915) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.644371, -5.350459) -- (4.497459, -6.777003) -- (7.350546, -5.350459) -- (4.497459, -3.923915) --cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.882917, -5.284246) {\verb|Ответ для |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.626595, -5.612854) {\verb|вспомогательной функции = 0|};
+\draw[opacity=1.000000, rounded corners=0.407428 cm, fill=colorCHATIOPRCFOPNDK, draw=none] (2.718991,-7.132785) -- (6.275926,-7.132785) -- (6.275926,-7.947641) -- (2.718991,-7.947641) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.407428 cm, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.718991,-7.132785) -- (6.275926,-7.132785) -- (6.275926,-7.947641) -- (2.718991,-7.947641) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.126419, -7.515818) {\verb|Выбрасываем ошибку - |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.744746, -7.795163) {\verb|решения нет|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-6.777003) -- (4.497459,-7.132785);
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(4.321602, -7.003238) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015248cm, colorCHATIOPKFGDNBQP] (1.644371, -5.350459) -- (1.390241, -5.350459) -- (1.390241, -7.132785);
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.390241, -5.248807) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015248cm, colorCHATIOPKFGDNBQP] (1.390241, -7.132785) -- (1.390241, -8.303424) -- (4.497459, -8.303424);
+\draw[opacity=1.000000, fill=none, line width=0.015248cm, colorCHATIOPKFGDNBQP] (4.497459, -7.947641) -- (4.497459, -8.303424) -- (4.497459, -8.303424);
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-3.568132) -- (4.497459,-3.923915);
+\draw[fill=colorCHATIOPRCFOPNDK, draw=none, opacity=1.000000] (2.340476,-8.659207) -- (6.654442,-8.659207) -- (6.654442,-9.838780) -- (2.340476,-9.838780) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.340476,-8.659207) -- (6.654442,-8.659207) -- (6.654442,-9.838780) -- (2.340476,-9.838780) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.625417, -9.025488) {\verb|Копируем полученную матрицу |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.492953, -9.357694) {\verb|в исходную, обрезая столбцы с |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.493078, -9.686302) {\verb|искусственными коэффициентами|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-8.303424) -- (4.497459,-8.659207);
+\draw[fill=colorCHATIOPRCFOPNDK, draw=none, opacity=1.000000] (1.233618,-10.194563) -- (7.761300,-10.194563) -- (7.761300,-11.656459) -- (1.233618,-11.656459) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.233618,-10.194563) -- (7.761300,-10.194563) -- (7.761300,-11.656459) -- (1.233618,-11.656459) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.647486, -10.562332) {\verb|Определяем, какие переменные можно внести |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.296957, -10.842422) {\verb|вместо искусственных переменных. |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.386096, -11.172519) {\verb|Переменные в filterIndices могут их заменить, |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.388764, -11.503980) {\verb|в requiredIndices - должны остаться в базисе.|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-9.838780) -- (4.497459,-10.194563);
+\draw[fill=colorCHATIOPRCFOPNDK, draw=none, opacity=1.000000] (1.384185,-12.012242) -- (7.610732,-12.012242) -- (7.610732,-13.216384) -- (1.384185,-13.216384) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.384185,-12.012242) -- (7.610732,-12.012242) -- (7.610732,-13.216384) -- (1.384185,-13.216384) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.564807,-12.012242) -- (7.430111,-12.012242) -- (7.430111,-13.216384) -- (1.564807,-13.216384) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.224428, -12.395274) {\verb|Приводим матрицу к новому базису, |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.717285, -12.725371) {\verb|учитывая filterIndices и requiredIndices|};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.067602, -13.063905) {\verb|(вызов getAllBasises)|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-11.656459) -- (4.497459,-12.012242);
+\draw[opacity=1.000000, fill=colorCHATIOPRCFOPNDK, draw=none] (2.118136, -14.761828) -- (4.497459, -15.951489) -- (6.876781, -14.761828) -- (4.497459, -13.572167) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.118136, -14.761828) -- (4.497459, -15.951489) -- (6.876781, -14.761828) -- (4.497459, -13.572167) --cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.120835, -14.702254) {\verb|Возможно ли привести|};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.403630, -15.034460) {\verb|к такому базису?|};
+\draw[opacity=1.000000, rounded corners=0.407428 cm, fill=colorCHATIOPRCFOPNDK, draw=none] (2.718991,-16.307272) -- (6.275926,-16.307272) -- (6.275926,-17.122128) -- (2.718991,-17.122128) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.407428 cm, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.718991,-16.307272) -- (6.275926,-16.307272) -- (6.275926,-17.122128) -- (2.718991,-17.122128) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.126419, -16.690304) {\verb|Выбрасываем ошибку - |};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(3.744746, -16.969649) {\verb|решения нет|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-15.951489) -- (4.497459,-16.307272);
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(4.321602, -16.177725) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015248cm, colorCHATIOPKFGDNBQP] (2.118136, -14.761828) -- (1.864006, -14.761828) -- (1.864006, -16.307272);
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.864006, -14.660176) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015248cm, colorCHATIOPKFGDNBQP] (1.864006, -16.307272) -- (1.864006, -17.477911) -- (4.497459, -17.477911);
+\draw[opacity=1.000000, fill=none, line width=0.015248cm, colorCHATIOPKFGDNBQP] (4.497459, -17.122128) -- (4.497459, -17.477911) -- (4.497459, -17.477911);
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-13.216384) -- (4.497459,-13.572167);
+\draw[fill=colorCHATIOPRCFOPNDK, draw=none, opacity=1.000000] (1.971316,-17.833693) -- (7.023601,-17.833693) -- (7.023601,-19.002595) -- (1.971316,-19.002595) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.971316,-17.833693) -- (7.023601,-17.833693) -- (7.023601,-19.002595) -- (1.971316,-19.002595) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (2.146651,-17.833693) -- (6.848266,-17.833693) -- (6.848266,-19.002595) -- (2.146651,-19.002595) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.701110, -18.180120) {\verb|Вызываем симплекс метод на|};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.907901, -18.511582) {\verb|преобразованной матрице|};
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(2.299129, -18.850116) {\verb|(вызов solveSimplexMethodMaxRaw)|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-17.477911) -- (4.497459,-17.833693);
+\draw[opacity=1.000000, rounded corners=0.259379 cm, fill=colorCHATIOPRCFOPNDK, draw=none] (1.463676,-19.358378) -- (7.531242,-19.358378) -- (7.531242,-19.877137) -- (1.463676,-19.877137) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.259379 cm, fill=none, line width=0.025413cm, colorCHATIOPKFGDNBQP] (1.463676,-19.358378) -- (7.531242,-19.358378) -- (7.531242,-19.877137) -- (1.463676,-19.877137) -- cycle;
+\verbatimfont{\normalsize\fontCHATIOPSNRIJT}
+\node[opacity=1.000000, above right, colorCHATIOPKFGDNBQP] at(1.723055, -19.724658) {\verb|Вернуть результат вызова симплекс метода|};
+\draw[opacity=1.000000, fill=none, line width=0.015248 cm, colorCHATIOPKFGDNBQP] (4.497459,-19.002595) -- (4.497459,-19.358378);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{9.000000cm}{!}{\usebox{\bdgCHATIOP}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

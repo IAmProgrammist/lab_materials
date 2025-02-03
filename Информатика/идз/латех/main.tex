@@ -1,0 +1,230 @@
+\documentclass[a4paper,12pt]{extarticle}
+\usepackage[left=3cm,right=1.5cm,
+top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+\newcommand{\anonsection}[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+
+\begin{document}
+	\linespread{1.5}
+	\setlength{\parskip}{0cm}
+	
+	\newcommand\textbox[1]{
+		\parbox{.45\textwidth}{#1}
+	}
+	
+	\pagenumbering{gobble}
+	
+	\justifying
+	
+	\begin{center}
+		\small{
+			МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ \\РОССИЙСКОЙ ФЕДЕРАЦИИ
+			\bigbreak
+			ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ \\
+			\bigbreak
+			\textbf{«БЕЛГОРОДСКИЙ ГОСУДАРСТВЕННЫЙ \\ТЕХНОЛОГИЧЕСКИЙ УНИВЕРСИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+			\bigbreak
+			Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+	\end{center}
+	
+	\vfill
+	\begin{center}
+		\large{
+			\textbf{
+				Реферат }}\\
+		\normalsize{
+			по дисциплине: Информатика \\
+			тема: «Звуковые платы»}
+	\end{center}
+	\vfill
+	\hfill\textbox{
+		Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+		\bigbreak
+		Проверили: ст. пр.\\Бондаренко Т. В.
+	}
+	\vfill\begin{center}
+		Белгород 2022 г.
+	\end{center}
+	\newpage
+	\renewcommand{\contentsname}{Оглавление}
+	\tableofcontents\newpage
+	
+	
+	\anonsection{Введение}
+	Человек воспринимает до 90\% информации глазами. Именно благодаря этому серьёзные дяди в дорогих костюмах с огромной жаждой к деньгам развивают в индустрии медиаконтента именно визуальную составляющую. Будь то фильмы или игры, картинка становится в них всё реалистичней и красочнее.
+	
+	Однако сегодня мы поговорим об остальных 10\% воспринимаемой информации – звуке. Именно звук подкрепляет и очень часто усиливает эффекты визуальной части, и может даже «переписать» тон и настроение основной визуальной части. Сравните одинаковую сцену с разной музыкой на \textit{слайде 1}. Можете даже попробовать угадать, какая из тем была в оригинальном фильме. \textbf{Тема звука в медиаконтента, а в частности медиаконтенте, воспроизводимом на ПК, актуальна и по сегодняшний день.}
+	
+	\textbf{Задача этого реферата} заключается в кратком описании истории зарождении компьютерного звука.
+	\newpage
+	
+	
+	\section{Эра FM-синтеза}
+	Самой первая звуковая карта имела чисто техническое назначение. Самые первые компьютеры IBM PC, выпускаемые в 80-х, имели примитивный спикер \textbf{PC Speaker}. Он умел воспроизводить за раз не более одного тона и имел проблемы с настройкой громкости. Динамик использовался для воспроизведения диагностических сигналов во время работы с ПК. Однако даже с таким ограниченным набором возможностей создатели игр нашли применение динамику. На \textit{слайде 2} можем увидеть и услышать первую звуковую карту.
+	
+	PC Speaker получил своё развитие в компьютере IBM PCjr, который вышел в 1984 году. В этом компьютере динамик являлся модернизированным трёхголосым синтезатором.
+	
+	В 1986 компания Covox выпустила \textbf{Covox Speech Thing}. Это был простой 8-битный цифро-аналоговый преобразователь (DAC). Её особенность заключалась в том, что плата подключалась к допонительному слоту, к которому обычно подключался принтер. Послушаем её на \textit{слайде 2}.
+	
+	\subsection{MIDI, Tracker и звуковые карты использующие их}
+	Однако звук представленных звуковых плат был достаточно некачественным, исправить ситуацию попытались Adlib и Roland. Вместе с выпуском \textbf{Roland MT-32} и \textbf{Adlib Music Synthesizer} в 1987 звук на компьютере стал полифоническим, то есть многоканальным. Обе эти карты представлены на \textit{слайде 3}
+	
+	Метод Adlib заключался в генерации нескольких накладывающихся волн, в теории Adlib должна была выдавать отменный звук, однако на практике он оказался слишком искусственным. Adlib стала недорогой альтернативой PC Speaker. Послушаем, как она звучит.
+	
+	Roland использовали более сложный подход для генерации звука - \textbf{\textit{wavetable synthesis}}. Сэмпл инструмента записывался в саму память устройства и затем при воспроизведении изменялся тон и громкость сэмпла. Вместе с появлением Roland появился новый формат музыки MIDI. Стоил однако Roland в разы больше Adlib (\$530 против \$220), из-за чего был менее распространённым. Оценим качество звучания Roland.
+	
+	Commodore видя не самый удачный подход для генерации звука у Adlib и высокие цены у Roland разрабатывает собственный стандарт в 1987 для воспроизведения музыки \textbf{\textit{Tracker}}. Новый стандарт был очень схож с wavetable synthesis, звуки также записывались в память звуковой карты. Название Tracker происходит от Track – дорожка, компьютеры Amiga поддерживали 4 таких дорожки.
+	
+	В этом же году компания Creative выпускает свою первую карту \textbf{Creative Music System}, её Вы можете увидеть на \textit{слайде 4}. Она была основана на двух чипах Philips, которые вместе обеспечивали воспроизведение до 12 странных звуков в режиме стерео. Что интересно, в первые карты Creative ставила чипы снятые с производства другими компаниями, стирая с чипов названия производителей и ставя своё название карты. Избежать судебных разборок компании удалось чудом. В 1988 CMS переименовали в \textbf{GameBlaster}, однако делу это не помогло – карта всё равно проигрывала Adlib. Послушаем её.
+	
+	В 1989 Creative выпустила следующую карту \textbf{SoundBlaster}, она также представлена на \textit{слайде 4}. Карта использовала тот же чип что и Adlib, а поэтому получила совместимость со всеми играми, выпущенными на Adlib. Что хоть чем-то выделяться SoundBlaster получила Digital Signal Processor, им стал чип Intel MCS-51, способный воспроизводить звуки с частотой до 23 кГц (качество радиоэфира) и записывать их с частотой до 12 кГц (качество чуть выше телефонной связи). DSP оставался невостребованным, потому что не имел фильтров и производила «грязный» металлический звук. Убедимся в этом.
+	
+	Однако стоимость SoundBlaster была не сильно выше Adlib, поэтому люди вскоре начали покупать карту Creative.
+	Формат Tracker приобрёл большую популярность, музыка в этом формате использовалась во многих играх: Deus Ex, Unreal, Shadow of the Beast. Появились даже первые группы писавшие чисто электронную музыку, для примера Altern-8, Kraftwerk.
+	
+	В 1992 была выпущена представленная на \textit{слайде 5} легендарная звуковая карта \textbf{Gravis Ultrasound (GUS)}, которая использовала метод wavetable synthesis. GUS, или в простонародье Гусь, мог проигрывать до 32 каналов MIDI одновременно, с качеством воспроизводимого ей звука не могла сравниться ни одна карта тех времён. Вот как она звучит.
+	
+	\subsection{Смерть FM-синтеза}
+	Время шло. Людей перестали устраивать звуки FM-синтеза во многом благодаря появлению CD-приводов и \textbf{\textit{CD-Audio}}. CD-Audio имела 16-битный звук и частоту дискретизации 44,1 кГц. Производителям аудиокарт пришлось адаптироваться.
+	
+	В 1992 году Creative выпускает \textbf{Sound Blaster 16}, представленная на \textit{слайде 6} , который поддерживал 16-битные сэмплы (которые на самом деле были 12-битными). Звуковая карта поддерживала старый FM-синтезатор и имела слот для подключения дочерней звуковой карты \textbf{Wave Blaster} для поддержки wavetable-синтеза. Wave Blaster стала разочарованием – она не могла сравниться со старым Roland MT-32, однако пользователям понравилась совместимость со всеми старыми играми, поэтому Sound Blaster 16 была успешной звуковой картой. Оценим её звучание.
+	
+	Особенность FM-синтеза заключалась в том, что она практически не нагружала процессор и полностью обрабатывалась на звуковых картах. Звук проигрываемый с CD-ROM мог полностью парализовать работу компьютера. Но даже с таким недостатком сгенерированный компьютером звук спасти не удалось. Последняя игра с FM-синтезированным звуком была Doom, вышедшем в 1993 году.
+	
+	\textbf{Sound Blaster AWE32}, вышедшая в 1994, положила конец FM-модуляции. Она уже не имела модулей для генерации компьютерного звука, однако имела встроенный wavetable-синтезатор, процессор EMU8011 умеющий накладывать эффекты на воспроизводимый звук, расширяемую до 28 Мбайт память, \textbf{SoundFonts} позволявшая пользователям добавлять свои звуки в таблицу MIDI и крайне внушительные размеры (36 сантиметров в длину). 
+	
+	Присутствовавшие в AWE32 шумы Creative исправила в своей следующей звуковой карте \textbf{AWE64}. Звуковая карта находится на \textit{слайде 6}, вот как она звучала.
+	
+	\subsection{Back To the Future: трекерная музыка в сегодняшние дни}
+	Любители FM-синтеза и Tracker до сих пор создают треки в старом формате Tracker. Благодаря практически неограниченным ресурсам современных компьютеров по сравнению с компьютерами Amiga получается создать настоящие шедевры. Однако самые большие мастера трековой музыки как в старый добрые пишут только на 4 каналах – как на первом пк Commodore Amiga с Tracker. На \textit{слайде 7} представлены одни из трекерных композиций.
+	
+	
+	\section{Современные звуковые карты}
+	С 1998 звуковые карты отказались от устаревшего интерфейса ISA и перешли на новый формат PCI, что позволило существенно ускорить процесс обработки звука. Звуковые карты выкупленной Creative в 1993 Ensoniq кампания выпустила под названиями \textbf{Sound Blaster PCI 64} и \textbf{Sound Blaster PCI 128}, 64 и 128 соответственно голосов полифонии. Вторую версию карты можно найти и послушать на \textit{слайде 8}. Особенности таких карт заключались в отсутствии блоков обработки MIDI. Примерно в то же время кампания Aureal начинает разработку своего программного обеспечения для поддержки объёмного звучания \textbf{\textit{A3D}}
+	
+	Однако технология могла работать только на чипах Aureal - Vortex и Vortex 2. Сами звуковые карты Aureal не делала, их производили Diamond Multimedia под линейкой Monster Sound. 
+	
+	Совместно с Microsoft Creative разработали свою систему объёмного звучания \textbf{\textit{EAX (Environmental Audio eXtensions)}}.
+	
+	Послушать демо-версии с использованием обоих технологий можно на \textit{слайде 9}. Не забудьте надеть наушники, иначе эффект обьёмного звучания будет неполным.
+	
+	\subsection{Противостояние Creative и Aureal}
+	На поле боя в конце 20 века оказались звуковая карта \textbf{Monster Sound MX300}, выпущенная в 1999, и \textbf{Sound Blaster Live!}, выпущенная в 1998. Обе звуковые карты представлены на \textit{слайде 10}. Сердцем первой был Vortex 2, имевший 3 млн. транзисторов, способный выполнять 1200-1800 миллионов инструкций в секунду и обладавший новомодной технологией A3D. Карта выводила 18-битный звук с частотой 48 кГц. Чип также позволял накладывать различные эффекты на воспроизводимый звук и поддерживал схему 5.1 (5 сателлитов и сабвуфер).
+	
+	Новая карта от Creative Sound Blaster Live! Имела процессор EMU10K1 со следующими характеристиками: 2,4 млн. транзисторов, около 1000 миллионов инструкцию в секунду, 32-битный звук, частота звука 48kHz, поддержка EAX. Звуковая карта от Creative могла также похвастаться 64-голосным wavetable-синтезатором, поддержкой 4.1-канальных акустических систем (4 сателлита и сабвуфер) и цифровым процессором FX8010 для наложения более широкого количества эффектов по сравнению с Monster Sound на звуковой поток в реальном времени. Кто лучше мог решать только пользователь тех времён или их кошелёк, карта от Diamond Multimedia стоила \$120, в то время как решение от Creative имело цену \$80.
+	
+	Но победителем в этой борьбе оказался Creative. Кампания Creative подала в суд на Aureal за нарушение одного из своих патентов. Aureal выиграла судебное дело, потратив много денег и времени. Creative выкупила ослабленную Aureal, в дальнейшем технология A3D была объединена с EAX. Diamond пыталась выпускать следующие карты, новая \textbf{Monster Sound MX400} была создана на основе довольно слабого чипа ESS Canyon 3D, карта, закономерно, осталась невостребованной.
+	
+	\subsection{Дальнейшее развитие EAX}
+	В 2001 году Creative анонсировала следующую звуковую карту \textbf{Audigy}, построенная на процессоре EMU10K2, поддерживавшим воспроизведение 64 звуковых потоков \textbf{\textit{DirectSound3D}} и акустические системы формата 5.1. Вместе с звуковыми картами развивался и EAX. Audigy получила драйвера сначала с \textbf{\textit{EAX ADVANCED HD 3.0}}, особенностью которого являлся более широкий спектр настроек эффектов, а затем \textbf{\textit{EAX ADVANCED HD 4.0}}. В игре Hitman 2: Silent Assassin эти технологии были применены на полную катушку.
+	
+	Audigy получилась не без недоработок, цифро-аналоговый преобразователь карты поддерживал 24-битную музыку с частотой дискретизации 96 кГц, но определенные недоработки позволяли работать лишь со стандартными 16-битными сэмплами. Следующая карта из серии \textbf{Sound Blaster Audigy 2} исправила проблемы предшественника и уже поддерживала воспроизведение 24-битных звуков с частотой дискретизации вплоть до 192 кГц. Обе звуковые карты представлены на \textit{слайде 11}, также на этом же слайде можно оценить возможности технологии EAX в игре Hitman.
+	
+	\subsection{SoundStorm}
+	В 2002 году компания NVIDIA представляет революционный чип nForce 2. Звуковая карта \textbf{SoundStorm}, представленная на \textit{слайде 12} и использовавшая этот чип, оказалася настоящим штормом на безоблачном небе индустрии звуковых карт. SoundStorm почти не использовал мощности ПК, опираясь на собственный процессор, чего нельзя сказать о картах Creative. Для обработки трехмерного звука SoundStorm использовал переработанную технологию  \textbf{\textit{Sensaura}}. Одной из особенностей SoundStorm стала возможность аппаратного кодирования звукового потока в формат Dolby Digital 5.1. К сожалению, SoundStorm не получил развития. Заработав положительные отзывы прессы, он снискал спорную популярность среди пользователей. Недоработанное программное обеспечение и наводки от элементов питания материнской платы сделали свое дело. Технология обьёмного звучания, применённая в SoundStorm, была более продвинутой и качественной, давайте просмотрим ролик на \textit{слайде 12}, который наглядно показывает различия обеих технологий.
+	
+	\subsection{Счастливый конец для CreativeStorm}
+	После Creative продолжила выпускать звуковые карты. Вслед за SB Audigy 2 появились \textbf{Audigy 2 ZS}, \textbf{Audigy 2 NX}. Потом появилась \textbf{Audigy 4}. С выходом мощнейшей звуковой карты \textbf{X-Fi (eXtreme Fidelity)}, выполняющей 10 000 миллионов инструкций в секунду и основанной на цифровом чипе, позиции производителя только укрепились.  По сегодняшний день Creative выпускает внешние и внутренние звуковые карты серий Sound Blaster и Audigy. На \textit{слайде 13} представлены современные продукты Creative, которые Вы можете купить в магазине электроники.
+	\newpage
+	
+	
+	\anonsection{Заключение}
+	\textit{Слайд 14}. Однако всё больше пользователей отдают предпочтение встроенным в материнскую плату звуковым чипам (автор реферата использует чип ALC897). Качество звука таких чипов многократно хуже качества звука генерируемого при помощи звуковой карты, говорить о качестве записываемого звука тем более не стоит. Можно много спорить о том, почему это произошло, возможно дело в том, что процессоры стали намного мощнее и необходимость в отдельном устройстве для обработки звука отпала. Возможно делать хороший звук стало просто невыгодно, и теперь современными звуковыми картами пользуются только заядлые аудиофилы, а обычным пользователям хватает низкокачественного звука. Человечество разучилось ценить качественный звук, и всё больше выбирает дешёвые «пищалки» и «гунделки», не замечает колоссальную работу звукорежиссёров, композиторов, отчего портят себе всё впечатление от медиаконтента, ведь в начале реферата мы убедились, что даже 10\% воспринимаемой информации могут полностью изменить остальные 90\%.
+	\newpage
+	
+	
+	\anonsection{Список литературы}
+	\begin{enumerate}[label=\textbf{\arabic*}]
+		\item \textbf{Для реферата:}
+		\begin{itemize}
+			\item Моцарту даже не снилось. История компании Creative, часть 1: [Игромания]. URL: \url{https://www.igromania.ru/article/5190/Mocartu_dazhe_ne_snilos._Istoriya_kompanii_Creative_chast_1.html} (Дата обращения 13.12.2022)
+			\item История Creative. Часть 2, эра звуковых эффектов и многоканальной акустики: [Игромания]. URL: \url{https://www.igromania.ru/article/5247/Istoriya_Creative._Chast_2_yera_zvukovyh_yeffektov_i_mnogokanalnoy_akustiki.html} (Дата обращения 13.12.2022)
+			\item Краткая история дискретных мультимедийных аудиокарт: [Хабр]. URL: \url{https://habr.com/ru/post/203538/} (Дата обращения 13.12.2022)
+			\item Обзор звуковой карты Diamond Monster Sound MX300: [iXBT]. URL: \url{https://www.ixbt.com/multimedia/mx300.html} (Дата обращения 13.12.2022)
+			\item Sound Blaster Live!: [iXBT]. URL: \url{https://www.ixbt.com/multimedia/sblive!.html} (Дата обращения 13.12.2022)
+		\end{itemize}
+		\item \textbf{Для презентации:}
+		\begin{itemize}
+			%Slide 0
+			\item BadFon.ru - обои для рабочего стола: [Фон, плата, схема]. URL: \url{https://www.badfon.ru/wallpaper/plata-shema-fon.html} (дата обращения 15.12.2022)
+			
+			%Slide 1
+			\item YouTube: [How Does Music Change a Movie?]. URL: \url{https://www.badfon.ru/wallpaper/plata-shema-fon.html} (дата обращения 15.12.2022)
+			
+			%Slide 2
+			\item Wikipedia: [Photograph of the Covox Speech Thing (aka Covox plug) released in 1986 by Covox, Inc of Eugene, Oregon. It is an external audio device attached to the parallel port of an IBM-compatible PC to output digital sound.]. URL: \url{https://en.wikipedia.org/wiki/Covox_Speech_Thing#/media/File:Covox_Speech_Thing.jpg} (дата обращения 16.12.2022)
+			\item Wikipedia: [PC Speakers and Buzzers]. URL: \url{https://en.wikipedia.org/wiki/PC_speaker#/media/File:PC-Speaker_IMG_8161_(cropped).JPG} (дата обращения 16.12.2022)
+			\item Flaticon: [Push Button free icon]. URL: \url{https://www.flaticon.com/free-icon/push-button_109620} (дата обращения 16.12.2022)
+			\item YouTube: [The Secret of Monkey Island (Intro) (PC Speaker theme)]. URL: \url{https://www.youtube.com/watch?v=1IOL4q5tDDQ&list=PLRQwR4-_0PR-ek7gJedCYcrABJuiISCul&index=9&ab_channel=Stan%27sPreviouslyOwnedSoundtracks
+			} (дата обращения 16.12.2022)
+			\item YouTube: [Pinball Fantasies w/ Covox sound]. URL: \url{https://www.youtube.com/watch?v=B7prRl2sJ4w&ab_channel=Hudee1985
+			} (дата обращения 16.12.2022)
+			
+			%Slide 3
+			\item Wikipedia: [Внешний вид AdLib Music Synthesizer Card]. URL: \url{https://ru.wikipedia.org/wiki/AdLib#/media/%D0%A4%D0%B0%D0%B9%D0%BB:Adlib.jpg} (дата обращения 16.12.2022)
+			\item Wikipedia: [Photographie d'un synthétiseur Roland MT-32.]. URL: \url{https://en.wikipedia.org/wiki/Roland_MT-32#/media/File:MT_32.jpg} (дата обращения 16.12.2022)
+			\item YouTube: [Space Quest III - Intro/Opening - (Roland MT-32) MS-DOS Game]. URL: \url{https://www.youtube.com/watch?v=PNbXTKuObCQ&ab_channel=barbarianbros} (дата обращения 16.12.2022)
+			\item YouTube: [I'm Impressed, Adlib Music is AMAZING!]. URL: \url{https://www.youtube.com/watch?v=PJNjQYp1ras&ab_channel=PCRetroTech
+			} (дата обращения 16.12.2022)
+			
+			%Slide 4
+			\item Хабр: [1987 Creative Music System]. URL: \url{https://habr.com/images/px.gif#%3D%22http%3A%2F%2Fpiccy.info%2Fview3%2F5491052%2F0b447c5b71a54a417b45db68d238261c%2F%22} (дата обращения 16.12.2022)
+			\item Хабр: [1989 Sound Blaster]. URL: \url{https://habr.com/images/px.gif#%3D%22http%3A%2F%2Fpiccy.info%2Fview3%2F5497003%2F74b4ab88a213ecba79f4197985b49994%2F%22} (дата обращения 16.12.2022)
+			\item YouTube: [Creative Music System animated demos \& music]. URL: \url{https://www.youtube.com/watch?v=rpnE-AH_4SI&t=217s&ab_channel=DOSNostalgia} (дата обращения 16.12.2022)
+			\item YouTube: [The Original Sound Blaster : A Retrospective]. URL: \url{https://www.youtube.com/watch?v=FUpYD8c3JIg&ab_channel=PCRetroTech} (дата обращения 16.12.2022)
+			
+			%Slide 5
+			\item Хабр: [1987 Creative Music System]. URL: \url{https://habr.com/images/px.gif#%3D%22http%3A%2F%2Fpiccy.info%2Fview3%2F5491052%2F0b447c5b71a54a417b45db68d238261c%2F%22} (дата обращения 16.12.2022)
+			\item YouTube: [Future Crew - Second Reality (1993) demoscene demo 2160p60 retro PC]. URL: \url{https://www.youtube.com/watch?v=ugPZnsRHUkc&list=PLCZfGAvgXhFFTdVRzHzzGZQDEKTITV-dn&ab_channel=Overdozeofthedemoscene
+			} (дата обращения 16.12.2022)
+		
+			%Slide 6
+			\item Electrelic: [ISA Sound Blaster 16 SCSI + Wave Blaster]. URL: \url{https://electrelic.com/electrelic/sites/default/files/styles/large/public/pictures/node/103/SB16-1.JPG?itok=rlGpcK_I} (дата обращения 17.12.2022)
+			\item VC Collection: [SB AWE64 Gold (CT4390)]. URL: \url{http://vccollection.ru/wp-content/uploads/2019/02/awe64_gold-perspective-300x187.jpg} (дата обращения 17.12.2022)
+			\item YouTube: [Test Wolfenstein 3D Soundblaster 16 Vibra XV 486DX 40Mhz]. URL: \url{https://www.youtube.com/shorts/P2G-_bCbDvk} (дата обращения 17.12.2022)
+			\item YouTube: [Great Soundblaster AWE32 example music]. URL: \url{https://www.youtube.com/watch?v=U9uW-K737Sc&ab_channel=AlexanderFeld
+			} (дата обращения 17.12.2022)
+		
+			%Slide 7
+			\item Fearofdark: [Fearofdark - Rolling Down The Street, In My Katamari]. URL: \url{https://fearofdark.bandcamp.com/track/rolling-down-the-street-in-my-katamari} (дата обращения 17.12.2022)
+			\item Fearofdark: [Fearofdark - Coffee Zone [NSF, VRC7]]. URL: \url{https://fearofdark.bandcamp.com/track/the-coffee-zone} (дата обращения 17.12.2022)
+			
+			%Slide 8
+			\item Музей мультимедийного IBM PC-совместимого железа: [Creative Sound Blaster PCI 128, CT4700]. URL: \url{https://hw.fagear.ru/wp-content/uploads/20140409_604151-200x176.jpg} (дата обращения 18.12.2022)
+			\item YouTube: [Doom Music Sound Blaster PCI 128]. URL: \url{https://www.youtube.com/watch?v=hkoWpvd1STc&ab_channel=Sakitoshi} (дата обращения 18.12.2022)
+			
+			%Slide 9
+			\item YouTube: [Aureal A3D Demos with OpenAL Soft HRTF (binaural audio) via DSOAL]. URL: \url{https://www.youtube.com/watch?v=02ycCtTYDjg&t=244s&ab_channel=IDrinkLava-3DGameAudio} (дата обращения 18.12.2022)
+			\item YouTube: [Creative EAX Advanced HD: Mystic Temple Demo]. URL: \url{https://www.youtube.com/watch?v=ibi-rF5aKwg&t=16s&ab_channel=BurningFishGaming} (дата обращения 18.12.2022)
+			
+			%Slide 10
+			\item VC Collection: [Vortex 2 (Diamond Monster Sound MX300)]. URL: \url{http://vccollection.ru/wp-content/uploads/2019/03/monster_sound_mx300-perspective-300x206.jpg} (дата обращения 19.12.2022)
+			\item VC Collection: [SB AWE64 Gold (CT4390)]. URL: \url{http://vccollection.ru/wp-content/uploads/2019/02/awe64_gold-perspective-300x187.jpg} (дата обращения 19.12.2022)
+			
+			%Slide 11
+			\item VC Collection: [Vortex 2 (Diamond Monster Sound MX300)]. URL: \url{http://vccollection.ru/wp-content/uploads/2019/03/monster_sound_mx300-perspective-300x206.jpg} (дата обращения 19.12.2022)
+			\item VC Collection: [SB AWE64 Gold (CT4390)]. URL: \url{http://vccollection.ru/wp-content/uploads/2019/02/awe64_gold-perspective-300x187.jpg} (дата обращения 19.12.2022)
+			
+			%Slide 12
+			\item 3DNews: [nForce2. Предварительный обзор]. URL: \url{https://3dnews.ru/documents/3614/soundstormcard.jpg} (дата обращения 20.12.2022)
+			\item YouTube: [Nvidia Soundstorm vs Creative Audigy 2]. URL: \url{https://www.youtube.com/watch?v=MrV3nhxaBTs&ab_channel=Mr.Sophistication} (дата обращения 20.12.2022)
+			
+			%Slide 13
+			\item Яндекс.Маркет: [Внутренняя звуковая карта Creative Sound Blaster Z SE]. URL: \url{https://avatars.mds.yandex.net/get-mpic/4721581/img_id6101482052041688977.png/orig} (дата обращения 21.12.2022)
+			\item Яндекс.Маркет: [Внутренняя звуковая карта Creative X-Fi Xtreme Audio]. URL: \url{https://avatars.mds.yandex.net/get-mpic/96484/img_id4210161177303856098/orig} (дата обращения 21.12.2022)
+			
+			%Slide 14
+			\item Reddit: [The worst headphones ever made]. URL: \url{https://i.imgur.com/8oq4V39l.jpg} (дата обращения 22.12.2022)
+		\end{itemize}
+	\end{enumerate}
+\end{document}

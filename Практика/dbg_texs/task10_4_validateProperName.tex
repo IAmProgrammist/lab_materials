@@ -1,0 +1,55 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorKJJDTSEHSBDKN}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontKJJDTSEAHCDCB[Scale=0.749906, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorKJJDTSEHSBDKN}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorKJJDTSHMLRBN}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorKJJDTSRKAPMBMC}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.291005 cm, fill=colorKJJDTSHMLRBN, draw=none] (0.460317,0.005291) -- (4.534392,0.005291) -- (4.534392,-0.576720) -- (0.460317,-0.576720) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.291005 cm, fill=none, line width=0.026455cm, colorKJJDTSRKAPMBMC] (0.460317,0.005291) -- (4.534392,0.005291) -- (4.534392,-0.576720) -- (0.460317,-0.576720) -- cycle;
+\verbatimfont{\normalsize\fontKJJDTSEAHCDCB}
+\node[opacity=1.000000, above right, colorKJJDTSRKAPMBMC] at(0.749257, -0.420087) {\verb|validateProperName(name)|};
+\draw[fill=colorKJJDTSHMLRBN, draw=none, opacity=1.000000] (-0.005291,-0.947090) -- (5.000000,-0.947090) -- (5.000000,-1.529101) -- (-0.005291,-1.529101) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026455cm, colorKJJDTSRKAPMBMC] (-0.005291,-0.947090) -- (5.000000,-0.947090) -- (5.000000,-1.529101) -- (-0.005291,-1.529101) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.026455cm, colorKJJDTSRKAPMBMC] (0.082011,-0.947090) -- (4.912698,-0.947090) -- (4.912698,-1.529101) -- (0.082011,-1.529101) -- cycle;
+\verbatimfont{\normalsize\fontKJJDTSEAHCDCB}
+\node[opacity=1.000000, above right, colorKJJDTSRKAPMBMC] at(0.237188, -1.372468) {\verb|firstLetterToupperRu(name.name)|};
+\draw[opacity=1.000000, fill=none, line width=0.026455 cm, colorKJJDTSRKAPMBMC] (2.497354,-0.576720) -- (2.497354,-0.947090);
+\draw[opacity=1.000000, rounded corners=0.291005 cm, fill=colorKJJDTSHMLRBN, draw=none] (1.333333,-1.899471) -- (3.661376,-1.899471) -- (3.661376,-2.481481) -- (1.333333,-2.481481) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.291005 cm, fill=none, line width=0.026455cm, colorKJJDTSRKAPMBMC] (1.333333,-1.899471) -- (3.661376,-1.899471) -- (3.661376,-2.481481) -- (1.333333,-2.481481) -- cycle;
+\verbatimfont{\normalsize\fontKJJDTSEAHCDCB}
+\node[opacity=1.000000, above right, colorKJJDTSRKAPMBMC] at(1.614477, -2.324849) {\verb|Выход (name)|};
+\draw[opacity=1.000000, fill=none, line width=0.026455 cm, colorKJJDTSRKAPMBMC] (2.497354,-1.529101) -- (2.497354,-1.899471);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

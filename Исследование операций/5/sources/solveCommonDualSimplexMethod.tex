@@ -1,0 +1,101 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report5.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgOTJROBM}
+\begin{lrbox}{\bdgOTJROBM}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontOTJROBMSOHJFL[Scale=0.678252, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorOTJROBMDILLPR}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOTJROBMPBCEBQPH}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorOTJROBMEABILOS}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.255079 cm, fill=colorOTJROBMDILLPR, draw=none] (-0.004785,0.004785) -- (9.000000,0.004785) -- (9.000000,-0.505373) -- (-0.004785,-0.505373) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.255079 cm, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (-0.004785,0.004785) -- (9.000000,0.004785) -- (9.000000,-0.505373) -- (-0.004785,-0.505373) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(0.250291, -0.361810) {\verb|solveCommonDualSimplexMethod(sourceSystem, sourceFunc, extr, EPS)|};
+\draw[opacity=1.000000, fill=colorOTJROBMDILLPR, draw=none] (2.568721, -1.804797) -- (4.497607, -2.769240) -- (6.426493, -1.804797) -- (4.497607, -0.840354) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.568721, -1.804797) -- (4.497607, -2.769240) -- (6.426493, -1.804797) -- (4.497607, -0.840354) --cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(3.200713, -1.905448) {\verb|Если экстремум - MIN|};
+\draw[opacity=1.000000, rounded corners=0.558048 cm, fill=colorOTJROBMDILLPR, draw=none] (2.265414,-3.104221) -- (6.729801,-3.104221) -- (6.729801,-4.220318) -- (2.265414,-4.220318) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.558048 cm, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.265414,-3.104221) -- (6.729801,-3.104221) -- (6.729801,-4.220318) -- (2.265414,-4.220318) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.926274, -3.458900) {\verb|То получаем двойственную |};
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(3.068459, -3.767360) {\verb|задачу и решаем её той |};
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(3.784114, -4.076755) {\verb|же функцией|};
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-2.769240) -- (4.497607,-3.104221);
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(4.289973, -2.982249) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014356cm, colorOTJROBMEABILOS] (6.426493, -1.804797) -- (6.969073, -1.804797) -- (6.969073, -3.104221);
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(6.899207, -1.709089) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014356cm, colorOTJROBMEABILOS] (6.969073, -3.104221) -- (6.969073, -4.555299) -- (4.497607, -4.555299);
+\draw[opacity=1.000000, fill=none, line width=0.014356cm, colorOTJROBMEABILOS] (4.497607, -4.220318) -- (4.497607, -4.555299) -- (4.497607, -4.555299);
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-0.505373) -- (4.497607,-0.840354);
+\draw[fill=colorOTJROBMDILLPR, draw=none, opacity=1.000000] (2.265320,-4.890280) -- (6.729894,-4.890280) -- (6.729894,-5.378007) -- (2.265320,-5.378007) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.265320,-4.890280) -- (6.729894,-4.890280) -- (6.729894,-5.378007) -- (2.265320,-5.378007) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.408883, -5.234444) {\verb|Вводим дополнительные переменные|};
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-4.555299) -- (4.497607,-4.890280);
+\draw[fill=colorOTJROBMDILLPR, draw=none, opacity=1.000000] (2.804442,-5.712988) -- (6.190773,-5.712988) -- (6.190773,-6.525649) -- (2.804442,-6.525649) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.804442,-5.712988) -- (6.190773,-5.712988) -- (6.190773,-6.525649) -- (2.804442,-6.525649) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.948005, -6.073625) {\verb|Строим симплекс-таблицу, |};
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(3.131198, -6.382085) {\verb|копируя в неё матрицу|};
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-5.378007) -- (4.497607,-5.712988);
+\draw[fill=colorOTJROBMDILLPR, draw=none, opacity=1.000000] (2.127575,-6.860629) -- (6.867639,-6.860629) -- (6.867639,-7.675627) -- (2.127575,-7.675627) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.127575,-6.860629) -- (6.867639,-6.860629) -- (6.867639,-7.675627) -- (2.127575,-7.675627) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.395739, -7.221267) {\verb|Добавляем новую строку - целевую |};
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.271137, -7.532063) {\verb|функцию, умножая её коэф. yi на -1|};
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-6.525649) -- (4.497607,-6.860629);
+\draw[fill=colorOTJROBMDILLPR, draw=none, opacity=1.000000] (2.129970,-8.010608) -- (6.865244,-8.010608) -- (6.865244,-8.762749) -- (2.129970,-8.762749) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.129970,-8.010608) -- (6.865244,-8.010608) -- (6.865244,-8.762749) -- (2.129970,-8.762749) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.273533, -8.355472) {\verb|Используем метод последовательного |};
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(3.452311, -8.619186) {\verb|уточнения оценок|};
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-7.675627) -- (4.497607,-8.010608);
+\draw[opacity=1.000000, rounded corners=0.244214 cm, fill=colorOTJROBMDILLPR, draw=none] (2.425146,-9.097730) -- (6.570068,-9.097730) -- (6.570068,-9.586158) -- (2.425146,-9.586158) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.244214 cm, fill=none, line width=0.023927cm, colorOTJROBMEABILOS] (2.425146,-9.097730) -- (6.570068,-9.097730) -- (6.570068,-9.586158) -- (2.425146,-9.586158) -- cycle;
+\verbatimfont{\normalsize\fontOTJROBMSOHJFL}
+\node[opacity=1.000000, above right, colorOTJROBMEABILOS] at(2.669360, -9.442595) {\verb|Возвращаем последнюю строчку|};
+\draw[opacity=1.000000, fill=none, line width=0.014356 cm, colorOTJROBMEABILOS] (4.497607,-8.762749) -- (4.497607,-9.097730);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{9.000000cm}{!}{\usebox{\bdgOTJROBM}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

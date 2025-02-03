@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorBBMJKKLACMIT}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontBBMJKKAKHFFHGA[Scale=0.668233, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorBBMJKKLACMIT}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorBBMJKKBKDMIDR}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorBBMJKKHRDOOTSO}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.509194 cm, fill=colorBBMJKKBKDMIDR, draw=none] (2.088637,0.004715) -- (7.906648,0.004715) -- (7.906648,-1.013673) -- (2.088637,-1.013673) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.509194 cm, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (2.088637,0.004715) -- (7.906648,0.004715) -- (7.906648,-1.013673) -- (2.088637,-1.013673) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(2.597623, -0.369645) {\verb|getBusSchedule(start, end, restTime, |};
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(2.650564, -0.630850) {\verb|travelTime, schedule, scheduleSize, |};
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(3.956458, -0.892055) {\verb|maxScheduleSize)|};
+        \draw[fill=colorBBMJKKBKDMIDR, draw=none, opacity=1.000000] (3.429986,-1.343706) -- (6.565299,-1.343706) -- (6.565299,-1.862329) -- (3.429986,-1.862329) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (3.429986,-1.343706) -- (6.565299,-1.343706) -- (6.565299,-1.862329) -- (3.429986,-1.862329) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(3.568219, -1.718065) {\verb|MINUTES_IN_HOURS := 60|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-1.013673) -- (4.997643,-1.343706);
+        \draw[fill=colorBBMJKKBKDMIDR, draw=none, opacity=1.000000] (0.773220,-2.192362) -- (9.222065,-2.192362) -- (9.222065,-2.710985) -- (0.773220,-2.710985) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (0.773220,-2.192362) -- (9.222065,-2.192362) -- (9.222065,-2.710985) -- (0.773220,-2.710985) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(0.903491, -2.566721) {\verb|workTimeStart := start.hours * MINUTES_IN_HOURS + start.minutes|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-1.862329) -- (4.997643,-2.192362);
+        \draw[fill=colorBBMJKKBKDMIDR, draw=none, opacity=1.000000] (-0.004715,-3.041018) -- (10.000000,-3.041018) -- (10.000000,-3.559642) -- (-0.004715,-3.559642) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (-0.004715,-3.041018) -- (10.000000,-3.041018) -- (10.000000,-3.559642) -- (-0.004715,-3.559642) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(0.127014, -3.415378) {\verb|workTimeTotal := end.hours * MINUTES_IN_HOURS + end.minutes - workTimeStart|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-2.710985) -- (4.997643,-3.041018);
+        \draw[fill=colorBBMJKKBKDMIDR, draw=none, opacity=1.000000] (3.752947,-3.889675) -- (6.242339,-3.889675) -- (6.242339,-4.408298) -- (3.752947,-4.408298) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (3.752947,-3.889675) -- (6.242339,-3.889675) -- (6.242339,-4.408298) -- (3.752947,-4.408298) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(3.885869, -4.264034) {\verb|*scheduleSize = 0|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-3.559642) -- (4.997643,-3.889675);
+        \draw[opacity=1.000000, fill=colorBBMJKKBKDMIDR, draw=none] (0.619991, -6.927157) -- (4.997643, -9.115983) -- (9.375295, -6.927157) -- (4.997643, -4.738331) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (0.619991, -6.927157) -- (4.997643, -9.115983) -- (9.375295, -6.927157) -- (4.997643, -4.738331) --cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(2.791742, -6.764034) {\verb|scheduleSize < maxScheduleSize and|};
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(1.485849, -7.025239) {\verb|scheduleSize * (restTime + travelTime) + travelTime ≤ |};
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(4.150577, -7.286444) {\verb|workTimeTotal|};
+        \draw[fill=colorBBMJKKBKDMIDR, draw=none, opacity=1.000000] (0.318246,-9.446016) -- (9.677039,-9.446016) -- (9.677039,-9.964639) -- (0.318246,-9.964639) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (0.318246,-9.446016) -- (9.677039,-9.446016) -- (9.677039,-9.964639) -- (0.318246,-9.964639) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(0.444664, -9.820375) {\verb|dispatchTime := workTimeStart + scheduleSize * (restTime + travelTime)|};
+        \draw[fill=colorBBMJKKBKDMIDR, draw=none, opacity=1.000000] (0.902876,-10.294672) -- (9.092409,-10.294672) -- (9.092409,-11.063178) -- (0.902876,-11.063178) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (0.902876,-10.294672) -- (9.092409,-10.294672) -- (9.092409,-11.063178) -- (0.902876,-11.063178) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(1.027021, -10.669032) {\verb|schedule[scheduleSize] := {dispatchTime div MINUTES_IN_HOURS,|};
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(2.791742, -10.930237) {\verb|dispatchTime mod MINUTES_IN_HOURS}|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-9.964639) -- (4.997643,-10.294672);
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-9.115983) -- (4.997643,-9.446016);
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(4.842321, -9.363044) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (4.997643, -11.063178) -- (4.997643, -11.393211) -- (0.082508, -11.393211) -- (0.082508, -4.573314) -- (4.997643, -4.573314);
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(9.771599, -6.785714) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (9.375295, -6.927157) -- (9.912777, -6.927157) -- (9.912777, -11.628949) -- (4.997643, -11.628949);
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-4.408298) -- (4.997643,-4.738331);
+        \draw[opacity=1.000000, rounded corners=0.259312 cm, fill=colorBBMJKKBKDMIDR, draw=none] (2.793494,-11.958982) -- (7.201792,-11.958982) -- (7.201792,-12.477605) -- (2.793494,-12.477605) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.259312 cm, fill=none, line width=0.023574cm, colorBBMJKKHRDOOTSO] (2.793494,-11.958982) -- (7.201792,-11.958982) -- (7.201792,-12.477605) -- (2.793494,-12.477605) -- cycle;
+        \verbatimfont{\normalsize\fontBBMJKKAKHFFHGA}
+        \node[opacity=1.000000, above right, colorBBMJKKHRDOOTSO] at(3.038803, -12.333341) {\verb|Выход (schedule, scheduleSize)|};
+        \draw[opacity=1.000000, fill=none, line width=0.023574 cm, colorBBMJKKHRDOOTSO] (4.997643,-11.628949) -- (4.997643,-11.958982);
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,201 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorNEIGTJJNKOKSLT}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontNEIGTJJNFNNKCLJT[Scale=0.696962, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorNEIGTJJNKOKSLT}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorNEIGTJJNFOAEMES}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorNEIGTJJNTMQRBC}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.270460 cm, fill=colorNEIGTJJNFOAEMES, draw=none] (4.428170,0.004917) -- (9.704601,0.004917) -- (9.704601,-0.536003) -- (4.428170,-0.536003) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.270460 cm, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.428170,0.004917) -- (9.704601,0.004917) -- (9.704601,-0.536003) -- (4.428170,-0.536003) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(4.684299, -0.374885) {\verb|findX(matrixA, n, matrixB, matrixX)|};
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (5.431331,-0.880225) -- (8.701440,-0.880225) -- (8.701440,-1.421145) -- (5.431331,-1.421145) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (5.431331,-0.880225) -- (8.701440,-0.880225) -- (8.701440,-1.421145) -- (5.431331,-1.421145) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.566553, -1.260027) {\verb|elementsAmountOnA := 1|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-0.536003) -- (7.066386,-0.880225);
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (4.755181,-1.765367) -- (9.377590,-1.765367) -- (9.377590,-2.566913) -- (4.755181,-2.566913) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.755181,-1.765367) -- (9.377590,-1.765367) -- (9.377590,-2.566913) -- (4.755181,-2.566913) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(4.896040, -2.145170) {\verb|totalCompressedMatrixElements = |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.778295, -2.406953) {\verb|((n + 1) * n) div 2|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-1.421145) -- (7.066386,-1.765367);
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (6.092729, -3.397963) -- (6.579557, -2.911135) -- (7.553214, -2.911135) -- (8.040042, -3.397963) -- (7.553214, -3.884791) -- (6.579557, -3.884791) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (6.092729, -3.397963) -- (6.579557, -2.911135) -- (7.553214, -2.911135) -- (8.040042, -3.397963) -- (7.553214, -3.884791) -- (6.579557, -3.884791) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.713484, -3.317983) {\verb|i := |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.784064, -3.579767) {\verb|0, n|};
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (6.230418, -4.646997) -- (6.648402, -4.229013) -- (7.484370, -4.229013) -- (7.902353, -4.646997) -- (7.484370, -5.064981) -- (6.648402, -5.064981) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (6.230418, -4.646997) -- (6.648402, -4.229013) -- (7.484370, -4.229013) -- (7.902353, -4.646997) -- (7.484370, -5.064981) -- (6.648402, -5.064981) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.784064, -4.567017) {\verb|j :=|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.784064, -4.828801) {\verb|0, n|};
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (5.701791,-5.409203) -- (8.430980,-5.409203) -- (8.430980,-5.950123) -- (5.701791,-5.950123) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (5.701791,-5.409203) -- (8.430980,-5.409203) -- (8.430980,-5.950123) -- (5.701791,-5.950123) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.848875, -5.789005) {\verb|matrixX[i][j] := 0|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-5.064981) -- (7.066386,-5.409203);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.910473, -5.312012) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (7.066386, -5.950123) -- (7.066386, -6.294345) -- (5.455919, -6.294345) -- (5.455919, -4.646997) -- (6.230418, -4.646997);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(8.535692, -4.499473) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (7.902353, -4.646997) -- (8.676853, -4.646997) -- (8.676853, -6.540218) -- (7.066386, -6.540218);
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-3.884791) -- (7.066386,-4.229013);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.910473, -4.131822) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (7.066386, -6.540218) -- (7.066386, -6.884440) -- (5.210046, -6.884440) -- (5.210046, -3.397963) -- (6.092729, -3.397963);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(8.781565, -3.250439) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (8.040042, -3.397963) -- (8.922726, -3.397963) -- (8.922726, -7.130313) -- (7.066386, -7.130313);
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-2.566913) -- (7.066386,-2.911135);
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (6.038637,-7.474535) -- (8.094134,-7.474535) -- (8.094134,-8.015455) -- (6.038637,-8.015455) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (6.038637,-7.474535) -- (8.094134,-7.474535) -- (8.094134,-8.015455) -- (6.038637,-8.015455) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.184131, -7.854337) {\verb|line := n - 1|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-7.130313) -- (7.066386,-7.474535);
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (6.132069, -8.826835) -- (7.066386, -9.293994) -- (8.000702, -8.826835) -- (7.066386, -8.359677) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (6.132069, -8.826835) -- (7.066386, -9.293994) -- (8.000702, -8.826835) -- (7.066386, -8.359677) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.519388, -8.906673) {\verb|line ≥ 0|};
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (4.890411,-9.638216) -- (9.242360,-9.638216) -- (9.242360,-10.700386) -- (4.890411,-10.700386) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.890411,-9.638216) -- (9.242360,-9.638216) -- (9.242360,-10.700386) -- (4.890411,-10.700386) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.778295, -10.018018) {\verb|matrixABegIndex := |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.637134, -10.279802) {\verb|(elementsAmountOnA * |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.037201, -10.541585) {\verb|(elementsAmountOnA - 1)) div 2|};
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (4.066737, -12.544433) -- (5.566561, -11.044608) -- (8.566210, -11.044608) -- (10.066034, -12.544433) -- (8.566210, -14.044257) -- (5.566561, -14.044257) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.066737, -12.544433) -- (5.566561, -11.044608) -- (8.566210, -11.044608) -- (10.066034, -12.544433) -- (8.566210, -14.044257) -- (5.566561, -14.044257) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.972390, -12.464453) {\verb|elementNumber :=|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.707714, -12.726237) {\verb|0, elementsAmountOnA|};
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (4.991219, -15.426063) -- (7.066386, -16.463646) -- (9.141553, -15.426063) -- (7.066386, -14.388479) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.991219, -15.426063) -- (7.066386, -16.463646) -- (9.141553, -15.426063) -- (7.066386, -14.388479) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.972390, -15.375588) {\verb|elementNumber = |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.637134, -15.637371) {\verb|elementsAmountOnA - 1|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.991219, -15.426063) -- (3.653671, -15.426063) -- (3.653671, -16.807868);
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (2.817703, -17.225852) -- (3.235687, -16.807868) -- (4.071654, -16.807868) -- (4.489638, -17.225852) -- (4.071654, -17.643836) -- (3.235687, -17.643836) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (2.817703, -17.225852) -- (3.235687, -16.807868) -- (4.071654, -16.807868) -- (4.489638, -17.225852) -- (4.071654, -17.643836) -- (3.235687, -17.643836) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(3.371349, -17.145872) {\verb|j :=|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(3.371349, -17.407656) {\verb|0, n|};
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (0.732701,-17.988058) -- (6.574640,-17.988058) -- (6.574640,-19.310854) -- (0.732701,-19.310854) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (0.732701,-17.988058) -- (6.574640,-17.988058) -- (6.574640,-19.310854) -- (0.732701,-19.310854) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(2.365579, -18.367860) {\verb|matrixX[line][j] :=|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(0.865747, -18.629644) {\verb|(matrixB[line][j] - matrixX[line][j]) div|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(0.936328, -18.891427) {\verb|matrixA[totalCompressedMatrixElements - |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(1.218649, -19.153211) {\verb|matrixABegIndex - 1 - elementNumber]|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (3.653671,-17.643836) -- (3.653671,-17.988058);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(3.497757, -17.890867) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (3.653671, -19.310854) -- (3.653671, -19.655076) -- (0.486828, -19.655076) -- (0.486828, -17.225852) -- (2.817703, -17.225852);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.679352, -17.078328) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.489638, -17.225852) -- (6.820513, -17.225852) -- (6.820513, -19.900948) -- (3.653671, -19.900948);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(3.653671, -15.278539) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (9.141553, -15.426063) -- (10.410256, -15.426063) -- (10.410256, -16.807868);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(10.269096, -15.278539) {\verb|-|};
+\draw[opacity=1.000000, fill=colorNEIGTJJNFOAEMES, draw=none] (9.574289, -17.225852) -- (9.992273, -16.807868) -- (10.828240, -16.807868) -- (11.246224, -17.225852) -- (10.828240, -17.643836) -- (9.992273, -17.643836) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (9.574289, -17.225852) -- (9.992273, -16.807868) -- (10.828240, -16.807868) -- (11.246224, -17.225852) -- (10.828240, -17.643836) -- (9.992273, -17.643836) --cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(10.127935, -17.145872) {\verb|j :=|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(10.127935, -17.407656) {\verb|0, n|};
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (7.558131,-17.988058) -- (13.262381,-17.988058) -- (13.262381,-19.310854) -- (7.558131,-19.310854) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (7.558131,-17.988058) -- (13.262381,-17.988058) -- (13.262381,-19.310854) -- (7.558131,-19.310854) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(7.834074, -18.367860) {\verb|matrixX[line][j] := matrixX[line][j] +|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(7.692913, -18.629644) {\verb|matrixA[totalCompressedMatrixElements - |};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(7.834074, -18.891427) {\verb|matrixABegIndex - 1 - elementNumber] *|};
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(8.169331, -19.153211) {\verb|matrixX[n - 1 - elementNumber][j]|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (10.410256,-17.643836) -- (10.410256,-17.988058);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(10.254343, -17.890867) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (10.410256, -19.310854) -- (10.410256, -19.655076) -- (7.312259, -19.655076) -- (7.312259, -17.225852) -- (9.574289, -17.225852);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(13.367094, -17.078328) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (11.246224, -17.225852) -- (13.508254, -17.225852) -- (13.508254, -19.900948) -- (10.410256, -19.900948);
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (10.410256, -19.900948) -- (10.410256, -20.245170) -- (7.066386, -20.245170);
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (3.653671, -19.900948) -- (3.653671, -20.245170) -- (7.066386, -20.245170);
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-14.044257) -- (7.066386,-14.388479);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.910473, -14.291288) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (7.066386, -20.245170) -- (7.066386, -20.589392) -- (0.240955, -20.589392) -- (0.240955, -12.544433) -- (4.066737, -12.544433);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(13.612966, -12.396909) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (10.066034, -12.544433) -- (13.754127, -12.544433) -- (13.754127, -20.835265) -- (7.066386, -20.835265);
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-10.700386) -- (7.066386,-11.044608);
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (4.079031,-21.179487) -- (10.053741,-21.179487) -- (10.053741,-21.720407) -- (4.079031,-21.720407) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (4.079031,-21.179487) -- (10.053741,-21.179487) -- (10.053741,-21.720407) -- (4.079031,-21.720407) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(4.225527, -21.559290) {\verb|elementsAmountOnA := elementsAmountOnA + 1|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-20.835265) -- (7.066386,-21.179487);
+\draw[fill=colorNEIGTJJNFOAEMES, draw=none, opacity=1.000000] (5.837021,-22.064629) -- (8.295750,-22.064629) -- (8.295750,-22.605550) -- (5.837021,-22.605550) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (5.837021,-22.064629) -- (8.295750,-22.064629) -- (8.295750,-22.605550) -- (5.837021,-22.605550) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(5.972390, -22.444432) {\verb|line := line - 1|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-21.720407) -- (7.066386,-22.064629);
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-9.293994) -- (7.066386,-9.638216);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.910473, -9.541025) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (7.066386, -22.605550) -- (7.066386, -22.949772) -- (-0.004917, -22.949772) -- (-0.004917, -8.187566) -- (7.066386, -8.187566);
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(13.858839, -8.679312) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (8.000702, -8.826835) -- (14.000000, -8.826835) -- (14.000000, -23.195645) -- (7.066386, -23.195645);
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-8.015455) -- (7.066386,-8.359677);
+\draw[opacity=1.000000, rounded corners=0.270460 cm, fill=colorNEIGTJJNFOAEMES, draw=none] (5.780471,-23.539867) -- (8.352301,-23.539867) -- (8.352301,-24.080787) -- (5.780471,-24.080787) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.270460 cm, fill=none, line width=0.024587cm, colorNEIGTJJNTMQRBC] (5.780471,-23.539867) -- (8.352301,-23.539867) -- (8.352301,-24.080787) -- (5.780471,-24.080787) -- cycle;
+\verbatimfont{\normalsize\fontNEIGTJJNFNNKCLJT}
+\node[opacity=1.000000, above right, colorNEIGTJJNTMQRBC] at(6.042971, -23.919669) {\verb|Выход (matrixX)|};
+\draw[opacity=1.000000, fill=none, line width=0.024587 cm, colorNEIGTJJNTMQRBC] (7.066386,-23.195645) -- (7.066386,-23.539867);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

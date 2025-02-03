@@ -1,0 +1,132 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report2.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgIGNCLSP}
+\begin{lrbox}{\bdgIGNCLSP}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontIGNCLSPGNFOJTE[Scale=0.643385, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorIGNCLSPSPLKFR}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorIGNCLSPGNPDBJ}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorIGNCLSPDINHKGSN}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.241967 cm, fill=colorIGNCLSPSPLKFR, draw=none] (0.481123,0.004539) -- (6.287366,0.004539) -- (6.287366,-0.479394) -- (0.481123,-0.479394) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.241967 cm, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (0.481123,0.004539) -- (6.287366,0.004539) -- (6.287366,-0.479394) -- (0.481123,-0.479394) -- cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(0.723090, -0.343211) {\verb|getMatrixForSimplexMethod(matrix, function)|};
+\draw[fill=colorIGNCLSPSPLKFR, draw=none, opacity=1.000000] (1.336256,-0.797154) -- (5.432232,-0.797154) -- (5.432232,-2.751195) -- (1.336256,-2.751195) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (1.336256,-0.797154) -- (5.432232,-0.797154) -- (5.432232,-2.751195) -- (1.336256,-2.751195) -- cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.709275, -1.125620) {\verb|Определим, какие переменные |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.517823, -1.422324) {\verb|могут быть базисными в опорном |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.587145, -1.714262) {\verb|решении и занесём их в список |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.472440, -2.016618) {\verb|functionBasisVars (Если yi = 0,|};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.898067, -2.312656) {\verb|то переменная может быть|};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.846239, -2.615012) {\verb|базисной)|};
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-0.479394) -- (3.384244,-0.797154);
+\draw[opacity=1.000000, fill=colorIGNCLSPSPLKFR, draw=none] (1.440765, -4.040695) -- (2.412505, -3.068955) -- (4.355984, -3.068955) -- (5.327723, -4.040695) -- (4.355984, -5.012434) -- (2.412505, -5.012434) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (1.440765, -4.040695) -- (2.412505, -3.068955) -- (4.355984, -3.068955) -- (5.327723, -4.040695) -- (4.355984, -5.012434) -- (2.412505, -5.012434) --cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.149365, -3.871829) {\verb|Получим все базисные |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.087912, -4.121321) {\verb|решения и для каждого |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.591450, -4.415475) {\verb|решения basis|};
+\draw[opacity=1.000000, fill=colorIGNCLSPSPLKFR, draw=none] (1.611626, -6.216504) -- (3.384244, -7.102813) -- (5.156863, -6.216504) -- (3.384244, -5.330195) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (1.611626, -6.216504) -- (3.384244, -7.102813) -- (5.156863, -6.216504) -- (3.384244, -5.330195) --cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.454525, -6.184298) {\verb|Хоть один из br |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.836708, -6.433679) {\verb|меньше 0?|};
+\draw[fill=colorIGNCLSPSPLKFR, draw=none, opacity=1.000000] (2.010688,-7.420574) -- (4.757800,-7.420574) -- (4.757800,-8.189906) -- (2.010688,-8.189906) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (2.010688,-7.420574) -- (4.757800,-7.420574) -- (4.757800,-8.189906) -- (2.010688,-8.189906) -- cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.146871, -7.757020) {\verb|Перейти к следующему |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.332616, -8.053723) {\verb|базисному решению|};
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-7.102813) -- (3.384244,-7.420574);
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(3.187284, -7.304871) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (5.156863, -6.216504) -- (5.383835, -6.216504) -- (5.383835, -7.420574);
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(5.317561, -6.125715) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (5.383835, -7.420574) -- (5.383835, -8.507667) -- (3.384244, -8.507667);
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (3.384244, -8.189906) -- (3.384244, -8.507667) -- (3.384244, -8.507667);
+\draw[opacity=1.000000, fill=colorIGNCLSPSPLKFR, draw=none] (0.222432, -10.406333) -- (3.384244, -11.987239) -- (6.546056, -10.406333) -- (3.384244, -8.825427) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (0.222432, -10.406333) -- (3.384244, -11.987239) -- (6.546056, -10.406333) -- (3.384244, -8.825427) --cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.150861, -10.090058) {\verb|Если список базисных |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.025517, -10.339549) {\verb|переменных из опорного |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.587145, -10.633704) {\verb|решения basis входит в список|};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.333004, -10.884415) {\verb|functionBasisVars|};
+\draw[opacity=1.000000, rounded corners=0.238198 cm, fill=colorIGNCLSPSPLKFR, draw=none] (2.353141,-12.305000) -- (4.415348,-12.305000) -- (4.415348,-12.781397) -- (2.353141,-12.781397) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.238198 cm, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (2.353141,-12.305000) -- (4.415348,-12.305000) -- (4.415348,-12.781397) -- (2.353141,-12.781397) -- cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.591339, -12.645213) {\verb|Вернуть basis|};
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-11.987239) -- (3.384244,-12.305000);
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(3.187284, -12.189297) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (6.546056, -10.406333) -- (6.773028, -10.406333) -- (6.773028, -12.305000);
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(6.706754, -10.315544) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (6.773028, -12.305000) -- (6.773028, -13.099157) -- (3.384244, -13.099157);
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (3.384244, -12.781397) -- (3.384244, -13.099157) -- (3.384244, -13.099157);
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-8.507667) -- (3.384244,-8.825427);
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-5.012434) -- (3.384244,-5.330195);
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(3.187284, -5.214492) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (3.384244, -13.099157) -- (3.384244, -13.416918) -- (-0.004539, -13.416918) -- (-0.004539, -4.040695) -- (1.440765, -4.040695);
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(6.933726, -3.949906) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013618cm, colorIGNCLSPDINHKGSN] (5.327723, -4.040695) -- (7.000000, -4.040695) -- (7.000000, -13.643889) -- (3.384244, -13.643889);
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-2.751195) -- (3.384244,-3.068955);
+\draw[opacity=1.000000, rounded corners=0.490184 cm, fill=colorIGNCLSPSPLKFR, draw=none] (0.848433,-13.961650) -- (5.920055,-13.961650) -- (5.920055,-14.942017) -- (0.848433,-14.942017) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.490184 cm, fill=none, line width=0.022697cm, colorIGNCLSPDINHKGSN] (0.848433,-13.961650) -- (5.920055,-13.961650) -- (5.920055,-14.942017) -- (0.848433,-14.942017) -- cycle;
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.652033, -14.303748) {\verb|Возвращаем ошибку - получить |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(1.338617, -14.599786) {\verb|подходящее преобразование матрицы |};
+\verbatimfont{\normalsize\fontIGNCLSPGNFOJTE}
+\node[opacity=1.000000, above right, colorIGNCLSPDINHKGSN] at(2.774258, -14.805834) {\verb|невозможно|};
+\draw[opacity=1.000000, fill=none, line width=0.013618 cm, colorIGNCLSPDINHKGSN] (3.384244,-13.643889) -- (3.384244,-13.961650);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{7.000000cm}{!}{\usebox{\bdgIGNCLSP}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

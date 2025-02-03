@@ -1,0 +1,82 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorHQMAHGFGTIFSDS}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontHQMAHGFOHRLCT[Scale=0.862118, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorHQMAHGFGTIFSDS}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorHQMAHGFOOHRNQ}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorHQMAHGFQPTJPJTM}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.334550 cm, fill=colorHQMAHGFOOHRNQ, draw=none] (2.235401,0.006083) -- (7.758516,0.006083) -- (7.758516,-0.663017) -- (2.235401,-0.663017) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.334550 cm, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (2.235401,0.006083) -- (7.758516,0.006083) -- (7.758516,-0.663017) -- (2.235401,-0.663017) -- cycle;
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(2.561311, -0.475844) {\verb|getArea(points, pointsAmount)|};
+\draw[fill=colorHQMAHGFOOHRNQ, draw=none, opacity=1.000000] (3.643552,-1.088808) -- (6.350365,-1.088808) -- (6.350365,-1.757908) -- (3.643552,-1.757908) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (3.643552,-1.088808) -- (6.350365,-1.088808) -- (6.350365,-1.757908) -- (3.643552,-1.757908) -- cycle;
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(3.814434, -1.570734) {\verb|areaTotal := 0|};
+\draw[opacity=1.000000, fill=none, line width=0.030414 cm, colorHQMAHGFQPTJPJTM] (4.996959,-0.663017) -- (4.996959,-1.088808);
+\draw[opacity=1.000000, fill=colorHQMAHGFOOHRNQ, draw=none] (2.119830, -3.622263) -- (3.558394, -2.183698) -- (6.435523, -2.183698) -- (7.874088, -3.622263) -- (6.435523, -5.060827) -- (3.558394, -5.060827) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (2.119830, -3.622263) -- (3.558394, -2.183698) -- (6.435523, -2.183698) -- (7.874088, -3.622263) -- (6.435523, -5.060827) -- (3.558394, -5.060827) --cycle;
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(4.661616, -3.535455) {\verb|i :=|};
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(3.726186, -3.871396) {\verb|0, pointsAmount|};
+\draw[fill=colorHQMAHGFOOHRNQ, draw=none, opacity=1.000000] (0.298054,-5.486618) -- (9.695864,-5.486618) -- (9.695864,-6.800487) -- (0.298054,-6.800487) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (0.298054,-5.486618) -- (9.695864,-5.486618) -- (9.695864,-6.800487) -- (0.298054,-6.800487) -- cycle;
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(2.896654, -5.968545) {\verb|areaTotal := areaTotal + |};
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(0.478656, -6.304486) {\verb|(points[i].x - points[(i + 1) mod pointsAmount].x) *  |};
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(0.478656, -6.640427) {\verb|(points[i].y + points[(i + 1) mod pointsAmount].y) / 2|};
+\draw[opacity=1.000000, fill=none, line width=0.030414 cm, colorHQMAHGFQPTJPJTM] (4.996959,-5.060827) -- (4.996959,-5.486618);
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(4.802214, -5.378520) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (4.996959, -6.800487) -- (4.996959, -7.226277) -- (-0.006083, -7.226277) -- (-0.006083, -3.622263) -- (2.119830, -3.622263);
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(9.823504, -3.439781) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (7.874088, -3.622263) -- (10.000000, -3.622263) -- (10.000000, -7.530414) -- (4.996959, -7.530414);
+\draw[opacity=1.000000, fill=none, line width=0.030414 cm, colorHQMAHGFQPTJPJTM] (4.996959,-1.757908) -- (4.996959,-2.183698);
+\draw[fill=colorHQMAHGFOOHRNQ, draw=none, opacity=1.000000] (2.372263,-7.956204) -- (7.621655,-7.956204) -- (7.621655,-8.625304) -- (2.372263,-8.625304) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (2.372263,-7.956204) -- (7.621655,-7.956204) -- (7.621655,-8.625304) -- (2.372263,-8.625304) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (2.472628,-7.956204) -- (7.521290,-7.956204) -- (7.521290,-8.625304) -- (2.472628,-8.625304) -- cycle;
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(2.649559, -8.438131) {\verb|areaTotal := fabs(areaTotal)|};
+\draw[opacity=1.000000, fill=none, line width=0.030414 cm, colorHQMAHGFQPTJPJTM] (4.996959,-7.530414) -- (4.996959,-7.956204);
+\draw[opacity=1.000000, rounded corners=0.334550 cm, fill=colorHQMAHGFOOHRNQ, draw=none] (3.239051,-9.051095) -- (6.754866,-9.051095) -- (6.754866,-9.720195) -- (3.239051,-9.720195) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.334550 cm, fill=none, line width=0.030414cm, colorHQMAHGFQPTJPJTM] (3.239051,-9.051095) -- (6.754866,-9.051095) -- (6.754866,-9.720195) -- (3.239051,-9.720195) -- cycle;
+\verbatimfont{\normalsize\fontHQMAHGFOHRLCT}
+\node[opacity=1.000000, above right, colorHQMAHGFQPTJPJTM] at(3.567340, -9.533022) {\verb|Вернуть areaTotal|};
+\draw[opacity=1.000000, fill=none, line width=0.030414 cm, colorHQMAHGFQPTJPJTM] (4.996959,-8.625304) -- (4.996959,-9.051095);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

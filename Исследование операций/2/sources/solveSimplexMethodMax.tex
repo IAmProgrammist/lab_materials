@@ -1,0 +1,81 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report2.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgAMENPI}
+\begin{lrbox}{\bdgAMENPI}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontAMENPIPSCPLKL[Scale=0.720183, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorAMENPIRIDJCKAA}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorAMENPIDCHJDLMQ}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorAMENPIHLMIHPC}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.270849 cm, fill=colorAMENPIRIDJCKAA, draw=none] (0.032631,0.005081) -- (5.962287,0.005081) -- (5.962287,-0.536617) -- (0.032631,-0.536617) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.270849 cm, fill=none, line width=0.025406cm, colorAMENPIHLMIHPC] (0.032631,0.005081) -- (5.962287,0.005081) -- (5.962287,-0.536617) -- (0.032631,-0.536617) -- cycle;
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.303480, -0.384179) {\verb|solveSimplexMethodMax(matrix, function)|};
+\draw[fill=colorAMENPIRIDJCKAA, draw=none, opacity=1.000000] (-0.005081,-0.892308) -- (6.000000,-0.892308) -- (6.000000,-3.398566) -- (-0.005081,-3.398566) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025406cm, colorAMENPIHLMIHPC] (-0.005081,-0.892308) -- (6.000000,-0.892308) -- (6.000000,-3.398566) -- (-0.005081,-3.398566) -- cycle;
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.725019, -1.275241) {\verb|Подготовим матрицу таким образом, |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.147357, -1.607361) {\verb|чтобы в целевой функции были использованы |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(1.072808, -1.938737) {\verb|только свободные переменные. |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.774269, -2.270112) {\verb|Также отберём опорное решение, в |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.641406, -2.601488) {\verb|котором все свободные члены больше |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.500356, -2.916861) {\verb|или равны нулю. Результат сохраним в |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(2.033366, -3.246128) {\verb|preparedMatrix|};
+\draw[opacity=1.000000, fill=none, line width=0.015244 cm, colorAMENPIHLMIHPC] (2.997459,-0.536617) -- (2.997459,-0.892308);
+\draw[fill=colorAMENPIRIDJCKAA, draw=none, opacity=1.000000] (0.994458,-3.754257) -- (5.000460,-3.754257) -- (5.000460,-4.584408) -- (0.994458,-4.584408) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025406cm, colorAMENPIHLMIHPC] (0.994458,-3.754257) -- (5.000460,-3.754257) -- (5.000460,-4.584408) -- (0.994458,-4.584408) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025406cm, colorAMENPIHLMIHPC] (1.118981,-3.754257) -- (4.875938,-3.754257) -- (4.875938,-4.584408) -- (1.118981,-4.584408) -- cycle;
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(1.271420, -4.100594) {\verb|Вызовем симплекс метод на |};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(1.408315, -4.431969) {\verb|преобразованной матрице|};
+\draw[opacity=1.000000, fill=none, line width=0.015244 cm, colorAMENPIHLMIHPC] (2.997459,-3.398566) -- (2.997459,-3.754257);
+\draw[opacity=1.000000, rounded corners=0.395475 cm, fill=colorAMENPIRIDJCKAA, draw=none] (0.388347,-4.940099) -- (5.606572,-4.940099) -- (5.606572,-5.731049) -- (0.388347,-5.731049) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.395475 cm, fill=none, line width=0.025406cm, colorAMENPIHLMIHPC] (0.388347,-4.940099) -- (5.606572,-4.940099) -- (5.606572,-5.731049) -- (0.388347,-5.731049) -- cycle;
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(0.783821, -5.318442) {\verb|Вернём результат вызова симплекс|};
+\verbatimfont{\normalsize\fontAMENPIPSCPLKL}
+\node[opacity=1.000000, above right, colorAMENPIHLMIHPC] at(2.591675, -5.578610) {\verb|метода|};
+\draw[opacity=1.000000, fill=none, line width=0.015244 cm, colorAMENPIHLMIHPC] (2.997459,-4.584408) -- (2.997459,-4.940099);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgAMENPI}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

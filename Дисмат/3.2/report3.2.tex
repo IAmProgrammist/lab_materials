@@ -1,0 +1,583 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+	\small{
+		МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+		\bigbreak
+		ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+		\bigbreak
+		\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+		\bigbreak
+		Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+\end{center}
+
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №3.2}}\\
+	\normalsize{
+		по дисциплине: Дискретная математика \\
+		тема: «Транзитивное замыкание отношения»}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+	ст. пр. Бондаренко Татьяна Владимировна
+}
+\vfill\begin{center}
+	Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{Лабораторная работа №3.2}\\
+	Транзитивное замыкание отношения
+\end{center}
+\textbf{Цель работы: }изучить и выполнить сравнительный анализ алгоритмов
+вычисления транзитивного замыкания отношения.
+
+\begin{enumerate}[1.]
+	\item Изучить и программно реализовать алгоритмы объединения степеней
+	      и Уоршалла для вычисления транзитивного замыкания отношения.\\
+	      Используем раннее разработанный класс BoolMatrixRelation, добавим в него новые методы\\
+	      \textit{alg.h}
+	      \begin{minted}{C++}
+BoolMatrixRelation transitiveClosurePowUnite(unsigned long long *steps = NULL);
+BoolMatrixRelation transitiveClosureWarshall(unsigned long long *steps = NULL);
+	\end{minted}
+	      \textit{task1.cpp}
+	      \begin{minted}{C++}
+#include "../alg.h"
+
+BoolMatrixRelation BoolMatrixRelation::transitiveClosurePowUnite(unsigned long long *steps)
+{
+    BoolMatrixRelation ctran = *this;
+    BoolMatrixRelation c2 = ctran;
+
+    for (int i = 1; i <= size; i++)
+    {
+        bool shouldRun = false;
+        ctran = ctran.unite(c2);
+        
+        // Самым вложенным является цикл композиции, поэтому
+        // вычислять композицию будем вручную, а не при помощи 
+        // реализованного ранее метода pow
+        c2 = BoolMatrixRelation(size, [&shouldRun, steps, &ctran](int x, int y)
+                                {
+        for (int z = 0; z < ctran.size; z++) {
+            (*steps)++;
+            if (ctran.data[x - 1][z] && ctran.data[z][y - 1]) {
+                shouldRun = true;
+                return true;
+            }
+        }
+
+        return false; 
+        });
+
+        if (!shouldRun)
+            break;
+    }
+
+    return ctran;
+}
+
+BoolMatrixRelation BoolMatrixRelation::transitiveClosureWarshall(unsigned long long *steps)
+{
+    BoolMatrixRelation res(size, [this](int x, int y)
+                           { return data[x - 1][y - 1]; });
+
+    for (int z = 0; z < size; z++)
+    {
+        for (int x = 0; x < size; x++)
+        {
+            if (!res.data[x][z]) continue;
+
+            for (int y = 0; y < size; y++)
+            {
+                if (steps != NULL)
+                    (*steps)++;
+
+                res.data[x][y] = res.data[x][y] || res.data[x][z] && res.data[z][y];
+            }
+        }
+    }
+
+    return res;
+}
+	\end{minted}
+	\item Разработать и программно реализовать генератор отношений на
+	      множестве мощности N и содержащих заданное число пар.
+	      \textit{alg.h}
+	      \begin{minted}{C++}
+static BoolMatrixRelation getRandom(int size, int pairs);
+	\end{minted}
+	      \textit{task2.cpp}
+	      \begin{minted}{C++}
+#include "../alg.h"
+
+BoolMatrixRelation BoolMatrixRelation::getRandom(int size, int pairs) {
+    if (pairs >= size * size) return BoolMatrixRelation (size, [](int x, int y){return true;});
+    
+    BoolMatrixRelation res(size, [](int x, int y){return false;});
+    while (pairs > 0) {
+        int rX = rand() % size, rY = rand() % size;
+
+        if (!res.data[rX][rY]) {
+            res.data[rX][rY] = true;
+            pairs--;
+        }
+    }
+
+    return res;
+}
+	\end{minted}
+	\item Разработать и написать программу, которая генерирует
+	      1000 отношений на множестве мощности N с заданным числом пар,
+	      для каждого отношения вычисляет транзитивное замыкание двумя
+	      алгоритмами и подсчитывает количество k выполнений тела самого
+	      вложенного цикла. Значение k при обработке различных отношений на
+	      множестве мощности N с заданным числом пар может быть разным,
+	      поэтому программа должна определять минимальное и максимальное
+
+	      значение k. Отношение, при обработке которого получено минимальное
+	      (максимальное) k, и его транзитивное замыкание, сохранить в
+
+	      файле. Выполнить программу при N = 5, 10 и 15. Результат для каждого
+	      N представить в виде таблицы, а сохраненные отношения — в виде графа.\\
+	      \textit{alg.h}
+	      \begin{minted}{C++}
+std::ostream& printAsAdjMatrix(std::ostream &out) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            out << data[i][j] << ",";
+        }
+
+        out << "\n";
+    }
+
+    return out;
+}
+\end{minted}
+	      \textit{main.cpp}
+	      \begin{minted}{C++}
+#include "../../libs/alg/alg.h"
+
+#include <fstream>
+#include <dir.h>
+#include <filesystem>
+
+void experiment(int N, int pairs) {
+    mkdir("output");
+    srand(time(nullptr));
+    
+    unsigned long long minKUP = ULLONG_MAX;
+    BoolMatrixRelation minUPM = BoolMatrixRelation::getIdentity(1);
+    BoolMatrixRelation minUPO = BoolMatrixRelation::getIdentity(1);
+    unsigned long long maxKUP = 0;
+    BoolMatrixRelation maxUPM = BoolMatrixRelation::getIdentity(1);
+    BoolMatrixRelation maxUPO = BoolMatrixRelation::getIdentity(1);
+    unsigned long long minKWarshall = ULLONG_MAX;
+    BoolMatrixRelation minWarshallM = BoolMatrixRelation::getIdentity(1);
+    BoolMatrixRelation minWarshallO = BoolMatrixRelation::getIdentity(1);
+    unsigned long long maxKWarshall = 0;
+    BoolMatrixRelation maxWarshallM = BoolMatrixRelation::getIdentity(1);
+    BoolMatrixRelation maxWarshallO = BoolMatrixRelation::getIdentity(1);
+    for (int i = 0; i < 1000; i++) {
+        BoolMatrixRelation rel = BoolMatrixRelation::getRandom(N, pairs);
+
+        unsigned long long kPow = 0;
+        BoolMatrixRelation powUnite = rel.transitiveClosurePowUnite(&kPow);
+        unsigned long long kWarshall = 0;
+        BoolMatrixRelation warshall = rel.transitiveClosureWarshall(&kWarshall);
+
+        std::pair<int, int> ignored;
+        assert(powUnite.isTransitive(ignored));
+        assert(warshall.isTransitive(ignored));
+        assert(powUnite.equals(warshall));
+
+        if (kPow >= maxKUP) {
+            maxKUP = kPow;
+            maxUPM = powUnite;
+            maxUPO = rel;
+        }
+        if (kPow <= minKUP) {
+            minKUP = kPow;
+            minUPM = powUnite;
+            minUPO = rel;
+        }
+
+        if (kWarshall >= maxKWarshall) {
+            maxKWarshall = kWarshall;
+            maxWarshallM = warshall;
+            maxWarshallO = rel;
+        }
+        if (kWarshall <= minKWarshall) {
+            minKWarshall = kWarshall;
+            minWarshallM = warshall;
+            minWarshallO = rel;
+        }
+    }
+
+    std::string prefix = "output/";
+    // U  - объединение степенией / W - воршэлл
+    // M  - транзитивное замыкание / O - оригинал
+    // Mi - минимальное кол-во выполнений тела самого вложенного цикла / Ma - максимальное кол-во выполнений тела самого вложенного цикла
+    // N  - Мощность
+    // P  - Кол-во сгенерированных пар 
+    std::ofstream wrMinUPM(prefix + "N" + std::to_string(N) + "U" + "M" + "Mi" + std::to_string(minKUP)       + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMinUPO(prefix + "N" + std::to_string(N) + "U" + "O" + "Mi" + std::to_string(minKUP)       + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMaxUPM(prefix + "N" + std::to_string(N) + "U" + "M" + "Ma" + std::to_string(maxKUP)       + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMaxUPO(prefix + "N" + std::to_string(N) + "U" + "O" + "Ma" + std::to_string(maxKUP)       + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMinWPM(prefix + "N" + std::to_string(N) + "W" + "M" + "Mi" + std::to_string(minKWarshall) + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMinWPO(prefix + "N" + std::to_string(N) + "W" + "O" + "Mi" + std::to_string(minKWarshall) + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMaxWPM(prefix + "N" + std::to_string(N) + "W" + "M" + "Ma" + std::to_string(maxKWarshall) + "P" + std::to_string(pairs) + ".txt");
+    std::ofstream wrMaxWPO(prefix + "N" + std::to_string(N) + "W" + "O" + "Ma" + std::to_string(maxKWarshall) + "P" + std::to_string(pairs) + ".txt");
+    
+    minUPM.printAsAdjMatrix(wrMinUPM);
+    minUPO.printAsAdjMatrix(wrMinUPO);
+    maxUPM.printAsAdjMatrix(wrMaxUPM);
+    maxUPO.printAsAdjMatrix(wrMaxUPO);
+    minWarshallM.printAsAdjMatrix(wrMinWPM);
+    minWarshallO.printAsAdjMatrix(wrMinWPO);
+    maxWarshallM.printAsAdjMatrix(wrMaxWPM);
+    maxWarshallO.printAsAdjMatrix(wrMaxWPO);
+}
+
+int main() {
+    std::filesystem::remove_all("output/");
+
+    for (int i = 5; i <= 15; i += 5) {
+        experiment(i, 1);
+        experiment(i, (i * i) / 4);
+        experiment(i, (i * i) / 2);
+        experiment(i, (i * i * 2) / 3);
+        experiment(i, i * i);
+    }
+
+    return 0;
+}
+\end{minted}
+	      \begin{center}
+		      \setlength\tabcolsep{1.5pt}
+		      \textbf{Количество выполнений тела самого вложенного цикла (N = 5)}
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			      \multirow{2}{6em}{Число пар в отношении}                      & \multicolumn{2}{|c|}{1} &
+			      \multicolumn{2}{|c|}{$\frac{N^2}{4}$}                         &
+			      \multicolumn{2}{|c|}{$\frac{N^2}{2}$}                         &
+			      \multicolumn{2}{|c|}{$\frac{2 \cdot N^2}{3}$}                 &
+			      \multicolumn{2}{|c|}{$N^2$}                                                                                                                   \\
+			      \cline{2-11}
+			                                                                    & min                     & max & min & max & min & max & min & max & min & max \\
+			      \hline
+			      \begin{tabular}{c}Алгоритм объединения\\степеней (до \\оптимизации)\end{tabular} & 481                     & 500 & 127 & 500 & 100 & 400 & 100 & 268 & 100 & 100 \\
+			      \hline
+			      \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 125                     & 500 & 125 & 500 & 100 & 372 & 100 & 260 & 100 & 100 \\
+				  \hline 
+				  Алгоритм Уоршалла                                             & 5                     & 5 & 30 & 75 & 60 & 125 & 80 & 125 & 125 & 125 \\
+			      \hline
+		      \end{tabular}\\
+			  \begin{longtable}{>{\centering\arraybackslash}p{0.5\textwidth}|>{\centering\arraybackslash}p{0.5\textwidth}}
+				Исходное отношение & Транзитивное замыкание\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N5UOMiP1} & \includegraphics[width=70mm]{N5UMMiP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N5UOMaP1} & \includegraphics[width=70mm]{N5UMMaP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 6 пар}\\
+				\includegraphics[width=70mm]{N5UOMiP6} & \includegraphics[width=70mm]{N5UMMiP6}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 6 пар}\\
+				\includegraphics[width=70mm]{N5UOMaP6} & \includegraphics[width=70mm]{N5UMMaP6}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 12 пар}\\
+				\includegraphics[width=70mm]{N5UOMiP12} & \includegraphics[width=70mm]{N5UMMiP12}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 12 пар}\\
+				\includegraphics[width=70mm]{N5UOMaP12} & \includegraphics[width=70mm]{N5UMMaP12}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 16 пар}\\
+				\includegraphics[width=70mm]{N5UOMiP16} & \includegraphics[width=70mm]{N5UMMiP16}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 16 пар}\\
+				\includegraphics[width=70mm]{N5UOMaP16} & \includegraphics[width=70mm]{N5UMMaP16}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N5UOMiP25} & \includegraphics[width=70mm]{N5UMMiP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N5UOMaP25} & \includegraphics[width=70mm]{N5UMMaP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N5WOMiP1} & \includegraphics[width=70mm]{N5UMMiP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N5WOMaP1} & \includegraphics[width=70mm]{N5WMMaP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 6 пар}\\
+				\includegraphics[width=70mm]{N5WOMiP6} & \includegraphics[width=70mm]{N5WMMiP6}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 6 пар}\\
+				\includegraphics[width=70mm]{N5WOMaP6} & \includegraphics[width=70mm]{N5WMMaP6}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 12 пар}\\
+				\includegraphics[width=70mm]{N5WOMiP12} & \includegraphics[width=70mm]{N5WMMiP12}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 12 пар}\\
+				\includegraphics[width=70mm]{N5WOMaP12} & \includegraphics[width=70mm]{N5WMMaP12}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 16 пар}\\
+				\includegraphics[width=70mm]{N5WOMiP16} & \includegraphics[width=70mm]{N5WMMiP16}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 16 пар}\\
+				\includegraphics[width=70mm]{N5WOMaP16} & \includegraphics[width=70mm]{N5WMMaP16}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N5WOMiP25} & \includegraphics[width=70mm]{N5WMMiP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N5WOMaP25} & \includegraphics[width=70mm]{N5WMMaP25}\\
+				\hline
+			  \end{longtable}
+		      \setlength\tabcolsep{1.5pt}
+		      \textbf{Количество выполнений тела самого вложенного цикла (N = 10)}
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			      \multirow{2}{6em}{Число пар в отношении}                      & \multicolumn{2}{|c|}{1} &
+			      \multicolumn{2}{|c|}{$\frac{N^2}{4}$}                         &
+			      \multicolumn{2}{|c|}{$\frac{N^2}{2}$}                         &
+			      \multicolumn{2}{|c|}{$\frac{2 \cdot N^2}{3}$}                 &
+			      \multicolumn{2}{|c|}{$N^2$}                                                                                                                            \\
+			      \cline{2-11}
+			                                                                    & min                     & max  & min  & max  & min  & max  & min  & max  & min  & max  \\
+			      \hline
+			      \begin{tabular}{c}Алгоритм объединения\\степеней (до \\оптимизации)\end{tabular} & 8919                    & 9000 & 920  & 7067 & 900  & 2391 & 900  & 928  & 900  & 900  \\
+			      \hline
+				  \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 1000                    & 9000 & 934  & 7179 & 900  & 2540 & 900  & 2358  & 900  & 900  \\
+			      \hline
+			      Алгоритм Уоршалла                                             & 10                    & 10 & 310 & 830 & 630 & 990 & 810 & 1000 & 1000 & 1000 \\
+			      \hline
+		      \end{tabular}\\
+			  \begin{longtable}{>{\centering\arraybackslash}p{0.5\textwidth}|>{\centering\arraybackslash}p{0.5\textwidth}}
+				Исходное отношение & Транзитивное замыкание\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N10UOMiP1} & \includegraphics[width=70mm]{N10UMMiP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N10UOMaP1} & \includegraphics[width=70mm]{N10UMMaP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N10UOMiP25} & \includegraphics[width=70mm]{N10UMMiP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N10UOMaP25} & \includegraphics[width=70mm]{N10UMMaP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N10UOMiP50} & \includegraphics[width=70mm]{N10UMMiP50}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N10UOMaP50} & \includegraphics[width=70mm]{N10UMMaP50}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N10UOMiP66} & \includegraphics[width=70mm]{N10UMMiP66}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N10UOMaP66} & \includegraphics[width=70mm]{N10UMMaP66}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N10UOMiP100} & \includegraphics[width=70mm]{N10UMMiP100}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N10UOMaP100} & \includegraphics[width=70mm]{N10UMMaP100}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N10WOMiP1} & \includegraphics[width=70mm]{N10UMMiP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N10WOMaP1} & \includegraphics[width=70mm]{N10WMMaP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N10WOMiP25} & \includegraphics[width=70mm]{N10WMMiP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N10WOMaP25} & \includegraphics[width=70mm]{N10WMMaP25}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N10WOMiP50} & \includegraphics[width=70mm]{N10WMMiP50}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N10WOMaP50} & \includegraphics[width=70mm]{N10WMMaP50}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N10WOMiP66} & \includegraphics[width=70mm]{N10WMMiP66}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N10WOMaP66} & \includegraphics[width=70mm]{N10WMMaP66}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N10WOMiP100} & \includegraphics[width=70mm]{N10WMMiP100}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N10WOMaP100} & \includegraphics[width=70mm]{N10WMMaP100}\\
+				\hline
+			  \end{longtable}
+		      \setlength\tabcolsep{1.5pt}
+		      \textbf{Количество выполнений тела самого вложенного цикла (N = 15)}
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			      \multirow{2}{6em}{Число пар в отношении}                      & \multicolumn{2}{|c|}{1} &
+			      \multicolumn{2}{|c|}{$\frac{N^2}{4}$}                         &
+			      \multicolumn{2}{|c|}{$\frac{N^2}{2}$}                         &
+			      \multicolumn{2}{|c|}{$\frac{2 \cdot N^2}{3}$}                 &
+			      \multicolumn{2}{|c|}{$N^2$}                                                                                                                              \\
+			      \cline{2-11}
+			                                                                    & min                     & max   & min  & max   & min  & max  & min  & max  & min  & max  \\
+			      \hline
+			      \begin{tabular}{c}Алгоритм объединения\\степеней (до \\оптимизации)\end{tabular} & 47074                   & 47250 & 3165 & 17100 & 3150 & 6077 & 3150 & 3165 & 3150 & 3150 \\
+			      \hline
+				  \begin{tabular}{c}Алгоритм объединения\\степеней\end{tabular} & 3375                   & 47250 & 3150 & 19278 & 3150 & 6090 & 3150 & 3165 & 3150 & 3150 \\
+			      \hline
+			      Алгоритм Уоршалла                                             & 15                    & 15  & 1470 & 3000  & 2640 & 3345 & 2910 & 3375 & 3375 & 3375 \\
+			      \hline
+		      \end{tabular}\\
+			  \begin{longtable}{>{\centering\arraybackslash}p{0.5\textwidth}|>{\centering\arraybackslash}p{0.5\textwidth}}
+				Исходное отношение & Транзитивное замыкание\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N15UOMiP1} & \includegraphics[width=70mm]{N15UMMiP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N15UOMaP1} & \includegraphics[width=70mm]{N15UMMaP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N15UOMiP56} & \includegraphics[width=70mm]{N15UMMiP56}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N15UOMaP56} & \includegraphics[width=70mm]{N15UMMaP56}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N15UOMiP112} & \includegraphics[width=70mm]{N15UMMiP112}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N15UOMaP112} & \includegraphics[width=70mm]{N15UMMaP112}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N15UOMiP150} & \includegraphics[width=70mm]{N15UMMiP150}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N15UOMaP150} & \includegraphics[width=70mm]{N15UMMaP150}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, минимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N15UOMiP225} & \includegraphics[width=70mm]{N15UMMiP225}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм объединения степеней, максимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N15UOMaP225} & \includegraphics[width=70mm]{N15UMMaP225}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N15WOMiP1} & \includegraphics[width=70mm]{N15UMMiP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 1 пара}\\
+				\includegraphics[width=70mm]{N15WOMaP1} & \includegraphics[width=70mm]{N15WMMaP1}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N15WOMiP56} & \includegraphics[width=70mm]{N15WMMiP56}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 25 пар}\\
+				\includegraphics[width=70mm]{N15WOMaP56} & \includegraphics[width=70mm]{N15WMMaP56}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N15WOMiP112} & \includegraphics[width=70mm]{N15WMMiP112}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 50 пар}\\
+				\includegraphics[width=70mm]{N15WOMaP112} & \includegraphics[width=70mm]{N15WMMaP112}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N15WOMiP150} & \includegraphics[width=70mm]{N15WMMiP150}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 66 пар}\\
+				\includegraphics[width=70mm]{N15WOMaP150} & \includegraphics[width=70mm]{N15WMMaP150}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, минимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N15WOMiP225} & \includegraphics[width=70mm]{N15WMMiP225}\\
+				\hline
+				\multicolumn{2}{c}{Алгоритм Уоршалла, максимум повторений цикла, 100 пар}\\
+				\includegraphics[width=70mm]{N15WOMaP225} & \includegraphics[width=70mm]{N15WMMaP225}\\
+				\hline
+			  \end{longtable}
+	      \end{center}
+
+	\item Определить порядок функции временной сложности алгоритмов вычисления транзитивного замыкания.\\
+	      \textbf{Алгоритм объединения степеней} (после оптимизации)\\
+	      Порядок ФВС зависит от количества недостающих пар. Так, если отношение уже транзитивное, основной цикл выполнится всего 1 раз. То есть \\
+		  $\Omega(1)$\\
+		  В худшем случае выше упомянутый цикл будет выполняться все size раз, например если отношение пустое (матрица состоит из 0). Следовательно\\
+	      $O(N^4)$\\
+	      \textbf{Алгоритм Уоршалла}\\
+		  Порядок временной функции временной сложности также зависит от количества пар в отношении. Однако в отличие от алгоритма объединения степеней, чем меньше отношений, тем меньше время выполнения. Так, например, для пустого отношения (матрица состоит из нулей) самый вложенный цикл выполняться не будет
+	      \begin{minted}{C++}
+if (!res.data[x][z]) continue;
+            
+for (int y = 0; y < size; y++) {
+    if (steps != NULL)
+        (*steps)++;
+
+    res.data[x][y] = res.data[x][y] || res.data[x][z] && res.data[z][y];
+}
+\end{minted}
+	      Степень вложенности в лучшем случае - 2, следовательно\\
+	      $\Omega(N ^ 2)$  \\
+	      В худшем случае выше упомянутый цикл будет выполняться все size раз, например если отношение можно представить в виде полного неориентированного графа (матрица состоит из 1). Следовательно\\
+	      $O(N^3)$\\
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили и выполнили сравнительный анализ алгоритмов вычисления транзитивного замыкания отношения.
+
+\end{document}

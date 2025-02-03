@@ -1,0 +1,495 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №2}}\\
+    \normalsize{
+        по дисциплине: Теория информации \\
+        тема: «Исследование кодов Шеннона-Фано.»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Твердохлеб Виталий Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №2}\\
+    Исследование кодов Шеннона-Фано\\
+\end{center}
+\textbf{Цель работы: }исследовать кодирование по методу Шеннона-Фано. Научиться оценивать эффективности кода.\\
+Задание 1. Построить код для сообщения, содержащего строку панграммы
+«в чащах юга жил бы цитрус? Да, но фальшивый экземпляр!».
+Для полученного кода рассчитать показатели коэффициента сжатия и
+дисперсии.\\
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{Символ} & \multirow{2}{*}{Вероятность} & \multicolumn{6}{|c|}{Этапы} & \multirow{2}{*}{Код}                                                                              \\
+        \cline{3-8}
+                                &                              & I                           & II                   & III                & IV                 & V                  & VI &        \\
+        \hline
+        пробел                  & 0,166666667                  & \multirow{8}{*}{1}          & \multirow{2}{*}{1}   & 1                  &                    &                    &    & 111    \\
+        \cline{1-2} \cline{5-9}
+        а                       & 0,092592593                  &                             &                      & 0                  &                    &                    &    & 110    \\
+        \cline{1-2} \cline{4-9}
+        л                       & 0,055555556                  &                             & \multirow{6}{*}{0}   & \multirow{2}{*}{1} & 1                  &                    &    & 1011   \\
+        \cline{1-2} \cline{6-9}
+        и                       & 0,055555556                  &                             &                      &                    & 0                  &                    &    & 1010   \\
+        \cline{1-2} \cline{5-9}
+        в                       & 0,037037037                  &                             &                      & \multirow{4}{*}{0} & \multirow{2}{*}{1} & 1                  &    & 10011  \\
+        \cline{1-2} \cline{7-9}
+        ы                       & 0,037037037                  &                             &                      &                    &                    & 0                  &    & 10010  \\
+        \cline{1-2} \cline{6-9}
+        р                       & 0,037037037                  &                             &                      &                    & \multirow{2}{*}{0} & 1                  &    & 10001  \\
+        \cline{1-2} \cline{7-9}
+        п                       & 0,018518519                  &                             &                      &                    &                    & 0                  &    & 10000  \\
+        \hline
+        ?                       & 0,018518519                  & \multirow{28}{*}{1}         & \multirow{13}{*}{1}  & \multirow{6}{*}{1} & \multirow{3}{*}{1} & 1                  &    & 01111  \\
+        \cline{1-2} \cline{7-9}
+        о                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 011101 \\
+        \cline{1-2} \cline{8-9}
+        н                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 011100 \\
+        \cline{1-2} \cline{6-9}
+        м                       & 0,018518519                  &                             &                      &                    & \multirow{3}{*}{0} & 1                  &    & 01101  \\
+        \cline{1-2} \cline{7-9}
+        к                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 011001 \\
+        \cline{1-2} \cline{8-9}
+        й                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 011000 \\
+        \cline{1-2} \cline{5-9}
+        з                       & 0,018518519                  &                             &                      & \multirow{7}{*}{0} & \multirow{3}{*}{1} & 1                  &    & 01011  \\
+        \cline{1-2} \cline{7-9}
+        ж                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 010101 \\
+        \cline{1-2} \cline{8-9}
+        е                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 010100 \\
+        \cline{1-2} \cline{6-9}
+        г                       & 0,018518519                  &                             &                      &                    & \multirow{4}{*}{0} & \multirow{2}{*}{1} & 1  & 010011 \\
+        \cline{1-2} \cline{8-9}
+        б                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 010010 \\
+        \cline{1-2} \cline{7-9}
+        ,                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 010001 \\
+        \cline{1-2} \cline{8-9}
+        !                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 010000 \\
+        \cline{1-2} \cline{4-9}
+        д                       & 0,018518519                  &                             & \multirow{15}{*}{0}  & \multirow{7}{*}{1} & \multirow{3}{*}{1} & 1                  &    & 00111  \\
+        \cline{1-2} \cline{7-9}
+        я                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 001101 \\
+        \cline{1-2} \cline{8-9}
+        ю                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 001100 \\
+        \cline{1-2} \cline{6-9}
+        э                       & 0,018518519                  &                             &                      &                    & \multirow{4}{*}{0} & \multirow{2}{*}{1} & 1  & 001011 \\
+        \cline{1-2} \cline{8-9}
+        ь                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 00101  \\
+        \cline{1-2} \cline{7-9}
+        щ                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 001001 \\
+        \cline{1-2} \cline{8-9}
+        ш                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 001000 \\
+        \cline{1-2} \cline{5-9}
+        ч                       & 0,018518519                  &                             &                      & \multirow{7}{*}{0} & \multirow{3}{*}{1} & 1                  &    & 00011  \\
+        \cline{1-2} \cline{7-9}
+        ц                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 000101 \\
+        \cline{1-2} \cline{8-9}
+        х                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 000100 \\
+        \cline{1-2} \cline{6-9}
+        ф                       & 0,018518519                  &                             &                      &                    & \multirow{4}{*}{0} & \multirow{2}{*}{1} & 1  & 000011 \\
+        \cline{1-2} \cline{8-9}
+        у                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 000010 \\
+        \cline{1-2} \cline{7-9}
+        т                       & 0,018518519                  &                             &                      &                    &                    & \multirow{2}{*}{0} & 1  & 000001 \\
+        \cline{1-2} \cline{8-9}
+        с                       & 0,018518519                  &                             &                      &                    &                    &                    & 0  & 000000 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\if 0
+    Я обязательно выживу!
+    Скучаю!
+\fi
+
+Код сообщения: 10011 111 00011 110 001001 110 000100 111 001100 010011 110 111 \\
+010101 1010 1011 111 010010 10010 111 000101 1010 000001 10001 000010 000000 01111\\
+111 00111 110 010001 111 011100 011101 111 000011 110 1011 001010 001000 1010 10011\\
+10010 011000 111 001011 011001 01011 010100 01101 10000 1011 001101 10001 010000
+
+$B = 54 \cdot 8 = 432$\\
+$B' = 258 $\\
+$K_{comp} = \frac{B}{B'} = \frac{432}{258} = 1\frac{29}{43}$\\
+$l_{ср} = 4.7778$\\
+$\delta = 1.5062$\\
+
+Задание 2. Построить код для сообщения, содержащего строку «Victoria nulla est, Quam quae confessos animo quoque subjugat hostes»
+Для полученного кода рассчитать показатели коэффициента сжатия и
+дисперсии.\\
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{Символ} & \multirow{2}{*}{Вероятность} & \multicolumn{7}{|c|}{Этапы} & \multirow{2}{*}{Код}                                                                                                     \\
+        \cline{3-9}
+                                &                              & I                           & II                   & III                & IV                 & V                  & VI                 & VII &         \\
+        \hline
+        пробел                  & 9                            & \multirow{5}{*}{1}          & \multirow{2}{*}{1}   & 1                  &                    &                    &                    &     & 111     \\
+        \cline{1-2} \cline{5-10}
+        u                       & 7                            &                             &                      & 0                  &                    &                    &                    &     & 110     \\
+        \cline{1-2} \cline{4-10}
+        s                       & 7                            &                             & \multirow{3}{*}{0}   & 1                  &                    &                    &                    &     & 101     \\
+        \cline{1-2} \cline{5-10}
+        o                       & 6                            &                             &                      & \multirow{2}{*}{0} & 1                  &                    &                    &     & 1001    \\
+        \cline{1-2} \cline{6-10}
+        a                       & 6                            &                             &                      &                    & 0                  &                    &                    &     & 1000    \\
+        \cline{1-2} \cline{3-10}
+        e                       & 5                            & \multirow{17}{*}{0}         & \multirow{4}{*}{1}   & \multirow{2}{*}{1} & 1                  &                    &                    &     & 0111    \\
+        \cline{1-2} \cline{6-10}
+        t                       & 4                            &                             &                      &                    & 0                  &                    &                    &     & 0110    \\
+        \cline{1-2} \cline{5-10}
+        q                       & 3                            &                             &                      & \multirow{2}{*}{0} & 1                  &                    &                    &     & 0101    \\
+        \cline{1-2} \cline{6-10}
+        n                       & 3                            &                             &                      &                    & 0                  &                    &                    &     & 0100    \\
+        \cline{1-2} \cline{4-10}
+        i                       & 3                            &                             & \multirow{13}{*}{0}  & \multirow{4}{*}{1} & \multirow{2}{*}{1} & 1                  &                    &     & 00111   \\
+        \cline{1-2} \cline{7-10}
+        m                       & 2                            &                             &                      &                    &                    & 0                  &                    &     & 00110   \\
+        \cline{1-2} \cline{6-10}
+        l                       & 2                            &                             &                      &                    & \multirow{2}{*}{0} & 1                  &                    &     & 00101   \\
+        \cline{1-2} \cline{7-10}
+        c                       & 2                            &                             &                      &                    &                    & 0                  &                    &     & 00100   \\
+        \cline{1-2} \cline{5-10}
+        V                       & 1                            &                             &                      & \multirow{9}{*}{0} & \multirow{4}{*}{1} & \multirow{2}{*}{1} & 1                  &     & 000111  \\
+        \cline{1-2} \cline{8-10}
+        r                       & 1                            &                             &                      &                    &                    &                    & 0                  &     & 000110  \\
+        \cline{1-2} \cline{7-10}
+        Q                       & 1                            &                             &                      &                    &                    & \multirow{2}{*}{0} & 1                  &     & 000101  \\
+        \cline{1-2} \cline{8-10}
+        ,                       & 1                            &                             &                      &                    &                    &                    & 0                  &     & 000100  \\
+        \cline{1-2} \cline{6-10}
+        j                       & 1                            &                             &                      &                    & \multirow{5}{*}{0} & \multirow{2}{*}{1} & 1                  &     & 000011  \\
+        \cline{1-2} \cline{8-10}
+        h                       & 1                            &                             &                      &                    &                    &                    & 0                  &     & 000010  \\
+        \cline{1-2} \cline{7-10}
+        g                       & 1                            &                             &                      &                    &                    & \multirow{3}{*}{0} & 1                  &     & 000001  \\
+        \cline{1-2} \cline{8-10}
+        f                       & 1                            &                             &                      &                    &                    &                    & \multirow{2}{*}{0} & 1   & 0000001 \\
+        \cline{1-2} \cline{9-10}
+        b                       & 1                            &                             &                      &                    &                    &                    &                    & 0   & 0000000 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Код сообщения: 000111 00111 00100 0110 1001 000110 00111 1000 111 0100 110 \\
+00101 00101 1000 111 0111 101 0110 000100 111 000101 110 1000 00110 111 0101\\
+110 1000 0111 111 00100 1001 0100 0000001 0111 101 101 1001 101 111 1000 0100 \\
+00111 00110 1001 111 0101 110 1001 0101 110 0111 111 101 110 0000000 000011 \\
+110 000001 1000 0110 111 000010 1001 101 0110 0111 101
+
+$B = 68 \cdot 8 = 544$\\
+$B' = 278 $\\
+$K_{comp} = \frac{B}{B'} = \frac{544}{278} = 1\frac{133}{139}$\\
+$l_{ср} = 4.0882$\\
+$\delta = 0.5515$\\
+
+Задание 3. Построить консольное приложение, реализующее процесс кодирования по методу Шеннона-Фано (с возможностью расчета коэффициента сжатия и дисперсии).
+\begin{minted}{Java}
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static class TableElement {
+        char symbol;
+        int amount;
+        List<Boolean> code;
+
+        public TableElement(char symbol) {
+            this.symbol = symbol;
+            this.amount = 1;
+            this.code = new ArrayList<>();
+        }
+    }
+
+    public static List<TableElement> schennonFano(String input) {
+        List<TableElement> table = new ArrayList<>();
+        for (char symbol : input.toCharArray()) {
+            Optional<TableElement> result = table.stream().filter((el) -> el.symbol == symbol).findAny();
+            if (result.isPresent()) {
+                result.get().amount++;
+            } else {
+                table.add(new TableElement(symbol));
+            }
+        }
+
+        table.sort(Comparator.comparingInt(o -> o.amount));
+        Collections.reverse(table);
+
+        schennonFano(table, 0, table.size());
+
+        return table;
+    }
+
+    public static void schennonFano(List<TableElement> table, int beginIndex, int endIndex) {
+        if (endIndex - beginIndex <= 1) return;
+        if (endIndex - beginIndex == 2) {
+            table.get(beginIndex).code.add(true);
+            table.get(beginIndex + 1).code.add(false);
+            return;
+        }
+
+        int separateIndex = getSeparateIndex(table, beginIndex, endIndex);
+
+        for (int i = beginIndex; i < endIndex; i++) {
+            if (i < beginIndex + separateIndex) {
+                table.get(i).code.add(true);
+            } else {
+                table.get(i).code.add(false);
+            }
+        }
+
+        schennonFano(table, beginIndex, separateIndex);
+        schennonFano(table, separateIndex, endIndex);
+    }
+
+    private static int getSeparateIndex(List<TableElement> table, int beginIndex, int endIndex) {
+        int sum = 0;
+        for (int i = beginIndex; i < endIndex; i++) {
+            sum += table.get(i).amount;
+        }
+        int sumBefore = table.get(beginIndex).amount;
+        int sumAfter = sum - sumBefore;
+        int separateIndex = beginIndex + 1;
+        while (separateIndex < endIndex - 1 && sumAfter - table.get(separateIndex).amount -
+                (sumBefore + table.get(separateIndex).amount) > 0 ) {
+            sumAfter -= table.get(separateIndex).amount;
+            sumBefore += table.get(separateIndex).amount;
+            separateIndex++;
+        }
+
+        if (Math.abs(sumBefore - sumAfter) > Math.abs(sumAfter - table.get(separateIndex).amount -
+                (sumBefore + table.get(separateIndex).amount))) {
+            separateIndex++;
+        }
+        return separateIndex;
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("Введите сообщение: ");
+        String input;
+        BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+        input = r.readLine();
+        System.out.println();
+
+        List<TableElement> table = schennonFano(input);
+
+        System.out.println("Таблица: ");
+        for (TableElement element : table) {
+            System.out.print(element.symbol);
+            System.out.print(" " + element.amount + " ");
+            for (int i = 0; i < element.code.size(); i++) {
+                System.out.print(element.code.get(i) ? "1" : "0");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("Закодированное сообщение: ");
+        String code = input;
+        int sum = 0;
+        for (TableElement element : table) {
+            String elementCode = element.code.stream().map((el) -> el ? "1" : "0").collect(Collectors.joining(""));
+            code = code.replace("" + element.symbol, elementCode);
+            sum += element.amount;
+        }
+        System.out.println(code);
+        System.out.println();
+
+        int codedLength = code.length();
+        int uncodedLength = input.length() * 8;
+        System.out.println("Коэффициент сжатия: " + 1.0 * uncodedLength / codedLength);
+        System.out.println();
+        double midLen = 0;
+        for (TableElement element : table) {
+            String elementCode = element.code.stream().map((el) -> el ? "1" : "0").collect(Collectors.joining(""));
+            midLen += elementCode.length() * (1.0 * element.amount / sum);
+        }
+        System.out.println("Средняя длина: " + midLen);
+        System.out.println();
+
+        double delta = 0;
+        for (TableElement element : table) {
+            String elementCode = element.code.stream().map((el) -> el ? "1" : "0").collect(Collectors.joining(""));
+            delta += (1.0 * element.amount / sum) * (elementCode.length() - midLen) * (elementCode.length() - midLen);
+        }
+        System.out.println("Дисперсия: " + delta);
+    }
+}
+\end{minted}
+
+Задание 4. Получить кодовые представления сообщений из пунктов 1 и 2
+задания по методу Хаффмана. Сравнить полученные результаты с методом
+Шеннона-Фано по показателям сжатия и дисперсии. Сделать
+соответствующие выводы.\\
+Результаты выполнения программы для задания 1: 
+\begin{minted}{console}
+Введите сообщение: 
+в чащах юга жил бы цитрус? Да, но фальшивый экземпляр!
+
+Таблица: 
+  9 111
+а 5 110
+л 3 1011
+и 3 1010
+р 2 10111
+ы 2 10110
+в 2 10011
+! 1 10010
+я 1 01111
+п 1 011111
+м 1 011110
+е 1 01111
+з 1 011111
+к 1 011110
+э 1 01111
+й 1 011111
+ш 1 011110
+ь 1 011111
+ф 1 011110
+о 1 011111
+н 1 011110
+, 1 01111
+Д 1 011111
+? 1 011110
+с 1 011111
+у 1 011110
+т 1 011111
+ц 1 011110
+б 1 01111
+ж 1 001111
+г 1 001110
+ю 1 001111
+х 1 001110
+щ 1 001111
+ч 1 001110
+
+Закодированное сообщение: 
+100111110011101100011111100011101110011
+110011101101110011111010101111101111101
+101110111101010011111101110111100111110
+111101110111111100111111101111001111111
+101111011010110111110111101010100111011
+001111111101111011110011111011110111100
+111111011011111011110010
+
+Коэффициент сжатия: 1.6744186046511629
+
+Средняя длина: 4.777777777777776
+
+Дисперсия: 1.5061728395061729
+\end{minted}
+
+Результаты выполнения программы для задания 2: 
+\begin{minted}{console}
+Введите сообщение: 
+Victoria nulla est, Quam quae confessos animo quoque subjugat hostes
+
+Таблица: 
+  9 111
+s 7 110
+u 7 101
+a 6 1011
+o 6 1010
+e 5 0111
+t 4 0110
+q 3 0111
+n 3 0110
+i 3 01111
+m 2 01110
+l 2 01111
+c 2 01110
+h 1 011111
+g 1 001110
+j 1 001111
+b 1 001110
+f 1 001111
+Q 1 001110
+, 1 001111
+r 1 0011111
+V 1 0011110
+
+Закодированное сообщение: 
+001111001111011100110101000111110111110
+111110110101011110111110111110111110011
+000111111100111010110110111011101111011
+011011111101110101001100011110111110110
+101011011110110110011110111010101110111
+101101001111010111111110101001110001111
+101001110101101101110111111010110011001
+11110
+
+Коэффициент сжатия: 1.9568345323741008
+
+Средняя длина: 4.088235294117648
+
+Дисперсия: 1.1392733564013837
+\end{minted}
+
+\textbf{Вывод: } в ходе лабораторной работы исследовали кодирование по методу Шеннона-Фано. Научиться оценивать эффективности кода. 
+Выполнили реализацию метода кодирования по методу Шеннона-Фано в виде консольного приложения.
+
+\end{document}

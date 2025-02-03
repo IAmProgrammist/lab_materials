@@ -1,0 +1,75 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorHIDQCFBOKNFQGLB}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontHIDQCFBORAKLTQ[Scale=0.870859, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorHIDQCFBOKNFQGLB}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorHIDQCFBOLSJKMHK}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorHIDQCFBOJQEQCJSD}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.337942 cm, fill=colorHIDQCFBOLSJKMHK, draw=none] (3.628264,0.006144) -- (9.545315,0.006144) -- (9.545315,-0.669739) -- (3.628264,-0.669739) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.337942 cm, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (3.628264,0.006144) -- (9.545315,0.006144) -- (9.545315,-0.669739) -- (3.628264,-0.669739) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(3.956980, -0.477449) {\verb|josephProblemFindSurvivor(n, m)|};
+        \draw[fill=colorHIDQCFBOLSJKMHK, draw=none, opacity=1.000000] (3.173579,-1.099846) -- (10.000000,-1.099846) -- (10.000000,-1.775730) -- (3.173579,-1.775730) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (3.173579,-1.099846) -- (10.000000,-1.099846) -- (10.000000,-1.775730) -- (3.173579,-1.775730) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (3.274962,-1.099846) -- (9.898618,-1.099846) -- (9.898618,-1.775730) -- (3.274962,-1.775730) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(3.445138, -1.583440) {\verb|matrix = createJosephProblemMatrix(n)|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722 cm, colorHIDQCFBOJQEQCJSD] (6.586790,-0.669739) -- (6.586790,-1.099846);
+        \draw[fill=colorHIDQCFBOLSJKMHK, draw=none, opacity=1.000000] (5.640553,-2.205837) -- (7.533026,-2.205837) -- (7.533026,-2.881720) -- (5.640553,-2.881720) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (5.640553,-2.205837) -- (7.533026,-2.205837) -- (7.533026,-2.881720) -- (5.640553,-2.881720) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(5.810202, -2.689431) {\verb|res := -1|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722 cm, colorHIDQCFBOJQEQCJSD] (6.586790,-1.775730) -- (6.586790,-2.205837);
+        \draw[opacity=1.000000, fill=colorHIDQCFBOLSJKMHK, draw=none] (4.405530, -4.402458) -- (6.586790, -5.493088) -- (8.768049, -4.402458) -- (6.586790, -3.311828) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (4.405530, -4.402458) -- (6.586790, -5.493088) -- (8.768049, -4.402458) -- (6.586790, -3.311828) --cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(4.892416, -4.511243) {\verb|matrix.matrix ≠ NULL|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (4.405530, -4.402458) -- (3.136713, -4.402458) -- (3.136713, -5.923195);
+        \draw[fill=colorHIDQCFBOLSJKMHK, draw=none, opacity=1.000000] (1.007680,-5.923195) -- (5.265745,-5.923195) -- (5.265745,-6.599078) -- (1.007680,-6.599078) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (1.007680,-5.923195) -- (5.265745,-5.923195) -- (5.265745,-6.599078) -- (1.007680,-6.599078) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(1.177593, -6.406789) {\verb|indexM := (m - 1) mod n|};
+        \draw[fill=colorHIDQCFBOLSJKMHK, draw=none, opacity=1.000000] (-0.006144,-7.029186) -- (6.279570,-7.029186) -- (6.279570,-7.705069) -- (-0.006144,-7.705069) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (-0.006144,-7.029186) -- (6.279570,-7.029186) -- (6.279570,-7.705069) -- (-0.006144,-7.705069) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(0.171559, -7.512780) {\verb|res := matrix.matrix[n - 1][indexM]|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722 cm, colorHIDQCFBOJQEQCJSD] (3.136713,-6.599078) -- (3.136713,-7.029186);
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(3.136713, -4.218126) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (8.768049, -4.402458) -- (9.075269, -4.402458) -- (9.075269, -5.923195);
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(8.898772, -4.218126) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (9.075269, -5.923195) -- (9.075269, -8.135177) -- (6.586790, -8.135177);
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (3.136713, -7.705069) -- (3.136713, -8.135177) -- (6.586790, -8.135177);
+        \draw[opacity=1.000000, fill=none, line width=0.030722 cm, colorHIDQCFBOJQEQCJSD] (6.586790,-2.881720) -- (6.586790,-3.311828);
+        \draw[fill=colorHIDQCFBOLSJKMHK, draw=none, opacity=1.000000] (3.680492,-8.565284) -- (9.493088,-8.565284) -- (9.493088,-9.241167) -- (3.680492,-9.241167) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (3.680492,-8.565284) -- (9.493088,-8.565284) -- (9.493088,-9.241167) -- (3.680492,-9.241167) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (3.781874,-8.565284) -- (9.391705,-8.565284) -- (9.391705,-9.241167) -- (3.781874,-9.241167) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(3.956980, -9.048878) {\verb|freeJosephProblemMatrix(matrix)|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722 cm, colorHIDQCFBOJQEQCJSD] (6.586790,-8.135177) -- (6.586790,-8.565284);
+        \draw[opacity=1.000000, rounded corners=0.337942 cm, fill=colorHIDQCFBOLSJKMHK, draw=none] (5.235023,-9.671275) -- (7.938556,-9.671275) -- (7.938556,-10.347158) -- (5.235023,-10.347158) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.337942 cm, fill=none, line width=0.030722cm, colorHIDQCFBOJQEQCJSD] (5.235023,-9.671275) -- (7.938556,-9.671275) -- (7.938556,-10.347158) -- (5.235023,-10.347158) -- cycle;
+        \verbatimfont{\normalsize\fontHIDQCFBORAKLTQ}
+        \node[opacity=1.000000, above right, colorHIDQCFBOJQEQCJSD] at(5.651354, -10.154869) {\verb|Вернуть res|};
+        \draw[opacity=1.000000, fill=none, line width=0.030722 cm, colorHIDQCFBOJQEQCJSD] (6.586790,-9.241167) -- (6.586790,-9.671275);
+    \end{tikzpicture}
+\end{document}

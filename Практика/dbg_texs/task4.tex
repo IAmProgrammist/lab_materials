@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorGSMKNAQNASCMEP}, show background rectangle]
+        \makeatletter
+        \newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+        \makeatother
+        \newfontfamily\fontGSMKNAQJNFBQFR[Scale=0.991828, SizeFeatures={Size=10.000000}]{Consolas}
+        \definecolor{colorGSMKNAQNASCMEP}{rgb}{1.000000,1.000000,1.000000}
+        \definecolor{colorGSMKNAQOBPJFBMR}{rgb}{0.949020,0.949020,0.949020}
+        \definecolor{colorGSMKNAQNOJKQL}{rgb}{0.000000,0.000000,0.000000}
+        \draw[opacity=1.000000, rounded corners=0.384885 cm, fill=colorGSMKNAQOBPJFBMR, draw=none] (-0.006998,0.006998) -- (10.000000,0.006998) -- (10.000000,-0.762771) -- (-0.006998,-0.762771) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.384885 cm, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (-0.006998,0.006998) -- (10.000000,0.006998) -- (10.000000,-0.762771) -- (-0.006998,-0.762771) -- cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(0.371878, -0.534970) {\verb|subtractMiddleOfLineFromEveryLine(matrix, l, m) |};
+        \draw[opacity=1.000000, fill=colorGSMKNAQOBPJFBMR, draw=none] (2.071379, -2.715185) -- (3.533940, -1.252624) -- (6.459062, -1.252624) -- (7.921624, -2.715185) -- (6.459062, -4.177747) -- (3.533940, -4.177747) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (2.071379, -2.715185) -- (3.533940, -1.252624) -- (6.459062, -1.252624) -- (7.921624, -2.715185) -- (6.459062, -4.177747) -- (3.533940, -4.177747) --cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(3.743264, -2.788294) {\verb|i := 0, l - 1|};
+        \draw[fill=colorGSMKNAQOBPJFBMR, draw=none, opacity=1.000000] (3.726382,-4.667600) -- (6.266620,-4.667600) -- (6.266620,-5.437369) -- (3.726382,-5.437369) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (3.726382,-4.667600) -- (6.266620,-4.667600) -- (6.266620,-5.437369) -- (3.726382,-5.437369) -- cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(3.937427, -5.209568) {\verb|middle := 0|};
+        \draw[opacity=1.000000, fill=colorGSMKNAQOBPJFBMR, draw=none] (2.071379, -7.389783) -- (3.533940, -5.927222) -- (6.459062, -5.927222) -- (7.921624, -7.389783) -- (6.459062, -8.852344) -- (3.533940, -8.852344) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (2.071379, -7.389783) -- (3.533940, -5.927222) -- (6.459062, -5.927222) -- (7.921624, -7.389783) -- (6.459062, -8.852344) -- (3.533940, -8.852344) --cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(3.743264, -7.462892) {\verb|j := 0, m - 1|};
+        \draw[fill=colorGSMKNAQOBPJFBMR, draw=none, opacity=1.000000] (1.801959,-9.342197) -- (8.191043,-9.342197) -- (8.191043,-10.111966) -- (1.801959,-10.111966) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (1.801959,-9.342197) -- (8.191043,-9.342197) -- (8.191043,-10.111966) -- (1.801959,-10.111966) -- cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(2.013443, -9.884165) {\verb|middle := middle + matrix[i][j]|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-8.852344) -- (4.996501,-9.342197);
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(4.763693, -9.205369) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (4.996501, -10.111966) -- (4.996501, -10.601819) -- (1.452064, -10.601819) -- (1.452064, -7.389783) -- (2.071379, -7.389783);
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(8.329123, -7.179846) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (7.921624, -7.389783) -- (8.540938, -7.389783) -- (8.540938, -10.951714) -- (4.996501, -10.951714);
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-5.437369) -- (4.996501,-5.927222);
+        \draw[fill=colorGSMKNAQOBPJFBMR, draw=none, opacity=1.000000] (2.862141,-11.441568) -- (7.130861,-11.441568) -- (7.130861,-12.211337) -- (2.862141,-12.211337) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (2.862141,-11.441568) -- (7.130861,-11.441568) -- (7.130861,-12.211337) -- (2.862141,-12.211337) -- cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(3.072517, -11.983535) {\verb|middle := middle / m|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-10.951714) -- (4.996501,-11.441568);
+        \draw[opacity=1.000000, fill=colorGSMKNAQOBPJFBMR, draw=none] (2.071379, -14.163751) -- (3.533940, -12.701190) -- (6.459062, -12.701190) -- (7.921624, -14.163751) -- (6.459062, -15.626312) -- (3.533940, -15.626312) --cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (2.071379, -14.163751) -- (3.533940, -12.701190) -- (6.459062, -12.701190) -- (7.921624, -14.163751) -- (6.459062, -15.626312) -- (3.533940, -15.626312) --cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(3.743264, -14.236859) {\verb|j := 0, m - 1|};
+        \draw[fill=colorGSMKNAQOBPJFBMR, draw=none, opacity=1.000000] (1.224633,-16.116165) -- (8.768369,-16.116165) -- (8.768369,-16.885934) -- (1.224633,-16.885934) -- cycle;
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (1.224633,-16.116165) -- (8.768369,-16.116165) -- (8.768369,-16.885934) -- (1.224633,-16.885934) -- cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(1.430952, -16.658133) {\verb|matrix[i][j] := matrix[i][j] - middle|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-15.626312) -- (4.996501,-16.116165);
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(4.763693, -15.979337) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (4.996501, -16.885934) -- (4.996501, -17.375787) -- (0.874738, -17.375787) -- (0.874738, -14.163751) -- (2.071379, -14.163751);
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(8.906450, -13.953814) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (7.921624, -14.163751) -- (9.118265, -14.163751) -- (9.118265, -17.725682) -- (4.996501, -17.725682);
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-12.211337) -- (4.996501,-12.701190);
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-4.177747) -- (4.996501,-4.667600);
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(4.763693, -4.530771) {\verb|+|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (4.996501, -17.725682) -- (4.996501, -18.215535) -- (0.524843, -18.215535) -- (0.524843, -2.715185) -- (2.071379, -2.715185);
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(9.256345, -2.505248) {\verb|-|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (7.921624, -2.715185) -- (9.468160, -2.715185) -- (9.468160, -18.565430) -- (4.996501, -18.565430);
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-0.762771) -- (4.996501,-1.252624);
+        \draw[opacity=1.000000, rounded corners=0.384885 cm, fill=colorGSMKNAQOBPJFBMR, draw=none] (3.264521,-19.055283) -- (6.728481,-19.055283) -- (6.728481,-19.825052) -- (3.264521,-19.825052) -- cycle;
+        \draw[opacity=1.000000, rounded corners=0.384885 cm, fill=none, line width=0.034990cm, colorGSMKNAQNOJKQL] (3.264521,-19.055283) -- (6.728481,-19.055283) -- (6.728481,-19.825052) -- (3.264521,-19.825052) -- cycle;
+        \verbatimfont{\normalsize\fontGSMKNAQJNFBQFR}
+        \node[opacity=1.000000, above right, colorGSMKNAQNOJKQL] at(3.637356, -19.597251) {\verb|Выход (matrix)|};
+        \draw[opacity=1.000000, fill=none, line width=0.034990 cm, colorGSMKNAQNOJKQL] (4.996501,-18.565430) -- (4.996501,-19.055283);
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,202 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report1.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgBAJBLPPB}
+\begin{lrbox}{\bdgBAJBLPPB}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontBAJBLPPBTTCDOHN[Scale=0.648403, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorBAJBLPPBQFGKKFN}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorBAJBLPPBGKMHADK}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorBAJBLPPBEPJAONM}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.243854 cm, fill=colorBAJBLPPBQFGKKFN, draw=none] (7.655397,0.004575) -- (10.740133,0.004575) -- (10.740133,-0.483133) -- (7.655397,-0.483133) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.243854 cm, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (7.655397,0.004575) -- (10.740133,0.004575) -- (10.740133,-0.483133) -- (7.655397,-0.483133) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.899251, -0.345888) {\verb|getAllBasises(origin)|};
+\draw[fill=colorBAJBLPPBQFGKKFN, draw=none, opacity=1.000000] (6.999382,-0.803372) -- (11.396147,-0.803372) -- (11.396147,-1.282145) -- (6.999382,-1.282145) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (6.999382,-0.803372) -- (11.396147,-0.803372) -- (11.396147,-1.282145) -- (6.999382,-1.282145) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.136627, -1.144899) {\verb|result - массив полученных систем|};
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-0.483133) -- (9.197765,-0.803372);
+\draw[fill=colorBAJBLPPBQFGKKFN, draw=none, opacity=1.000000] (5.991654,-1.602384) -- (12.403875,-1.602384) -- (12.403875,-2.659311) -- (5.991654,-2.659311) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (5.991654,-1.602384) -- (12.403875,-1.602384) -- (12.403875,-2.659311) -- (5.991654,-2.659311) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(6.128900, -1.936986) {\verb|indices - массив неизвестных в системе, заполняем|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(6.698242, -2.224500) {\verb|его индексами 0 ... l - 1, где l - длина|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.329036, -2.522066) {\verb|матрицы origin|};
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-1.282145) -- (9.197765,-1.602384);
+\draw[opacity=1.000000, fill=colorBAJBLPPBQFGKKFN, draw=none] (6.472248, -4.342309) -- (7.835006, -2.979551) -- (10.560523, -2.979551) -- (11.923282, -4.342309) -- (10.560523, -5.705068) -- (7.835006, -5.705068) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (6.472248, -4.342309) -- (7.835006, -2.979551) -- (10.560523, -2.979551) -- (11.923282, -4.342309) -- (10.560523, -5.705068) -- (7.835006, -5.705068) --cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.887523, -4.000056) {\verb|Для каждого сочетания|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.266579, -4.304770) {\verb|в indices из l по h (h - высота|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.517436, -4.609484) {\verb|матрицы) получить набор ба-|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.705579, -4.862150) {\verb|зисных неизвестных basis|};
+\draw[opacity=1.000000, fill=colorBAJBLPPBQFGKKFN, draw=none] (7.111687, -7.068346) -- (8.154726, -6.025307) -- (10.240804, -6.025307) -- (11.283843, -7.068346) -- (10.240804, -8.111385) -- (8.154726, -8.111385) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (7.111687, -7.068346) -- (8.154726, -6.025307) -- (10.240804, -6.025307) -- (11.283843, -7.068346) -- (10.240804, -8.111385) -- (8.154726, -8.111385) --cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.761871, -6.893807) {\verb|Для каждой перестановки |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.832069, -7.191373) {\verb|строк в матрице origin |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.142680, -7.444039) {\verb|matrixPermutation|};
+\draw[opacity=1.000000, fill=colorBAJBLPPBQFGKKFN, draw=none] (7.403322, -9.328845) -- (8.300544, -8.431624) -- (10.094986, -8.431624) -- (10.992207, -9.328845) -- (10.094986, -10.226066) -- (8.300544, -10.226066) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (7.403322, -9.328845) -- (8.300544, -8.431624) -- (10.094986, -8.431624) -- (10.992207, -9.328845) -- (10.094986, -10.226066) -- (8.300544, -10.226066) --cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.650314, -9.257073) {\verb|i := 0..h |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.910755, -9.561787) {\verb|(для каждой строки i)|};
+\draw[opacity=1.000000, fill=colorBAJBLPPBQFGKKFN, draw=none] (6.841943, -11.724216) -- (9.197765, -12.902127) -- (11.553586, -11.724216) -- (9.197765, -10.546305) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (6.841943, -11.724216) -- (9.197765, -12.902127) -- (11.553586, -11.724216) -- (9.197765, -10.546305) --cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.457291, -11.826022) {\verb|Разрешающий элемент равен 0?|};
+\draw[opacity=1.000000, fill=colorBAJBLPPBQFGKKFN, draw=none] (6.854989, -14.393754) -- (9.197765, -15.565142) -- (11.540541, -14.393754) -- (9.197765, -13.222366) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (6.854989, -14.393754) -- (9.197765, -15.565142) -- (11.540541, -14.393754) -- (9.197765, -13.222366) --cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.766786, -14.348676) {\verb|Коэффициенты в i строке|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.086109, -14.643784) {\verb|содержат только 0?|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (6.854989, -14.393754) -- (5.318775, -14.393754) -- (5.318775, -15.885381);
+\draw[opacity=1.000000, fill=colorBAJBLPPBQFGKKFN, draw=none] (4.030715, -16.529411) -- (5.318775, -17.173441) -- (6.606835, -16.529411) -- (5.318775, -15.885381) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (4.030715, -16.529411) -- (5.318775, -17.173441) -- (6.606835, -16.529411) -- (5.318775, -15.885381) --cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(4.647403, -16.631887) {\verb|bi равен 0?|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (4.030715, -16.529411) -- (2.885842, -16.529411) -- (2.885842, -17.493680);
+\draw[fill=colorBAJBLPPBQFGKKFN, draw=none, opacity=1.000000] (0.681652,-17.493680) -- (5.090033,-17.493680) -- (5.090033,-19.697870) -- (0.681652,-19.697870) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (0.681652,-17.493680) -- (5.090033,-17.493680) -- (5.090033,-19.697870) -- (0.681652,-19.697870) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (1.012280,-17.493680) -- (4.759404,-17.493680) -- (4.759404,-19.697870) -- (1.012280,-19.697870) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(1.954120, -17.836548) {\verb|Удалим строку i |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(2.226477, -18.087985) {\verb|из матрицы, |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(2.275677, -18.381307) {\verb|полученной |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(1.659759, -18.673959) {\verb|перестановкой строк,|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(1.828747, -18.969737) {\verb|и вызовем функцию |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(1.958252, -19.267303) {\verb|getAllBasises с |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(1.709741, -19.560625) {\verb|полученной матрицей|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(2.885842, -16.437914) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (6.606835, -16.529411) -- (7.258270, -16.529411) -- (7.258270, -17.493680);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.191479, -16.437914) {\verb|-|};
+\draw[opacity=1.000000, rounded corners=0.358795 cm, fill=colorBAJBLPPBQFGKKFN, draw=none] (5.547517,-17.493680) -- (8.969023,-17.493680) -- (8.969023,-18.211269) -- (5.547517,-18.211269) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.358795 cm, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (5.547517,-17.493680) -- (8.969023,-17.493680) -- (8.969023,-18.211269) -- (5.547517,-18.211269) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(5.965508, -17.780702) {\verb|Система несовместима. |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(5.906312, -18.074024) {\verb|Вернуть пустой массив.|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (7.258270, -18.211269) -- (7.258270, -20.018110) -- (5.318775, -20.018110);
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (2.885842, -19.697870) -- (2.885842, -20.018110) -- (5.318775, -20.018110);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(5.318775, -14.302257) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (11.540541, -14.393754) -- (11.769283, -14.393754) -- (11.769283, -15.885381);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(11.702492, -14.302257) {\verb|-|};
+\draw[fill=colorBAJBLPPBQFGKKFN, draw=none, opacity=1.000000] (10.453535,-15.885381) -- (13.085031,-15.885381) -- (13.085031,-16.613134) -- (10.453535,-16.613134) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (10.453535,-15.885381) -- (13.085031,-15.885381) -- (13.085031,-16.613134) -- (10.453535,-16.613134) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(10.590781, -16.224451) {\verb|Перейти к следующей |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(10.649865, -16.475889) {\verb|перестановке строк|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (11.769283, -16.613134) -- (11.769283, -20.338349) -- (9.197765, -20.338349);
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (5.318775, -20.018110) -- (5.318775, -20.338349) -- (9.197765, -20.338349);
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-12.902127) -- (9.197765,-13.222366);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.999268, -13.105761) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (11.553586, -11.724216) -- (13.313773, -11.724216) -- (13.313773, -13.222366);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(13.246982, -11.632719) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (13.313773, -13.222366) -- (13.313773, -20.658588) -- (9.197765, -20.658588);
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (9.197765, -20.338349) -- (9.197765, -20.658588) -- (9.197765, -20.658588);
+\draw[fill=colorBAJBLPPBQFGKKFN, draw=none, opacity=1.000000] (6.536329,-20.978827) -- (11.859201,-20.978827) -- (11.859201,-22.519307) -- (6.536329,-22.519307) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (6.536329,-20.978827) -- (11.859201,-20.978827) -- (11.859201,-22.519307) -- (6.536329,-22.519307) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (6.767401,-20.978827) -- (11.628129,-20.978827) -- (11.628129,-22.519307) -- (6.767401,-22.519307) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.573840, -21.323593) {\verb|Выберем ведущую переменную |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.136460, -21.623281) {\verb|из basis[i], преобразуем i строку |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.701726, -21.873714) {\verb|и вычтем её из остальных|};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(9.215410, -22.077348) {\verb||};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(6.904645, -22.382062) {\verb|(вызов функции subtractLineFromOther)|};
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-20.658588) -- (9.197765,-20.978827);
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-10.226066) -- (9.197765,-10.546305);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.999268, -10.429700) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (9.197765, -22.519307) -- (9.197765, -22.839546) -- (0.452910, -22.839546) -- (0.452910, -9.328845) -- (7.403322, -9.328845);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(13.475725, -9.237348) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (10.992207, -9.328845) -- (13.542516, -9.328845) -- (13.542516, -23.068289) -- (9.197765, -23.068289);
+\draw[fill=colorBAJBLPPBQFGKKFN, draw=none, opacity=1.000000] (5.694055,-23.388528) -- (12.701475,-23.388528) -- (12.701475,-24.168887) -- (5.694055,-24.168887) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (5.694055,-23.388528) -- (12.701475,-23.388528) -- (12.701475,-24.168887) -- (5.694055,-24.168887) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(5.831301, -23.733294) {\verb|Полученную матрицу matrixPermutation добавим в result, |};
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(7.385139, -24.031642) {\verb|закончим перебор перестановок|};
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-23.068289) -- (9.197765,-23.388528);
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-8.111385) -- (9.197765,-8.431624);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.999268, -8.315019) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (9.197765, -24.168887) -- (9.197765, -24.489126) -- (0.224167, -24.489126) -- (0.224167, -7.068346) -- (7.111687, -7.068346);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(13.704467, -6.976849) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (11.283843, -7.068346) -- (13.771258, -7.068346) -- (13.771258, -24.717869) -- (9.197765, -24.717869);
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-5.705068) -- (9.197765,-6.025307);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.999268, -5.908702) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (9.197765, -24.717869) -- (9.197765, -25.038108) -- (-0.004575, -25.038108) -- (-0.004575, -4.342309) -- (6.472248, -4.342309);
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(13.933209, -4.250812) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.013725cm, colorBAJBLPPBEPJAONM] (11.923282, -4.342309) -- (14.000000, -4.342309) -- (14.000000, -25.266850) -- (9.197765, -25.266850);
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-2.659311) -- (9.197765,-2.979551);
+\draw[opacity=1.000000, rounded corners=0.239386 cm, fill=colorBAJBLPPBQFGKKFN, draw=none] (8.095625,-25.587089) -- (10.299905,-25.587089) -- (10.299905,-26.065862) -- (8.095625,-26.065862) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.239386 cm, fill=none, line width=0.022874cm, colorBAJBLPPBEPJAONM] (8.095625,-25.587089) -- (10.299905,-25.587089) -- (10.299905,-26.065862) -- (8.095625,-26.065862) -- cycle;
+\verbatimfont{\normalsize\fontBAJBLPPBTTCDOHN}
+\node[opacity=1.000000, above right, colorBAJBLPPBEPJAONM] at(8.335011, -25.928616) {\verb|Вернуть result|};
+\draw[opacity=1.000000, fill=none, line width=0.013725 cm, colorBAJBLPPBEPJAONM] (9.197765,-25.266850) -- (9.197765,-25.587089);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{14.000000cm}{!}{\usebox{\bdgBAJBLPPB}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

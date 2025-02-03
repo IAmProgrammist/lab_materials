@@ -1,0 +1,539 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №3.4}}\\
+    \normalsize{
+        по дисциплине: Дискретная математика \\
+        тема: «Упорядоченные множества»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+    ст. пр. Бондаренко Татьяна Владимировна
+}
+\vfill\begin{center}
+    Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №3.4}\\
+    Упорядоченные множества
+\end{center}
+\textbf{Цель работы: }изучить упорядоченные множества, алгоритм
+топологической сортировки, научиться представлять
+множества диаграммами Хассе, находить минимальные
+(максимальные) и наименьшие (наибольшие) элементы
+упорядоченного множества.
+
+\begin{enumerate}[1.]
+    \item Написать программы, формирующие матрицы отношений в
+          соответствии с вариантом задания, на множествах $M_1$ и $M_2$.\\
+          \textit{alg.h}
+          \begin{minted}{C++}
+template <typename T>
+class Relation : public BoolMatrixRelation
+{
+protected:
+    std::vector<T> origin;
+
+public:
+    Relation(std::vector<T> origin, std::function<bool(T, T)> pred) : 
+	BoolMatrixRelation(origin.size(), 
+	[&origin, &pred](int x, int y) { 
+		return pred(origin[x - 1], origin[y - 1]); 
+	})
+    {
+        this->origin = origin;
+    };
+
+    friend std::ostream& operator<<(std::ostream& out, Relation<T>& val) {
+        int blockSize = 10;
+        out << std::setw(blockSize) << ""
+            << " ";
+        for (int i = 0; i < val.size; i++)
+        {
+            std::stringstream ss;
+            ss << val.origin[i];
+            std::string buf = ss.str();
+
+            out << std::setw(blockSize) << buf << " ";
+        }
+        out << "\n";
+
+        for (int x = 0; x < val.size; x++)
+        {
+            std::stringstream ss;
+            ss << val.origin[x];
+            std::string buf = ss.str();
+
+            out << std::setw(blockSize) << buf << " ";
+            for (int y = 0; y < val.size; y++)
+            {
+                out << std::setw(blockSize) << val.data[x][y] << " ";
+            }
+
+            out << "\n";
+        }
+
+        return out;
+    }
+};
+	\end{minted}
+          \textit{main.cpp}
+          \begin{minted}{C++}
+#include <vector>
+#include <iostream>
+
+typedef std::pair<int, int> Vec2;
+
+std::ostream& operator<<(std::ostream& out, Vec2& o) {
+    out << "(" << o.first << ", " << o.second << ")";
+
+    return out;
+}
+
+#include "../../libs/alg/alg.h"
+
+bool predicate(Vec2 a, Vec2 b) {
+    return (a.first - b.first) < (b.second - a.second);
+}
+
+int main() {
+    std::vector<Vec2> M1 = {
+    {-1,  1}, {0,  1}, {1,  1},
+    {-1,  0}, {0,  0}, {1,  0},
+    {-1, -1}, {0, -1}, {1, -1}
+    };
+
+    Relation<Vec2> m1Ordered(M1, predicate);
+
+
+    std::vector<Vec2> M2 = {
+                        { 0,  2},
+                {-1,  1}, { 0,  1}, { 1,  1},
+    {-2,  0}, {-1,  0}, { 0,  0}, { 1,  0}, { 2,  0},
+                {-1, -1}, { 0, -1}, { 1, -1},
+                        { 0, -2}
+    };
+
+    Relation<Vec2> m2Ordered(M2, predicate);
+
+    std::cout << m1Ordered << "\n" << m2Ordered;
+
+    return 0;
+}
+			\end{minted}
+          Результат выполнения программы:\\
+          \includegraphics[width=140mm]{task1}
+    \item Написать программы, формирующие матрицы отношения
+          доминирования по матрицам отношения порядка.\\
+          \textit{alg.h}
+          \begin{minted}{C++}
+template <typename T>
+class DominantRelation;
+
+template <typename T>
+class Relation : public BoolMatrixRelation
+{
+protected:
+    std::vector<T> origin;
+
+public:
+    Relation(std::vector<T> origin, std::function<bool(T, T)> pred) : BoolMatrixRelation(origin.size(), [&origin, &pred](int x, int y)
+                                                                                         { return pred(origin[x - 1], origin[y - 1]); })
+    {
+        this->origin = origin;
+    };
+
+    DominantRelation<T> getDominantRelation();
+
+    friend std::ostream& operator<<(std::ostream& out, Relation<T>& val) {
+        int blockSize = 10;
+        out << std::setw(blockSize) << ""
+            << " ";
+        for (int i = 0; i < val.size; i++)
+        {
+            std::stringstream ss;
+            ss << val.origin[i];
+            std::string buf = ss.str();
+
+            out << std::setw(blockSize) << buf << " ";
+        }
+        out << "\n";
+
+        for (int x = 0; x < val.size; x++)
+        {
+            std::stringstream ss;
+            ss << val.origin[x];
+            std::string buf = ss.str();
+
+            out << std::setw(blockSize) << buf << " ";
+            for (int y = 0; y < val.size; y++)
+            {
+                out << std::setw(blockSize) << val.data[x][y] << " ";
+            }
+
+            out << "\n";
+        }
+
+        return out;
+    }
+};
+
+template <typename T>
+class DominantRelation : public Relation<T>
+{
+public:
+    DominantRelation(std::vector<T> origin, std::function<bool(T, T)> pred) : Relation<T>(origin, pred) {};
+};
+
+#include "lab10/task2.tpp"
+	\end{minted}
+
+          \textit{task2.tpp}
+          \begin{minted}{C++}
+template <typename T>
+DominantRelation<T> Relation<T>::getDominantRelation()
+{
+    if (!isOrdered())
+        throw std::invalid_argument("Original relation should be relation of order");
+
+    DominantRelation<T> result(origin, [](T, T)
+                               { return false; });
+    for (int x = 0; x < size; x++)
+    {
+        for (int y = 0; y < size; y++)
+        {
+            if (!data[x][y])
+                continue;
+            bool anyZ = false;
+
+            for (int z = 0; z < size && !anyZ; z++)
+            {
+                if (data[x][z] && data[z][y])
+                    anyZ = true;
+            }
+
+            result.data[x][y] = !anyZ;
+        }
+    }
+
+    return result;
+}
+	\end{minted}
+          \textit{main.cpp}
+          \begin{minted}{C++}
+#include <vector>
+#include <iostream>
+
+typedef std::pair<int, int> Vec2;
+
+std::ostream& operator<<(std::ostream& out, Vec2& o) {
+    out << "(" << o.first << ", " << o.second << ")";
+
+    return out;
+}
+
+#include "../../libs/alg/alg.h"
+
+bool predicate(Vec2 a, Vec2 b) {
+    return (a.first - b.first) < (b.second - a.second);
+}
+
+int main() {
+    std::vector<Vec2> M1 = {{-1,  1}, {0,  1}, {1,  1},
+                                           {-1,  0}, {0,  0}, {1,  0},
+                                           {-1, -1}, {0, -1}, {1, -1}};
+
+    Relation<Vec2> m1Ordered(M1, predicate);
+    auto dominationRelM1 = m1Ordered.getDominantRelation();
+
+    std::cout << dominationRelM1 << std::endl;
+
+
+    std::vector<Vec2> M2 = {
+                                               { 0,  2},
+                                     {-1,  1}, { 0,  1}, { 1,  1},
+                           {-2,  0}, {-1,  0}, { 0,  0}, { 1,  0}, { 2,  0},
+                                     {-1, -1}, { 0, -1}, { 1, -1},
+                                               { 0, -2}};
+
+    Relation<Vec2> m2Ordered(M2, predicate);
+    auto dominationRelM2 = m2Ordered.getDominantRelation();
+
+    std::cout << dominationRelM2 << std::endl;
+
+    return 0;
+}
+			\end{minted}
+          Результат выполнения программы:\\
+          \includegraphics[width=140mm]{task2}
+    \item Написать программу, реализующую алгоритм топологической
+          сортировки по матрице отношения доминирования.\\
+          \textit{alg.h}
+          \begin{minted}{C++}
+template <typename T>
+class DominantRelation;
+
+template <typename T>
+class Relation : public BoolMatrixRelation
+{
+protected:
+    std::vector<T> origin;
+
+public:
+    Relation(std::vector<T> origin, std::function<bool(T, T)> pred) : BoolMatrixRelation(origin.size(), [&origin, &pred](int x, int y)
+                                                                                         { return pred(origin[x - 1], origin[y - 1]); })
+    {
+        this->origin = origin;
+    };
+
+    DominantRelation<T> getDominantRelation();
+
+    friend std::ostream& operator<<(std::ostream& out, Relation<T>& val) {
+        int blockSize = 10;
+        out << std::setw(blockSize) << ""
+            << " ";
+        for (int i = 0; i < val.size; i++)
+        {
+            std::stringstream ss;
+            ss << val.origin[i];
+            std::string buf = ss.str();
+
+            out << std::setw(blockSize) << buf << " ";
+        }
+        out << "\n";
+
+        for (int x = 0; x < val.size; x++)
+        {
+            std::stringstream ss;
+            ss << val.origin[x];
+            std::string buf = ss.str();
+
+            out << std::setw(blockSize) << buf << " ";
+            for (int y = 0; y < val.size; y++)
+            {
+                out << std::setw(blockSize) << val.data[x][y] << " ";
+            }
+
+            out << "\n";
+        }
+
+        return out;
+    }
+};
+
+template <typename T>
+class DominantRelation : public Relation<T>
+{
+public:
+    DominantRelation(std::vector<T> origin, std::function<bool(T, T)> pred) : Relation<T>(origin, pred) {};
+
+    std::vector<std::vector<T>> getTopologicalSort();
+};
+
+#include "lab10/task2.tpp"
+#include "lab10/task3.tpp"
+			\end{minted}
+          \textit{task3.tpp}
+          \begin{minted}{C++}
+template <typename T>
+std::vector<std::vector<T>> DominantRelation<T>::getTopologicalSort() {
+    std::vector<int> W(this->size, 0);
+
+    for (int x = 0; x < this->size; x++) {
+        for (int y = 0; y < this->size; y++) {
+            W[y] += this->data[x][y];
+        }
+    }
+
+    int ind = 0;
+
+    while (true)
+    {
+        std::vector<int> indices;
+        
+        // Поиск нулевых элементов и сохранение их индексов
+        auto iter = W.begin();
+        while ((iter = std::find(iter, W.end(), 0)) != W.end()) {
+            indices.push_back(iter - W.begin());
+
+            iter++;
+        }
+
+        if (indices.size() == 0) break;
+
+        ind--;
+        for (auto index : indices) {
+            // Заменяем нулевой элемент 
+            W[index] = ind;
+
+            for (int elementIndex = 0; elementIndex < this->data[index].size(); elementIndex++) { 
+                auto element = this->data[index][elementIndex];
+                W[elementIndex] -= element;
+            }
+        }
+    }
+
+    std::vector<std::vector<T>> levels;
+    for (int i = 0; i < this->size; i++) {
+        std::vector<T> level;
+
+        for (int j = 0; j < this->size; j++) {
+            if (W[j] == -(1 + i)) 
+                level.push_back(this->origin[j]);
+        }
+
+        if (level.empty()) break;
+
+        levels.push_back(level);
+    }
+    
+    return levels;
+}
+					\end{minted}
+          \textit{main.cpp}
+          \begin{minted}{C++}
+#include <vector>
+#include <iostream>
+
+typedef std::pair<int, int> Vec2;
+
+std::ostream& operator<<(std::ostream& out, Vec2& o) {
+    out << "(" << o.first << ", " << o.second << ")";
+
+    return out;
+}
+
+#include "../../libs/alg/alg.h"
+
+bool predicate(Vec2 a, Vec2 b) {
+    return (a.first - b.first) < (b.second - a.second);
+}
+
+int main() {
+    std::vector<Vec2> M1 = {{-1,  1}, {0,  1}, {1,  1},
+                                           {-1,  0}, {0,  0}, {1,  0},
+                                           {-1, -1}, {0, -1}, {1, -1}};
+
+    Relation<Vec2> m1Ordered(M1, predicate);
+    auto dominationRelM1 = m1Ordered.getDominantRelation();
+    auto m1levels = dominationRelM1.getTopologicalSort();
+    for (auto it = m1levels.end() - 1; it >= m1levels.begin(); it--) {
+        for (auto element : *it) {
+            std::cout << "(" << element.first << ", " << element.second << ") ";
+        }
+
+        std::cout << "\n";
+    }
+
+    std::cout << std::endl;
+
+
+    std::vector<Vec2> M2 = {
+                                               { 0,  2},
+                                     {-1,  1}, { 0,  1}, { 1,  1},
+                           {-2,  0}, {-1,  0}, { 0,  0}, { 1,  0}, { 2,  0},
+                                     {-1, -1}, { 0, -1}, { 1, -1},
+                                               { 0, -2}};
+
+    Relation<Vec2> m2Ordered(M2, predicate);
+    auto dominationRelM2 = m2Ordered.getDominantRelation();
+    auto m2levels = dominationRelM2.getTopologicalSort();
+    for (auto it = m2levels.end() - 1; it >= m2levels.begin(); it--) {
+        for (auto element : *it) {
+            std::cout << "(" << element.first << ", " << element.second << ") ";
+        }
+
+        std::cout << "\n";
+    }
+
+    return 0;
+}
+							\end{minted}
+          Результат выполнения программы:\\
+          \includegraphics[width=140mm]{task3}
+    \item Изобразить диаграмму Хассе отношения доминирования на множествах $M_1$ и $M_2$.\\
+          \begin{center}
+              \includegraphics[width=100mm]{task4m1}\\
+              \textit{Диаграмма Хоссе для $M_1$}
+          \end{center}
+          \begin{center}
+              \includegraphics[width=100mm]{task4m2}\\
+              \textit{Диаграмма Хоссе для $M_2$}
+          \end{center}
+    \item Найти минимальные и максимальные элементы множеств $M_1$ и $M_2$.\\
+          Максимальные элементы в $M_1$: $(1, 1)$ - с т.з. графа из элемента не выходят дуги, строка в матрице для элемента состоит только из 0 \\
+          Минимальные элементы в $M_1$: $(-1, -1)$ - с т.з. графа в элемент не входят дуги, столбец в матрице для элемента состоит только из 0 \bigbreak
+          Максимальные элементы в $M_2$: $(0, 2), (1, 1), (2, 0)$ - с т.з. графа из элементов не выходят дуги, строки в матрице для элементов состоят только из 0 \\
+          Минимальные элементы в $M_2$: $(-2, 0), (-1, -1), (0, -2)$ - с т.з. графа в элементы не входят дуги, столбцы в матрице для элементов состоит только из 0
+    \item Найти, если существуют, наименьший и наибольший элементы множеств\\
+          Наибольший элементы в $M_1$: $(1, 1)$ - элемент максимальный, кроме того в него приходят дуги из всех остальных элементов, то есть с т.з. матрицы столбец состоит только из 1, строка только из 0. С т. з. графа - ориентированные дуги приходят из остальных элементов в текущий. \\
+          Наименьший элементы в $M_1$: $(-1, -1)$ - элемент минимальный, кроме того из него выходят дуги во все остальные элементы, то есть с т.з. матрицы столбец состоит только из 0, строка только из 1. С т. з. графа - ориентированные дуги выходят ко всем остальным элементам. \bigbreak
+          Наибольший и наименьший элементы для $M_2$ опеределить невозможно.
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили упорядоченные множества, алгоритм
+топологической сортировки, научились представлять
+множества диаграммами Хассе, находить минимальные
+(максимальные) и наименьшие (наибольшие) элементы
+упорядоченного множества.
+
+\end{document}

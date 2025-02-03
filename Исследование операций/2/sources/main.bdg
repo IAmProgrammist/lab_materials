@@ -1,0 +1,1 @@
+{"data":[{"data":"Начало","type":"bd_element_terminator"},{"data":"Инициализируем матрицу\nи функцию","type":"bd_element_process"},{"data":"Вывод Zmax\n(вызов функции solveSimplexMethodMax)","type":"bd_element_data"},{"data":"Конец","type":"bd_element_terminator"}],"type":"bd_element_container"}

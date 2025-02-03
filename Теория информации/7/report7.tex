@@ -1,0 +1,105 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №7}}\\
+    \normalsize{
+        по дисциплине: Теория информации \\
+        тема: «Исследование помехоустойчивых кодов на примере алгоритма Хэмминга»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Твердохлеб Виталий Викторович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №7}\\
+    Исследование помехоустойчивых кодов на примере алгоритма Хэмминга\\
+\end{center}
+\textbf{Цель работы: }исследовать помехоустойчивые коды на примере алгоритма Хэмминга.\\
+Задание 1. Закодировать по Хэммингу произвольно сформированные
+последовательности двоичных символов длиной 18 бит, 48 бит.\\
+Сообщение длиной 18 бит: 100101010100101001\\
+Сообщение длиной 48 бит: 100010100100100101001010001010010101001010001001\\
+
+\begin{center}
+\includegraphics[width=140mm]{1_16}\\
+\includegraphics[width=200mm]{1_48}
+\end{center}
+Задание 2. Внести одиночную ошибку и устранить ее, используя механизм
+восстановления.
+\begin{center}
+\includegraphics[width=140mm]{f1_16}\\
+\includegraphics[width=200mm]{f1_48}
+\end{center}
+Задание 3. Рассмотреть вариант кодирования сообщения из 48 бит с предварительным
+сегментированием на блоки (размерность блоков выбрать самостоятельно).
+\begin{center}
+    \includegraphics[width=140mm]{3}
+\end{center}
+Задание 4. Сравнить режимы кодирования с сегментацией и без.\\
+Режим кодирования с сегментированием позволяет обнаружить большее количество ошибок, однако содержит больше 
+избыточной информации.
+
+\textbf{Вывод: } в ходе лабораторной работы исследовали помехоустойчивые коды на примере алгоритма Хэмминга.
+
+\end{document}
