@@ -1,0 +1,697 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\footnotesize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\footnotesize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+	\small{
+		МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+		\bigbreak
+		ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+		\bigbreak
+		\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+		\bigbreak
+		Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+\end{center}
+
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №4}}\\
+	\normalsize{
+		по дисциплине: Алгоритмы и структуры данных \\
+		тема: Сравнительный анализ алгоритмов поиска (Pascal/С)}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: асс. Солонченко Роман\\Евгеньевич
+}
+\vfill\begin{center}
+	Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{Лабораторная работа №4}\\
+	Сравнительный анализ алгоритмов поиска (Pascal/С)
+\end{center}
+\textbf{Цель работы: }изучение алгоритмов поиска элемента в массиве и закрепление
+навыков в проведении сравнительного анализа алгоритмов.
+\begin{enumerate}
+	\item Листинг программы.
+	      \textit{main.c}
+	      \begin{minted}{C}
+#include <time.h>
+
+#include <algc.h>
+
+#define LOW 50
+#define HIGH 450
+#define STEP 50
+
+int main() {
+    srand(time(0));
+
+    comparesSearchExperiment       (linearSearch,             "linear search",                          LOW, HIGH, STEP);
+    comparesSearchExperiment       (linearQuickSearch,        "quick linear search",                    LOW, HIGH, STEP);
+    comparesOrderedSearchExperiment(orderedLinearQuickSearch, "quick linear search for ordered arrays", LOW, HIGH, STEP);
+    comparesOrderedSearchExperiment(orderedBinarySearch,      "binary search",                          LOW, HIGH, STEP);
+    comparesOrderedSearchExperiment(orderedBlockSearch,       "block search",                           LOW, HIGH, STEP);
+
+    return 0;
+}
+	\end{minted}
+	      \textit{search.h}
+	      \begin{minted}{C}
+#ifndef SEARCH
+#define SEARCH
+
+#include <lab3/sorts.h>
+
+#include <stdbool.h>
+
+#define SEARCH_UTILITY_EXPERIMENT_ITERATIONS_AMOUNT 10000
+
+typedef int (*SearchingFunction)(int*, int, int, int*);
+typedef int (*OrderedSearchingFunction)(int*, int, int, int*);
+
+int linearSearch(int* a, int size,  int searchElement, int* comps);
+int linearQuickSearch(int* a, int size,  int searchElement, int* comps);
+int orderedLinearQuickSearch(int* a, int size,  int searchElement, int* comps);
+int orderedBinarySearch(int* a, int size,  int searchElement, int* comps);
+int orderedBlockSearch(int* a, int size,  int searchElement, int* comps);
+
+void comparesSearchExperiment(SearchingFunction function, char *searchingFunctionName, int low, int high, int step);
+void comparesOrderedSearchExperiment(SearchingFunction function, char *searchingFunctionName, int low, int high, int step);
+
+#endif
+	\end{minted}
+	      \textit{utility.c}
+	      \begin{minted}{C}
+#include <lab4/search.h>
+
+#include <assert.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+
+void comparesSearchExperiment(SearchingFunction function, char *searchingFunctionName, int low, int high, int step) {
+    printf("==============================================\n\n");
+    printf("Launching comparing experiment for function %s\n\n", searchingFunctionName);
+
+    for (int i = low; i <= high; i += step) {
+        int sumCompares = 0;
+        int maxCompares = INT_MIN;
+        for (int j = 0; j < SEARCH_UTILITY_EXPERIMENT_ITERATIONS_AMOUNT; j++) {
+            int* array = malloc((i + 1) * sizeof(int));
+            genRandom(array, i);
+            int compares = 0;
+            int randomIndex = rand() % i;
+            int foundIndex = function(array, i, array[randomIndex], &compares);
+            sumCompares += compares;
+            maxCompares = compares > maxCompares ? compares : maxCompares;
+            assert(array[foundIndex] == array[randomIndex]);
+            free(array);
+        }
+
+        int avgCompares = sumCompares / SEARCH_UTILITY_EXPERIMENT_ITERATIONS_AMOUNT;
+        printf("For %3d elements. Average: %7d compares; maximum: %7d compares\n", i, avgCompares, maxCompares);
+    }
+
+    printf("\n");
+}
+
+void comparesOrderedSearchExperiment(SearchingFunction function, char *searchingFunctionName, int low, int high, int step) {
+    printf("==============================================\n\n");
+    printf("Launching comparing experiment for function %s\n\n", searchingFunctionName);
+
+    for (int i = low; i <= high; i += step) {
+        int sumCompares = 0;
+        int maxCompares = INT_MIN;
+        for (int j = 0; j < SEARCH_UTILITY_EXPERIMENT_ITERATIONS_AMOUNT; j++) {
+            int* array = malloc((i + 1) * sizeof(int));
+            genOrdered(array, i);
+            int compares = 0;
+            int randomIndex = rand() % i;
+            int foundIndex = function(array, i, array[randomIndex], &compares);
+            sumCompares += compares;
+            maxCompares = compares > maxCompares ? compares : maxCompares;
+            assert(array[foundIndex] == array[randomIndex]);
+            free(array);
+        }
+
+        int avgCompares = sumCompares / SEARCH_UTILITY_EXPERIMENT_ITERATIONS_AMOUNT;
+        printf("For %3d elements. Average: %7d compares; maximum: %7d compares\n", i, avgCompares, maxCompares);
+    }
+
+    printf("\n");
+}
+	\end{minted}
+	      \textit{linearsearch.c}
+	      \begin{minted}{C}
+#include <lab4/search.h>
+
+int linearSearch(int* a, int size,  int searchElement, int* comps) {
+    int i = 0;
+    while (INC_COMPARES(comps) && i < size && INC_COMPARES(comps) && a[i] != searchElement)
+        i++;
+
+    return i;
+}
+	\end{minted}
+	      \textit{linearquicksearch.c}
+	      \begin{minted}{C}
+#include <lab4/search.h>
+
+int linearQuickSearch(int* a, int size,  int searchElement, int* comps) {
+    int i = 0;
+    a[size] = searchElement;
+    while (INC_COMPARES(comps) && a[i] != searchElement)
+        i++;
+
+    return i;
+}
+	\end{minted}
+	      \textit{orderedlinearquicksearch.c}
+	      \begin{minted}{C}
+#include <lab4/search.h>
+
+int orderedLinearQuickSearch(int* a, int size,  int searchElement, int* comps) {
+    int i = 0;
+    while (INC_COMPARES(comps) && i < size && INC_COMPARES(comps) && a[i] != searchElement) {
+        if (INC_COMPARES(comps) && a[i] > searchElement)
+           i = size - 1;
+        
+        i++;
+    }
+
+    return i;
+}
+	\end{minted}
+	      \textit{binarysearch.c}
+	      \begin{minted}{C}
+#include <lab4/search.h>
+
+int orderedBinarySearch(int* a, int size, int searchElement, int* comps) {
+    int left = 0, right = size - 1;
+
+    while (INC_COMPARES(comps) && left <= right) {
+        int middle = left + (right - left) / 2;
+
+        if (INC_COMPARES(comps) && a[middle] < searchElement) 
+            left = middle + 1;
+        else if (INC_COMPARES(comps) && a[middle] > searchElement)
+            right = middle - 1;
+        else
+            return middle;
+    }
+    
+    return size;
+}
+	\end{minted}
+	      \textit{blocksearch.c}
+	      \begin{minted}{C}
+#include <lab4/search.h>
+
+#include <math.h>
+
+int orderedBlockSearch(int* a, int size, int searchElement, int* comps) {
+    int blockSize = sqrtl(size);
+    int blocksAmount = size / blockSize + size % blockSize;
+    for (int i = 0; INC_COMPARES(comps) && i < blocksAmount; i++) {
+        int blockBeginIndex = i * blockSize;
+        int blockEndIndex = (i + 1) * blockSize;
+        blockEndIndex = INC_COMPARES(comps) && blockEndIndex > size ? size : blockEndIndex;
+
+        if (INC_COMPARES(comps) && a[blockEndIndex - 1] < searchElement) continue;
+
+        int j = blockBeginIndex;
+        while (INC_COMPARES(comps) && j < blockEndIndex && INC_COMPARES(comps) && a[j] != searchElement) {
+            if (INC_COMPARES(comps) && a[j] > searchElement)
+                j = size - 1;
+            
+            j++;
+        }
+
+        return j;
+    }
+
+    return size;
+}
+	\end{minted}
+	\item Результаты работы программы.
+	      \begin{center}
+		      \textbf{Максимальное количество операций сравнения}
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			      \multirow{2}{*}{Алгоритмы поиска}                                              & \multicolumn{9}{|c|}{Количество элементов в массиве}                                                    \\
+			      \cline{2-10}
+			                                                                                     & 50                                                   & 100 & 150 & 200 & 250 & 300 & 350  & 400  & 450  \\
+			      \hline
+			      \begin{tabular}{c}Линейный\\(неупорядочен-\\ный массив)\end{tabular}           & 100                                                  & 200 & 300 & 400 & 500 & 600 & 700  & 800  & 900  \\
+			      \hline
+			      \begin{tabular}{c}Быстрый линей-\\ный (неупорядо-\\ченный массив)\end{tabular} & 50                                                   & 100 & 150 & 200 & 250 & 300 & 350  & 400  & 450  \\
+			      \hline
+			      \begin{tabular}{c}Быстрый линей-\\ный (упорядо-\\ченный массив)\end{tabular}   & 149                                                  & 299 & 449 & 599 & 749 & 899 & 1049 & 1199 & 1349 \\
+			      \hline
+			      \begin{tabular}{c}Бинарный (упо-\\рядоченный мас-\\сив)\end{tabular}           & 17                                                   & 20  & 21  & 23  & 23  & 24  & 25   & 26   & 26   \\
+			      \hline
+			      \begin{tabular}{c}Блочный (упо-\\рядоченный мас-\\сив)\end{tabular}            & 41                                                   & 59  & 71  & 83  & 92  & 101 & 110  & 119  & 125  \\
+			      \hline
+		      \end{tabular}\bigbreak
+		      \textbf{Среднее количество операций сравнения}
+		      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			      \hline
+			      \multirow{2}{*}{Алгоритмы поиска}                                              & \multicolumn{9}{|c|}{Количество элементов в массиве}                                                 \\
+			      \cline{2-10}
+			                                                                                     & 50                                                   & 100 & 150 & 200 & 250 & 300 & 350 & 400 & 450 \\
+			      \hline
+			      \begin{tabular}{c}Линейный\\(неупорядочен-\\ный массив)\end{tabular}           & 51                                                   & 100 & 152 & 200 & 248 & 302 & 345 & 396 & 451 \\
+			      \hline
+			      \begin{tabular}{c}Быстрый линей-\\ный (неупорядо-\\ченный массив)\end{tabular} & 25                                                   & 50  & 75  & 101 & 125 & 148 & 174 & 200 & 222 \\
+			      \hline
+			      \begin{tabular}{c}Быстрый линей-\\ный (упорядо-\\ченный массив)\end{tabular}   & 75                                                   & 150 & 224 & 298 & 374 & 454 & 529 & 601 & 675 \\
+			      \hline
+			      \begin{tabular}{c}Бинарный (упо-\\рядоченный мас-\\сив)\end{tabular}           & 12                                                   & 14  & 16  & 17  & 18  & 18  & 19  & 19  & 20  \\
+			      \hline
+			      \begin{tabular}{c}Блочный (упо-\\рядоченный мас-\\сив)\end{tabular}            & 23                                                   & 32  & 38  & 44  & 49  & 53  & 57  & 61  & 65  \\
+			      \hline
+		      \end{tabular}
+	      \end{center}
+	\item Графики зависимостей ФВС.\\
+	      \begin{center}
+		      \begin{longtable}{|>{\centering\arraybackslash}p{0.13\textwidth}|>{\centering\arraybackslash}p{0.43\textwidth}|>{\centering\arraybackslash}p{0.43\textwidth}|}
+			      \hline
+			      Поиск                                                                                             & \begin{tabular}{c}Максимальное количество\\операций сравнения\end{tabular} & \begin{tabular}{c}Среднее количество\\операций сравнения\end{tabular} \\
+			      \hline
+			      \begin{tabular}{c}Линейный\\поиск\end{tabular}                                                    & \begin{tikzpicture}
+				                                                                                                          \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  100
+							      100 200
+							      150 300
+							      200 400
+							      250 500
+							      300 600
+							      350 700
+							      400 800
+							      450 900
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                          \end{tikzpicture}                                                 & \begin{tikzpicture}
+				                                                                                                                                                                              \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  51
+							      100 100
+							      150 152
+							      200 200
+							      250 248
+							      300 302
+							      350 345
+							      400 396
+							      450 451
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                                                                                              \end{tikzpicture}                                                      \\
+			      \hline \begin{tabular}{c}Быстрый\\линейный\\поиск\\(неупо-\\рядочен-\\ный мас-\\сив)\end{tabular} & \begin{tikzpicture}
+				                                                                                                          \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  50
+							      100 100
+							      150 150
+							      200 200
+							      250 250
+							      300 300
+							      350 350
+							      400 400
+							      450 450
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                          \end{tikzpicture}                                                 & \begin{tikzpicture}
+				                                                                                                                                                                              \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  25
+							      100 50
+							      150 75
+							      200 101
+							      250 125
+							      300 148
+							      350 174
+							      400 200
+							      450 222
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                                                                                              \end{tikzpicture}                                                      \\
+			      \hline \begin{tabular}{c}Быстрый\\линейный\\поиск\\(упо-\\рядочен-\\ный мас-\\сив)\end{tabular}   & \begin{tikzpicture}
+				                                                                                                          \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  149
+							      100 299
+							      150 449
+							      200 599
+							      250 749
+							      300 899
+							      350 1049
+							      400 1199
+							      450 1349
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                          \end{tikzpicture}                                                 & \begin{tikzpicture}
+				                                                                                                                                                                              \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  75
+							      100 150
+							      150 224
+							      200 298
+							      250 374
+							      300 454
+							      350 529
+							      400 601
+							      450 675
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                                                                                              \end{tikzpicture}                                                      \\
+			      \hline \begin{tabular}{c}Бинарный\\поиск\\(упо-\\рядочен-\\ный мас-\\сив)\end{tabular}            & \begin{tikzpicture}
+				                                                                                                          \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  17
+							      100 20
+							      150 21
+							      200 23
+							      250 23
+							      300 24
+							      350 25
+							      400 26
+							      450 26
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                          \end{tikzpicture}                                                 & \begin{tikzpicture}
+				                                                                                                                                                                              \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  12
+							      100 14
+							      150 16
+							      200 17
+							      250 18
+							      300 18
+							      350 19
+							      400 19
+							      450 20
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                                                                                              \end{tikzpicture}                                                      \\
+			      \hline \begin{tabular}{c}Блочный\\поиск\\(упо-\\рядочен-\\ный мас-\\сив)\end{tabular}             & \begin{tikzpicture}
+				                                                                                                          \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  41
+							      100 59
+							      150 71
+							      200 83
+							      250 92
+							      300 101
+							      350 110
+							      400 119
+							      450 125
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                          \end{tikzpicture}                                                 & \begin{tikzpicture}
+				                                                                                                                                                                              \begin{axis}[
+						      axis lines = left,
+						      xlabel = \(x\),
+						      ylabel = {\(y\)},
+						      width=0.41\textwidth,
+						      height=0.41\textwidth
+					      ]
+					      \addplot[
+						      mark size=2pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      50  23
+							      100 32
+							      150 38
+							      200 44
+							      250 49
+							      300 53
+							      350 57
+							      400 61
+							      450 65
+						      };
+					      \addplot[
+						      mark size=0pt,
+						      only marks,
+					      ]
+					      table {
+							      x  y
+							      0  0
+						      };
+				      \end{axis}
+			                                                                                                                                                                              \end{tikzpicture}                                                      \\
+		      \end{longtable}
+	      \end{center}
+	\item Выводы по работе.\\
+	      \textbf{Линейный поиск (неупорядоченный массив):}\\
+	      $t = 2 + 3\cdot N$\bigbreak
+	      Если искомый элемент в начале массива: $\Omega(1)$\\
+	      Если искомый элемент в конце массива или искомого элемента нет в массиве: $O(N)$\\
+	      В общем случае: $\Theta(N)$\\
+	      \textbf{Быстрый линейный поиск (неупорядоченный массив):}\\
+	      $t = 3 + 2\cdot N$\bigbreak
+	      Если искомый элемент в начале массива: $\Omega(1)$\\
+	      Если искомый элемент в конце массива или искомого элемента нет в массиве: $O(N)$\\
+	      В общем случае: $\Theta(N)$\\
+	      \textbf{Быстрый линейный поиск (упорядоченный массив):}\\
+	      $t = 2 + 5 \cdot N$
+		  Если искомый элемент в начале массива: $\Omega(1)$\\
+	      Все элементы массива меньше искомого: $O(N)$\\
+	      В общем случае: $\Theta(N)$\\
+	      \textbf{Бинарный поиск:}\\
+	      $t = 3 + 5 \cdot \log_2 N$
+		  Если искомый элемент в середине массива: $\Omega(1)$\\
+	      Если элемента нет в массиве: $O(\log_2 N)$\\
+	      В общем случае: $\Theta(\log_2 N)$\\
+	      \textbf{Блочный поиск:}\\
+	      $t = 2 + 7 \cdot \sqrt{N} $
+		  Если искомый элемент в начале массива: $\Omega(1)$\\
+	      Если искомый элемент в конце массива: $O(\sqrt{N})$\\
+	      В общем случае: $O(\sqrt{N})$
+\end{enumerate}
+\href{https://github.com/IAmProgrammist/algorithms_and_data_structures/tree/main}{Ссылка на репозиторий}\\
+\textbf{Вывод: } в ходе лабораторной работы изучили алгоритмы поиска элемента в массиве и закрепили
+навыки в проведении сравнительного анализа алгоритмов.
+
+\end{document}

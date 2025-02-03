@@ -1,0 +1,503 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage{subfiles}
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №3}}\\
+    \normalsize{
+        по дисциплине: Исследование операций \\
+        тема: «Модификации симплекс метода. Методы искусственного базиса и больших штрафов»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\проф. Вирченко Юрий Петрович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №3}\\
+    Модификации симплекс метода. Методы искусственного базиса и больших штрафов.\\
+\end{center}
+\textbf{Цель работы: }изучение методов искусственного базиса и больших
+штрафов решения задач ЛП в канонической форме, не подготовленных
+к работе симплекс-методом в чистом виде.\\
+\begin{center}
+    \textbf{Вариант 10}
+\end{center}
+\begin{equation*}
+    \begin{aligned}
+        z = 10x_1 - 4x_2 + x_3 + 7x_4 - 5x_5 \rightarrow max; \\
+        \begin{cases}
+            2x_1 - x_2 + x_3 + 3x_4 + x_5 = 15,    \\
+            x_1 + 4x_2 + x_3 + x_4 - 2x_5 = 46,    \\
+            -x_1 + 4x_2 + 6x_3 + 3x_4 - 8x_5 = 48, \\
+        \end{cases}                \\
+        x_i \geq 0 (i=\overline{1, 5}).
+    \end{aligned}
+\end{equation*}\\
+\textbf{Задание 1}\\
+Изучить метод и алгоритм искусственного базиса и составить
+программу решения задачи ЛП этим методом.\bigbreak
+
+Блок-схемы:
+\begin{center}
+    \subfile{sources/mainTask1.tex}\bigbreak
+    \subfile{sources/solveSystemOfLinearEquationsArtificialBasis.tex}\bigbreak
+    \subfile{sources/getDataForAuxTask.tex}
+\end{center}
+Исходный код:
+\begin{minted}{C++}
+#pragma once
+
+#include <vector>
+#include <algorithm>
+#include <tuple>
+
+template <std::size_t T, std::size_t MatrixLines, std::size_t NewMatrixLength = T + MatrixLines>
+std::tuple<std::vector<std::array<double, NewMatrixLength>>, std::array<double, NewMatrixLength>, std::vector<int>>
+getDataForAuxTask(std::vector<std::array<double, T>> matrix, std::array<double, T> initialFunc = {}, double M = 1) {
+    // Инициализируем расширенную матрицу, функцию, массив индексов базовых переменных
+    std::vector<std::array<double, NewMatrixLength>> newMatrix(MatrixLines);
+    std::array<double, NewMatrixLength> newFunc = {};
+    for (int i = 0; i < initialFunc.size() - 1; i++)
+        newFunc[i] = initialFunc[i];
+    
+    newFunc[NewMatrixLength - 1] = initialFunc.back();
+
+    std::vector<int> baseIndices;
+
+    // Для каждой строчки исходной матрицы
+    for (int i = 0; i < matrix.size(); i++) {
+        // Если свободный коэффициент в матрице < 0, умножаем строку i на -1
+        if (matrix[i][T - 1] < 0)
+            for (int j = 0; j < T; j++)
+                matrix[i][j] *= -1;
+
+        // Копируем из исходной матрицы строку
+        // в новую матрицу, формируем 
+        // новую функцию, складывая 
+        // коэффициенты, умноженные на M
+        int j = 0;
+        for (; j < matrix[0].size() - 1; j++) {
+            newMatrix[i][j] = matrix[i][j];
+            newFunc[j] += M * matrix[i][j];
+        }
+        
+        // Добавляем искусственные переменные в новую матрицу
+        for (int k = 0; k < matrix.size(); k++) {
+            if (k == i) newMatrix[i][j + k] = 1.;
+            else newMatrix[i][j + k] = 0;
+        }
+
+        // Добавляем в матрицу и функцию свободные переменные
+        newMatrix[i][T + MatrixLines - 1] = matrix[i][T - 1];
+        newFunc[T + MatrixLines - 1] += M * matrix[i][T - 1];
+
+        // Добавляем в массив базовых индексов базовую переменную
+        baseIndices.push_back(T + i - 1);
+    }
+
+    // Возвращаем матрицу, преобразованную функцию и базис
+    return {newMatrix, newFunc, baseIndices};
+}
+
+template <std::size_t T, std::size_t MatrixLines>
+double solveSystemOfLinearEquationsArtificialBasis(std::vector<std::array<double, T>>& matrix, std::array<double, T>& function) {
+    // Получаем расширенную матрицу для решения вспомогательной задачи
+    auto expandedMatrix = getDataForAuxTask<T, MatrixLines>(matrix);
+    auto newMatrix = std::get<0>(expandedMatrix);
+    auto baseIndices = std::get<2>(expandedMatrix);
+    // Решаем полученную вспомогательную задачу симплекс методом
+    double ans = solveSimplexMethodMaxRaw(newMatrix, std::get<1>(expandedMatrix), &baseIndices);
+
+    // Если ответ для всп. функции не равен нулю - выбрасываем ошибку, матрицу привести к нужному виду 
+    // не получится
+    if (std::abs(ans) > 0.00000001) 
+        throw std::invalid_argument("No basis found");
+    
+    // Копируем полученную матрицу в исходную, обрезая столбцы с 
+    // искусственными коэффициентами
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix[i].size() - 1; j++) {
+            matrix[i][j] = newMatrix[i][j];
+        }
+
+        matrix[i][T - 1] = newMatrix[i].back();
+    }
+
+    // Определяем, какие переменные можно внести вместо искусственных переменных. 
+    // Переменные в filterIndices могут их заменить, 
+    // в requiredIndices - должны остаться в базисе.
+    std::vector<int> filterIndices;
+    std::vector<int> requiredIndices;
+    int cIndex = 0;
+    std::sort(baseIndices.begin(), baseIndices.end());
+    for (int i = 0; i < T - 1 && cIndex < baseIndices.size(); i++) {
+        if (baseIndices[cIndex] > i) {
+            filterIndices.push_back(i);
+        } else {
+            requiredIndices.push_back(i);
+            cIndex++;
+        }
+    }
+
+    // Приводим матрицу к новому базису, учитывая filterIndices и requiredIndices
+    auto b = getAllBasises(matrix, &filterIndices, &requiredIndices);
+
+    // Если к таковому привести невозможно, выбрасываем ошибку, матрицу привести к нужному виду 
+    // не получится
+    if (b.empty()) 
+        throw std::invalid_argument("No basis found");
+
+    // Вызовем симплекс метод на преобразованной матрице
+    return solveSimplexMethodMaxRaw(b[0].matrix, function);
+}
+    \end{minted}
+\href{https://github.com/IAmProgrammist/operations_research/blob/master/src/libs/alg/lab3/task1.tpp}{Ссылка на репозиторий}\\
+
+\begin{minted}{C++}
+#include <iostream>
+#include <iomanip>
+#include <array>
+
+#include "../../libs/alg/alg.h"
+
+int main() {
+    // Подготовить входные данные
+    std::vector<std::array<double, 6>> matrix = {
+    {2, -1, 1, 3, 1, 15},
+    {1, 4, 1, 1, -2, 46},
+    {-1, 4, 6, 3, -8, 48}};
+    std::array<double, 6> function{{10, -4, 1, 7, -5}};
+
+    // Вывод ответа
+    std::cout << solveSystemOfLinearEquationsArtificialBasis<6, 3>(matrix, function);
+}
+    \end{minted}
+\href{https://github.com/IAmProgrammist/operations_research/blob/master/src/lab3/task1/main.cpp}{Ссылка на репозиторий}\bigbreak
+
+Результаты выполнения программы:
+\begin{minted}{console}
+98.7273
+\end{minted}
+
+\textbf{Задание 2}\\
+Изучить метод и алгоритм больших штрафов и составить
+программу решения задачи ЛП этим методом.\bigbreak
+
+Блок-схемы:
+\begin{center}
+    \subfile{sources/mainTask2.tex}\bigbreak
+    \subfile{sources/solveSystemOfLinearEquationsBigPenalties.tex}
+\end{center}
+Исходный код:
+\begin{minted}{C++}
+#pragma once 
+
+#include <vector>
+#include <tuple>
+
+template <std::size_t T, std::size_t MatrixLines>
+double solveSystemOfLinearEquationsBigPenalties(std::vector<std::array<double, T>>& matrix, std::array<double, T>& function) {
+    // Сформируем M, где M = сумма коэффециентов ф-ции по модулю
+    double M = 0;
+    for (auto& v : function) {
+        M += std::abs(v);
+    }
+
+    // Получаем расширенную матрицу для решения вспомогательной задачи с заданным M и исходной функцией function
+    auto expandedMatrix = getDataForAuxTask<T, MatrixLines>(matrix, function, M);
+
+    // Вызовем симплекс метод на преобразованной матрице
+    return solveSimplexMethodMaxRaw(std::get<0>(expandedMatrix), std::get<1>(expandedMatrix));
+}
+    \end{minted}
+\href{https://github.com/IAmProgrammist/operations_research/blob/master/src/libs/alg/lab3/task2.tpp}{Ссылка на репозиторий}\\
+
+\begin{minted}{C++}
+#include <iostream>
+#include <iomanip>
+#include <array>
+
+#include "../../libs/alg/alg.h"
+
+int main() {
+    // Подготовить входные данные
+    std::vector<std::array<double, 6>> matrix = {
+    {2, -1, 1, 3, 1, 15},
+    {1, 4, 1, 1, -2, 46},
+    {-1, 4, 6, 3, -8, 48}};
+    std::array<double, 6> function{{10, -4, 1, 7, -5}};
+
+    // Вывод ответа
+    std::cout << solveSystemOfLinearEquationsBigPenalties<6, 3>(matrix, function);
+}
+    \end{minted}
+\href{https://github.com/IAmProgrammist/operations_research/blob/master/src/lab3/task2/main.cpp}{Ссылка на репозиторий}\bigbreak
+
+Результаты выполнения программы:
+\begin{minted}{console}
+66.3636
+\end{minted}
+
+\textbf{Задание 3}\\
+Запрограммировать изученные алгоритмы и отладить
+соответствующие программы. В рамках подготовки тестовых
+данных решить вручную выбранную задачу.\bigbreak
+\textbf{Метод больших штрафов}:\\
+Введём дополнительную задачу\\
+\begin{equation*}
+    \begin{aligned}
+        z' = -y_1-y_2-y_3 \rightarrow max;           \\
+        \begin{cases}
+            2x_1 - x_2 + x_3 + 3x_4 + x_5 + y_1 = 15,    \\
+            x_1 + 4x_2 + x_3 + x_4 - 2x_5 + y_2 = 46,    \\
+            -x_1 + 4x_2 + 6x_3 + 3x_4 - 8x_5 + y_3 = 48, \\
+        \end{cases} \\
+        x_i \geq 0 (i=\overline{1, 5}), y_j \geq 0 (j=\overline{1, 3}).
+    \end{aligned}
+\end{equation*}\\
+
+Составим симплекс таблицу:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$            & $x_2$            & $x_3 \downarrow$ & $x_4 $           & $x_5$             & $y_1$           & $y_2$           & $y_3$           \\
+        \hline
+        $y_1$            & $15$              & $2$              & $-1$             & $1$              & $3$              & $1$               & $1$             & $0$             & $0$             \\
+        \hline
+        $y_2$            & $46$              & $1$              & $4$              & $1$              & $1$              & $-2$              & $0$             & $1$             & $0$             \\
+        \hline
+        $\leftarrow y_3$ & $48$              & $-1$             & $4$              & $6$              & $3$              & $-8$              & $0$             & $0$             & $1$             \\
+        \hline
+        $z'$             & $-109$            & $-2$             & $-7$             & $-8$             & $-7$             & $9$               & $0$             & $0$             & $0$             \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                      \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1 \downarrow$ & $x_2$            & $x_3$            & $x_4 $           & $x_5$             & $y_1$           & $y_2$           & $y_3$           \\
+        \hline
+        $\leftarrow y_1$ & $7$               & $2\frac{1}{6}$   & $-1\frac{2}{3}$  & $0$              & $2\frac{1}{2}$   & $2\frac{1}{3}$    & $1$             & $0$             & $-\frac{1}{6}$  \\
+        \hline
+        $y_2$            & $38$              & $1\frac{1}{6}$   & $3\frac{1}{3}$   & $0$              & $\frac{1}{2}$    & $-\frac{2}{3}$    & $0$             & $1$             & $-\frac{1}{6}$  \\
+        \hline
+        $x_3$            & $8$               & $-\frac{1}{6}$   & $\frac{2}{3}$    & $1$              & $\frac{1}{2}$    & $-1\frac{1}{3}$   & $0$             & $0$             & $\frac{1}{6}$   \\
+        \hline
+        $z'$             & $-45$             & $-3\frac{1}{3}$  & $-1\frac{2}{3}$  & $0$              & $-3$             & $-1\frac{2}{3}$   & $0$             & $0$             & $1\frac{1}{3}$  \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                      \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$            & $x_2 \downarrow$ & $x_3$            & $x_4 $           & $x_5$             & $y_1$           & $y_2$           & $y_3$           \\
+        \hline
+        $x_1$            & $3\frac{3}{13}$   & $1$              & $-\frac{10}{13}$ & $0$              & $1\frac{2}{13}$  & $1\frac{1}{13}$   & $\frac{6}{13}$  & $0$             & $-\frac{1}{13}$ \\
+        \hline
+        $\leftarrow y_2$ & $34\frac{3}{13}$  & $0$              & $4\frac{3}{13}$  & $0$              & $-\frac{11}{13}$ & $-1\frac{12}{13}$ & $-\frac{7}{13}$ & $1$             & $-\frac{1}{13}$ \\
+        \hline
+        $x_3$            & $8\frac{7}{13}$   & $0$              & $\frac{7}{13}$   & $1$              & $\frac{9}{13}$   & $-1\frac{2}{13}$  & $\frac{1}{13}$  & $0$             & $\frac{2}{13}$  \\
+        \hline
+        $z'$             & $-34\frac{3}{13}$ & $0$              & $-4\frac{3}{13}$ & $0$              & $\frac{11}{13}$  & $1\frac{12}{13}$  & $1\frac{7}{13}$ & $0$             & $1\frac{1}{13}$ \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                      \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$            & $x_2$            & $x_3$            & $x_4 $           & $x_5$             & $y_1$           & $y_2$           & $y_3$           \\
+        \hline
+        $x_1$            & $9\frac{5}{11}$   & $1$              & $0$              & $0$              & $1$              & $\frac{8}{11}$    & $\frac{4}{11}$  & $\frac{2}{11}$  & $-\frac{1}{11}$ \\
+        \hline
+        $x_2$            & $8\frac{1}{11}$   & $0$              & $1$              & $0$              & $-\frac{1}{5}$   & $-\frac{5}{11}$   & $-\frac{7}{55}$ & $\frac{13}{55}$ & $-\frac{1}{55}$ \\
+        \hline
+        $x_3$            & $4\frac{2}{11}$   & $0$              & $0$              & $1$              & $\frac{4}{5}$    & $-\frac{10}{11}$  & $\frac{8}{55}$  & $-\frac{7}{55}$ & $\frac{9}{55}$  \\
+        \hline
+        $z'$             & $0$               & $0$              & $0$              & $0$              & $0$              & $1$               & $1$             & $1$             & $0$             \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                      \\
+    \end{tabular}
+\end{center}
+
+Привели матрицу к необходимому виду, в базисе искусственных переменных не осталось, поэтому доволнительных преобразований не нужно.
+Получим решение задачи при помощи симплекс метода:
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$             & $x_2$ & $x_3$            & $x_4 \downarrow$ & $x_5$             \\
+        \hline
+        $x_1$            & $9\frac{5}{11}$   & $1$               & $0$   & $0$              & $1$              & $\frac{8}{11}$    \\
+        \hline
+        $x_2$            & $8\frac{1}{11}$   & $0$               & $1$   & $0$              & $-\frac{1}{5}$   & $-\frac{5}{11}$   \\
+        \hline
+        $\leftarrow x_3$ & $4\frac{2}{11}$   & $0$               & $0$   & $1$              & $\frac{4}{5}$    & $-\frac{10}{11}$  \\
+        \hline
+        $z$              & $0$               & $-10$             & $4$   & $-1$             & $-7$             & $5$               \\
+        \hline
+        \multicolumn{7}{c}{}                                                                                                       \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$             & $x_2$ & $x_3$            & $x_4 $           & $x_5 \downarrow$  \\
+        \hline
+        $\leftarrow x_1$ & $4\frac{5}{22}$   & $1$               & $0$   & $-1\frac{1}{4}$  & $0$              & $1\frac{19}{22}$  \\
+        \hline
+        $x_2$            & $9\frac{3}{22}$   & $0$               & $1$   & $\frac{1}{4}$    & $0$              & $-\frac{15}{22}$  \\
+        \hline
+        $x_4$            & $5\frac{5}{22}$   & $0$               & $0$   & $1\frac{1}{4}$   & $1$              & $-1\frac{3}{22}$  \\
+        \hline
+        $z$              & $36\frac{13}{22}$ & $-10$             & $4$   & $7\frac{3}{4}$   & $0$              & $-2\frac{21}{22}$ \\
+        \hline
+        \multicolumn{7}{c}{}                                                                                                       \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1 \downarrow$  & $x_2$ & $x_3$            & $x_4 $           & $x_5$             \\
+        \hline
+        $\leftarrow x_5$ & $2\frac{11}{41}$  & $\frac{22}{41}$   & $0$   & $-\frac{55}{82}$ & $0$              & $1$               \\
+        \hline
+        $x_2$            & $10\frac{28}{41}$ & $\frac{15}{41}$   & $1$   & $-\frac{17}{82}$ & $0$              & $0$               \\
+        \hline
+        $x_4$            & $7\frac{33}{41}$  & $\frac{25}{41}$   & $0$   & $\frac{20}{41}$  & $1$              & $0$               \\
+        \hline
+        $z$              & $43\frac{12}{41}$ & $-8\frac{17}{41}$ & $4$   & $5\frac{63}{82}$ & $0$              & $0$               \\
+        \hline
+        \multicolumn{7}{c}{}                                                                                                       \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$             & $x_2$ & $x_3 \downarrow$ & $x_4 $           & $x_5$             \\
+        \hline
+        $x_1$            & $4\frac{5}{22}$   & $1$               & $0$   & $-1\frac{1}{4}$  & $0$              & $1\frac{19}{22}$  \\
+        \hline
+        $x_2$            & $9\frac{3}{22}$   & $0$               & $1$   & $\frac{1}{4}$    & $0$              & $-\frac{15}{22}$  \\
+        \hline
+        $\leftarrow x_4$ & $5\frac{5}{22}$   & $0$               & $0$   & $1\frac{1}{4}$   & $1$              & $-1\frac{3}{22}$  \\
+        \hline
+        $z$              & $78\frac{19}{22}$ & $0$               & $4$   & $-4\frac{3}{4}$  & $0$              & $15\frac{15}{22}$ \\
+        \hline
+        \multicolumn{7}{c}{}                                                                                                       \\
+        \hline
+        Баз. пер.        & Св. чл.           & $x_1$             & $x_2$ & $x_3$            & $x_4 $           & $x_5$             \\
+        \hline
+        $x_1$            & $9\frac{5}{11}$   & $1$               & $0$   & $0$              & $1$              & $\frac{8}{11}$    \\
+        \hline
+        $x_2$            & $8\frac{1}{11}$   & $0$               & $1$   & $0$              & $-\frac{1}{5}$   & $-\frac{5}{11}$   \\
+        \hline
+        $x_3$            & $4\frac{2}{11}$   & $0$               & $0$   & $1$              & $\frac{4}{5}$    & $-\frac{10}{11}$  \\
+        \hline
+        $z$              & $98\frac{8}{11}$  & $0$               & $4$   & $0$              & $3\frac{4}{5}$   & $11\frac{4}{11}$  \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Ответ: $98\frac{8}{11}$\bigbreak
+
+\textbf{Метод большого штрафа:}\\
+Аналогично прошлой задаче введём искусственные переменные. Для составления $z_M$ положим, что M = 27. Составим симплекс таблицу:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Баз. пер.        & Св. чл.            & $x_1$             & $x_2$              & $x_3 \downarrow$ & $x_4 $           & $x_5$             & $y_1$             & $y_2$             & $y_3$             \\
+        \hline
+        $y_1$            & $15$               & $2$               & $-1$               & $1$              & $3$              & $1$               & $1$               & $0$               & $0$               \\
+        \hline
+        $y_2$            & $46$               & $1$               & $4$                & $1$              & $1$              & $-2$              & $0$               & $1$               & $0$               \\
+        \hline
+        $\leftarrow y_3$ & $48$               & $-1$              & $4$                & $6$              & $3$              & $-8$              & $0$               & $0$               & $1$               \\
+        \hline
+        $z_M$            & $-2943$            & $-64$             & $-185$             & $-217$           & $-196$           & $248$             & $0$               & $0$               & $0$               \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                                \\
+        \hline
+        Баз. пер.        & Св. чл.            & $x_1 \downarrow$  & $x_2$              & $x_3$            & $x_4 $           & $x_5$             & $y_1$             & $y_2$             & $y_3$             \\
+        \hline
+        $\leftarrow y_1$ & $7$                & $2\frac{1}{6}$    & $-1\frac{2}{3}$    & $0$              & $2\frac{1}{2}$   & $2\frac{1}{3}$    & $1$               & $0$               & $-\frac{1}{6}$    \\
+        \hline
+        $y_2$            & $38$               & $1\frac{1}{6}$    & $3\frac{1}{3}$     & $0$              & $\frac{1}{2}$    & $-\frac{2}{3}$    & $0$               & $1$               & $-\frac{1}{6}$    \\
+        \hline
+        $x_3$            & $8$                & $-\frac{1}{6}$    & $\frac{2}{3}$      & $1$              & $\frac{1}{2}$    & $-1\frac{1}{3}$   & $0$               & $0$               & $\frac{1}{6}$     \\
+        \hline
+        $z_M$            & $-1207$            & $-100\frac{1}{6}$ & $-40\frac{1}{3}$   & $0$              & $-87\frac{1}{2}$ & $-41\frac{1}{3}$  & $0$               & $0$               & $36\frac{1}{6}$   \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                                \\
+        \hline
+        Баз. пер.        & Св. чл.            & $x_1$             & $x_2 \downarrow$   & $x_3$            & $x_4 $           & $x_5$             & $y_1$             & $y_2$             & $y_3$             \\
+        \hline
+        $x_1$            & $3\frac{3}{13}$    & $1$               & $-\frac{10}{13}$   & $0$              & $1\frac{2}{13}$  & $1\frac{1}{13}$   & $\frac{6}{13}$    & $0$               & $-\frac{1}{13}$   \\
+        \hline
+        $\leftarrow y_2$ & $34\frac{3}{13}$   & $0$               & $4\frac{3}{13}$    & $0$              & $-\frac{11}{13}$ & $-1\frac{12}{13}$ & $-\frac{7}{13}$   & $1$               & $-\frac{1}{13}$   \\
+        \hline
+        $x_3$            & $8\frac{7}{13}$    & $0$               & $\frac{7}{13}$     & $1$              & $\frac{9}{13}$   & $-1\frac{2}{13}$  & $\frac{1}{13}$    & $0$               & $\frac{2}{13}$    \\
+        \hline
+        $z_M$            & $-883\frac{5}{13}$ & $0$               & $-117\frac{5}{13}$ & $0$              & $28\frac{1}{13}$ & $66\frac{7}{13}$  & $46\frac{3}{13}$  & $0$               & $28\frac{6}{13}$  \\
+        \hline
+        \multicolumn{10}{c}{}                                                                                                                                                                                \\
+        \hline
+        Баз. пер.        & Св. чл.            & $x_1$             & $x_2$              & $x_3$            & $x_4 $           & $x_5$             & $y_1$             & $y_2$             & $y_3$             \\
+        \hline
+        $x_1$            & $9\frac{5}{11}$    & $1$               & $0$                & $0$              & $1$              & $\frac{8}{11}$    & $\frac{4}{11}$    & $\frac{2}{11}$    & $-\frac{1}{11}$   \\
+        \hline
+        $x_2$            & $8\frac{1}{11}$    & $0$               & $1$                & $0$              & $-\frac{1}{5}$   & $-\frac{5}{11}$   & $-\frac{7}{55}$   & $\frac{13}{55}$   & $-\frac{1}{55}$   \\
+        \hline
+        $x_3$            & $4\frac{2}{11}$    & $0$               & $0$                & $1$              & $\frac{4}{5}$    & $-\frac{10}{11}$  & $\frac{8}{55}$    & $-\frac{7}{55}$   & $\frac{9}{55}$    \\
+        \hline
+        $z_M$            & $66\frac{4}{11}$   & $0$               & $0$                & $0$              & $4\frac{3}{5}$   & $13\frac{2}{11}$  & $31\frac{16}{55}$ & $27\frac{41}{55}$ & $26\frac{18}{55}$ \\
+        \hline
+        \multicolumn{10}{c}{}
+    \end{tabular}
+\end{center}
+
+Ответ: $66\frac{4}{11}$
+
+\textbf{Вывод: } в ходе лабораторной работы разработали и отладили программу, находящую
+оптимальное решение в системе линейных уравнений для целевой функции, и использующей
+модификации симплекс метода: искусственный базис и большой штраф.
+
+\end{document}

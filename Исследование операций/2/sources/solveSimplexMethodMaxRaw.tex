@@ -1,0 +1,155 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report2.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgIJNOIISQ}
+\begin{lrbox}{\bdgIJNOIISQ}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontIJNOIISQPFNISAM[Scale=0.681171, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorIJNOIISQBCIHITL}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorIJNOIISQAQGOLJ}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorIJNOIISQEGIQRAIT}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.256177 cm, fill=colorIJNOIISQBCIHITL, draw=none] (-0.004806,0.004806) -- (6.000000,0.004806) -- (6.000000,-0.507549) -- (-0.004806,-0.507549) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.256177 cm, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (-0.004806,0.004806) -- (6.000000,0.004806) -- (6.000000,-0.507549) -- (-0.004806,-0.507549) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(0.251372, -0.363368) {\verb|solveSimplexMethodMaxRaw(matrix, function)|};
+\draw[fill=colorIJNOIISQBCIHITL, draw=none, opacity=1.000000] (0.372309,-0.843972) -- (5.622885,-0.843972) -- (5.622885,-1.662477) -- (0.372309,-1.662477) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (0.372309,-0.843972) -- (5.622885,-0.843972) -- (5.622885,-1.662477) -- (0.372309,-1.662477) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(0.516491, -1.206161) {\verb|Строим симплекс-таблицу simplexMatrix, |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.162185, -1.518296) {\verb|копируя в неё матрицу matrix|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-0.507549) -- (2.997597,-0.843972);
+\draw[fill=colorIJNOIISQBCIHITL, draw=none, opacity=1.000000] (0.808560,-1.998900) -- (5.186634,-1.998900) -- (5.186634,-3.128132) -- (0.808560,-3.128132) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (0.808560,-1.998900) -- (5.186634,-1.998900) -- (5.186634,-3.128132) -- (0.808560,-3.128132) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(0.952742, -2.361090) {\verb|Добавляем в simplexMatrix новую |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.379137, -2.671816) {\verb|строку - целевую функцию, |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.357137, -2.983951) {\verb|умножая её коэф. yi на -1|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-1.662477) -- (2.997597,-1.998900);
+\draw[opacity=1.000000, fill=colorIJNOIISQBCIHITL, draw=none] (1.333975, -4.296366) -- (2.997597, -5.128178) -- (4.661219, -4.296366) -- (2.997597, -3.464555) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.333975, -4.296366) -- (2.997597, -5.128178) -- (4.661219, -4.296366) -- (2.997597, -3.464555) --cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.959769, -4.392992) {\verb|Бесконечный цикл|};
+\draw[fill=colorIJNOIISQBCIHITL, draw=none, opacity=1.000000] (1.102719,-5.464600) -- (4.892475,-5.464600) -- (4.892475,-6.881209) -- (1.102719,-6.881209) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.102719,-5.464600) -- (4.892475,-5.464600) -- (4.892475,-6.881209) -- (1.102719,-6.881209) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.688314, -5.808016) {\verb|Найдём наибольший по |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.689488, -6.116162) {\verb|модулю отрицательный |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.246901, -6.423603) {\verb|элемент в последней строке, |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.512664, -6.737028) {\verb|кроме свободного члена.|};
+\draw[opacity=1.000000, fill=colorIJNOIISQBCIHITL, draw=none] (1.259561, -8.086650) -- (2.997597, -8.955668) -- (4.735633, -8.086650) -- (2.997597, -7.217632) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.259561, -8.086650) -- (2.997597, -8.955668) -- (4.735633, -8.086650) -- (2.997597, -7.217632) --cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.149382, -8.023336) {\verb|Такой элемент |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.556535, -8.315289) {\verb|найден?|};
+\draw[fill=colorIJNOIISQBCIHITL, draw=none, opacity=1.000000] (1.346600,-9.292091) -- (4.648594,-9.292091) -- (4.648594,-10.028697) -- (1.346600,-10.028697) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.346600,-9.292091) -- (4.648594,-9.292091) -- (4.648594,-10.028697) -- (1.346600,-10.028697) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.907613, -9.638441) {\verb|Решение получено, |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.490781, -9.884516) {\verb|можно выходить из цикла|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-8.955668) -- (2.997597,-9.292091);
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.831310, -9.169594) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (4.735633, -8.086650) -- (4.975935, -8.086650) -- (4.975935, -9.292091);
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(4.863528, -7.990530) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (4.975935, -9.292091) -- (4.975935, -10.365120) -- (2.997597, -10.365120);
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (2.997597, -10.028697) -- (2.997597, -10.365120) -- (2.997597, -10.365120);
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-6.881209) -- (2.997597,-7.217632);
+\draw[fill=colorIJNOIISQBCIHITL, draw=none, opacity=1.000000] (1.479716,-10.701543) -- (4.515478,-10.701543) -- (4.515478,-11.496581) -- (1.479716,-11.496581) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.479716,-10.701543) -- (4.515478,-10.701543) -- (4.515478,-11.496581) -- (1.479716,-11.496581) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.623897, -11.057044) {\verb|Определим генеральный |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.020666, -11.352400) {\verb|элемент таблицы|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-10.365120) -- (2.997597,-10.701543);
+\draw[opacity=1.000000, fill=colorIJNOIISQBCIHITL, draw=none] (1.259561, -12.702022) -- (2.997597, -13.571040) -- (4.735633, -12.702022) -- (2.997597, -11.833004) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.259561, -12.702022) -- (2.997597, -13.571040) -- (4.735633, -12.702022) -- (2.997597, -11.833004) --cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.149382, -12.638708) {\verb|Такой элемент |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.556535, -12.930661) {\verb|найден?|};
+\draw[opacity=1.000000, rounded corners=0.534402 cm, fill=colorIJNOIISQBCIHITL, draw=none] (0.859988,-13.907463) -- (5.135206,-13.907463) -- (5.135206,-14.976268) -- (0.859988,-14.976268) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.534402 cm, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (0.859988,-13.907463) -- (5.135206,-13.907463) -- (5.135206,-14.976268) -- (0.859988,-14.976268) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.956366, -14.253813) {\verb|Решение получить |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.556547, -14.517957) {\verb|невозможно, возвращаем |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.610919, -14.832087) {\verb|ошибку|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-13.571040) -- (2.997597,-13.907463);
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.831310, -13.784966) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (4.735633, -12.702022) -- (5.375508, -12.702022) -- (5.375508, -13.907463);
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(5.263101, -12.605901) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (5.375508, -13.907463) -- (5.375508, -15.312691) -- (2.997597, -15.312691);
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (2.997597, -14.976268) -- (2.997597, -15.312691) -- (2.997597, -15.312691);
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-11.496581) -- (2.997597,-11.833004);
+\draw[fill=colorIJNOIISQBCIHITL, draw=none, opacity=1.000000] (0.273319,-15.649114) -- (5.721875,-15.649114) -- (5.721875,-16.789727) -- (0.273319,-16.789727) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (0.273319,-15.649114) -- (5.721875,-15.649114) -- (5.721875,-16.789727) -- (0.273319,-16.789727) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (0.444411,-15.649114) -- (5.550783,-15.649114) -- (5.550783,-16.789727) -- (0.444411,-16.789727) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.290490, -16.011303) {\verb|Преобразуем матрицу matrix|};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.493186, -16.325433) {\verb|к новому базисному виду|};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(0.588593, -16.645546) {\verb|(вызов функции subtractLineFromOther)|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-15.312691) -- (2.997597,-15.649114);
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-5.128178) -- (2.997597,-5.464600);
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(2.789069, -5.342103) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (2.997597, -16.789727) -- (2.997597, -17.126150) -- (0.033017, -17.126150) -- (0.033017, -3.296344) -- (2.997597, -3.296344);
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(5.892011, -4.152185) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014418cm, colorIJNOIISQEGIQRAIT] (4.661219, -4.296366) -- (5.962177, -4.296366) -- (5.962177, -17.366452) -- (2.997597, -17.366452);
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-3.128132) -- (2.997597,-3.464555);
+\draw[opacity=1.000000, rounded corners=0.406554 cm, fill=colorIJNOIISQBCIHITL, draw=none] (1.086515,-17.702875) -- (4.908679,-17.702875) -- (4.908679,-18.515983) -- (1.086515,-18.515983) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.406554 cm, fill=none, line width=0.024030cm, colorIJNOIISQEGIQRAIT] (1.086515,-17.702875) -- (4.908679,-17.702875) -- (4.908679,-18.515983) -- (1.086515,-18.515983) -- cycle;
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.695882, -18.064361) {\verb|Возвращаем свободный |};
+\verbatimfont{\normalsize\fontIJNOIISQPFNISAM}
+\node[opacity=1.000000, above right, colorIJNOIISQEGIQRAIT] at(1.493069, -18.371802) {\verb|член в последней строке|};
+\draw[opacity=1.000000, fill=none, line width=0.014418 cm, colorIJNOIISQEGIQRAIT] (2.997597,-17.366452) -- (2.997597,-17.702875);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgIJNOIISQ}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

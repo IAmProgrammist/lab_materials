@@ -1,0 +1,184 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+	\small{
+		МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+		\bigbreak
+		ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+		\bigbreak
+		\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+		\bigbreak
+		Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+\end{center}
+
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №3.3}}\\
+	\normalsize{
+		по дисциплине: Дискретная математика \\
+		тема: «Фактормножества»}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+	ст. пр. Бондаренко Татьяна Владимировна
+}
+\vfill\begin{center}
+	Белгород 2023 г.
+\end{center}
+\newpage
+\begin{center}
+	\textbf{Лабораторная работа №3.3}\\
+	Фактормножества
+\end{center}
+\textbf{Цель работы: }научиться формировать фактормножество для заданного
+отношения эквивалентности на ЭВМ.
+
+\begin{enumerate}[1.]
+	\item Отношение представить графом и характеристической функцией в матричной форме.
+	      Найти разбиение Ф, определяемое заданным отношением эквивалентности.\\
+	      $\textit{A }=\{(x,y) | x\in N \textit{ и } y\in N \textit{ и } x<11 \textit{ и } y<11 $\\$\textit{ и (x и y кратно 3 или x и y кратно 5 или x=y)}\}$\\
+		      \includegraphics[width=100mm]{task1}\\
+	      $A = \begin{pmatrix}
+		      1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		      0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		      0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+		      0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		      0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 \\
+		      0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+		      0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+		      0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+		      0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+		      0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1
+	      \end{pmatrix}$\bigbreak
+		      Рассмотрим классы эвкивалентности для $x < 11$ и $x \in N$.\\
+	      $[1] = \{1\}$\\
+	      $[2] = \{2\}$\\
+	      $[3] = \{3, 6, 9\}$\\
+	      $[4] = \{4\}$\\
+	      $[5] = \{5, 10\}$\\
+	      $[6] = \{3, 6, 9\}$\\
+	      $[7] = \{7\}$\\
+	      $[8] = \{8\}$\\
+	      $[9] = \{3, 6, 9\}$\\
+	      $[10] = \{5, 10\}$\bigbreak
+	      $\textit{Ф }=\{\{1\}, \{2\}, \{3, 6, 9\}, \{4\}, \{5, 10\}, \{7\}, \{8\}\}$
+	\item Написать программу, которая формирует разбиение, определяемое заданным отношением эквивалентности.
+	      Определим тип данных для компактного представления фактормножества и метод BoolMatrixRelation, возвращающий компактное фактормножество.\\
+	      \textit{alg.h}
+	      \begin{minted}{C++}
+typedef std::vector<int> FactorSet;
+FactorSet getPackedFactorSet();
+	\end{minted}
+	      \textit{task2.cpp}
+	      \begin{minted}{C++}
+#include "../alg.h"
+
+FactorSet BoolMatrixRelation::getPackedFactorSet() {
+    if (!isEquivalent()) throw std::invalid_argument("The relation is not equivalence relation");
+
+    FactorSet result(size, -1);
+    for (int x = 0; x < size; x++) {
+        bool generatingEquivalenceClass = false;
+
+        for (int y = 0; y < size; y++) {
+            if (generatingEquivalenceClass && data[x][y])  {
+                result[y] = x + 1;
+                continue;
+            } else if (result[y] == -1 && data[x][y]) {
+                result[y] = x + 1;
+                generatingEquivalenceClass = true;
+            } else if (result[y] != -1 && data[x][y]) break;
+        }
+    }
+
+    return result;
+}
+			\end{minted}
+	      \textit{main.cpp}
+	      \begin{minted}{C++}
+#include "../../libs/alg/alg.h"
+
+std::ostream& operator<<(std::ostream& out, FactorSet& factorSet) {
+    for (int i = 0; i < factorSet.size(); i++) {
+        bool anyOutput = false;
+        for (int j = 0; j < factorSet.size(); j++) {
+            if (j < i && factorSet[i] == factorSet[j]) break;
+            if (factorSet[i] == factorSet[j]) { 
+                out << j + 1 << " "; 
+                anyOutput = true;
+            }
+        }
+        if (anyOutput) 
+            out << "\b\n";
+    }
+
+    return out;
+}
+
+int main() {
+    BoolMatrixRelation rel(10, [](int x, int y) {
+        return (x % 3 == 0 && y % 3 == 0) || (x % 5 == 0 && y % 5 == 0) || x == y;
+    });
+
+    FactorSet set = rel.getPackedFactorSet();
+    std::cout << set;
+    
+    return 0;
+}
+			\end{minted}
+	      Результат работы программы\\
+	      \includegraphics[width=50mm]{task2}\\
+	      Фактормножества, полученное при помощи программы и при помощи ручных вычислений, совпали. Вычисления и программа верны.
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы научились формировать фактормножество для заданного
+отношения эквивалентности на ЭВМ.
+
+\end{document}

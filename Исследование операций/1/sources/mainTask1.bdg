@@ -1,0 +1,1 @@
+{"data":[{"data":"Начало","type":"bd_element_terminator"},{"data":"Инициализируем матрицу","type":"bd_element_process"},{"data":"Получаем все базисные решения \nдля матрицы при помощи getAllBasises","type":"bd_element_preprocess"},{"data":"Вывод базисов","type":"bd_element_data"},{"data":"Конец","type":"bd_element_terminator"}],"type":"bd_element_container"}

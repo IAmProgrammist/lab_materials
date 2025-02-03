@@ -1,0 +1,68 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report4.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgMKSFAHK}
+\begin{lrbox}{\bdgMKSFAHK}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontMKSFAHKNGRQKC[Scale=0.660644, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorMKSFAHKIDPKHA}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorMKSFAHKINBLGFFP}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorMKSFAHKKSDBGO}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.215228 cm, fill=colorMKSFAHKIDPKHA, draw=none] (2.136757,0.004661) -- (3.858582,0.004661) -- (3.858582,-0.425795) -- (2.136757,-0.425795) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.215228 cm, fill=none, line width=0.023306cm, colorMKSFAHKKSDBGO] (2.136757,0.004661) -- (3.858582,0.004661) -- (3.858582,-0.425795) -- (2.136757,-0.425795) -- cycle;
+\verbatimfont{\normalsize\fontMKSFAHKNGRQKC}
+\node[opacity=1.000000, above right, colorMKSFAHKKSDBGO] at(2.624807, -0.285959) {\verb|Начало|};
+\draw[fill=colorMKSFAHKIDPKHA, draw=none, opacity=1.000000] (1.205415,-0.752079) -- (4.789924,-0.752079) -- (4.789924,-1.209620) -- (1.205415,-1.209620) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023306cm, colorMKSFAHKKSDBGO] (1.205415,-0.752079) -- (4.789924,-0.752079) -- (4.789924,-1.209620) -- (1.205415,-1.209620) -- cycle;
+\verbatimfont{\normalsize\fontMKSFAHKNGRQKC}
+\node[opacity=1.000000, above right, colorMKSFAHKKSDBGO] at(1.345251, -1.069783) {\verb|Подготовить входные данные|};
+\draw[opacity=1.000000, fill=none, line width=0.013984 cm, colorMKSFAHKKSDBGO] (2.997669,-0.425795) -- (2.997669,-0.752079);
+\draw[opacity=1.000000, fill=colorMKSFAHKIDPKHA, draw=none] (-0.004661, -2.632585) -- (0.269509, -1.535904) -- (6.000000, -1.535904) -- (5.725830, -2.632585) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.023306cm, colorMKSFAHKKSDBGO] (-0.004661, -2.632585) -- (0.269509, -1.535904) -- (6.000000, -1.535904) -- (5.725830, -2.632585) --cycle;
+\verbatimfont{\normalsize\fontMKSFAHKNGRQKC}
+\node[opacity=1.000000, above right, colorMKSFAHKKSDBGO] at(0.704334, -1.871816) {\verb|Вывести ответ на транспортную задачу|};
+\verbatimfont{\normalsize\fontMKSFAHKNGRQKC}
+\node[opacity=1.000000, above right, colorMKSFAHKKSDBGO] at(0.269509, -2.182282) {\verb|(вызов функции solveTransportTaskPotentials|};
+\verbatimfont{\normalsize\fontMKSFAHKNGRQKC}
+\node[opacity=1.000000, above right, colorMKSFAHKKSDBGO] at(0.397817, -2.492749) {\verb|или solveTransportTaskDistributionMethod)|};
+\draw[opacity=1.000000, fill=none, line width=0.013984 cm, colorMKSFAHKKSDBGO] (2.997669,-1.209620) -- (2.997669,-1.535904);
+\draw[opacity=1.000000, rounded corners=0.228770 cm, fill=colorMKSFAHKIDPKHA, draw=none] (2.082589,-2.958870) -- (3.912750,-2.958870) -- (3.912750,-3.416410) -- (2.082589,-3.416410) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.228770 cm, fill=none, line width=0.023306cm, colorMKSFAHKKSDBGO] (2.082589,-2.958870) -- (3.912750,-2.958870) -- (3.912750,-3.416410) -- (2.082589,-3.416410) -- cycle;
+\verbatimfont{\normalsize\fontMKSFAHKNGRQKC}
+\node[opacity=1.000000, above right, colorMKSFAHKKSDBGO] at(2.688876, -3.276574) {\verb|Конец|};
+\draw[opacity=1.000000, fill=none, line width=0.013984 cm, colorMKSFAHKKSDBGO] (2.997669,-2.632585) -- (2.997669,-2.958870);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgMKSFAHK}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

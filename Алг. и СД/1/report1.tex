@@ -1,0 +1,509 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[cache=false]{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\footnotesize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\footnotesize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+	\small{
+		МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+		\bigbreak
+		ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+		\bigbreak
+		\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+		\bigbreak
+		Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+\end{center}
+
+\vfill
+\begin{center}
+	\large{
+		\textbf{
+			Лабораторная работа №1}}\\
+	\normalsize{
+		по дисциплине: Алгоритмы и структуры данных \\
+		тема: «Встроенные структуры данных (Pascal/С)»}
+\end{center}
+\vfill
+\hfill\textbox{
+	Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+	\bigbreak
+	Проверили: асс. Солонченко Роман\\Евгеньевич
+}
+\vfill\begin{center}
+	Белгород 2023 г.
+\end{center}
+
+\newpage
+
+\begin{center}
+	\textbf{Лабораторная работа №1}\\
+	Встроенные структуры данных (Pascal/С)\\
+	Вариант 10
+\end{center}
+\textbf{Цель работы: }изучение базовых типов данных языка Pascal/C как структур данных (СД).
+
+\begin{enumerate}
+	\item Для типов данных определить:
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности и изменчивости.
+			            \item Набор допустимых операций.
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схему хранения.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			            \item Характеристику допустимых значений.
+			            \item Тип доступа к элементам.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+		            \end{enumerate}
+	      \end{enumerate}
+
+	      \begin{center}Задания для C\\
+		      \begin{tabular}{|c|c|c|}
+			      \hline
+			      Тип 1       & Тип 2 & Тип 3                         \\
+			      \hline
+			      signed char & float & \{red, yellow, green\} colors \\
+			      \hline
+		      \end{tabular}
+	      \end{center}
+	      \textbf{signed char}
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности - \textbf{простой}\\
+			                  Характер изменчивости - \textbf{статический}
+			            \item Набор допустимых операций - \textbf{математические операции, побитовые операции, присваивание, инициализация, логические операции,
+				                  приведение типа, взятие адреса}
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схема хранения - \textbf{последовательная память}.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			                  Размер \mintinline{C}|signed char| в современном C гарантированно равен \textbf{1 байту или 8 битам}.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			                  \textbf{8-битное число}. Старший бит отводится под хранение знака числа, отрицательные числа
+			                  хранятся в \textbf{дополнительном коде}, положительные - \textbf{в прямом}.
+			            \item Характеристика допустимых значений.
+			                  $E(\text{signed char}) \in [-2^7; 2^7 - 1]$ или
+			                  $E(\text{signed char}) \in [-128; 127]$.
+			            \item Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+			                  \begin{minted}{C}
+signed char a;
+char a;
+					  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
+
+	      \textbf{float}
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности - \textbf{простой}\\
+			                  Характер изменчивости - \textbf{статический}
+			            \item Набор допустимых операций - \textbf{математические операции, побитовые операции, присваивание, инициализация, логические операции,
+				                  приведение типа, взятие адреса}
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схема хранения - \textbf{последовательная память}.
+			            \item Объем памяти, занимаемый экземпляром СД.
+			                  Размер \mintinline{C}|float| может различаться на различных системах.
+			                  Однако на большинстве ПК размер float равен \textbf{4 байтам или 32 битам}.
+			            \item Формат внутреннего представления СД и способ его интерпретации.
+			                  \textbf{32-битное число}. Старший бит \mintinline{C}|s| отводится под хранение знака числа.
+			                  Следующие 8 бит \mintinline{C}|e| содержат порядок числа, последние 23 бита содержат мантиссу числа \mintinline{C}|m|.
+			                  Число в памяти можно выразить следующей формулой: $(-1)^s \cdot 1.m \cdot 2^e$
+			            \item Характеристика допустимых значений.\\
+			                  $E(\text{float}) \in [1.1754943\cdot10^{-38}; 1.1754943\cdot10^{38}]$.
+			            \item Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+			                  \begin{minted}{C}
+float a;
+					  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
+
+	      \textbf{\{red, yellow, green\} colors}
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Абстрактный уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Характер организованности - \textbf{линейный}\\
+			                  Характер изменчивости - \textbf{статический}
+			            \item Набор допустимых операций - \textbf{объявление, получение значения по идентификатору}
+		            \end{enumerate}
+
+		      \item Физический уровень представления СД:
+
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Схема хранения - \textbf{последовательная память}.
+			            \item Объем памяти, занимаемый экземпляром СД.\\
+			                  enum представляет из себя список констант, каждой из которых присвоено
+			                  значение типа int. Размер СД будет равен $N\cdot S$, где N - количество элементов, $S = sizeof(int)$.
+			            \item Формат внутреннего представления СД и способ его интерпретации.\\
+			                  Последовательность N элементов одного типа int.
+			            \item Характеристика допустимых значений.\\
+			                  Максимальная мощность равна $2 ^ {sizeof(int) \cdot 8} = 4294967296$.
+			            \item Тип доступа к элементам - \textbf{прямой}.
+		            \end{enumerate}
+
+		      \item Логический уровень представления СД.
+		            \begin{enumerate}[label*=\arabic*.]
+			            \item Способ описания СД и экземпляра СД на языке программирования.
+			                  \begin{minted}{C}
+typedef enum {
+    RED, // 0
+    GREEN, // 1
+    BLUE // 2
+} Color;
+// Можно также вручную задать значения констант.
+typedef enum {
+    RED_C = 45, 
+    GREEN_C, // 46
+    BLUE_C = RED_C + 4 //49
+} ColorCustomNumeration;
+					  \end{minted}
+		            \end{enumerate}
+	      \end{enumerate}
+	\item Для заданных типов данных определить набор значений, необходимый
+	      для изучения физического уровня представления СД.\\
+	      \textbf{signed char}
+	      \begin{enumerate}[1. ]
+		      \item -12
+		      \item 55
+	      \end{enumerate}
+	      \textbf{float}
+	      \begin{enumerate}[1. ]
+		      \item 12.5
+		      \item -431.75
+	      \end{enumerate}
+	      \textbf{\{red, yellow, green\} colors}
+	      \begin{enumerate}[1. ]
+		      \item red
+		      \item green
+	      \end{enumerate}
+	\item Преобразовать значения в двоичный код.\\
+	      \textbf{signed char}
+	      \begin{enumerate}[1. ]
+		      \item -12\\
+		            $-12_{10} = -00001100_2 (\textit{прямой код}) = 1'1110011_2 (\textit{обратный код}) = $\\$ = 1'1110100 (\textit{дополнительный код})$\\
+		            Запись в памяти:\\
+		            11110100
+		      \item 55\\
+		            $55_{10} = 00110111_2 (\textit{прямой код})$\\
+		            Запись в памяти:\\
+		            00110111
+	      \end{enumerate}
+	      \textbf{float}
+	      \begin{enumerate}[1. ]
+		      \item 12.5\\
+		            Переведём 12.5 в двоичную систему счисления\\
+		            $12.5_{10} = 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 2 + 1 \cdot 2 ^ {-1} = 1100.1_2$\\
+		            Полученное число приведём к форме $(-1)^s \cdot 1.m \cdot 2^e$\\
+		            $1100.1_2 = (-1) ^ \textbf{0} \cdot 1.\textbf{1001} \cdot 2 ^ {\textbf{11}}$\\
+		            $s = 0; m = 1001; e = 3$\\
+		            Смещённый порядок e: $3_{10} + 127_{10} = 130_{10} = 10000010$\\
+		            Запись в памяти:\\
+		            01000001 01001000 00000000 00000000
+		      \item -431.75\\
+		            Переведём -431.75 в двоичную систему счисления\\
+		            $-431.75_{10} = -(1 \cdot 2 ^ 8 + 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 5 + 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 1 \cdot 2 ^ 0 + 1 \cdot 2 ^ {-1} + 1 \cdot 2 ^ {-2}) = -110101111.11_2$\\
+		            Полученное число приведём к форме $(-1)^s \cdot 1.m \cdot 2^e$\\
+		            $-110101111.11_2 = (-1) ^ \textbf{1} \cdot 1.\textbf{1010111111} \cdot 2 ^ {\textbf{1000}}$\\
+		            $s = 0; m = 1010111111; e = 8$\\
+		            Смещённый порядок e: $8_{10} + 127_{10} = 135_{10} = 10000111$\\
+		            Запись в памяти:\\
+		            11000011 11010111 11100000 00000000
+	      \end{enumerate}
+	      \textbf{\{red, yellow, green\} colors}
+	      \begin{enumerate}[1. ]
+		      \item red\\
+		            red - первый элемент enum и ему не присвоено значение, а значит его значение будет равно значению по
+		            умолчанию - 0. Тип значения - int, значит под хранение элемента на большинстве современных ПК будет выделено 32 бит.
+		            Запись в памяти:\\
+		            00000000 00000000 00000000 00000000
+		      \item green\\
+		            green - третий элемент enum, ему не присвоено значение и элементам до него не было присвоено значений, в таком случае номера элементов присваиваются по порядку.
+		            green будет равен 2. Тип значения - int, значит под хранение элемента на большинстве современных ПК будет выделено 32 бит.
+		            Запись в памяти:\\
+		            00000000 00000000 00000000 00000010
+	      \end{enumerate}
+	\item Преобразовать двоичный код в значение.\\
+	      \textbf{signed char}
+	      \begin{enumerate}[1. ]
+		      \item 11110100\\
+		            Для перевода из дополнительного кода число необходимо инвертировать биты числа и прибавить 1 (алгоритм перевода числа из прямого кода в дополнительный аналогичен).\\
+		            $11110100 -> 00001011 -> 00001100 (\text{прямой код})$\\
+		            $00001100_2 = -(1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 2) = -\textbf{12}_{10}$.\\
+		            Значения до и после перевода совпали.
+		      \item 00110111\\
+		            Число уже находится в прямом коде, дополнительные действия выполнять не требуется.\\
+		            $00110111_2 = 1 \cdot 2 ^ 5 + 1 \cdot 2 ^ 4 + 1 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 1 \cdot 2 ^ 0 = \textbf{55}_{10}$.\\
+	      \end{enumerate}
+	      \textbf{float}
+	      \begin{enumerate}[1. ]
+		      \item 01000001 01001000 00000000 00000000\\
+		            s: $\textbf{0}1000001 01001000 00000000 00000000 = 0$\\
+		            Смещённый порядок: $0\textbf{1000001 0}1001000 00000000 00000000 = 10000010_2 = 130_{10}$\\
+		            Порядок e: $130_{10} - 127 = 3$\\
+		            m: $01000001 0\textbf{1001000 00000000 00000000} = 1001_2$\\
+		            $(-1)^s \cdot 1.m \cdot 2^e = (-1)^0 \cdot 1.1001 \cdot 2^{3} = 1 \cdot 1.1001 \cdot 2^{3} = 1100.1_2$\\
+		            $1100.1_2 = 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 2 + 1 \cdot 2 ^ {-1} = 12.5$\\
+		            Значения до и после перевода совпали.
+		      \item 11000011 11010111 11100000 00000000\\
+		            s: $\textbf{1}1000011 11010111 11100000 00000000 = 1$\\
+		            Смещённый порядок: $1\textbf{1000011 1}1010111 11100000 00000000 = 10000111_2 = 135_{10}$\\
+		            Порядок e: $135_{10} - 127 = 8$\\
+		            m: $11000011 1\textbf{1010111 11100000 00000000} = 1010111111_2$\\
+		            $(-1)^s \cdot 1.m \cdot 2^e = (-1)^1 \cdot 1.1010111111 \cdot 2^{8} =
+			            -1 \cdot 1.1010111111 \cdot 2^{8} = 110101111.11_2$\\
+		            $-110101111.11_2 = -(1 \cdot 2 ^ 8 + 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 5 + 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 2 +
+			            1 \cdot 2 ^ 1 + 1 \cdot 2 ^ 0 + 1 \cdot 2 ^ {-1} + 1 \cdot 2 ^ {-2}) = -431.75$\\
+		            Значения до и после перевода совпали.
+	      \end{enumerate}
+	      \textbf{\{red, yellow, green\} colors}\\
+	      Константам из colors будут соответствовать следующие значения:\\
+	      red: 0\\
+	      yellow: 1\\
+	      green: 2\\
+	      \begin{enumerate}[1. ]
+		      \item 00000000 00000000 00000000 00000000\\
+		            $00000000 00000000 00000000 00000000_2 = 0_{10}$. Значению 0 соответствует константа red.\\
+		            Значения до и после перевода совпали.
+		      \item 00000000 00000000 00000000 00000010\\
+		            $00000000 00000000 00000000 00000010_2 = 2_{10}$. Значению 2 соответствует константа green.\\
+		            Значения до и после перевода совпали.
+	      \end{enumerate}
+	\item Разработать и отладить программу, выдающую двоичное представление значений, заданных СД.\\
+	      \textit{alg.h}
+	      \begin{minted}{C}
+void PrintByte(unsigned char *a);
+
+void PrintVar(void *a, unsigned int size);
+	\end{minted}
+	      \textit{task5.c}
+	      \begin{minted}{C}
+#include <stdio.h>
+
+#include "../algc.h"
+
+void PrintByte(unsigned char *a) {
+    for (int bitIndex = 7; bitIndex >= 0; bitIndex--) {
+        int bit = ((*a) >> bitIndex) & 1;
+        printf("%d", bit);
+    }
+}
+
+void PrintVar(void *a, unsigned int size) {
+    for (int i = size - 1; i >= 0; i--) {
+        PrintByte(a + i);
+        printf(" ");
+    }
+}
+	\end{minted}
+	      Порядок хранимых данных в памяти ПК автора отчёта - обратный, поэтому для удобства
+	      функция PrintVar выводит байты в обратном порядке.
+	\item Обработать программой значения, полученные в результате выполнения пункта 3 задания. Сделать выводы.
+
+	      \textit{main.c}
+	      \begin{minted}{C}
+#include <stdio.h>
+
+#include "../../libs/alg/algc.h"
+
+typedef enum {red, yellow, green} colors;
+
+int main() {
+    char charVarA = -12;
+    PrintVar(&charVarA, sizeof(charVarA));
+    printf("\n");
+    char charVarB = 55;
+    PrintVar(&charVarB, sizeof(charVarB));
+    printf("\n");
+    printf("\n");
+
+    float floatVarA = 12.5;
+    PrintVar(&floatVarA, sizeof(floatVarA));
+    printf("\n");
+    float floatVarB = -431.75;
+    PrintVar(&floatVarB, sizeof(floatVarB));
+    printf("\n");
+    printf("\n");
+
+    colors colorsVarA = red;
+    PrintVar(&colorsVarA, sizeof(colorsVarA));
+    printf("\n");
+    colors colorsVarB = green;
+    PrintVar(&colorsVarB, sizeof(colorsVarB));
+    printf("\n");
+
+    return 0;
+}
+\end{minted}
+
+	      Результат выполнения программы:\\
+	      \includegraphics[width=100mm]{5}\\
+	      Результаты программы совпали с ручными вычислениями.
+	\item Разработать и отладить программу, определяющую значение переменной по ее двоичному представлению по следующему алгоритму:
+	\begin{enumerate}[1. ]
+		\item Ввести двоичный код в переменную S строкового типа.
+		\item Преобразовать S в вектор B типа «массив байт».
+		\item Привести B к заданному типу. Вывести значение.
+		\item Конец.
+	\end{enumerate}
+
+	\textit{alg.h}
+	\begin{minted}{C}
+typedef enum
+{
+	red,
+	yellow,
+	green
+} colors;
+
+char strByteToSignedChar(char *in);
+
+float strByteToFloat(char *in);
+
+colors strByteToEnumColors(char *in);
+
+char *strByteToByteArray(char *in);
+\end{minted}
+	\textit{task7.c}
+	\begin{minted}{C}
+#include "../algc.h"
+
+char strByteToSignedChar(char *in) {
+    char *dat = strByteToByteArray(in);
+    char val = *((char*)dat);
+
+    free(dat);
+
+    return val;
+}
+
+float strByteToFloat(char *in) {
+    char *dat = strByteToByteArray(in);
+    float val = *((float*)dat);
+
+    free(dat);
+
+    return val;
+}
+
+colors strByteToEnumColors(char *in) {
+    char *dat = strByteToByteArray(in);
+    colors val = *((colors*)dat);
+
+    free(dat);
+
+    return val;
+}
+
+char *strByteToByteArray(char *S) {
+    int len = 0;
+    int input;
+    while (S[len] != '\0') {
+        len++;
+    }
+    
+    int bitSize = len;
+    int byteSize = (bitSize) / 8 + ((bitSize) % 8 != 0);
+    char *B = malloc(byteSize);
+    for (int i = 0; i < bitSize; i++) {
+        B[byteSize - 1 - (i / 8)] |= ((S[i] == '1') << (8 - 1 - (i % 8)) );
+    }
+    
+    return B;
+}
+\end{minted}
+\item Обработать программой значения, полученные в результате выполненния пункта 4 задания.
+\begin{minted}{C}
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#include "../../libs/alg/algc.h"
+
+int main() {
+    assert(strByteToSignedChar("11110100") == -12);
+    assert(strByteToSignedChar("00110111") == 55);
+    assert(strByteToFloat("01000001010010000000000000000000") == 12.5);
+    assert(strByteToFloat("11000011110101111110000000000000") == -431.75);
+    assert(strByteToEnumColors("00000000000000000000000000000000") == red);
+    assert(strByteToEnumColors("00000000000000000000000000000010") == green);
+    printf("Tests done!");
+
+    return 0;
+}
+\end{minted}
+Результаты выполнения программы:\\
+\includegraphics[width=110mm]{8}\\
+Программа выполнилась успешно, ассерты не упали, следовательно перевод из двоичной системы был выполнен корректно.
+\end{enumerate}
+\textbf{Вывод: } в ходе лабораторной работы изучили базовые типы данных языка Pascal/C как структур данных (СД).
+
+\end{document}

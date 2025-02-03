@@ -1,0 +1,182 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №1}}\\
+    \normalsize{
+        по дисциплине: Базы данных \\
+        тема: «Разработка структуры базы данных»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\ст. пр. Панченко Максим Владимирович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №1}\\
+    Разработка структуры базы данных\\
+    Вариант 8
+\end{center}
+\textbf{Цель работы: }изучение способов задания инфологической модели данных и создания структуры базы данных в заданной предметной области.
+\textbf{Задание: }Жилищная управляющая компания. База данных должна содержать следующие данные: информацию об исполнителях работ и выполненных работах, жильцах, выставленных им счетах и выполненных ими платежах. Предусмотреть возможность анализа следующих показателей: составить рейтинг злостных неплательщиков, рейтинг исполнителей работ с указанием их доли в статье расходов.
+
+\begin{enumerate}[1.]
+    \item Выполнить анализ предметной области, выделить основные сущности, атрибуты и связи.\\
+          
+    \textbf{Дом} - для идентификации дома достаточно его адреса 
+    (улица, город, область, страна, номер дома). 
+    Также можем внести доп. информацию о доме, 
+    например его этажность, индекс, дату введения в эксплуатацию.\\
+    \textbf{Задача} - для введения дом в эксплуатацию и его 
+    обслуживания необходимо оформить задачу. У дома может быть 
+    от 0 до N задач. У задачи может быть уникальный номер, к ней 
+    прикреплён дом, рабочие. У каждой хорошей задачи должен быть 
+    дедлайн и срок окончания работы в случае выполнения. 
+    А у не просто хорошей а замечательной задачи ещё должна быть оплата.\\
+    \textbf{Рабочий} - может быть как человеком, так и организацией, 
+    поэтому в качестве ключа можем хранить ИНН а также контактные 
+    сведения – номер телефона, email. У задачи может быть от 0 до N рабочих.\\
+    \textbf{Договор} - договор содержит условия аренды жилья: 
+    кол-во ежемесячной платы, срок аренды и т.д. 
+    В нашем случае будем ещё и держать номер договора. 
+    Договор прикрепляется к дому, так как дом может быть многоквартирным, 
+    у дома может быть от 0 до N договоров.\\
+    \textbf{Жильцы} - содержат контактные данные (номер телефона, email), 
+    ФИО, идентификационные данные – серия и номер паспорта. Может быть 
+    прикреплён к нескольким квартирам посредством наличия 
+    от 0 до N договоров.\\
+    \textbf{Выплаты} - выплата формируется из договора, идентифицируется при 
+    помощи УИП, имеет срок оплаты и дату оплаты договора. У договора может быть
+    от 0 до N выплат.\\
+    Рейтинг жильцов = количество своевременных выплат / общее количество выплат\\
+    Рейтинг рабочих = количество вовремя выполненных работ / общее количество работ\\
+    Доля в статье расходов = для каждой выполненной работы (оплата / количество участников в работе)\\
+
+    \item Создать диаграмму «сущность — связь» в нотации Чена.\\
+    \includegraphics[width=180mm]{db_task2}\\
+
+    \item Самостоятельно изучить нотацию IDEF1X для представления диаграммы «сущность-связь». Создать схему базы данных в нотации IDEF1X. \\
+    \includegraphics[width=180mm]{db_task3}\\
+
+    \item Разработать структуру базы данных и составить описание 
+    столбцов таблиц базы данных, включающее: имя столбца, 
+    назначение (какие данные хранятся), тип данных, допускает ли столбец пустые значения.
+
+    \textbf{home}
+    \begin{itemize}
+        \item address: string, адрес, первичный ключ
+        \item commisioning: date, дата введения, необязательное
+        \item floors: number, этажность, обязательное
+        \item index: number, индекс, обязательное
+    \end{itemize}
+    \textbf{contract}
+    \begin{itemize}
+        \item id: number, номер договора, первичный ключ
+        \item transaction\_date: date, дата заключения, обязательное
+        \item until\_date: date, договор до, обязательное
+        \item payment: number, ежемесячная плата, обязательное
+        \item home: string, внешний ключ к home, обязательное
+    \end{itemize}
+    \textbf{resident}
+    \begin{itemize}
+        \item passport\_data: string, серия и номер паспорта, первичный ключ
+        \item snp: string, ФИО
+        \item email: string, эл. почта, необязательное
+        \item phone: string, номер телефона, необязательное
+    \end{itemize}
+    \textbf{residents\_contracts}
+    \begin{itemize}
+        \item resident\_passport\_data: string, серия и номер паспорта жильца, внешний ключ
+        \item contract\_id: number, номер договора, внешний ключ
+    \end{itemize}
+    \textbf{payment}
+    \begin{itemize}
+        \item id: string, уип, первичный ключ
+        \item paid\_date: date, дата оплаты (если пустой, неоплачен), необязательное
+        \item until\_date: date, дедлайн оплаты, обязательное
+        \item contract\_id: number, номер договора, внешний ключ
+    \end{itemize}
+    \textbf{task}
+    \begin{itemize}
+        \item id: number, номер дела, первичный ключ
+        \item payment: number, оплата за задачу, обязательное
+        \item until\_date: date, дедлайн задачи, обязательное
+        \item completed\_date: date, время выполнения задачи 
+        (если пустое, не выполнено), необязательное
+        \item home\_address: string, адрес дома, внешний ключ
+    \end{itemize}
+    \textbf{worker}
+    \begin{itemize}
+        \item inn: string, ИНН, первичный ключ
+        \item email: string, эл. почта, необязательное
+        \item phone: string, номер телефона, необязательное
+    \end{itemize}
+    \textbf{workers\_tasks}
+    \begin{itemize}
+        \item worker\_inn: string, ИНН, внешний ключ
+        \item task\_id: number, номер дела, внешний ключ
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили способы задания инфологической модели данных и создания структуры базы данных в заданной предметной области.
+
+\end{document}

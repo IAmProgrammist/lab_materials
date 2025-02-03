@@ -1,0 +1,1 @@
+{"data":[{"data":"getAnswerTransportTask(c, x)","type":"bd_element_terminator"},{"data":"Считаем сумму result = cij * xij, \nдля всех i, j ","type":"bd_element_process"},{"data":"Вернуть result","type":"bd_element_terminator"}],"type":"bd_element_container"}

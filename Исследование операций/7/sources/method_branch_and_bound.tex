@@ -1,0 +1,102 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report7.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgJSAETJ}
+\begin{lrbox}{\bdgJSAETJ}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontJSAETJNHCNDPRD[Scale=0.711213, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorJSAETJCTKQPFPK}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorJSAETJEJOPQQNM}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorJSAETJPMOGJEH}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.267476 cm, fill=colorJSAETJCTKQPFPK, draw=none] (-0.005018,0.005018) -- (6.000000,0.005018) -- (6.000000,-0.529934) -- (-0.005018,-0.529934) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.267476 cm, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (-0.005018,0.005018) -- (6.000000,0.005018) -- (6.000000,-0.529934) -- (-0.005018,-0.529934) -- cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(0.262459, -0.379394) {\verb|method_branch_and_bound(A, b, c, bounds)|};
+\draw[fill=colorJSAETJCTKQPFPK, draw=none, opacity=1.000000] (0.512055,-0.881194) -- (5.482927,-0.881194) -- (5.482927,-1.358444) -- (0.512055,-1.358444) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (0.512055,-0.881194) -- (5.482927,-0.881194) -- (5.482927,-1.358444) -- (0.512055,-1.358444) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (0.583642,-0.881194) -- (5.411340,-0.881194) -- (5.411340,-1.358444) -- (0.583642,-1.358444) -- cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(0.734183, -1.207903) {\verb|получаем решение симплекс методом|};
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-0.529934) -- (2.997491,-0.881194);
+\draw[opacity=1.000000, fill=colorJSAETJCTKQPFPK, draw=none] (1.565056, -2.425921) -- (2.997491, -3.142138) -- (4.429926, -2.425921) -- (2.997491, -1.709704) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (1.565056, -2.425921) -- (2.997491, -3.142138) -- (4.429926, -2.425921) -- (2.997491, -1.709704) --cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(2.191989, -2.513577) {\verb|Решения нет?|};
+\draw[opacity=1.000000, rounded corners=0.256082 cm, fill=colorJSAETJCTKQPFPK, draw=none] (1.451257,-3.493399) -- (4.543725,-3.493399) -- (4.543725,-4.005564) -- (1.451257,-4.005564) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.256082 cm, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (1.451257,-3.493399) -- (4.543725,-3.493399) -- (4.543725,-4.005564) -- (1.451257,-4.005564) -- cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(1.707339, -3.855023) {\verb|Выходим из рекурсии|};
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-3.142138) -- (2.997491,-3.493399);
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(2.779766, -3.365498) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015054cm, colorJSAETJPMOGJEH] (4.429926, -2.425921) -- (4.794625, -2.425921) -- (4.794625, -3.493399);
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(4.721364, -2.325561) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015054cm, colorJSAETJPMOGJEH] (4.794625, -3.493399) -- (4.794625, -4.356824) -- (2.997491, -4.356824);
+\draw[opacity=1.000000, fill=none, line width=0.015054cm, colorJSAETJPMOGJEH] (2.997491, -4.005564) -- (2.997491, -4.356824) -- (2.997491, -4.356824);
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-1.358444) -- (2.997491,-1.709704);
+\draw[fill=colorJSAETJCTKQPFPK, draw=none, opacity=1.000000] (1.466407,-4.708084) -- (4.528575,-4.708084) -- (4.528575,-5.236788) -- (1.466407,-5.236788) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (1.466407,-4.708084) -- (4.528575,-4.708084) -- (4.528575,-5.236788) -- (1.466407,-5.236788) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (1.545712,-4.708084) -- (4.449270,-4.708084) -- (4.449270,-5.236788) -- (1.545712,-5.236788) -- cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(1.696252, -5.086248) {\verb|Обновляем результат|};
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-4.356824) -- (2.997491,-4.708084);
+\draw[opacity=1.000000, fill=colorJSAETJCTKQPFPK, draw=none] (0.909776, -6.631906) -- (1.953633, -5.588048) -- (4.041349, -5.588048) -- (5.085206, -6.631906) -- (4.041349, -7.675764) -- (1.953633, -7.675764) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (0.909776, -6.631906) -- (1.953633, -5.588048) -- (4.041349, -5.588048) -- (5.085206, -6.631906) -- (4.041349, -7.675764) -- (1.953633, -7.675764) --cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(2.327729, -6.577561) {\verb|цикл, если |};
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(1.432305, -6.853355) {\verb|имеются нецелые решения|};
+\draw[fill=colorJSAETJCTKQPFPK, draw=none, opacity=1.000000] (1.947656,-8.027024) -- (4.047326,-8.027024) -- (4.047326,-8.539189) -- (1.947656,-8.539189) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (1.947656,-8.027024) -- (4.047326,-8.027024) -- (4.047326,-8.539189) -- (1.947656,-8.539189) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (2.024481,-8.027024) -- (3.970501,-8.027024) -- (3.970501,-8.539189) -- (2.024481,-8.539189) -- cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(2.175021, -8.388649) {\verb|Делаем ветку|};
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-7.675764) -- (2.997491,-8.027024);
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(2.779766, -7.899124) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.015054cm, colorJSAETJPMOGJEH] (2.997491, -8.539189) -- (2.997491, -8.890449) -- (0.658875, -8.890449) -- (0.658875, -6.631906) -- (0.909776, -6.631906);
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(5.262846, -6.531546) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.015054cm, colorJSAETJPMOGJEH] (5.085206, -6.631906) -- (5.336107, -6.631906) -- (5.336107, -9.141349) -- (2.997491, -9.141349);
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-5.236788) -- (2.997491,-5.588048);
+\draw[opacity=1.000000, rounded corners=0.256082 cm, fill=colorJSAETJCTKQPFPK, draw=none] (1.584303,-9.492610) -- (4.410679,-9.492610) -- (4.410679,-10.004775) -- (1.584303,-10.004775) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.256082 cm, fill=none, line width=0.025090cm, colorJSAETJPMOGJEH] (1.584303,-9.492610) -- (4.410679,-9.492610) -- (4.410679,-10.004775) -- (1.584303,-10.004775) -- cycle;
+\verbatimfont{\normalsize\fontJSAETJNHCNDPRD}
+\node[opacity=1.000000, above right, colorJSAETJPMOGJEH] at(1.840385, -9.854234) {\verb|Вернуть результат|};
+\draw[opacity=1.000000, fill=none, line width=0.015054 cm, colorJSAETJPMOGJEH] (2.997491,-9.141349) -- (2.997491,-9.492610);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgJSAETJ}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

@@ -1,0 +1,119 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass[../report3.tex]{subfiles}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\newsavebox{\bdgLRNNSNDI}
+\begin{lrbox}{\bdgLRNNSNDI}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontLRNNSNDISKLJRPOL[Scale=0.686582, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorLRNNSNDITGQNNO}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorLRNNSNDIOKPTQFPP}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorLRNNSNDIQLCRCLN}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.258212 cm, fill=colorLRNNSNDITGQNNO, draw=none] (0.032706,0.004844) -- (5.962450,0.004844) -- (5.962450,-0.511581) -- (0.032706,-0.511581) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.258212 cm, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (0.032706,0.004844) -- (5.962450,0.004844) -- (5.962450,-0.511581) -- (0.032706,-0.511581) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.290919, -0.366254) {\verb|getDataForAuxTask(matrix, initialFunc, M)|};
+\draw[fill=colorLRNNSNDITGQNNO, draw=none, opacity=1.000000] (-0.004844,-0.850676) -- (6.000000,-0.850676) -- (6.000000,-1.661728) -- (-0.004844,-1.661728) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (-0.004844,-0.850676) -- (6.000000,-0.850676) -- (6.000000,-1.661728) -- (-0.004844,-1.661728) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.698113, -1.199777) {\verb|Инициализируем расширенную матрицу, |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.140483, -1.516401) {\verb|функцию, массив индексов базовых переменных|};
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-0.511581) -- (2.997578,-0.850676);
+\draw[opacity=1.000000, fill=colorLRNNSNDITGQNNO, draw=none] (1.139803, -2.929710) -- (2.068691, -2.000823) -- (3.926465, -2.000823) -- (4.855352, -2.929710) -- (3.926465, -3.858598) -- (2.068691, -3.858598) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (1.139803, -2.929710) -- (2.068691, -2.000823) -- (3.926465, -2.000823) -- (4.855352, -2.929710) -- (3.926465, -3.858598) -- (2.068691, -3.858598) --cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(2.342733, -2.738626) {\verb|Для каждой |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.819520, -3.052531) {\verb|i строчки исходной |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(2.539234, -3.318773) {\verb|матрицы|};
+\draw[fill=colorLRNNSNDITGQNNO, draw=none, opacity=1.000000] (1.138503,-4.197693) -- (4.856653,-4.197693) -- (4.856653,-5.324778) -- (1.138503,-5.324778) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (1.138503,-4.197693) -- (4.856653,-4.197693) -- (4.856653,-5.324778) -- (1.138503,-5.324778) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.283830, -4.562050) {\verb|Если свободный коэффициент |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.478497, -4.864837) {\verb|в матрице < 0, умножаем |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(2.082368, -5.179451) {\verb|строку i на -1|};
+\draw[fill=colorLRNNSNDITGQNNO, draw=none, opacity=1.000000] (0.535341,-5.663873) -- (5.459815,-5.663873) -- (5.459815,-7.107819) -- (0.535341,-7.107819) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (0.535341,-5.663873) -- (5.459815,-5.663873) -- (5.459815,-7.107819) -- (0.535341,-7.107819) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.680668, -6.022908) {\verb|Копируем из исходной матрицы строку|};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.278744, -6.336103) {\verb|в новую матрицу, формируем |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.419186, -6.649298) {\verb|новую функцию, складывая |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.080292, -6.962493) {\verb|коэффициенты, умноженные на M|};
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-5.324778) -- (2.997578,-5.663873);
+\draw[fill=colorLRNNSNDITGQNNO, draw=none, opacity=1.000000] (1.134836,-7.446915) -- (4.860320,-7.446915) -- (4.860320,-8.224260) -- (1.134836,-8.224260) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (1.134836,-7.446915) -- (4.860320,-7.446915) -- (4.860320,-8.224260) -- (1.134836,-8.224260) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.473825, -7.811981) {\verb|Добавляем искусственные |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.280163, -8.078934) {\verb|переменные в новую матрицу|};
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-7.107819) -- (2.997578,-7.446915);
+\draw[fill=colorLRNNSNDITGQNNO, draw=none, opacity=1.000000] (0.524815,-8.563356) -- (5.470341,-8.563356) -- (5.470341,-9.389664) -- (0.524815,-9.389664) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (0.524815,-8.563356) -- (5.470341,-8.563356) -- (5.470341,-9.389664) -- (0.524815,-9.389664) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.670142, -8.928422) {\verb|Добавляем в новые матрицу и функцию |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.682212, -9.244337) {\verb|свободные переменные|};
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-8.224260) -- (2.997578,-8.563356);
+\draw[fill=colorLRNNSNDITGQNNO, draw=none, opacity=1.000000] (0.531497,-9.728759) -- (5.463659,-9.728759) -- (5.463659,-10.540048) -- (0.531497,-10.540048) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (0.531497,-9.728759) -- (5.463659,-9.728759) -- (5.463659,-10.540048) -- (0.531497,-10.540048) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.805919, -10.078096) {\verb|Добавляем в массив |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.676824, -10.394721) {\verb|базовых индексов базовую переменную|};
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-9.389664) -- (2.997578,-9.728759);
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-3.858598) -- (2.997578,-4.197693);
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(2.787394, -4.074222) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.014533cm, colorLRNNSNDIQLCRCLN] (2.997578, -10.540048) -- (2.997578, -10.879143) -- (0.282604, -10.879143) -- (0.282604, -2.929710) -- (1.139803, -2.929710);
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(5.641828, -2.832826) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.014533cm, colorLRNNSNDIQLCRCLN] (4.855352, -2.929710) -- (5.712552, -2.929710) -- (5.712552, -11.121354) -- (2.997578, -11.121354);
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-1.661728) -- (2.997578,-2.000823);
+\draw[opacity=1.000000, rounded corners=0.405526 cm, fill=colorLRNNSNDITGQNNO, draw=none] (0.548397,-11.460449) -- (5.446759,-11.460449) -- (5.446759,-12.271501) -- (0.548397,-12.271501) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.405526 cm, fill=none, line width=0.024221cm, colorLRNNSNDIQLCRCLN] (0.548397,-11.460449) -- (5.446759,-11.460449) -- (5.446759,-12.271501) -- (0.548397,-12.271501) -- cycle;
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(1.765767, -11.809550) {\verb|Возвращаем матрицу, |};
+\verbatimfont{\normalsize\fontLRNNSNDISKLJRPOL}
+\node[opacity=1.000000, above right, colorLRNNSNDIQLCRCLN] at(0.953924, -12.126174) {\verb|преобразованную функцию и базис|};
+\draw[opacity=1.000000, fill=none, line width=0.014533 cm, colorLRNNSNDIQLCRCLN] (2.997578,-11.121354) -- (2.997578,-11.460449);
+\end{tikzpicture}
+\end{lrbox}
+% Здесь Вы можете поменять размер блок схемы. Оношение ширина/высота будет сохранено.
+% Для изменения размеров блок схемы Вы можете изменять первый параметр resizebox, он задаёт желаемую ширину.
+\resizebox{6.000000cm}{!}{\usebox{\bdgLRNNSNDI}}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
