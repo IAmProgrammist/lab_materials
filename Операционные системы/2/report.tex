@@ -1,0 +1,1047 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Ubuntu Mono}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №2}}\\
+    \normalsize{
+        по дисциплине: Операционные системы \\
+        тема: «Процессы и потоки в ОС Linux (Ubuntu): сравнение, механизмы синхронизации. Парадигмы межпроцессорного взаимодействия.»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\доц. Островский Алексей Мичеславович\\
+    асс. Четвертухин Виктор Романович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\underline{\textbf{Цель работы: }}Изучить различия между процессами и потоками в ОС Linux (Ubuntu), а также
+освоить механизмы синхронизации и межпроцессорного взаимодействия для обеспечения
+корректной работы программ в многозадачной среде.\\
+\underline{\textbf{Условие индивидуального задания: }}Вводится дополнительное условие в логику задачи. Каждая голова Змея Горыныча должна
+уметь проверять содержимое склада несколько раз подряд, прежде чем выбрать продукт. Для
+корректной работы программы, проверка и забор продукции должны быть защищены, в случае
+потоков, рекурсивными мьютексами (pthread\_mutexattr\_settype), а в случае процессов —
+семафорами (sys/sem.h). Голова может вызвать функцию проверки доступности продукта
+несколько раз (например, чтобы проверить разные типы продукции). Важно, чтобы каждая
+голова корректно освобождала мьютекс после завершения работы.\\
+\begin{center}
+\textbf{Ход выполнения работы}
+\end{center}
+
+\textbf{Текст программы:}\bigbreak
+\textbf{shared.h}
+\begin{minted}{C}
+#ifndef SHARED
+#define SHARED
+
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <stdbool.h>
+
+// Лаба слишком вкусная... Пойду точить...
+
+// Хранилище. В стандартных настройках первые 4 бита занимают тортики, 
+// 4-8 биты: пироженки, 8-12: конфетки, 12-16: пряники
+u_int64_t storage = 0;
+// Мьютексы для потоков
+pthread_mutexattr_t mutex_attr;
+pthread_mutex_t mutex;
+
+// Флаг, работает ли основной цикл
+bool is_running = true;
+
+// Максимальное количество вкусняшек на складе
+#define MAX_STORAGE_SIZE 10
+// Сколько битов занимает склад для одной вкусняшки
+#define STORAGE_CHUNK_SIZE 4
+// Максимальное количество разновидностей вкусняшек
+#define MAX_CHUNKS_AMOUNT (sizeof(storage) * 8 / STORAGE_CHUNK_SIZE)
+// Базовая маска для вкусняшки 
+#define STORAGE_CHUNK_MASK ((1 << STORAGE_CHUNK_SIZE) - 1)
+
+// Отступ для тортиков
+#define CAKE_OFFSET (STORAGE_CHUNK_SIZE * 0)
+// Отступ для пироженок
+#define BROWNIE_OFFSET (STORAGE_CHUNK_SIZE * 1)
+// Отступ для конфеток
+#define CANDY_OFFSET (STORAGE_CHUNK_SIZE * 2)
+// Отступ для пряников
+#define GINGERBREAD_OFFSET (STORAGE_CHUNK_SIZE * 3)
+
+long current_millis()
+{
+    struct timeval tp;
+
+    gettimeofday(&tp, NULL);
+    return tp.tv_sec * 1000 + tp.tv_usec / 1000;
+}
+
+// Устанавливает количество вкусняшек по offset в storage
+void set_amount_src(u_int64_t* storage_address, int offset, u_int64_t amount)
+{
+    (*storage_address) = ((*storage_address) & (~(STORAGE_CHUNK_MASK << offset))) | ((amount & STORAGE_CHUNK_MASK) << offset);
+}
+
+void set_amount(int offset, u_int64_t amount)
+{
+    set_amount_src(&storage, offset, amount);
+}
+
+// Возвращает количество вкусняшек по offset в storage
+u_int64_t get_amount_src(u_int64_t* storage_address, int offset)
+{
+    return (((*storage_address) & (STORAGE_CHUNK_MASK << offset)) >> offset);
+}
+
+u_int64_t get_amount(int offset)
+{
+    return get_amount_src(&storage, offset);
+}
+
+// Возвращает общее количество вкусняшек
+u_int64_t get_storage_amount_src(u_int64_t* storage_address)
+{
+    return get_amount_src(storage_address, CAKE_OFFSET) + get_amount_src(storage_address, BROWNIE_OFFSET) +
+           get_amount_src(storage_address, CANDY_OFFSET) + get_amount_src(storage_address, GINGERBREAD_OFFSET);
+}
+
+u_int64_t get_storage_amount() {
+    return get_storage_amount_src(&storage);
+}
+
+u_int64_t cakes_thrown = 0;
+u_int64_t brownies_thrown = 0;
+u_int64_t candies_thrown = 0;
+u_int64_t gingerbreads_thrown = 0;
+
+u_int64_t cakes_baked = 0;
+u_int64_t brownies_baked = 0;
+u_int64_t candies_baked = 0;
+u_int64_t gingerbreads_baked = 0;
+
+u_int64_t cakes_ate = 0;
+u_int64_t brownies_ate = 0;
+u_int64_t candies_ate = 0;
+u_int64_t gingerbreads_ate = 0;
+
+void print_report() {
+    printf("А теперь посчитаем...\n");
+    printf("Тортики:\n");
+    printf("- Испечено: %lu\n", cakes_baked);
+    printf("- Выброшено: %lu\n", cakes_thrown);
+    printf("- Слопано: %lu\n\n", cakes_ate);
+    printf("Пироженки:\n");
+    printf("- Испечено: %lu\n", brownies_baked);
+    printf("- Выброшено: %lu\n", brownies_thrown);
+    printf("- Слопано: %lu\n\n", brownies_ate);
+    printf("Конфетки:\n");
+    printf("- Испечено: %lu\n", candies_baked);
+    printf("- Выброшено: %lu\n", candies_thrown);
+    printf("- Слопано: %lu\n\n", candies_ate);
+    printf("Пряники:\n");
+    printf("- Испечено: %lu\n", gingerbreads_baked);
+    printf("- Выброшено: %lu\n", gingerbreads_thrown);
+    printf("- Слопано: %lu\n", gingerbreads_ate);
+}
+
+#endif
+\end{minted}
+
+\textbf{threads.c}
+\begin{minted}{C}
+#include "shared.h"
+#include <unistd.h>
+
+void *workshop(void *args_outer)
+{
+    u_int64_t *args = (u_int64_t *)args_outer;
+
+    while (is_running)
+    {
+        u_int64_t plus_amnt = args[0];
+        u_int64_t plus_offs = args[1];
+        // Производим товар в цехе
+        usleep(args[2] * 1000);
+        // Начинаем транспортировку, требующую синхронизацию
+        pthread_mutex_lock(&mutex);
+        switch (plus_offs)
+        {
+        case CAKE_OFFSET:
+            cakes_baked += plus_amnt;
+            break;
+        case CANDY_OFFSET:
+            candies_baked += plus_amnt;
+            break;
+        case BROWNIE_OFFSET:
+            brownies_baked += plus_amnt;
+            break;
+        case GINGERBREAD_OFFSET:
+            gingerbreads_baked += plus_amnt;
+            break;
+        }
+        u_int64_t total = get_storage_amount();
+        if (total + plus_amnt > MAX_STORAGE_SIZE)
+        {
+            switch (plus_offs)
+            {
+            case CAKE_OFFSET:
+                cakes_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            case CANDY_OFFSET:
+                candies_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            case BROWNIE_OFFSET:
+                brownies_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            case GINGERBREAD_OFFSET:
+                gingerbreads_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            }
+
+            plus_amnt -= total + plus_amnt - MAX_STORAGE_SIZE;
+        }
+
+        set_amount(plus_offs, get_amount(plus_offs) + plus_amnt);
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(0);
+}
+
+void start_factory(u_int64_t *data)
+{
+    // Фабрику подразделяем на несколько цехов, которые будут заняты производством товара
+    for (int i = 0; i < data[0]; i++)
+    {
+        pthread_t thread_workshop;
+        pthread_create(&thread_workshop, NULL, workshop, (void *)(data + i * 3 + 1));
+        pthread_detach(thread_workshop);
+    }
+}
+
+bool serpent_head_rec(u_int64_t serpent_preferences, int current_offset, int max_offset)
+{
+    u_int64_t offset = STORAGE_CHUNK_SIZE * current_offset;
+    u_int64_t mask_with_offset = STORAGE_CHUNK_MASK << offset;
+    // Змей Горыныч будет искать предпочтительный склад с наибольшим количеством вкусняшек, чтобы
+    // оптимизировать работу фабрик. Какой заботливый!
+    pthread_mutex_lock(&mutex);
+    if ((storage & mask_with_offset) && (serpent_preferences & mask_with_offset))
+    {
+        u_int64_t storage_amount = get_amount(offset);
+        if (max_offset == -1 || max_offset != -1 && storage_amount > get_amount(max_offset))
+        {
+            max_offset = offset;
+        }
+    }
+
+    if (current_offset != 0)
+    {
+        bool result = serpent_head_rec(serpent_preferences, current_offset - 1, max_offset);
+        pthread_mutex_unlock(&mutex);
+        return result;
+    }
+
+    if (max_offset == -1)
+    {
+        pthread_mutex_unlock(&mutex);
+        return false;
+    }
+
+    switch (max_offset)
+    {
+    case CAKE_OFFSET:
+        cakes_ate++;
+        break;
+    case CANDY_OFFSET:
+        candies_ate++;
+        break;
+    case BROWNIE_OFFSET:
+        brownies_ate++;
+        break;
+    case GINGERBREAD_OFFSET:
+        gingerbreads_ate++;
+        break;
+    }
+    set_amount(max_offset, get_amount(max_offset) - 1);
+
+    pthread_mutex_unlock(&mutex);
+
+    return true;
+}
+
+void *serpent_head(void *paramOuter)
+{
+    u_int64_t *param = (u_int64_t *)paramOuter;
+
+    while (is_running)
+    {
+        bool result = serpent_head_rec(param[0], MAX_CHUNKS_AMOUNT - 1, -1);
+        if (result)
+            usleep(param[1] * 1000);
+    }
+
+    pthread_exit(0);
+}
+
+/*
+Вариант программы, когда под ожиданием подразумевается полезная нагрузка.
+Кроме того, не так оптимизирован, так как требует большего количества потоков.
+Но зато можно задавать нулевые задержки.
+*/
+int main()
+{
+    pthread_t serpent_head_a, serpent_head_b, serpent_head_c,
+        workshop_a, workshop_b, workshop_c, workshop_d;
+
+    u_int64_t factory_a_args[] = {2,
+                                  1, CAKE_OFFSET, 70,
+                                  2, BROWNIE_OFFSET, 50};
+
+    u_int64_t factory_b_args[] = {2,
+                                  3, CANDY_OFFSET, 60,
+                                  1, GINGERBREAD_OFFSET, 40};
+
+    u_int64_t serpent_head_a_args[] = {(STORAGE_CHUNK_MASK << CAKE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CANDY_OFFSET),
+                                       80};
+
+    u_int64_t serpent_head_b_args[] = {(STORAGE_CHUNK_MASK << BROWNIE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << GINGERBREAD_OFFSET),
+                                       90};
+
+    u_int64_t serpent_head_c_args[] = {(STORAGE_CHUNK_MASK << BROWNIE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << GINGERBREAD_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CAKE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CANDY_OFFSET),
+                                       70};
+
+    pthread_mutexattr_init(&mutex_attr);
+    pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&mutex, &mutex_attr);
+
+    start_factory(factory_a_args);
+    start_factory(factory_b_args);
+    pthread_create(&serpent_head_a, NULL, serpent_head, (void *)serpent_head_a_args);
+    pthread_create(&serpent_head_b, NULL, serpent_head, (void *)serpent_head_b_args);
+    pthread_create(&serpent_head_c, NULL, serpent_head, (void *)serpent_head_c_args);
+
+    pthread_detach(serpent_head_a);
+    pthread_detach(serpent_head_b);
+    pthread_detach(serpent_head_c);
+    getchar();
+
+    // Выходим - is_running = false. Поток должен завершиться сам.
+    is_running = false;
+
+    pthread_mutex_lock(&mutex);
+    print_report();
+    pthread_mutex_unlock(&mutex);
+
+    pthread_mutex_destroy(&mutex);
+    pthread_mutexattr_destroy(&mutex_attr);
+
+    return 0;
+}
+\end{minted}
+
+\textbf{threads\_emul.c}
+\begin{minted}{C}
+#include "shared.h"
+
+/* Контроль переходит потоковой функции */
+void *factory(void *paramOuter)
+{
+    u_int64_t *param = (u_int64_t *)paramOuter;
+    u_int64_t prod_amount = param[0];
+    long init = current_millis();
+    long last_check = init;
+
+    while (is_running)
+    {
+        long new_check = current_millis();
+
+        pthread_mutex_lock(&mutex);
+        for (u_int64_t i = 0; i < prod_amount; i++)
+        {
+            u_int64_t plus_amnt = param[3 * i + 1];
+            u_int64_t plus_offs = param[3 * i + 2];
+            u_int64_t plus_time = param[3 * i + 3];
+            u_int64_t total_ticks = (new_check - init) / plus_time;
+            u_int64_t last_ticks = (last_check - init) / plus_time;
+            u_int64_t amount_after = total_ticks > last_ticks ? (total_ticks - last_ticks) : 0;
+            plus_amnt *= amount_after;
+            // Количество продукции увеличивается в соответствие с
+            // количеством "тиков".
+
+            switch (plus_offs)
+            {
+            case CAKE_OFFSET:
+                cakes_baked += plus_amnt;
+                break;
+            case CANDY_OFFSET:
+                candies_baked += plus_amnt;
+                break;
+            case BROWNIE_OFFSET:
+                brownies_baked += plus_amnt;
+                break;
+            case GINGERBREAD_OFFSET:
+                gingerbreads_baked += plus_amnt;
+                break;
+            }
+
+            u_int64_t total = get_storage_amount();
+            if (total + plus_amnt > MAX_STORAGE_SIZE)
+            {
+                switch (plus_offs)
+                {
+                case CAKE_OFFSET:
+                    cakes_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                    break;
+                case CANDY_OFFSET:
+                    candies_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                    break;
+                case BROWNIE_OFFSET:
+                    brownies_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                    break;
+                case GINGERBREAD_OFFSET:
+                    gingerbreads_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                    break;
+                }
+
+                plus_amnt -= total + plus_amnt - MAX_STORAGE_SIZE;
+            }
+
+            set_amount(plus_offs, get_amount(plus_offs) + plus_amnt);
+        }
+        pthread_mutex_unlock(&mutex);
+
+        last_check = new_check;
+    }
+
+    pthread_exit(0);
+}
+
+void serpent_head_rec(u_int64_t serpent_preferences, int left)
+{
+    // Здесь обход по складу несколько раз обоснован тем, что
+    // может пройти несколько тиков. Рекурсивно мы их и обрабатываем
+    if (left == 0)
+        return;
+
+    pthread_mutex_lock(&mutex);
+    int max_offset = -1;
+    u_int64_t max_amount = 0;
+    for (int i = 0; i < MAX_CHUNKS_AMOUNT; i++)
+    {
+        u_int64_t offset = STORAGE_CHUNK_SIZE * i;
+        u_int64_t mask_with_offset = STORAGE_CHUNK_MASK << offset;
+        if ((storage & mask_with_offset) && (serpent_preferences & mask_with_offset))
+        {
+            u_int64_t storage_amount = get_amount(offset);
+            if (max_offset == -1 || max_offset != -1 && storage_amount > max_amount)
+            {
+                max_amount = storage_amount;
+                max_offset = offset;
+            }
+        }
+    }
+    // Грустная голова поняла, что ей здесь пока делать нечего,
+    // и ушла, освободив ресурсы другим головам
+    if (max_offset == -1)
+    {
+        pthread_mutex_unlock(&mutex);
+        return;
+    }
+
+    switch (max_offset)
+    {
+    case CAKE_OFFSET:
+        cakes_ate++;
+        break;
+    case CANDY_OFFSET:
+        candies_ate++;
+        break;
+    case BROWNIE_OFFSET:
+        brownies_ate++;
+        break;
+    case GINGERBREAD_OFFSET:
+        gingerbreads_ate++;
+        break;
+    }
+    set_amount(max_offset, max_amount - 1);
+    serpent_head_rec(serpent_preferences, left - 1);
+    pthread_mutex_unlock(&mutex);
+}
+
+void *serpent_head(void *paramOuter)
+{
+    u_int64_t *param = (u_int64_t *)paramOuter;
+    u_int64_t prod_amount = param[0];
+    long init = current_millis();
+    long last_check = init;
+
+    while (is_running)
+    {
+        long new_check = current_millis();
+        u_int64_t total_ticks = (new_check - init) / param[1];
+        u_int64_t last_ticks = (last_check - init) / param[1];
+        u_int64_t amount_after = total_ticks > last_ticks ? (total_ticks - last_ticks) : 0;
+        // Здесь также определяем кол-во тиков
+
+        serpent_head_rec(param[0], amount_after);
+
+        last_check = new_check;
+    }
+
+    pthread_exit(0);
+}
+
+/*
+Данный вариант не совсем корректен.
+Под потреблением фабрик и змеем горынычем
+могут подразумеваться полезные нагрузки,
+однако здесь мы моделируем работу
+этой системы.
+
+Эта программа тоже имеет право на жизнь,
+например если мы создаём игру про фабрики и драконов,
+здесь гораздо важнее справедливость модели и
+следование установленным правилам,
+именно поэтому мы высчитываем, сколько "тиков" прошло и
+следовательно сколько было выполнено работ.
+*/
+int main()
+{
+    pthread_t factory_a, factory_b,
+        serpent_head_a, serpent_head_b, serpent_head_c;
+
+    u_int64_t factory_a_args[] = {2,
+                                  1, CAKE_OFFSET, 70,
+                                  2, BROWNIE_OFFSET, 50};
+
+    u_int64_t factory_b_args[] = {2,
+                                  3, CANDY_OFFSET, 40,
+                                  1, GINGERBREAD_OFFSET, 60};
+
+    u_int64_t serpent_head_a_args[] = {(STORAGE_CHUNK_MASK << CAKE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CANDY_OFFSET),
+                                       80};
+
+    u_int64_t serpent_head_b_args[] = {(STORAGE_CHUNK_MASK << BROWNIE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << GINGERBREAD_OFFSET),
+                                       90};
+
+    u_int64_t serpent_head_c_args[] = {(STORAGE_CHUNK_MASK << BROWNIE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << GINGERBREAD_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CAKE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CANDY_OFFSET),
+                                       70};
+
+    pthread_mutexattr_init(&mutex_attr);
+    pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&mutex, &mutex_attr);
+
+    pthread_create(&factory_a, NULL, factory, (void *)factory_a_args);
+    pthread_create(&factory_b, NULL, factory, (void *)factory_b_args);
+
+    pthread_create(&serpent_head_a, NULL, serpent_head, (void *)serpent_head_a_args);
+    pthread_create(&serpent_head_b, NULL, serpent_head, (void *)serpent_head_b_args);
+    pthread_create(&serpent_head_c, NULL, serpent_head, (void *)serpent_head_c_args);
+
+    pthread_detach(factory_a);
+    pthread_detach(factory_b);
+    pthread_detach(serpent_head_a);
+    pthread_detach(serpent_head_b);
+    pthread_detach(serpent_head_c);
+    getchar();
+
+    // Выходим - is_running = false. Поток должен завершиться сам.
+    is_running = false;
+
+    pthread_mutex_lock(&mutex);
+    print_report();
+    pthread_mutex_unlock(&mutex);
+
+    pthread_mutex_destroy(&mutex);
+    pthread_mutexattr_destroy(&mutex_attr);
+
+    return 0;
+}
+\end{minted}
+
+\textbf{processes.c}
+\begin{minted}{C}
+#include <unistd.h>
+#include <semaphore.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <fcntl.h>    /* константы O_* */
+#include <sys/stat.h> /* константы для mode */
+#include <semaphore.h>
+#include <stdio.h>
+#include <sys/mman.h>
+#include <string.h>
+#include <signal.h>
+#include "shared.h"
+
+#define STORAGE_SHM_KEY "os_lab_2_task_2_processes_storage"
+#define SEMAPHORE_KEY "os_lab_2_task_2_processes_semaphore"
+
+u_int64_t *shm_storage;
+sem_t *shm_sem;
+pid_t PIDS[7] = {};
+int pids_size = 0;
+
+void create_workshop(u_int64_t *args)
+{
+    pid_t workshop_pid = fork();
+    if (workshop_pid == -1)
+    {
+        printf(stderr, "Не удалось создать цех.\n");
+        exit(1);
+    }
+
+    if (workshop_pid != 0)
+    {
+        PIDS[pids_size++] = workshop_pid;
+        return;
+    }
+
+    attach();
+    while (is_running)
+    {
+        u_int64_t plus_amnt = args[0];
+        u_int64_t plus_offs = args[1];
+        usleep(args[2] * 1000);
+        sem_wait(shm_sem);
+        switch (plus_offs)
+        {
+        case CAKE_OFFSET:
+            cakes_baked += plus_amnt;
+            break;
+        case CANDY_OFFSET:
+            candies_baked += plus_amnt;
+            break;
+        case BROWNIE_OFFSET:
+            brownies_baked += plus_amnt;
+            break;
+        case GINGERBREAD_OFFSET:
+            gingerbreads_baked += plus_amnt;
+            break;
+        }
+        u_int64_t total = get_storage_amount_src(shm_storage);
+        if (total + plus_amnt > MAX_STORAGE_SIZE)
+        {
+            switch (plus_offs)
+            {
+            case CAKE_OFFSET:
+                cakes_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            case CANDY_OFFSET:
+                candies_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            case BROWNIE_OFFSET:
+                brownies_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            case GINGERBREAD_OFFSET:
+                gingerbreads_thrown += (total + plus_amnt - MAX_STORAGE_SIZE);
+                break;
+            }
+
+            plus_amnt -= total + plus_amnt - MAX_STORAGE_SIZE;
+        }
+
+                set_amount_src(shm_storage, plus_offs, get_amount_src(shm_storage, plus_offs) + plus_amnt);
+        sem_post(shm_sem);
+    }
+    printf("Цех умер!\n");
+    print_report();
+    exit(0);
+}
+
+void create_factory(u_int64_t *data)
+{
+    for (int i = 0; i < data[0]; i++)
+    {
+        create_workshop(data + i * 3 + 1);
+    }
+}
+
+bool serpent_head_rec(u_int64_t serpent_preferences, int current_offset, int max_offset)
+{
+    u_int64_t offset = STORAGE_CHUNK_SIZE * current_offset;
+    u_int64_t mask_with_offset = STORAGE_CHUNK_MASK << offset;
+    if (((*shm_storage) & mask_with_offset) && (serpent_preferences & mask_with_offset))
+    {
+        u_int64_t storage_amount = get_amount_src(shm_storage, offset);
+        if (max_offset == -1 || max_offset != -1 && storage_amount > get_amount_src(shm_storage, max_offset))
+        {
+            max_offset = offset;
+        }
+    }
+
+    if (current_offset != 0)
+    {
+        bool result = serpent_head_rec(serpent_preferences, current_offset - 1, max_offset);
+        return result;
+    }
+
+    if (max_offset == -1)
+    {
+        return false;
+    }
+
+    switch (max_offset)
+    {
+    case CAKE_OFFSET:
+        cakes_ate++;
+        break;
+    case CANDY_OFFSET:
+        candies_ate++;
+        break;
+    case BROWNIE_OFFSET:
+        brownies_ate++;
+        break;
+    case GINGERBREAD_OFFSET:
+        gingerbreads_ate++;
+        break;
+    }
+    set_amount_src(shm_storage, max_offset, get_amount_src(shm_storage, max_offset) - 1);
+
+    return true;
+}
+
+void create_serpent(u_int64_t *data)
+{
+    pid_t serpent_pid = fork();
+    if (serpent_pid == -1)
+    {
+        fprintf(stderr, "Не удалось создать голову змея.\n");
+        exit(1);
+    }
+
+    if (serpent_pid != 0)
+    {
+        PIDS[pids_size++] = serpent_pid;
+        return;
+    }
+
+    attach();
+    while (is_running)
+    {
+        sem_wait(shm_sem);
+        bool result = serpent_head_rec(data[0], MAX_CHUNKS_AMOUNT - 1, -1);
+        sem_post(shm_sem);
+        if (result)
+            usleep(data[1] * 1000);
+    }
+    printf("Змей Горыныч умер!\n");
+    print_report();
+    exit(0);
+}
+
+// Нам прилетел SIGUSR1, ставим флаг на "работающий" на false.
+// Можно было бы убивать процесс вручную, однако так делать не стоит.
+// Нужно дать процессу завершиться самому
+void sigusr1()
+{
+    printf("Нужно прекращать работу!\n");
+    is_running = false;
+}
+
+// Здесь мы присоединяемся к семафору и shared memory
+void attach()
+{
+    signal(SIGUSR1, sigusr1);
+
+    // storage должен существовать в обязательном порядке
+    int storage_descriptor = shm_open(STORAGE_SHM_KEY,
+                                      O_RDWR,
+                                      0644);
+    if (storage_descriptor < 0)
+    {
+        fprintf(stderr, "Невозможно получить доступ к складу.\n");
+        exit(1);
+    }
+    ftruncate(storage_descriptor, sizeof(storage));
+
+    caddr_t storage_ptr = mmap(NULL,
+                               sizeof(storage),
+                               PROT_READ | PROT_WRITE,
+                               MAP_SHARED,
+                               storage_descriptor,
+                               0);
+    shm_storage = (u_int64_t *)storage_ptr;
+
+    // Семафор также должен существовать
+    shm_sem = sem_open(SEMAPHORE_KEY, 0, 0644);
+
+    if (shm_sem == SEM_FAILED)
+    {
+        fprintf(stderr, "Невозможно получить доступ к семафору.\n");
+        exit(1);
+    }
+}
+
+void init()
+{
+    // Запишем в SHM наш склад, чтобы дочерние процессы могли к нему обращаться
+    // Создадим область в shared memory
+    int fd = shm_open(STORAGE_SHM_KEY,
+                      O_RDWR | O_CREAT,
+                      0644);
+    if (fd < 0)
+    {
+        fprintf(stderr, "Не удалось инициализировать склад.\n");
+        exit(1);
+    }
+
+    // Установим размер нашего shared memory участка
+    ftruncate(fd, sizeof(storage));
+
+    // Теперь отобразим область в shared memory в адресное пространство программы и синхронизируем его
+    caddr_t memptr = mmap(NULL,
+                          sizeof(storage),
+                          PROT_READ | PROT_WRITE,
+                          MAP_SHARED,
+                          fd,
+                          0);
+    if ((caddr_t)-1 == memptr)
+        exit(1);
+
+    // Теперь остаётся просто скопировать исходное значение storage в SHM
+    memcpy(memptr, &storage, sizeof(storage));
+
+    sem_t *semaphore = sem_open(SEMAPHORE_KEY, O_CREAT, 0644, 1);
+}
+
+void on_close()
+{
+    // Делаем анлинк склада и семафора
+    shm_unlink(STORAGE_SHM_KEY);
+    sem_unlink(SEMAPHORE_KEY);
+}
+
+int main()
+{
+    init();
+
+    u_int64_t factory_a_args[] = {2,
+                                  1, CAKE_OFFSET, 70,
+                                  2, BROWNIE_OFFSET, 50};
+
+    u_int64_t factory_b_args[] = {2,
+                                  3, CANDY_OFFSET, 60,
+                                  1, GINGERBREAD_OFFSET, 40};
+
+    u_int64_t serpent_head_a_args[] = {(STORAGE_CHUNK_MASK << CAKE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CANDY_OFFSET),
+                                       80};
+
+    u_int64_t serpent_head_b_args[] = {(STORAGE_CHUNK_MASK << BROWNIE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << GINGERBREAD_OFFSET),
+                                       90};
+
+    u_int64_t serpent_head_c_args[] = {(STORAGE_CHUNK_MASK << BROWNIE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << GINGERBREAD_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CAKE_OFFSET) |
+                                           (STORAGE_CHUNK_MASK << CANDY_OFFSET),
+                                       70};
+
+    create_factory(factory_a_args);
+    create_factory(factory_b_args);
+    create_serpent(serpent_head_a_args);
+    create_serpent(serpent_head_b_args);
+    create_serpent(serpent_head_c_args);
+
+    getchar();
+
+    // Посылаем всем рабочим процессам сигнал SIGUSR1 и ждём, пока они закончатся
+    for (int i = 0; i < pids_size; i++)
+    {
+        kill(PIDS[i], SIGUSR1);
+        int status;
+        waitpid(PIDS[i], &status, 0);
+        while (!WIFEXITED(status))
+        {
+            waitpid(PIDS[i], &status, 0);
+        }
+    }
+
+    on_close();
+
+    return 0;
+}
+\end{minted}
+
+\textbf{Протоколы, логи, скриншоты, графики:}\bigbreak
+\textbf{Количество ядер: 6}\\
+\textbf{Первая программа (threads):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_output_6}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_resources_6}\\
+\textbf{Вторая программа (threads\_emul):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_emul_output_6}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_emul_resources_6}\\
+\textbf{Третья программа (processes):}\\
+Вывод программы:\\
+\includegraphics[width=70mm]{processes_output_6_1}
+\includegraphics[width=70mm]{processes_output_6_2}
+\includegraphics[width=70mm]{processes_output_6_3}
+\includegraphics[width=70mm]{processes_output_6_4}
+\includegraphics[width=70mm]{processes_output_6_5}
+\includegraphics[width=70mm]{processes_output_6_6}
+\includegraphics[width=70mm]{processes_output_6_7}\\
+Ресуры:\\
+\includegraphics[width=140mm]{processes_resources_6}\bigbreak
+\textbf{Количество ядер: 4}\\
+\textbf{Первая программа (threads):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_output_4}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_resources_4}\\
+\textbf{Вторая программа (threads\_emul):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_emul_output_4}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_emul_resources_4}\\
+\textbf{Третья программа (processes):}\\
+Вывод программы:\\
+\includegraphics[width=70mm]{processes_output_4_1}
+\includegraphics[width=70mm]{processes_output_4_2}
+\includegraphics[width=70mm]{processes_output_4_3}
+\includegraphics[width=70mm]{processes_output_4_4}
+\includegraphics[width=70mm]{processes_output_4_5}
+\includegraphics[width=70mm]{processes_output_4_6}
+\includegraphics[width=70mm]{processes_output_4_7}\\
+Ресуры:\\
+\includegraphics[width=140mm]{processes_resources_4}\bigbreak
+\textbf{Количество ядер: 3}\\
+\textbf{Первая программа (threads):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_output_3}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_resources_3}\\
+\textbf{Вторая программа (threads\_emul):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_emul_output_3}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_emul_resources_3}\\
+\textbf{Третья программа (processes):}\\
+Вывод программы:\\
+\includegraphics[width=70mm]{processes_output_3_1}
+\includegraphics[width=70mm]{processes_output_3_2}
+\includegraphics[width=70mm]{processes_output_3_3}
+\includegraphics[width=70mm]{processes_output_3_4}
+\includegraphics[width=70mm]{processes_output_3_5}
+\includegraphics[width=70mm]{processes_output_3_6}
+\includegraphics[width=70mm]{processes_output_3_7}\\
+Ресуры:\\
+\includegraphics[width=140mm]{processes_resources_3}\bigbreak
+\textbf{Количество ядер: 2}\\
+\textbf{Первая программа (threads):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_output_2}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_resources_2}\\
+\textbf{Вторая программа (threads\_emul):}\\
+Вывод программы:\\
+\includegraphics[width=140mm]{threads_emul_output_2}\\
+Ресуры:\\
+\includegraphics[width=140mm]{threads_emul_resources_2}\\
+\textbf{Третья программа (processes):}\\
+Вывод программы:\\
+\includegraphics[width=70mm]{processes_output_2_1}
+\includegraphics[width=70mm]{processes_output_2_2}
+\includegraphics[width=70mm]{processes_output_2_3}
+\includegraphics[width=70mm]{processes_output_2_4}
+\includegraphics[width=70mm]{processes_output_2_5}
+\includegraphics[width=70mm]{processes_output_2_6}
+\includegraphics[width=70mm]{processes_output_2_7}\\
+Ресуры:\\
+\includegraphics[width=140mm]{processes_resources_2}
+
+
+
+\textbf{Вывод: } в ходе лабораторной работы изучили различия между процессами и потоками в ОС Linux (Ubuntu), а также
+освоить механизмы синхронизации и межпроцессорного взаимодействия для обеспечения корректной работы программ в многозадачной среде. 
+Потоки, хоть в Linux и являются по сути процессами, однако имеют с родительсикм потоком общее адресное пространство. 
+Процессы же имеют собственное адресное пространство. Для синхронизации можно использовать частный случай семафора - 
+мьютекс, рекурсивный мьютекс. Создать семафор для межпроцессного взаимодействия можно при помощи sem\_open. По сути 
+эта команда инициализирует семафор, затем записывает его в shared memory и вызывает mmap для отображения созданного 
+файла в виртуальной файловой системе с семафором в адресное пространство. Была также разработана программа, моделирующая 
+указанное поведение. Данная программа более справедлива в генерации продуктов, так как при разных конфигурациях системы
+было испечено одинаковое количество продуктов, в отличие от программ, выполняющих реальную работу. Однако полученная 
+программа непригодна для выполнения реальной работы, так как она лишь моделирует заданную систему. Также она занимает больше процессорных ресурсов, 
+потому что использует цикл без ожиданий. Стоит также отметить, 
+что shared-ресурсов для потоков оказалось больше, так как потоки имеют доступ ко всему адресному пространству родителя, 
+в то время как процессы получают лишь ограниченное количество, выделенное при помощи shm\_open. В целом, программы написанные
+при использовании потоков и процессов, теряли производительность с уменьшением количество ядер одинаково. Программа для моделирования
+системы производительность не теряла с уменьшением количества процессоров. Также стоит отметить, что данные моделирующие программы 
+не совпали с полученными результатами выполнения настоящих программ. 
+
+\end{document}

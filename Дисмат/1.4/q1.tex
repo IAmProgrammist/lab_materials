@@ -1,0 +1,59 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathletters]{ucs}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}	
+	\pagenumbering{gobble}
+	\noindent$A – X = X– A$\\
+	$U=\{1,2,3,4,5\}$\\
+	$A=\{1,2\}$\bigbreak
+	\noindent Преобразуем уравнение в уравнение с пустой правой частью\\
+	$(A-X)∆(X-A)=\varnothing$\bigbreak
+	\noindent Преобразуем левую часть уравнения к виду $\overline{X}\cap \varphi ^ \varnothing \cup X \cap \varphi ^ U$, используя разложение Шеннона по неизвестному множеству X и упростим полученные $\varphi ^ \varnothing$ и $\varphi ^ U$\bigbreak
+	\noindent $\varphi ^ \varnothing = (A-\varnothing)∆(\varnothing - A) = A∆\varnothing = A$\\
+	$\varphi ^ U = (A-U)∆(U - A) = \varnothing ∆ (U - A) = U - A$\bigbreak
+\noindent	$\varphi ^ \varnothing = A = \{1, 2\}$\\
+	$\overline{\varphi ^ U} = \overline{\{3, 4, 5\}} = \{1, 2\}$\bigbreak
+	
+	\noindent $\varphi ^ \varnothing$ является подмножеством множества $\overline{\varphi ^ U}$, следовательно решение уравнения существует.\\
+	$\overline{\varphi ^ U} - \varphi ^ \varnothing = \{\}$\\
+	Так как мощность выражения $\overline{\varphi ^ U} - \varphi ^ \varnothing$ равна нулю, общее решение будет состоять из одного множества: $\{\{1, 2\}\}$\bigbreak
+	
+	Ответ: $\{\{1, 2\}\}$
+	
+	
+\end{document}

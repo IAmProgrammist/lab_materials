@@ -1,0 +1,1 @@
+{"data":[{"data":"validateProperName(name)","type":"bd_element_terminator"},{"data":"firstLetterToupperRu(name.name)","type":"bd_element_preprocess"},{"data":"Выход (name)","type":"bd_element_terminator"}],"type":"bd_element_container"}

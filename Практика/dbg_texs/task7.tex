@@ -1,0 +1,102 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorFLOFRFEDHOJID}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontFLOFRFEABEHPJ[Scale=0.938624, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorFLOFRFEDHOJID}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorFLOFRFEPBIJGNFE}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorFLOFRFELATEIA}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.364238 cm, fill=colorFLOFRFEPBIJGNFE, draw=none] (0.764901,0.006623) -- (6.228477,0.006623) -- (6.228477,-0.721854) -- (0.764901,-0.721854) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.364238 cm, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (0.764901,0.006623) -- (6.228477,0.006623) -- (6.228477,-0.721854) -- (0.764901,-0.721854) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(1.113186, -0.525297) {\verb|sum(numbers, m, n, q, ans)|};
+\draw[fill=colorFLOFRFEPBIJGNFE, draw=none, opacity=1.000000] (2.112583,-1.185430) -- (4.880795,-1.185430) -- (4.880795,-1.913907) -- (2.112583,-1.913907) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (2.112583,-1.185430) -- (4.880795,-1.185430) -- (4.880795,-1.913907) -- (2.112583,-1.913907) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.296110, -1.717350) {\verb|nextRank := 0|};
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-0.721854) -- (3.496689,-1.185430);
+\draw[opacity=1.000000, fill=colorFLOFRFEPBIJGNFE, draw=none] (0.549669, -3.850993) -- (2.023179, -2.377483) -- (4.970199, -2.377483) -- (6.443709, -3.850993) -- (4.970199, -5.324503) -- (2.023179, -5.324503) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (0.549669, -3.850993) -- (2.023179, -2.377483) -- (4.970199, -2.377483) -- (6.443709, -3.850993) -- (4.970199, -5.324503) -- (2.023179, -5.324503) --cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.207832, -3.763708) {\verb|digitIndex := |};
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.402043, -4.136687) {\verb|n - 1, 0, -1|};
+\draw[fill=colorFLOFRFEPBIJGNFE, draw=none, opacity=1.000000] (1.930464,-5.788079) -- (5.062914,-5.788079) -- (5.062914,-6.516556) -- (1.930464,-6.516556) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (1.930464,-5.788079) -- (5.062914,-5.788079) -- (5.062914,-6.516556) -- (1.930464,-6.516556) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.119554, -6.319999) {\verb|sum := nextRank|};
+\draw[opacity=1.000000, fill=colorFLOFRFEPBIJGNFE, draw=none] (1.092715, -8.182119) -- (2.294702, -6.980132) -- (4.698675, -6.980132) -- (5.900662, -8.182119) -- (4.698675, -9.384106) -- (2.294702, -9.384106) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (1.092715, -8.182119) -- (2.294702, -6.980132) -- (4.698675, -6.980132) -- (5.900662, -8.182119) -- (4.698675, -9.384106) -- (2.294702, -9.384106) --cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.490321, -8.094833) {\verb|numIndex :=|};
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.755155, -8.467812) {\verb|0, m - 1|};
+\draw[fill=colorFLOFRFEPBIJGNFE, draw=none, opacity=1.000000] (0.655629,-9.847682) -- (6.337748,-9.847682) -- (6.337748,-10.927152) -- (0.655629,-10.927152) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (0.655629,-9.847682) -- (6.337748,-9.847682) -- (6.337748,-10.927152) -- (0.655629,-10.927152) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.296110, -10.379602) {\verb|sum := sum + |};
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(0.848352, -10.752581) {\verb|numbers[numIndex][digitIndex]|};
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-9.384106) -- (3.496689,-9.847682);
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(3.264954, -9.737217) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (3.496689, -10.927152) -- (3.496689, -11.390728) -- (0.324503, -11.390728) -- (0.324503, -8.182119) -- (1.092715, -8.182119);
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(6.457007, -7.983444) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (5.900662, -8.182119) -- (6.668874, -8.182119) -- (6.668874, -11.721854) -- (3.496689, -11.721854);
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-6.516556) -- (3.496689,-6.980132);
+\draw[fill=colorFLOFRFEPBIJGNFE, draw=none, opacity=1.000000] (0.837748,-12.185430) -- (6.155629,-12.185430) -- (6.155629,-12.913907) -- (0.837748,-12.913907) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (0.837748,-12.185430) -- (6.155629,-12.185430) -- (6.155629,-12.913907) -- (0.837748,-12.913907) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(1.024908, -12.717350) {\verb|ans[digitIndex] = sum mod q|};
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-11.721854) -- (3.496689,-12.185430);
+\draw[fill=colorFLOFRFEPBIJGNFE, draw=none, opacity=1.000000] (1.384106,-13.377483) -- (5.609272,-13.377483) -- (5.609272,-14.105960) -- (1.384106,-14.105960) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (1.384106,-13.377483) -- (5.609272,-13.377483) -- (5.609272,-14.105960) -- (1.384106,-14.105960) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(1.572231, -13.909403) {\verb|nextRank := sum div q|};
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-12.913907) -- (3.496689,-13.377483);
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-5.324503) -- (3.496689,-5.788079);
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(3.264954, -5.677615) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (3.496689, -14.105960) -- (3.496689, -14.569536) -- (-0.006623, -14.569536) -- (-0.006623, -3.850993) -- (0.549669, -3.850993);
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(6.788133, -3.652318) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (6.443709, -3.850993) -- (7.000000, -3.850993) -- (7.000000, -14.900662) -- (3.496689, -14.900662);
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-1.913907) -- (3.496689,-2.377483);
+\draw[opacity=1.000000, rounded corners=0.364238 cm, fill=colorFLOFRFEPBIJGNFE, draw=none] (2.039735,-15.364238) -- (4.953642,-15.364238) -- (4.953642,-16.092715) -- (2.039735,-16.092715) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.364238 cm, fill=none, line width=0.033113cm, colorFLOFRFELATEIA] (2.039735,-15.364238) -- (4.953642,-15.364238) -- (4.953642,-16.092715) -- (2.039735,-16.092715) -- cycle;
+\verbatimfont{\normalsize\fontFLOFRFEABEHPJ}
+\node[opacity=1.000000, above right, colorFLOFRFELATEIA] at(2.490321, -15.896158) {\verb|Выход (ans)|};
+\draw[opacity=1.000000, fill=none, line width=0.033113 cm, colorFLOFRFELATEIA] (3.496689,-14.900662) -- (3.496689,-15.364238);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}

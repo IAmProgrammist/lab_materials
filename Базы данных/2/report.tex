@@ -1,0 +1,325 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №2}}\\
+    \normalsize{
+        по дисциплине: Базы данных \\
+        тема: «Создание объектов базы данных в СУБД»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\ст. пр. Панченко Максим Владимирович
+}
+\vfill\begin{center}
+    Белгород 2024 г.
+\end{center}
+\newpage
+\begin{center}
+    \textbf{Лабораторная работа №2}\\
+    Создание объектов базы данных в СУБД\\
+    Вариант 8
+\end{center}
+\textbf{Цель работы: }изучить основные возможности языка SQL для создания 
+структуры базы данных. Научиться создавать базы данных, таблицы, связи, 
+ограничения, а также создавать, изменять и удалять данные. 
+
+\begin{enumerate}[1.]
+    \item Составить SQL-запросы для создания структуры базы данных, полученной
+     в результате лабораторной работы №1. Указать используемые типы данных, 
+     ограничения значений полей; для связей: действия с записями подчинённой таблицы 
+     при удалении и изменении соответствующей записи главной таблицы. \\
+          
+    Запустим базу данных в докере, создадим пользователя 
+    postgres с паролем postgres и пробросим порт 5432, по которому СУБД
+    будет принимать запросы
+    \begin{minted}{console}
+docker run -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres
+    \end{minted}
+    Создадим рабочую БД
+\begin{minted}{sql}
+create database db_course;
+\end{minted}
+Создадим схему для второй лабораторной работы
+\begin{minted}{sql}
+create schema lab_2;
+\end{minted}
+Создадим таблицу home
+\begin{minted}{sql}
+create table home(
+    address text unique primary key not null,
+    commisioning date null,
+    floors int not null constraint floors_check check (floors > 0),
+    index int not null constraint index_check check (index >= 100000 and index <= 999999)
+);
+\end{minted}
+Адрес хранится в строке, дата введения в эксплуатацию может быть null, если дом ещё строится.
+Проверим на этажи - не может же быть -1 этаж в доме, а также индекс. Он может быть в диапазоне 100000-999999.\\
+Создадим таблицу contract
+\begin{minted}{sql}
+create table contract(
+    id serial not null primary key,
+    transaction_date date not null,
+    until_date date not null,
+    check (until_date > transaction_date),
+    payment int not null constraint check_contract_payment check (payment >= 0),
+    home text not null references home (address) on delete restrict
+);
+\end{minted}
+
+id - просто номер договора, имеет тип serial - автоинкрементирующееся число.
+transaction\_date и until\_date - обязательные даты начала и конца договора.
+Проверяем, что конечная дата должна быть больше начальной.
+payment - ежемесячный платёж по договору, больше нуля.
+home - внешний ключ к дому, при удалении дома мы должны отклонить запрос, так как
+у нас всё ещё есть договоры с жильцами.\\
+
+Создадим таблицу resident
+\begin{minted}{sql}
+create table resident(
+    passport_data text not null primary key unique,
+    snp text not null,
+    email text null,
+    phone text null
+);
+\end{minted}
+passport\_data - текст, должна быть уникальной, первичный ключ, уникальное.
+snp - текст, ФИО обязательное поле, в мире много тёзок, поэтому неуникальное.
+email - текст, необязательное, может быть null.
+phone - текст, необязательное, может быть null.
+
+Создадим таблицу residents\_contracts
+\begin{minted}{sql}
+create table residents_contracts(
+	resident_passport_data text not null references resident (passport_data) on delete cascade,
+	contract_id int not null references contract (id) on delete cascade
+);
+\end{minted}
+При помощи этой базы данных организуется связь многое ко многому.
+resident\_passport\_data, contract\_id - внешние ключи для 
+жильца и контракта соответственно. Если контракт или 
+жилец "пропадают", связь тоже можно удалить, поэтому
+on delete cascade.
+
+Создадим таблицу payment
+\begin{minted}{sql}
+create table payment(
+	id text not null unique primary key,
+	paid_date date null,
+	until_date date not null,
+	contract_id int null references contract (id) on delete set null
+);
+\end{minted}
+id - является строкой, так как УИП содержит из 25 символов.
+paid\_date может быть null, в отличие от until\_date, дедлайн должен быть.
+contract\_id внешний ключ к контракту, может быть полезно хранить чеки
+вне контрактов, поэтому может быть null а при удалении контракта 
+устанавливается поле на null.
+
+Создадим таблицу task
+\begin{minted}{sql}
+create table task(
+    id serial not null primary key,
+    payment int not null check (payment >= 0),
+    completed_date date null,
+    until_date date not null,
+    home text null references home (address) on delete set null
+);
+\end{minted}
+id - автоинкрементирующееся число, первичный ключ.
+payment - оплата за задачу, число, не может быть < 0, обязательно.
+completed\_date - дата окончания работы, может быть null (если работа ещё выполняется).
+until\_date - дата дедлайна, обязательно.
+home - внешний ключ к дому, может быть null, например дом могут снести. 
+Однако историю выполнения заказов
+всё ещё может быть полезно хранить для анализа компетенции рабочих
+(например, если домов снесли много, значит рабочие выполняют работу плохо), 
+on delete set null.
+
+Создадим таблицу worker
+\begin{minted}{sql}
+create table worker(
+    inn text unique not null primary key,
+    email text null,
+    phone text null
+);
+\end{minted}
+inn - инн, текст, уникальное поле, первичный ключ, обязательно.
+email - текст, необязательно.
+phone - текст, необязательно.
+
+Создадим таблицу workers\_tasks
+\begin{minted}{sql}
+create table workers_tasks(
+    worker_inn text not null references worker (inn) on delete cascade,
+    task_id int not null references task (id) on delete cascade
+);
+\end{minted}
+По аналогии с residents\_contracts workers\_tasks задаёт 
+связь многое ко многому. Содержит два внешних ключа к рабочему и задаче.
+При удалении рабочего или задачи связь разрывается, поэтому on delete cascade 
+в обоих внешних ключа.\bigbreak
+
+Итоговая схема:\\
+\includegraphics[width=140mm]{schema}
+
+\item С помощью SQL-запросов выполнить добавление 3–4 записей в каждую таблицу,
+изменение и удаление нескольких записей.
+
+Таблица home:\\
+Вставка:
+\begin{minted}{sql}
+insert into home (address, commisioning, floors, "index") values 
+('г. Васи, ул. Васи д. 5', '2023-05-01', 4, 999100),
+('г. Васи, ул. Васи д. 6', '2023-06-01', 3, 999100),
+('г. Васи, ул. Васи д. 7', '2023-07-01', 6, 999100),
+('г. Васи, ул. Васи д. 8', null, 3, 999100);
+\end{minted}
+Добавление домов в таблицу. Один из них недостроен.\\
+
+Вставка:
+\begin{minted}{sql}
+update home set commisioning = '2024-09-26' where address = 'г. Васи, ул. Васи д. 8';
+\end{minted}
+Введение дома по адресу г. Васи, ул. Васи д. 8 в эксплуатацию обновлением поля commisioning.\\
+
+Удаление:
+\begin{minted}{sql}
+delete from home where address = 'г. Васи, ул. Васи д. 5';
+\end{minted}
+Снос дома по адресу г. Васи, ул. Васи д. 5.\\
+
+Выполним также вставки в:\\
+resident:
+\begin{minted}{sql}
+insert into resident (passport_data, snp, email, phone) values
+('0000 000001', 'Пупкин Василий Петрович', null, null), 
+('0000 000002', 'Пупкин Василий Иванович', 'em@gmail.com', null), 
+('0000 000003', 'Пупкин Василий Дмитриевич', null, '88005553535'), 
+('0000 000004', 'Пупкин Василий Зайцевич', 'em1@gmail.com', '88005553536');
+\end{minted}
+
+contract:
+\begin{minted}{sql}
+insert into contract (transaction_date, until_date, payment, home) values
+('2023-09-09', '2025-09-09', 20000, 'г. Васи, ул. Васи д. 6'),
+('2023-08-09', '2025-09-09', 30000, 'г. Васи, ул. Васи д. 7'),
+('2024-12-09', '2025-09-10', 25000, 'г. Васи, ул. Васи д. 8');
+\end{minted}
+residents\_contracts:
+\begin{minted}{sql}
+insert into residents_contracts (contract_id, resident_passport_data) values
+(1, '0000 000001'),
+(2, '0000 000002'),
+(3, '0000 000003'),
+(1, '0000 000003'),
+(3, '0000 000001');
+\end{minted}
+payment:
+\begin{minted}{sql}
+insert into payment (id, paid_date, until_date, contract_id) values
+('6000021827364758192837480', null,        '2024-12-19', 1),
+('6000021827364758192837470', '2024-2-1',  '2024-1-19',  1),
+('6000021827364758192837490', null,        '2024-12-19', 2),
+('6000021827364758192837500', null,        '2024-12-20', 3);
+\end{minted}
+task:
+\begin{minted}{sql}
+insert into task (payment, completed_date, until_date, home) values
+(1000000, '2022-01-01', '2023-06-01', 'г. Васи, ул. Васи д. 6'),
+(1500000, '2022-02-01', '2023-06-01', 'г. Васи, ул. Васи д. 7'),
+(500000, '2023-06-01', '2024-06-01', 'г. Васи, ул. Васи д. 6'),
+(2000000, '2022-04-01', '2023-06-01', 'г. Васи, ул. Васи д. 8');
+\end{minted}
+worker:
+\begin{minted}{sql}
+insert into worker (inn, email, phone) values
+('182736471829', null, null), 
+('928374635461', 'e312m@gmail.com', null), 
+('918274765621', null, '88005553535'), 
+('789124114908', 'e132m1@gmail.com', '88005553536');
+\end{minted}
+workers\_tasks:
+\begin{minted}{sql}
+insert into workers_tasks (worker_inn, task_id) values
+('928374635461', 1),
+('918274765621', 1),
+('182736471829', 2),
+('789124114908', 3),
+('789124114908', 2);
+\end{minted}
+
+Теперь попробуем "разорвать" контракт - удалим контракт с id = 2.
+\begin{minted}{sql}
+delete from contract where id = 2;
+\end{minted}
+Что успешно и получаем. Связь из residents\_contracts удалилась.
+
+Теперь попробуем оплатить чек:
+\begin{minted}{sql}
+update payment set paid_date = now() where id = '6000021827364758192837480';
+\end{minted}
+
+\end{enumerate}
+
+\textbf{Вывод: } в ходе лабораторной работы изучили основные возможности языка SQL для создания 
+структуры базы данных. Научиться создавать базы данных, таблицы, связи, 
+ограничения, а также создавать, изменять и удалять данные. 
+
+\end{document}

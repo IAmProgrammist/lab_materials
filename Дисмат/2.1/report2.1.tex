@@ -1,0 +1,608 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathletters]{ucs}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}	
+	\pagenumbering{gobble}
+	\begin{center}
+		\small{
+			МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+			\bigbreak
+			ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+			\bigbreak
+			\textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+			\bigbreak
+			Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+	\end{center}
+	
+	\vfill
+	\begin{center}
+		\large{
+			\textbf{
+				Лабораторная работа №2.1}}\\
+		\normalsize{
+			по дисциплине: Дискретная математика \\
+			тема: «Алгоритмы порождения комбинаторных объектов»}
+	\end{center}
+	\vfill
+	\hfill\textbox{
+		Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+		\bigbreak
+		Проверили: \\ст. пр. Рязанов Юрий Дмитриевич\\
+		ст. пр. Бондаренко Татьяна Владимировна
+	}
+	\vfill\begin{center}
+		Белгород 2023 г.
+	\end{center}
+	\newpage
+	\begin{center}
+		\textbf{Лабораторная работа №2.1}\\
+		Алгоритмы порождения комбинаторных объектов
+	\end{center}
+	\textbf{Цель работы: }изучить основные комбинаторные объекты, алгоритмы их порождения, программно реализовать и оценить временную сложность алгоритмов.
+	\begin{enumerate}[№1. ]
+		\item Реализовать алгоритм порождения подмножеств.\bigbreak
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+template <typename T>
+std::vector<std::vector<T>> getSubsets(std::vector<T>& baseSet, std::vector<T> currentSet,
+size_t count) {
+	// Если мы достигли конца исходного множества, возвращаем текущее множество
+	if (count == baseSet.size())
+		return {currentSet};
+	
+	// Добавляем в массив подмножеств шаг, если мы не добавляем на текущем шаге новый элемент
+	std::vector<std::vector<T>> resultSubsets = getSubsets(baseSet, currentSet, count + 1);
+	
+	// Добавляем в текущее подмножество элемент массива
+	currentSet.push_back(baseSet[count]);
+	
+	// Добавляем в массив подмножеств шаг, если мы добавляем на текущем шаге новый элемент
+	std::vector<std::vector<T>> branch = getSubsets(baseSet, currentSet, count + 1);
+	resultSubsets.insert(std::end(resultSubsets), std::begin(branch), std::end(branch));
+	
+	return resultSubsets;
+}
+\end{minted}
+Мы реализовали рекуррентный алгоритм порождения подмножеств. Функция getSubsets возвращает массив всех подмножеств исходного множества baseSet
+\item Построить график зависимости количества всех подмножеств от мощности множества.\bigbreak
+\begin{center}
+\begin{tabular}{ cc} 
+	\hline
+	0&1\\
+	\hline
+	1&2\\
+	\hline
+	2&4\\
+	\hline
+	3&8\\
+	\hline
+	4&16\\
+	\hline
+	5&32\\
+	\hline
+	6&64\\
+	\hline
+	7&128\\
+	\hline
+	8&256\\
+	\hline
+	9&512\\
+	\hline
+	10&1024\\
+	\hline
+	11&2048\\
+	\hline
+	12&4096\\
+	\hline
+	13&8192 \\
+	\hline
+	14&16384\\
+	\hline
+	15&32768\\
+	\hline
+	16&65536\\
+	\hline
+	17&131072\\
+	\hline
+	18&262144\\
+	\hline
+	19&524288\\
+	\hline
+	20&1048576\\
+	\hline
+	21&2097152\\
+	\hline
+	22&4194304\\
+	\hline
+	23&8388608\\
+	\hline
+	24&16777216\\
+	\hline
+	25&33554432\\
+	\hline
+	26&67108864\\
+	\hline
+\end{tabular}\\
+\includegraphics[width=140mm]{/task2}\\
+\end{center}
+\item Построить графики зависимости времени выполнения алгоритмов п.1 на вашей ЭВМ от мощности множества.\bigbreak
+\begin{center}
+\begin{tabular}{ cc} 
+	\hline
+	0&0\\
+	\hline
+	1&0\\
+	\hline
+	2&0\\
+	\hline
+	3&0\\
+	\hline
+	4&0\\
+	\hline
+	5&0\\
+	\hline
+	6&0\\
+	\hline
+	7&0\\
+	\hline
+	8&0\\
+	\hline
+	9&0\\
+	\hline
+	10&0,001\\
+	\hline
+	11&0,005\\
+	\hline
+	12&0,003\\
+	\hline
+	13&0,007 \\
+	\hline
+	14&0,01\\
+	\hline
+	15&0,02\\
+	\hline
+	16&0,038\\
+	\hline
+	17&0,079\\
+	\hline
+	18&0,164\\
+	\hline
+	19&0,348\\
+	\hline
+	20&0,705\\
+	\hline
+	21&1,494\\
+	\hline
+	22&3,121\\
+	\hline
+	23&6,5\\
+	\hline
+	24&13,623\\
+	\hline
+	25&29,204\\
+	\hline
+	26&64,215\\
+	\hline
+\end{tabular}\\
+\includegraphics[width=140mm]{/task3}\\
+\end{center}
+\item Определить максимальную мощность множества, для которого можно получить все подмножества не более чем за час, сутки, месяц, год на вашей ЭВМ.\bigbreak
+Воспользовавшись методом наименьших квадратов для функции $t = a \cdot 2^N + b$ на основе полученных точек получили обобщенную аппроксимацию $a = 9.35885430168442\cdot10^{-7}, b = -0.225015460816618$\\
+$t = 9.35885430168442\cdot10^{-7} \cdot 2^N - 0.225015460816618$\bigbreak
+\begin{tabular}{ c|c} 
+	
+	\hline
+	t&N\\
+	\hline
+	3600 с. = 1 час&28.519 = 28\\
+	\hline
+	86400 с. = 1 сутки&33.104 = 33\\
+	\hline
+	2678400 с. = 1 месяц (31 день)&38.058 = 38\\
+	\hline
+	31536000 с. = 1 год (365 дней)&41.616 = 41\\
+	\hline
+\end{tabular}
+
+\item Определить максимальную мощность множества, для которого можно получить все подмножества не более чем за час, сутки, месяц, год на ЭВМ, в 10 и в 100 раз быстрее вашей.\bigbreak
+$t_\textup{(ЭВМ мощнее в 10 раз)} = \frac{9.35885430168442\cdot10^{-7} \cdot 2^N - 0.225015460816618}{10}$\\
+$t_\textup{(ЭВМ мощнее в 100 раз)} = \frac{9.35885430168442\cdot10^{-7} \cdot 2^N - 0.225015460816618}{100}$\bigbreak
+
+\begin{tabular}{ c|c|c} 
+	
+	\hline
+	t&$N_\textup{(ЭВМ мощнее в 10 раз)}$&$N_\textup{(ЭВМ мощнее в 100 раз)}$\\
+	\hline
+	3600 с. = 1 час&31.841 = 31 & 35.163 = 35\\
+	\hline
+	86400 с. = 1 сутки&36.426 = 36 & 39.748 = 39\\
+	\hline
+	2678400 с. = 1 месяц (31 день)&41.38 = 31 & 44.702 = 44\\
+	\hline
+	31536000 с. = 1 год (365 дней)&44.938 = 44 & 48.26 = 48\\
+	\hline
+\end{tabular}
+
+\item Реализовать алгоритм порождения сочетаний.\bigbreak
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+template<typename T>
+std::vector<std::vector<T>> getCombinations(std::vector<T> &baseSet, std::vector<T> currentSet, size_t minIndex, size_t k, size_t count) {
+	std::vector<std::vector<T>> resultCombs;
+	
+	// Если количество перестановок равно необходимому, мы достигли искомого множества, возвращаем его
+	if (count >= k)
+		return {currentSet};
+	
+	for (size_t i = minIndex; i <= baseSet.size() - k + count; i++) {
+		// Добавляем в текущее множество новый элемент, Ci = x
+		std::vector<T> newCurrentSet(currentSet);
+		newCurrentSet.push_back(baseSet[i]);
+		
+		// Вызываем следующий шаг итерации, сохраняем его результат в общий массив множеств
+		std::vector<std::vector<T>> combinations = getCombinations(baseSet, newCurrentSet, i + 1, k, count + 1);
+		resultCombs.insert(std::begin(resultCombs), std::begin(combinations), std::end(combinations));
+	}
+	
+	// Возвращаем массив множеств
+	return resultCombs;
+}
+\end{minted}
+Мы реализовали рекуррентный алгоритм порождения сочетаний. Функция getCombinations возвращает массив всех сочетаний исходного множества baseSet
+\item Построить графики зависимости количества всех сочетаний из n по k от k при n= (5, 7, 9).\bigbreak
+\textbf{n = 5}\\
+\begin{center}
+\begin{tabular}{c|c} 
+	
+	\hline
+	k&Кол-во сочетаний\\
+	\hline
+	0&1\\
+	\hline
+	1&5\\
+	\hline
+	2&10\\
+	\hline
+	3&10\\
+	\hline
+	4&5\\
+	\hline
+	5&1\\
+	\hline
+\end{tabular}\\
+\includegraphics[width=120mm]{/task6a}\bigbreak
+\end{center}
+
+\textbf{n = 7}\\
+\begin{center}
+\begin{tabular}{c|c} 
+	
+	\hline
+	k&Кол-во сочетаний\\
+	\hline
+	0&1\\
+	\hline
+	1&7\\
+	\hline
+	2&21\\
+	\hline
+	3&35\\
+	\hline
+	4&35\\
+	\hline
+	5&21\\
+	\hline
+	6&7\\
+	\hline
+	7&1\\
+	\hline
+\end{tabular}\\
+\includegraphics[width=120mm]{/task6b}\bigbreak
+\end{center}
+
+\textbf{n = 9}\\
+\begin{center}
+\begin{tabular}{c|c} 
+	
+	\hline
+	k&Кол-во сочетаний\\
+	\hline
+	0&1\\
+	\hline
+	1&9\\
+	\hline
+	2&36\\
+	\hline
+	3&84\\
+	\hline
+	4&126\\
+	\hline
+	5&126\\
+	\hline
+	6&84\\
+	\hline
+	7&36\\
+	\hline
+	8&9\\
+	\hline
+	9&1\\
+	\hline
+\end{tabular}\\
+\includegraphics[width=120mm]{/task6c}
+\end{center}
+\bigbreak
+\item Реализовать алгоритм порождения перестановок.\bigbreak
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+template<typename T>
+std::vector<std::vector<T>> getPermutations(std::vector<T> baseSet, std::vector<T> currentSet) {
+	std::vector<std::vector<T>> resultPerms;
+	
+	// Если элементов в изначальном множестве не осталось, получено искомое множество
+	if (baseSet.size() == 0) return {currentSet};
+	
+	for (size_t i = 0; i < baseSet.size(); i++) {
+		// Удаляем из исходного массива x
+		std::vector<T> newBaseSet(baseSet);
+		newBaseSet.erase(std::begin(newBaseSet) + i);
+		
+		// Добавляем в текущее множество новый элемент
+		std::vector<T> newCurrentSet(currentSet);
+		newCurrentSet.push_back(baseSet[i]);
+		
+		// Выполняем следующий шаг итерации, сохраняем в итоговый массив множеств
+		auto permutations = getPermutations(newBaseSet, newCurrentSet);
+		resultPerms.insert(std::begin(resultPerms), std::begin(permutations), std::end(permutations));
+	}
+	
+	return resultPerms;
+}
+\end{minted}
+Мы реализовали рекуррентный алгоритм порождения перестановок. Функция getPermutations возвращает массив всех перестановок исходного множества baseSet
+\item Построить график зависимости количества всех перестановок от мощности множества.\bigbreak
+\begin{center}
+\begin{tabular}{ cc} 
+	\hline
+	0&1\\
+	\hline
+	1&1\\
+	\hline
+	2&2\\
+	\hline
+	3&6\\
+	\hline
+	4&24\\
+	\hline
+	5&120\\
+	\hline
+	6&720\\
+	\hline
+	7&5040\\
+	\hline
+	8&40320\\
+	\hline
+	9&362880\\
+	\hline
+	10&3628800\\
+	\hline
+	11&39916800\\
+	\hline
+\end{tabular}\\
+\includegraphics[width=140mm]{/task9}\\
+\end{center}
+\item Построить графики зависимости времени выполнения алгоритма п.8 на вашей ЭВМ от мощности множества.\bigbreak
+\begin{center}
+	\begin{tabular}{ cc} 
+		\hline
+		0&0\\
+		\hline
+		1&0\\
+		\hline
+		2&0\\
+		\hline
+		3&0\\
+		\hline
+		4&0\\
+		\hline
+		5&0\\
+		\hline
+		6&0,003\\
+		\hline
+		7&0,016\\
+		\hline
+		8&0,111\\
+		\hline
+		9&1,043\\
+		\hline
+		10&11,39\\
+		\hline
+		11&137,71\\
+		\hline
+	\end{tabular}\\
+	\includegraphics[width=140mm]{/task10}\\
+\end{center}
+\item Определить максимальную мощность множества, для которого можно получить все перестановки не более чем за час, сутки, месяц, год на вашей ЭВМ.\bigbreak
+Воспользовавшись методом наименьших квадратов для функции $t = a \cdot N!$ на основе полученных точек получили обобщенную аппроксимацию $a = 3.4473277768732325\cdot10^{-6}$\\
+$t = 3.4473277768732325\cdot10^{-6} \cdot N!$\bigbreak
+\begin{tabular}{ c|c} 
+	
+	\hline
+	t&N\\
+	\hline
+	3600 с. = 1 час&12.307 = 12\\
+	\hline
+	86400 с. = 1 сутки&13.531 = 13\\
+	\hline
+	2678400 с. = 1 месяц (31 день)&14.81 = 14\\
+	\hline
+	31536000 с. = 1 год (365 дней)&15.704 = 15\\
+	\hline
+\end{tabular}
+
+\item Определить максимальную мощность множества, для которого можно получить все подмножества не более чем за час, сутки, месяц, год на ЭВМ, в 10 и в 100 раз быстрее вашей.\bigbreak
+$t_\textup{(ЭВМ мощнее в 10 раз)} = \frac{3.4473277768732325\cdot10^{-6} \cdot N!}{10}$\\
+$t_\textup{(ЭВМ мощнее в 100 раз)} = \frac{3.4473277768732325\cdot10^{-6} \cdot N!}{100}$\bigbreak
+
+\begin{tabular}{ c|c|c} 
+	
+	\hline
+	t&$N_\textup{(ЭВМ мощнее в 10 раз)}$&$N_\textup{(ЭВМ мощнее в 100 раз)}$\\
+	\hline
+	3600 с. = 1 час&13.198 = 13 & 14.067 = 14\\
+	\hline
+	86400 с. = 1 сутки&14.393 = 14 & 15.237 = 15\\
+	\hline
+	2678400 с. = 1 месяц (31 день)&15.645 = 15 & 16.466 = 16\\
+	\hline
+	31536000 с. = 1 год (365 дней)&16.523 = 16 & 17.329 = 17\\
+	\hline
+\end{tabular}
+\item Реализовать алгоритм порождения размещений.\bigbreak
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, breaklines,fontsize=\footnotesize]{C++}
+template<typename T>
+std::vector<std::vector<T>> getPlacements(std::vector<T> baseSet, std::vector<T> currentSet, size_t k) {
+	// k не может быть больше размера исходного множества
+	k = std::min(baseSet.size(), k);
+	
+	// Если k = 0, то количество перестановок закончилось или закончился исходный массив. В обоих случаях мы достигли
+	// искомого множества, возвращаем его.
+	if (k == 0) return {currentSet};
+	
+	std::vector<std::vector<T>> resultPerms;
+	
+	for (size_t i = 0; i < baseSet.size(); i++) {
+		// Удаляем из исходного массива x
+		std::vector<T> newBaseSet(baseSet);
+		newBaseSet.erase(std::begin(newBaseSet) + i);
+		
+		// Добавляем в текущее множество новый элемент
+		std::vector<T> newCurrentSet(currentSet);
+		newCurrentSet.push_back(baseSet[i]);
+		
+		// Выполняем следующий шаг итерации, сохраняем в итоговый массив множеств
+		auto permutations = getPlacements(newBaseSet, newCurrentSet, k - 1);
+		resultPerms.insert(std::begin(resultPerms), std::begin(permutations), std::end(permutations));
+	}
+	
+	return resultPerms;
+}
+\end{minted}
+Мы реализовали рекуррентный алгоритм порождения размещекний. Функция getPlacements возвращает массив всех размещений исходного множества baseSet
+\item Построить графики зависимости количества всех сочетаний из n по k от k при n= (5, 7, 9).\bigbreak
+\textbf{n = 5}\\
+\begin{center}
+	\begin{tabular}{c|c} 
+		
+		\hline
+		k&Кол-во сочетаний\\
+		\hline
+		0&1\\
+		\hline
+		1&5\\
+		\hline
+		2&20\\
+		\hline
+		3&60\\
+		\hline
+		4&120\\
+		\hline
+		5&120\\
+		\hline
+	\end{tabular}\\
+	\includegraphics[width=120mm]{/task14a}\bigbreak
+\end{center}
+
+\textbf{n = 7}\\
+\begin{center}
+	\begin{tabular}{c|c} 
+		
+		\hline
+		k&Кол-во сочетаний\\
+		\hline
+		0&1\\
+		\hline
+		1&7\\
+		\hline
+		2&42\\
+		\hline
+		3&210\\
+		\hline
+		4&840\\
+		\hline
+		5&2520\\
+		\hline
+		6&5040\\
+		\hline
+		7&5040\\
+		\hline
+	\end{tabular}\\
+	\includegraphics[width=120mm]{/task14b}\bigbreak
+\end{center}
+
+\textbf{n = 9}\\
+\begin{center}
+	\begin{tabular}{c|c} 
+		
+		\hline
+		k&Кол-во сочетаний\\
+		\hline
+		0&1\\
+		\hline
+		1&9\\
+		\hline
+		2&72\\
+		\hline
+		3&504\\
+		\hline
+		4&3024\\
+		\hline
+		5&15120\\
+		\hline
+		6&60480\\
+		\hline
+		7&181440\\
+		\hline
+		8&362880\\
+		\hline
+		9&362880\\
+		\hline
+	\end{tabular}\\
+	\includegraphics[width=120mm]{/task14c}
+\end{center}
+\bigbreak
+\end{enumerate}
+			\textbf{Вывод: } в ходе лабораторной работы изучили основные комбинаторные объекты, алгоритмы их порождения, программно реализовали и оценили временную сложность алгоритмов.
+			
+\end{document}

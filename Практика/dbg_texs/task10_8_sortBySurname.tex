@@ -1,0 +1,78 @@
+% Созданная блок схема работает только с компиляторами XeTeX и LuaTeX.
+\documentclass{article}
+
+% Необходимые зависимости
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+% Блок-схема
+% Если Вы хотите добавить блок схему в свой документ, скопируйте код между комментариями
+% С линияи и вставьте в документ.
+
+% --------------------------
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}, background rectangle/.style={opacity=1.000000, fill=colorDIJKSPBEQNQBT}, show background rectangle]
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}
+\makeatother
+% Шрифты
+\newfontfamily\fontDIJKSPBKLPOKEO[Scale=0.975542, SizeFeatures={Size=10.000000}]{Consolas}
+
+% Цвета
+\definecolor{colorDIJKSPBEQNQBT}{rgb}{1.000000,1.000000,1.000000}
+\definecolor{colorDIJKSPBINQDPT}{rgb}{0.949020,0.949020,0.949020}
+\definecolor{colorDIJKSPBCJPNILG}{rgb}{0.000000,0.000000,0.000000}
+\draw[opacity=1.000000, rounded corners=0.378564 cm, fill=colorDIJKSPBINQDPT, draw=none] (0.278761,0.006883) -- (6.714356,0.006883) -- (6.714356,-0.750246) -- (0.278761,-0.750246) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.378564 cm, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (0.278761,0.006883) -- (6.714356,0.006883) -- (6.714356,-0.750246) -- (0.278761,-0.750246) -- cycle;
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(0.653905, -0.532082) {\verb|sortBySurname(namesList, size)|};
+\draw[opacity=1.000000, fill=colorDIJKSPBINQDPT, draw=none] (1.755162, -2.102753) -- (2.625860, -1.232055) -- (4.367257, -1.232055) -- (5.237955, -2.102753) -- (4.367257, -2.973451) -- (2.625860, -2.973451) --cycle;
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (1.755162, -2.102753) -- (2.625860, -1.232055) -- (4.367257, -1.232055) -- (5.237955, -2.102753) -- (4.367257, -2.973451) -- (2.625860, -2.973451) --cycle;
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(3.108121, -1.998159) {\verb|i :=|};
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(2.825622, -2.371933) {\verb|0, size|};
+\draw[fill=colorDIJKSPBINQDPT, draw=none, opacity=1.000000] (0.337266,-3.455261) -- (6.655851,-3.455261) -- (6.655851,-4.212389) -- (0.337266,-4.212389) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (0.337266,-3.455261) -- (6.655851,-3.455261) -- (6.655851,-4.212389) -- (0.337266,-4.212389) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (0.450836,-3.455261) -- (6.542281,-3.455261) -- (6.542281,-4.212389) -- (0.450836,-4.212389) -- cycle;
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(0.653905, -3.994226) {\verb|validateFullName(namesList[i])|};
+\draw[opacity=1.000000, fill=none, line width=0.034415 cm, colorDIJKSPBCJPNILG] (3.496559,-2.973451) -- (3.496559,-3.455261);
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(3.264035, -3.326576) {\verb|+|};
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (3.496559, -4.212389) -- (3.496559, -4.694199) -- (-0.006883, -4.694199) -- (-0.006883, -2.102753) -- (1.755162, -2.102753);
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(6.788125, -1.896264) {\verb|-|};
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (5.237955, -2.102753) -- (7.000000, -2.102753) -- (7.000000, -5.038348) -- (3.496559, -5.038348);
+\draw[opacity=1.000000, fill=none, line width=0.034415 cm, colorDIJKSPBCJPNILG] (3.496559,-0.750246) -- (3.496559,-1.232055);
+\draw[fill=colorDIJKSPBINQDPT, draw=none, opacity=1.000000] (0.888594,-5.520157) -- (6.104523,-5.520157) -- (6.104523,-7.006883) -- (0.888594,-7.006883) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (0.888594,-5.520157) -- (6.104523,-5.520157) -- (6.104523,-7.006883) -- (0.888594,-7.006883) -- cycle;
+\draw[opacity=1.000000, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (1.111603,-5.520157) -- (5.881514,-5.520157) -- (5.881514,-7.006883) -- (1.111603,-7.006883) -- cycle;
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(1.307186, -6.059123) {\verb|qsort(namesList, size, |};
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(1.783904, -6.432896) {\verb|sizeof(FullName), |};
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(1.695623, -6.806670) {\verb|fullNameComparator)|};
+\draw[opacity=1.000000, fill=none, line width=0.034415 cm, colorDIJKSPBCJPNILG] (3.496559,-5.038348) -- (3.496559,-5.520157);
+\draw[opacity=1.000000, rounded corners=0.378564 cm, fill=colorDIJKSPBINQDPT, draw=none] (1.507375,-7.488692) -- (5.485742,-7.488692) -- (5.485742,-8.245821) -- (1.507375,-8.245821) -- cycle;
+\draw[opacity=1.000000, rounded corners=0.378564 cm, fill=none, line width=0.034415cm, colorDIJKSPBCJPNILG] (1.507375,-7.488692) -- (5.485742,-7.488692) -- (5.485742,-8.245821) -- (1.507375,-8.245821) -- cycle;
+\verbatimfont{\normalsize\fontDIJKSPBKLPOKEO}
+\node[opacity=1.000000, above right, colorDIJKSPBCJPNILG] at(1.872185, -8.027658) {\verb|Выход (namesList)|};
+\draw[opacity=1.000000, fill=none, line width=0.034415 cm, colorDIJKSPBCJPNILG] (3.496559,-7.006883) -- (3.496559,-7.488692);
+\end{tikzpicture}
+% --------------------------
+
+% Конец блок схемы
+\end{document}
