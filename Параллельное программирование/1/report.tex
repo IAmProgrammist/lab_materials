@@ -1,0 +1,99 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Ubuntu Mono}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №1}}\\
+    \normalsize{
+        по дисциплине: Параллельное программирование \\
+        тема: «Сравнение парадигм конкурентности и параллелизма при разработке
+        многопоточных программ в ОС Linux»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\доц. Островский Алексей Мичеславович
+}
+\vfill\begin{center}
+    Белгород 2025 г.
+\end{center}
+\newpage
+\underline{\textbf{Цель работы: }}исследовать чувствительность вычислительной схемы из индивидуального задания к ситуациям конкурентности, 
+когда несколько потоков разделяют одно процессорное ядро; 
+ситуациям параллелизма, когда каждый поток выполняется на отдельном ядре процессора
+(нет конкуренции за вычислительные ресурсы).\\
+\underline{\textbf{Условие индивидуального задания: }}\\
+
+$S = \sum_{i = 1}^{N} \frac{cos(i^3) + i^4 e^{-i} + ln(i + 1)}{\sqrt{i ^ 2 + tan(i) + 1} + i!}$
+\begin{center}
+\textbf{Ход выполнения работы}
+\end{center}
+
+Вычислить сумму, N подобрать эмпирически для обеспечения эффективной нагрузки в
+рамках вычислительного эксперимента. При необходимости предусмотреть проверку
+подвыражений на принадлежность областям допустимых значений.
+
+
+\textbf{Вывод: } в ходе лабораторной работы изучили основы разработки драйверов для ядра Linux с использованием языка
+программирования Rust, включая настройку окружения, создание драйвера и его тестирование. Поддержка драйверов на Rust 
+всё ещё очень сырая. Кроме вышеозвученных причин можно также отметить отсутствие std для модулей написанных на Rust. 
+Большинство стандартных функций просто недоступны, взаимодействие происходит через create kernel, а его функционал
+крайне узкий (просмотрите, например, документацию к kernel::alloc::kvec::Vec, очень много функций для вектора просто нет).
+Rust for Linux всё ещё активно развивается и дополняется, однако уже сегодня можно писапть простые и безопасные драйверы
+на Rust.
+
+\end{document}
