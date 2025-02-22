@@ -1,1 +1,0 @@
-[Исходный код](https://github.com/IAmProgrammist/discrete_math)
