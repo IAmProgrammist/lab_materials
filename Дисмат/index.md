@@ -1,17 +1,17 @@
 ---
-created: 2025-01-18T16:16:33.3333+00:00
-modified: 2025-02-22T21:01:54.5454+00:00
-title: Метрология, стандартизация и сертификация программного обеспечения
+created: 2023-02-07T10:28:33.3333+00:00
+modified: 2025-02-22T21:00:20.2020+00:00
+title: Дискретная математика
 tags:
   - Программирование
-  - Гуманитарное
   - Математика
-  - 3_курс
+  - 1_курс
+  - 2_курс
 ---
-**Код предмета**: `msc`
+**Код предмета**: `dima`
 
 Если лабораторной работы пока что нет, можете проверить [Github проекта](https://github.com/IAmProgrammist/lab_materials) и проверить другие рабочие ветки кроме main, однако в этом случае работа ещё может вестись 
 
 Общие исходники:
-- [Отчёты](https://github.com/IAmProgrammist/lab_materials/tree/main/%D0%9C%D0%A1%D0%A1%20%D0%9F%D0%9E)
-
+- [Отчёты](https://github.com/IAmProgrammist/lab_materials/tree/main/%D0%94%D0%B8%D1%81%D0%BC%D0%B0%D1%82)
+- [Код](https://github.com/IAmProgrammist/discrete_math)
