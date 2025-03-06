@@ -1,0 +1,172 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Ubuntu Mono}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №2}}\\
+    \normalsize{
+        по дисциплине: Параллельное программирование \\
+        тема: «Реализация параллелизма в рамках стандарта OpenMP»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\доц. Островский Алексей Мичеславович
+}
+\vfill\begin{center}
+    Белгород 2025 г.
+\end{center}
+\newpage
+\underline{\textbf{Цель работы: }}изучить возможности стандарта OpenMP для создания многопоточных
+программ, изучить механизмы управления потоками и различные стратегии распределения
+работы между потоками, их влияние на производительность вычислений.\\
+\underline{\textbf{Условие индивидуального задания: }}\\
+
+$S = \sum_{i = 1}^{N} \frac{cos(i^3) + i^4 e^{-i} + ln(i + 1)}{\sqrt{i ^ 2 + tan(i) + 1} + i!}$
+\begin{center}
+\textbf{Ход выполнения работы}
+\end{center}
+
+В отличие от прошлого задания, самая тяжёлая задача, которую можно выполнить только синхронно (а именно расчёт
+факториалов) была выполнена перед запуском кода, что позволило составить таблицу факториалов.
+
+\textbf{Исходный код:}
+\begin{minted}{c}
+#include <stdio.h>
+#include <omp.h>
+#include <math.h>
+#include <stdlib.h>
+
+#define NUM_ITERATIONS 10000000
+
+int main()
+{
+    // Непараллельные вычисления факториалов
+    long double *factorials = malloc(NUM_ITERATIONS * sizeof(long double));
+    factorials[0] = 1;
+
+    for (int i = 1; i < NUM_ITERATIONS; i++)
+    {
+        factorials[i] = factorials[i - 1] * (i + 1.0);
+    }
+
+    long double *sums = malloc(NUM_ITERATIONS * sizeof(long double));
+    long double sum = 0.0;
+
+#pragma omp parallel
+    {
+#pragma omp for schedule(auto)
+        for (int i = 0; i < NUM_ITERATIONS; i++)
+        {
+            sums[i] = (cos(pow(i, 3)) + pow(i, 4) * exp(-i) + log(i + 1)) /
+                      (sqrt(i * i + tan(i) + 1) + factorials[i]);
+        }
+
+#pragma omp for reduction(+ : sum)
+        for (int i = 0; i < NUM_ITERATIONS; i++)
+        {
+            sum += sums[i];
+        }
+    }
+
+    free(factorials);
+    free(sums);
+
+    return 0;
+}
+\end{minted}
+
+\begin{minted}{Makefile}
+# Компилятор
+CC=gcc
+
+# Имя исполняемого файла
+EXECUTABLE=lab2
+
+
+# Основная задача
+all: 
+	$(CC) -fopenmp lab2.c -o $(EXECUTABLE) -lm
+
+clean:
+	rm -rf *.o $(EXECUTABLE)
+\end{minted}
+
+\textbf{Результаты вычислений по времени:}\\
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{Стратегия} & static & dynamic & auto & guided \\ 
+    \hline
+    \textbf{Время выполнения, с} & 1.344 & 1.516 & 1.353 & 1.285 \\
+    \hline
+\end{tabular}\\
+
+\textbf{Вывод: } в ходе лабораторной работы изучили возможности стандарта OpenMP для создания многопоточных
+программ, изучить механизмы управления потоками и различные стратегии распределения
+работы между потоками, их влияние на производительность вычислений. Оптимизация вычислений и вынос
+недекомпозируемой задачи и её кеширование в дальнейших вычислениях позволило сократить время выполнения программы, 
+в лабораторной работе №1 было достигнуто время в 1.5 секунды, в то время как минимальное время при новом подходе
+1.3 секунды. Неожиданным оказался тот факт, что самым быстрым оказалась стратегия guided, судя по всему один из компонентов
+формулы имеет нелинейную сложность вычисления, следовательно и стратегия guided оказала больший эффект, так как 
+при малых значениях программа выполняется быстрее следовательно и поток может выполнить больше итераций. 
+Самой долгой оказалась стратегия dynamic, она здесь действительно не подходит, так как компоненты вычисления
+не имеют случайную стоимость вычисления по времени. Хорошо себя показал и static, что довольно логично, 
+влияние нелинейных компонентов было невелико и следовательно время увеличилось незначительно по сравнению с 
+guided. Стратегия auto, если судить по времени, отдала предпочтение стратегии static. Ручная настройка 
+стратегии дала небольшой рост производительности.
+
+\end{document}
