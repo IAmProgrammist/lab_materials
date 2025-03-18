@@ -1,0 +1,1 @@
+{"data":[{"data":"Начало mainloop()","type":"bd_element_terminator"},{"data":{"data":"Пока есть пакеты\nrecvfrom()","body":{"data":[{"data":"Записать фрагмент изображения\nfwrite()","type":"bd_element_preprocess"}],"type":"bd_element_container"}},"type":"bd_element_cyclenotfixed"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
