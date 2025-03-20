@@ -135,9 +135,13 @@ int main()
 \textbf{Результаты вычислений по времени:}\\
 \begin{tabular}{|c|c|c|c|c|}
     \hline
-    \textbf{Стратегия} & static & dynamic & auto & guided \\ 
+    \textbf{Стратегия}                          & static & dynamic & auto  & guided \\ 
     \hline
-    \textbf{Время выполнения, с} & 1.344 & 1.516 & 1.353 & 1.285 \\
+    \textbf{Время выполнения первый запуск, с}  & 1.342  & 1.513   & 1.376 & 1.323 \\
+    \hline
+    \textbf{Время выполнения после прогрева, с} & 1.327  & 1.506   & 1.349 & 1.291 \\
+    \hline
+    \textbf{Прирост после прогрева, \%}         & 1.130  & 0.465   & 2.001 & 2.479 \\
     \hline
 \end{tabular}\\
 
@@ -194,9 +198,88 @@ int main()
 \textbf{Результаты вычислений по времени:}\\
 \begin{tabular}{|c|c|c|c|c|}
     \hline
-    \textbf{Стратегия} & static & dynamic & auto & guided \\ 
+    \textbf{Стратегия}                          & static & dynamic & auto  & guided \\ 
     \hline
-    \textbf{Время выполнения, с} & 0.500 & 0.251 & 0.494 & 0.253 \\
+    \textbf{Время выполнения первый запуск, с}  & 0.484  & 0.259   & 0.502 & 0.249 \\
+    \hline
+    \textbf{Время выполнения после прогрева, с} & 0.481  & 0.246   & 0.478 & 0.248 \\
+    \hline
+    \textbf{Прирост после прогрева, \%}         & 0.624  & 5.285   & 5.021 & 0.403 \\
+    \hline
+\end{tabular}\\
+
+Попробуем декомпозировать задачу по-другому:\\
+
+В отдельных итерациях будем считать числитель, знаменатель, результат их
+деления и потом - сумму. Здесь попытаемся увеличить скорость программы за счёт
+прогрева кеша путём декомпозиции задачи на более простые:
+
+
+\textbf{Исходный код:}
+\begin{minted}{c}
+#include <stdio.h>
+#include <omp.h>
+#include <math.h>
+#include <stdlib.h>
+
+#define NUM_ITERATIONS 20000
+
+long double factorial(const int n)
+{
+    long double f = 1;
+    for (int i = 1; i <= n; ++i)
+        f *= i;
+    return f;
+}
+
+int main()
+{
+    long double *sums = malloc(NUM_ITERATIONS * sizeof(long double));
+    long double *numerator = malloc(NUM_ITERATIONS * sizeof(long double));
+    long double *denumerator = malloc(NUM_ITERATIONS * sizeof(long double));
+    long double sum = 0.0;
+
+#pragma omp parallel
+    {
+#pragma omp for schedule(static)
+        for (int i = 0; i < NUM_ITERATIONS; i++)
+        {
+            numerator[i] = cos(pow(i, 3)) + pow(i, 4) * exp(-i) + log(i + 1);
+        }
+#pragma omp for schedule(guided)
+        for (int i = 0; i < NUM_ITERATIONS; i++)
+        {
+            denumerator[i] = sqrt(i * i + tan(i) + 1) + factorial(i + 1);
+        }
+#pragma omp for schedule(static)
+        for (int i = 0; i < NUM_ITERATIONS; i++)
+        {
+            sums[i] = numerator[i] / denumerator[i];
+        }
+
+#pragma omp for reduction(+ : sum)
+        for (int i = 0; i < NUM_ITERATIONS; i++)
+        {
+            sum += sums[i];
+        }
+    }
+
+    free(sums);
+
+    return 0;
+}
+\end{minted}
+
+\textbf{Результаты вычислений по времени:}\\
+\begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \textbf{Стратегия}                          & static & dynamic & auto  & guided & Разные стратегии (s, g, s) \\ 
+    \hline
+    \textbf{Время выполнения первый запуск, с}  & 2.137  & 1.179   & 2.190 & 1.187  & 1.182\\
+    \hline
+    \textbf{Время выполнения после прогрева, с} & 2.098  & 1.169   & 2.105 & 1.179  & 1.173\\
+    \hline
+    \textbf{Прирост после прогрева, \%}         & 1.858  & 0.855   & 4.038 & 0.679  & 0.767\\
     \hline
 \end{tabular}\\
 
@@ -225,5 +308,11 @@ guided лучше всего подходит для задач, где врем
 dynamic подойдёт для задач, в которых время выполнения итерации не зависит от номера итерации, а время выполнения каждой итерации
 достаточно большое, чтобы затраты на вычисление, какой из потоков ядра свободен, были относительно малыми.
 auto обычно работает хуже всего, тонкая настройка даёт прирост производительности.
+Были также проведены дополнительные эксперименты с прогревом кеша. Задача была декомпозирована на более мелкие а 
+количество шагов было увеличено. Мы исходили из предположения, что задача будет выполняться быстрее, если задача будет
+декомпозирована на большее количество шагов из-за прогрева кеша. Однако гипотеза не была подтверждена на практике. 
+Для декомпозиции в равной степени происходит ускорение программы после прогрева, как и в вариантах программы без
+декомпозиции. Возможно, такой результат был получен вследствие того что было проведено недостаточно шагов декомпозиции.
+Необходимо проводить дальнейшие эксперименты для более сложной для вычисления задачи. 
 
 \end{document}
