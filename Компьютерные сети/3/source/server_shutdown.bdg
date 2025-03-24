@@ -1,0 +1,1 @@
+{"data":[{"data":"shutdown","type":"bd_element_terminator"},{"data":"Указываем что рабочему потоку\nнужно приостановиться","type":"bd_element_process"},{"data":"Ждём приостановки потока","type":"bd_element_process"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
