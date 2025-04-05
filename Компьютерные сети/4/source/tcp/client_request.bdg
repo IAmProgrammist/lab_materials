@@ -1,0 +1,1 @@
+{"data":[{"data":"request","type":"bd_element_terminator"},{"data":"Подключиться к серверу","type":"bd_element_preprocess"},{"data":"Синхронно дождаться\nзапуска клиента","type":"bd_element_preprocess"},{"data":"Отправить сообщение","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}

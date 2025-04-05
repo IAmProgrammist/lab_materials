@@ -1,0 +1,1 @@
+{"data":[{"data":"Деструктор Server","type":"bd_element_terminator"},{"data":"Приостановить раздачу\nфайла","type":"bd_element_preprocess"},{"data":"Закрыть файл","type":"bd_element_preprocess"},{"data":"Закрыть сокет","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
