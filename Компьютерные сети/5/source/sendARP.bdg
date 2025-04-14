@@ -1,0 +1,1 @@
+{"data":[{"data":"sendARP","type":"bd_element_terminator"},{"data":"Отправить ARP \nзапрос","type":"bd_element_preprocess"},{"data":"Преобразовать\nполученный адрес\nв строку","type":"bd_element_preprocess"},{"data":"Вернуть строку","type":"bd_element_terminator"}],"type":"bd_element_container"}
