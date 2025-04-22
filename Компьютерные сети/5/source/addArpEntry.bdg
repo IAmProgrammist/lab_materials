@@ -1,0 +1,1 @@
+{"data":[{"data":"addArpEntry","type":"bd_element_terminator"},{"data":"Сконструировать запись\nдля ARP таблицы","type":"bd_element_preprocess"},{"data":"Добавить запись","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
