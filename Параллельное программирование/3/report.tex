@@ -1,0 +1,196 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Ubuntu Mono}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №3}}\\
+    \normalsize{
+        по дисциплине: Параллельное программирование \\
+        тема: «Гибридное параллельное программирование с использованием OpenMP + MPI»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\доц. Островский Алексей Мичеславович
+}
+\vfill\begin{center}
+    Белгород 2025 г.
+\end{center}
+\newpage
+\underline{\textbf{Цель работы: }}Изучить возможности гибридного подхода к параллельному
+программированию с использованием стандартов MPI и OpenMP, реализовать смешанную
+модель параллельных вычислений, оценить её эффективность по сравнению с отдельными
+технологиями, изучить механизмы межпроцессного взаимодействия (MPI) и многопоточного
+параллелизма (OpenMP).\\
+\underline{\textbf{Условие индивидуального задания: }}\\
+Гибридная генерация и проверка простых чисел (решето Эратосфена). Реализовать
+гибридную версию алгоритма решета Эратосфена для поиска всех простых чисел до N.
+Разделить диапазон между процессами MPI. Внутри каждого процесса параллелизовать
+вычёркивание кратных с помощью OpenMP. После завершения — объединить частичные
+результаты. Провести измерение времени при разных N и конфигурациях потоков/процессов.
+\begin{center}
+\textbf{Ход выполнения работы}
+\end{center}
+
+При решении задачи недостаточно использовать классическую схему решения решета Эратосфена. 
+Для решения её в парадигме параллельного программирования необходимо использовать другой подход - 
+сегментированное решето Эратосфена. Решение основывается на том, что для вычисления отрезка
+решета Эратосфена до N достаточно вычислить решето Эратосфена классическим способом только до 
+$\sqrt{N}$. В однопоточном программировании такой подход даст улучшение относительно памяти, 
+так как нам больше не нужно хранить весь массив. 
+
+Для параллельной задачи мы можем синхронно подготовить решето до $\sqrt{N}$ после чего разбить 
+оставшийся массив и разделить между процессами MPI. При помощи OMP будем проставлять флаги того, 
+что число является непростым.
+
+\textbf{Исходный код:}
+\begin{minted}{c}
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <mpi.h>
+#include <omp.h>
+#include <math.h>
+
+#define N 80000000
+
+void classic_sieve(int *sieve, int sieve_size)
+{
+    for (int i = 2; i < sieve_size; i++)
+    {
+        if (sieve[i])
+            continue;
+        for (int j = 2 * i; j < N; j += i)
+            sieve[j] = true;
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    // Инициализировать MPI, получить ранг
+    // и количество процессов MPI
+    int rank, size;
+
+    // Просчёт локального решета Эратосфена
+    int *local_sieve = (int *)calloc(N, sizeof(int));
+    // Просчитываем первые sqrt(N) чисел
+    classic_sieve(local_sieve, sqrt(N));
+
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // Определяем границы для которых будет вычисляться локальное решето
+    int left = sqrt(N) + ((N - sqrt(N)) / size) * rank;
+    int right = rank == size - 1 ? N : (sqrt(N) + ((N - sqrt(N)) / size) * (rank + 1));
+
+    // Проходим по всем простым числам до sqrt(N)
+    for (int i = 2; i < sqrt(N); i++)
+    {
+        if (local_sieve[i])
+            continue;
+
+        // Находим первое число кратное i в рамках определённых границ
+        int j = left / i * i;
+        if (j < left)
+        {
+            j += i;
+        }
+
+// Устанавливаем кратные числа
+#pragma omp parallel for schedule(guided)
+        for (int jj = j; jj < right; jj += i)
+        {
+            local_sieve[jj] = true;
+        }
+    }
+
+    int *global_sieve = (int *)calloc(N, sizeof(int));
+
+    MPI_Reduce(
+        local_sieve,
+        global_sieve,
+        N,
+        MPI_INT,
+        MPI_LOR,
+        0,
+        MPI_COMM_WORLD);
+
+    // Очистить ресурсы MPI
+    MPI_Finalize();
+    return 0;
+}
+\end{minted}
+
+\textbf{Результаты вычислений по времени:}\\
+\includegraphics[width=140mm]{exp}
+
+
+\textbf{Вывод: } в ходе лабораторной работы изучили возможности гибридного подхода к параллельному
+программированию с использованием стандартов MPI и OpenMP, реализовать смешанную
+модель параллельных вычислений, оценить её эффективность по сравнению с отдельными
+технологиями, изучить механизмы межпроцессного взаимодействия (MPI) и многопоточного
+параллелизма (OpenMP).
+
+С увеличением количества потоков уменьшалось и время работы, для генерации решета Эратосфена
+была использована стратегия static, так как присвоение - равномерная нагрузка. 
+
+Однако с увеличением процессов время выполнения работы программы увеличивалось, возможно это связано
+с тем что N недостаточно большой, и время по организации процессов перевешивает время вычислений. 
+
+
+\end{document}
