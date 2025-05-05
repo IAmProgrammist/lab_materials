@@ -1,0 +1,1 @@
+{"data":[{"data":"getNameInfo()","type":"bd_element_terminator"},{"data":"Получить имя домена,\ngetnameinfo","type":"bd_element_preprocess"},{"data":"Вернуть имя домена","type":"bd_element_terminator"}],"type":"bd_element_container"}
