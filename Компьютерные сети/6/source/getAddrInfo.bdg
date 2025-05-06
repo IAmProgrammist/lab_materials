@@ -1,0 +1,1 @@
+{"data":[{"data":"getAddrInfo()","type":"bd_element_terminator"},{"data":"Получить IP-адрес,\ngetaddrinfo","type":"bd_element_preprocess"},{"data":"Вернуть IP-адрес","type":"bd_element_terminator"}],"type":"bd_element_container"}
