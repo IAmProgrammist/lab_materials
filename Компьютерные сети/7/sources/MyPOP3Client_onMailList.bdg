@@ -1,0 +1,1 @@
+{"data":[{"data":"onMailList(std::vector<EMLHeader> mail_list)","type":"bd_element_terminator"},{"data":"Вывести в консоль\nнепрочитанные\nсообщения","type":"bd_element_data"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}

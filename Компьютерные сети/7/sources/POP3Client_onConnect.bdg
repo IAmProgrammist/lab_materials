@@ -1,0 +1,1 @@
+{"data":[{"data":"onConnect()","type":"bd_element_terminator"},{"data":"Поставить текущую\nзадачу в INIT","type":"bd_element_process"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
