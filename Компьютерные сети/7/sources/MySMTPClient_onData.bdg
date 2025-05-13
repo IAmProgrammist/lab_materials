@@ -1,0 +1,1 @@
+{"data":[{"data":"onData()","type":"bd_element_terminator"},{"data":"Считать выбранный стрим\nв файл","type":"bd_element_process"},{"data":"Сформировать запрос с\nтелом письма","type":"bd_element_process"},{"data":"Выполнить запрос","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}

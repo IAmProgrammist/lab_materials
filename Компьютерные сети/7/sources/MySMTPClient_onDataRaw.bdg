@@ -1,0 +1,1 @@
+{"data":[{"data":"onDataRaw()","type":"bd_element_terminator"},{"data":"Сформировать запрос на\nзакрытие соединения","type":"bd_element_process"},{"data":"Выполнить запрос","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
