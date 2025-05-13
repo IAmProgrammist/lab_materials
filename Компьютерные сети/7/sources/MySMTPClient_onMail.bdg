@@ -1,0 +1,1 @@
+{"data":[{"data":"onMail()","type":"bd_element_terminator"},{"data":"Сформировать запрос\nна получателя","type":"bd_element_process"},{"data":"Выполнить запрос","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
