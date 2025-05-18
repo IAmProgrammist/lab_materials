@@ -1,0 +1,1 @@
+{"data":[{"data":"matches(message)","type":"bd_element_terminator"},{"data":"Результат := (метод = HEAD или \nметод = метод запроса) и \nURN совпадает с паттерном эндпоинта","type":"bd_element_process"},{"data":"Вернуть результат","type":"bd_element_terminator"}],"type":"bd_element_container"}

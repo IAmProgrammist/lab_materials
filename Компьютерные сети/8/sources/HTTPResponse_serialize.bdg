@@ -1,0 +1,1 @@
+{"data":[{"data":"serialize()","type":"bd_element_terminator"},{"data":"Записать версию HTTP, код","type":"bd_element_process"},{"data":"Записать заголовки","type":"bd_element_process"},{"data":"Вернуть результат","type":"bd_element_terminator"}],"type":"bd_element_container"}

@@ -1,0 +1,1 @@
+{"data":[{"data":"injectEndpoint(endpoint)","type":"bd_element_terminator"},{"data":"Внести эндпоинт в список\nэндпоинтов","type":"bd_element_process"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
