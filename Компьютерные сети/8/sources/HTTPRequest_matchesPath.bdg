@@ -1,0 +1,1 @@
+{"data":[{"data":"matchesPath(pattern)","type":"bd_element_terminator"},{"data":"Результат := URN начинается\nс паттерна","type":"bd_element_process"},{"data":"Вернуть результат","type":"bd_element_terminator"}],"type":"bd_element_container"}

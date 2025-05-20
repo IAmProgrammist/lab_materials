@@ -1,0 +1,1 @@
+{"data":[{"data":"sendMessageAndDisconnect(client, response)","type":"bd_element_terminator"},{"data":"Получить сериализованный\nответ","type":"bd_element_preprocess"},{"data":"Отправить ответ","type":"bd_element_preprocess"},{"data":"Разорвать соединение","type":"bd_element_preprocess"},{"data":"Выход","type":"bd_element_terminator"}],"type":"bd_element_container"}
