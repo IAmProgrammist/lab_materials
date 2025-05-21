@@ -1,0 +1,1 @@
+{"data":[{"data":"serialize()","type":"bd_element_terminator"},{"data":"Получить заголовки \n(вызов родительского метода\nserialize)","type":"bd_element_preprocess"},{"data":"Записать содержимое файла","type":"bd_element_process"},{"data":"Вернуть стрим с HTTP контентом","type":"bd_element_terminator"}],"type":"bd_element_container"}
