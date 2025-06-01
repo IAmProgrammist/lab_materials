@@ -775,27 +775,32 @@ Python 3, это \mintinline{python3}|ftplib|.
 и копировать файлы между компьютерами, создавать папки, переименовывать. Он также
 допускает работу в пассивном и активном режимах.
 
+Ссылка на репозиторий с кодом: \href{https://github.com/IAmProgrammist/CtrlFTP}{https://github.com/IAmProgrammist/CtrlFTP}
+
 \newpage
 
 \section{Список источников и литературы}
 \begin{enumerate}
-    \item Django Documentation [Электронный ресурс] \\Режим доступа: https://docs.djangoproject.com/en/5.1/
-    \item Django REST framework [Электронный ресурс] \\Режим доступа: https://www.django-rest-framework.org/
-    \item React [Электронный ресурс] \\Режим доступа: https://react.dev/
-    \item Redux Toolkit [Электронный ресурс] \\Режим доступа: https://redux-toolkit.js.org/rtk-query/overview
-    \item React Hook Form [Электронный ресурс] \\Режим доступа: https://react-hook-form.com/docs/useform
+    \item A File Transfer Protocol [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc114
+    \item The Use of 'Set Data Type' Transaction in File Transfer Protocol [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc294
+    \item The File Transfer Protocol [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc354
+    \item File Transfer Protocol [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc454
+    \item File Transfer Protocol (FTP) [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc959
+    \item Internationalization of the File Transfer Protocol [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc2640
+    \item FTP Security Extensions [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc2228
+    \item The Secure Shell (SSH) Transport Layer Protocol [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc4253
+    \item Hypertext Transfer Protocol -- HTTP/1.1 [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc2068
+    \item Hypertext Transfer Protocol -- HTTP/1.1 [Электронный ресурс] \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc2616
+    \item Documentation | Adoptium [Электронный ресурс] \\Режим доступа: https://adoptium.net/docs/
+    \item Getting started with Hibernate ORM [Электронный ресурс] \\Режим доступа: https://hibernate.org/orm/documentation/getting-started/5.x/
+    \item Qt for Python \\Режим доступа: https://doc.qt.io/qtforpython-6/index.html
+    \item ftplib — FTP protocol client \\Режим доступа: https://docs.python.org/3/library/ftplib.html
+    \item SFTP vs. FTP: Understanding the Difference \\Режим доступа: https://www.sharetru.com/blog/sftp-vs-ftp-understanding-the-difference
+    \item Telnet Protocol Specification \\Режим доступа: https://datatracker.ietf.org/doc/html/rfc854
 \end{enumerate}
 
-\section{Список источников и литературы}
-\begin{enumerate}
-    \item Django Documentation [Электронный ресурс] \\Режим доступа: https://docs.djangoproject.com/en/5.1/
-    \item Django REST framework [Электронный ресурс] \\Режим доступа: https://www.django-rest-framework.org/
-    \item React [Электронный ресурс] \\Режим доступа: https://react.dev/
-    \item Redux Toolkit [Электронный ресурс] \\Режим доступа: https://redux-toolkit.js.org/rtk-query/overview
-    \item React Hook Form [Электронный ресурс] \\Режим доступа: https://react-hook-form.com/docs/useform
-\end{enumerate}
+\newpage
 
-\iffalse
 \section{Приложения}
 \subsection{Приложение 1. Исходный код библиотеки CtrlFTP Core}
 \mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/annotations/Command.java|
@@ -2734,7 +2739,1541 @@ public class DatabaseDependency extends AbstractDependency {
     }
 }
 \end{minted}
-\subsection{Приложение 4. Исходный код FTP клиента}
-\fi
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/FileAcceptTransferDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
 
+import rchat.info.ctrlftp.core.Session;
+import rchat.info.ctrlftp.dependencies.filetransfer.AcceptTransferDependency;
+
+public class FileAcceptTransferDependency extends AcceptTransferDependency<FilePipeDependency, FilePipeRecord> {
+    public FileAcceptTransferDependency(Session session, FilePipeDependency pipeClass) {
+        super(session, pipeClass);
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/FilePipeDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dependencies.filetransfer.BasePipeDependency;
+
+import java.io.*;
+import java.util.Arrays;
+
+public class FilePipeDependency extends BasePipeDependency<FilePipeRecord> {
+    public enum TransferTypes {
+        ASCII("A"),
+        EBCDIC("E"),
+        IMAGE("I");
+
+        public final String val;
+
+        TransferTypes(String val) {
+            this.val = val;
+        }
+    }
+
+    private TransferTypes transferType = TransferTypes.ASCII;
+
+    public Response setType(String type) {
+        var parsedTransferType = Arrays.stream(TransferTypes.values())
+                .filter(tranferType -> tranferType.val.equals(type))
+                .findFirst();
+
+        if (parsedTransferType.isEmpty()) {
+            return new Response(ResponseTypes.BAD_PARAMETERS);
+        }
+
+        this.transferType = parsedTransferType.get();
+        return new Response(ResponseTypes.COMMAND_OK, "Set up transfer type");
+    }
+
+    @Override
+    public FilePipeRecord pipeClientInputToDataClass(InputStream client) {
+        if (transferType == TransferTypes.IMAGE) {
+            try {
+                File tempFile = File.createTempFile(this.getClass().getName() + "-", ".temp");
+                client.transferTo(new FileOutputStream(tempFile));
+
+                return new FilePipeRecord(tempFile, null);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                for (int length; (length = client.read(buffer)) != -1; ) {
+                    result.write(buffer, 0, length);
+                }
+
+                return new FilePipeRecord(null, result.toString(transferType == TransferTypes.ASCII ? "ASCII" : "Cp1047"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public void pipeDataClassToClient(FilePipeRecord data, OutputStream client) {
+        if (data.text() != null) {
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data.text().getBytes(
+                    transferType == TransferTypes.ASCII ? "ASCII" :
+                            transferType == TransferTypes.EBCDIC ? "Cp1047" : "UTF-8"))) {
+                inputStream.transferTo(client);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try (FileInputStream inputStream = new FileInputStream(data.iFile())) {
+                inputStream.transferTo(client);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        /*if (transferType == TransferTypes.IMAGE) {
+
+        } else {
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data.text().getBytes(transferType == TransferTypes.ASCII ? "ASCII" : "Cp1047"))) {
+                inputStream.transferTo(client);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }*/
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/FilePipeRecord.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+import java.io.File;
+
+public record FilePipeRecord(File iFile, String text) {
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/NavigationDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dbauth.utils.OSValidator;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+@Dependency(level = DependencyLevel.SESSION)
+public class NavigationDependency extends AbstractDependency {
+    private Path currentFolder;
+    private Path renameFrom;
+
+    public NavigationDependency() {
+        currentFolder = Paths.get("").toAbsolutePath();
+    }
+
+    public Path getCurrentFolder() {
+        return currentFolder;
+    }
+
+    public Path getPathRelativeToCWD(String path) {
+        Path resultPath;
+        if (Paths.get(path).isAbsolute()) {
+            resultPath = Paths.get(path).toAbsolutePath();
+        } else {
+            resultPath = Paths.get(currentFolder.toAbsolutePath() + "/" + path).toAbsolutePath();
+        }
+
+        return resultPath;
+    }
+
+    public void changeWorkingDirectory(String path) {
+        var newFolder = getPathRelativeToCWD(path);
+        if (!newFolder.toFile().isDirectory() || !newFolder.toFile().exists())
+            throw new RuntimeException("Folder doesn't exists");
+        this.currentFolder = newFolder;
+    }
+    
+    public File getFile(String path) {
+        return getPathRelativeToCWD(path).toFile();
+    }
+
+    private List<String> getFilesNames(Path path, boolean shortened) throws IOException {
+        List<String> result = new ArrayList<>();
+//        try (Stream<Path> paths = Files.walk(path, 1)) {
+//            result = paths
+//                    .filter(Files::isRegularFile)
+//                    .map(Path::getFileName)
+//                    .map(Path::toString)
+//                    .toList();
+//        }
+//
+//        return result;
+
+        if (OSValidator.isWindows()) {
+            // TODO: implement LS for windows
+        } else {
+            try {
+                Process process = new ProcessBuilder()
+                        .command("bash", "-c",
+                                "export LC_ALL=en_US.UTF-8 ; " +
+                                        (shortened ? "ls -1 -a" : "ls -la"))
+                        .directory(path.toFile())
+                        .start();
+
+                BufferedReader stdInput = new BufferedReader(new
+                        InputStreamReader(process.getInputStream()));
+
+                String s;
+                while ((s = stdInput.readLine()) != null) {
+                    result.add(s);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+
+
+    public List<String> getFilesNames(Path path) throws IOException {
+        return getFilesNames(path, false);
+    }
+
+    public List<String> getFilesNamesShort(Path path) throws IOException {
+        return getFilesNames(path, true);
+    }
+
+    public List<String> getFilesNames() throws IOException {
+        return getFilesNames(this.currentFolder);
+    }
+
+    public List<String> getFilesNamesShort() throws IOException {
+        return getFilesNamesShort(this.currentFolder);
+    }
+
+    public void setRenameFrom(String path) {
+        this.renameFrom = getPathRelativeToCWD(path);
+    }
+
+    public Response renameTo(String newPath) {
+        if (this.renameFrom == null) {
+            return new Response(ResponseTypes.FILENAME_NOT_ALLOWED, "You should setup rename from first");
+        }
+
+        var renameToPath = getPathRelativeToCWD(newPath);
+
+        var succeeded = this.renameFrom.toFile().renameTo(renameToPath.toFile());
+
+        if (!succeeded) {
+            return new Response(ResponseTypes.FILENAME_NOT_ALLOWED, "Unabled to rename");
+        }
+
+        return new Response(ResponseTypes.FILE_ACTION_OK, "File renamed succesully");
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/ServiceDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+import rchat.info.ctrlftp.dbauth.utils.OSValidator;
+
+@Dependency(level = DependencyLevel.GLOBAL)
+public class ServiceDependency extends AbstractDependency {
+    public String getSystemName() {
+        if (OSValidator.isWindows()) {
+            return "Windows_NT";
+        } else {
+            return "UNIX Type: L8";
+        }
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/TransferTypeNotFound.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+public class TransferTypeNotFound extends RuntimeException {
+    public TransferTypeNotFound(String message) {
+        super(message);
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/entities/UserEntity.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.entities;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table
+public class UserEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String login;
+
+    @Column(nullable = false)
+    private String hashPassword;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setHashPassword(String hashPassword) {
+        this.hashPassword = hashPassword;
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/repositories/UserEntityRepository.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.repositories;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import rchat.info.ctrlftp.dbauth.entities.UserEntity;
+
+public class UserEntityRepository {
+    private final EntityManager database;
+
+    public UserEntityRepository(EntityManager database) {
+        this.database = database;
+    }
+
+    public UserEntity findUserEntityByLoginAndPassword(String login, String hashedPassword) {
+        return database.createQuery("""
+                        select user
+                        from UserEntity user
+                        where user.login = :login and
+                        user.hashPassword = :password
+                        """, UserEntity.class)
+                .setParameter("login", login)
+                .setParameter("password", hashedPassword)
+                .getSingleResultOrNull();
+    }
+
+    public UserEntity findUserEntityByLogin(String login) {
+        return database.createQuery("""
+                        select user
+                        from UserEntity user
+                        where user.login = :login
+                        """, UserEntity.class)
+                .setParameter("login", login)
+                .getSingleResultOrNull();
+    }
+
+    public void addUser(UserEntity newUser) {
+        EntityTransaction entityTransaction = this.database.getTransaction();
+        entityTransaction.begin();
+        this.database.persist(newUser);
+        entityTransaction.commit();
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/utils/OSValidator.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.utils;
+
+public class OSValidator {
+
+    private static String OS = System.getProperty("os.name").toLowerCase();
+
+    public static boolean isWindows() {
+        return OS.contains("win");
+    }
+
+    public static boolean isMac() {
+        return OS.contains("mac");
+    }
+
+    public static boolean isUnix() {
+        return (OS.contains("nix") || OS.contains("nux") || OS.contains("aix"));
+    }
+
+    public static boolean isSolaris() {
+        return OS.contains("sunos");
+    }
+
+    public static String getOS(){
+        if (isWindows()) {
+            return "win";
+        } else if (isMac()) {
+            return "osx";
+        } else if (isUnix()) {
+            return "uni";
+        } else if (isSolaris()) {
+            return "sol";
+        } else {
+            return "err";
+        }
+    }
+
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/utils/OSValidator.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth;
+
+import rchat.info.ctrlftp.core.Server;
+
+import java.io.IOException;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Server s = new Server(List.of("dependencies.xml"));
+        s.mainLoop();
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/resources/dependencies.xml|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <services>
+        <service>rchat.info.ctrlftp.dbauth.controllers.AuthenticationController</service>
+        <service>rchat.info.ctrlftp.dbauth.controllers.FileAcceptTransferController</service>
+        <service>rchat.info.ctrlftp.dbauth.controllers.NavigationController</service>
+        <service>rchat.info.ctrlftp.dbauth.controllers.ServiceController</service>
+    </services>
+    <dependencies>
+        <dependency>rchat.info.ctrlftp.dependencies.deserializer.SingleStringDeserializer</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.AuthenticationDependency</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.DatabaseDependency</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.FileAcceptTransferDependency</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.FilePipeDependency</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.NavigationDependency</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.ServiceDependency</dependency>
+        <dependency>rchat.info.ctrlftp.dbauth.dependencies.deserializers.DataPortDeserializer</dependency>
+    </dependencies>
+</config>
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/resources/META-INF/persistence.xml|
+\begin{minted}{XML}
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="ctrlftp-example-s3" transaction-type="RESOURCE_LOCAL">
+        <class>rchat.info.ctrlftp.dbauth.entities.UserEntity</class>
+        <class>rchat.info.ctrlftp.dbauth.entities.FileEntity</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
+            <property name="jakarta.persistence.jdbc.url" value="PLACE_IN_ENV_AS_DB_URL" /> <!-- BD Mane -->
+            <property name="jakarta.persistence.jdbc.user" value="PLACE_IN_ENV_AS_DB_USER" /> <!-- DB User -->
+            <property name="jakarta.persistence.jdbc.password" value="PLACE_IN_ENV_AS_DB_PASSWORD" /> <!-- DB Password -->
+            <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- create / create-drop / update -->
+            <!--property name="hibernate.show_sql" value="true" /--> <!-- Show SQL in console -->
+            <!--property name="hibernate.format_sql" value="true" /--> <!-- Show SQL formatted -->
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
+\end{minted}
+\subsection{Приложение 4. Исходный код FTP клиента}
+
+\mintinline{Java}|examples/example-client/setup.sh|
+\begin{minted}{bash}
+#!/bin/bash
+
+PYTHON_DIR="${PYTHON_DIR:-.venv}"
+UI_COMPILE_OUTPUT=./uicompiled
+
+echo "Python dir: ${PYTHON_DIR}"
+
+echo "Installing requirments"
+${PYTHON_DIR}/bin/pip3 install -r ./requirments.txt
+
+echo "Compiling .qrc file"
+$(find ${PYTHON_DIR}/lib -wholename */PySide6/*/rcc) resources.qrc -g python -o resources_rc.py; \
+
+echo "Compiling .ui files"
+for file in $(find ui -type f); do \
+  filename=$(basename ${file}); \
+  $(find ${PYTHON_DIR}/lib -wholename */PySide6/*/uic) ${file} -g python -o ${UI_COMPILE_OUTPUT}/"${filename%.*}".py; \
+done
+
+echo "Setup completed! Now you can run main"
+\end{minted}
+\mintinline{Java}|examples/example-client/resources.qrc|
+\begin{minted}{XML}
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>assets/create.svg</file>
+    <file>assets/delete.svg</file>
+    <file>assets/download.svg</file>
+    <file>assets/rename.svg</file>
+    <file>assets/upload.svg</file>
+</qresource>
+</RCC>
+\end{minted}
+\mintinline{Java}|examples/example-client/requirments.txt|
+\begin{minted}{console}
+PySide6==6.9.0
+PySide6_Addons==6.9.0
+PySide6_Essentials==6.9.0
+shiboken6==6.9.0
+\end{minted}
+\mintinline{Java}|examples/example-client/main.py|
+\begin{minted}{python3}
+import sys
+from ftplib import FTP
+
+from PySide6.QtWidgets import QApplication
+
+from dialogs.connectdialog import ConnectDialog
+from dialogs.errordialog import ErrorDialog
+from dialogs.explorerdialog import ExplorerDialog
+from dialogs.loaderdialog import LoaderDialog
+
+def show_error(error: str, parent=None):
+    error_dialog = ErrorDialog(str(error), parent)
+    error_dialog.exec()
+
+def get_connection_options():
+    connect_dialog = ConnectDialog()
+    return_code = connect_dialog.exec()
+    return connect_dialog.get_options() if return_code == 1 else None
+
+def prepare_connection(connection_options) -> FTP:
+    def inner_ftp_execute():
+        ftp = FTP()
+        ftp.connect(host=connection_options['server_address'], port=int(connection_options['server_port']))
+        if not ftp.login(user=connection_options['user_login'], passwd=connection_options['user_password']).startswith(
+                "2"):
+            wait_dialog.close()
+            raise ConnectionError("Некорректный логин, пароль или адрес")
+
+        if connection_options["is_passive"]:
+            ftp.set_pasv(True)
+        else:
+            ftp.sendport(connection_options["user_address"], int(connection_options["user_port"]))
+
+        if not ftp.lastresp.startswith("2"):
+            wait_dialog.close()
+            raise ConnectionError("Некорректный логин, пароль или адрес")
+
+        return ftp
+
+    wait_dialog = LoaderDialog(inner_ftp_execute)
+    wait_dialog.show()
+
+    return wait_dialog.get_result()
+
+def run_program():
+    try:
+        while True:
+            connection_options = get_connection_options()
+
+            if connection_options is None:
+                break
+
+            ftp = prepare_connection(connection_options)
+
+            explorer_dialog = ExplorerDialog(ftp)
+            explorer_dialog.exec()
+    except Exception as e:
+        show_error(str(e))
+        raise e
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    run_program()
+    sys.exit(app.exec())
+\end{minted}
+\mintinline{Java}|examples/example-client/dialogs/connectdialog.py|
+\begin{minted}{python3}
+from PySide6.QtGui import QIntValidator
+from PySide6.QtWidgets import QDialog
+
+from uicompiled.connect import Ui_Dialog as UiConnect
+
+class ConnectDialog(QDialog):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        self.ui = UiConnect()
+        self.ui.setupUi(self)
+        self.ui.buttonConnect.clicked.connect(self.selected)
+        self.ui.inputIsPassive.checkStateChanged.connect(self.is_passive_selected)
+        self.ui.inputServerPort.setValidator(QIntValidator(0, 65536))
+        self.ui.inputDataPort.setValidator(QIntValidator(0, 65536))
+        self.is_passive_selected()
+
+    def get_options(self):
+        return {
+            "server_address": self.ui.inputServerAddress.text(),
+            "server_port": self.ui.inputServerPort.text(),
+            "is_passive": self.ui.inputIsPassive.isChecked(),
+            "user_port": self.ui.inputDataPort.text(),
+            "user_address": self.ui.inputDataAddress.text(),
+            "user_login": self.ui.inputLogin.text(),
+            "user_password": self.ui.inputPassword.text()
+        }
+
+    def is_passive_selected(self):
+        is_disabled = self.ui.inputIsPassive.isChecked()
+        self.ui.inputDataPort.setDisabled(is_disabled)
+        self.ui.inputDataAddress.setDisabled(is_disabled)
+
+    def selected(self):
+        self.done(1)
+\end{minted}
+\mintinline{Java}|examples/example-client/dialogs/createdialog.py|
+\begin{minted}{python3}
+from PySide6.QtWidgets import QDialog
+
+from uicompiled.create import Ui_Dialog as UiCreate
+
+class CreateDialog(QDialog):
+    def __init__(self, parent = None):
+        super().__init__(parent)
+        self.ui = UiCreate()
+        self.ui.setupUi(self)
+        self.ui.buttonBox.accepted.connect(self.accept)
+        self.ui.buttonBox.rejected.connect(self.reject)
+
+    def get_name(self):
+        return self.ui.inputNewName.text()
+\end{minted}
+\mintinline{Java}|examples/example-client/dialogs/errordialog.py|
+\begin{minted}{python3}
+from PySide6.QtWidgets import QDialog
+
+from uicompiled.error import Ui_Dialog as UiError
+
+class ErrorDialog(QDialog):
+    def __init__(self, textError: str, parent=None):
+        super().__init__(parent)
+        self.ui = UiError()
+        self.ui.setupUi(self)
+        self.ui.textEdit.setText(textError)
+        self.ui.closeButton.clicked.connect(self.close)
+\end{minted}
+\mintinline{Java}|examples/example-client/dialogs/explorerdialog.py|
+\begin{minted}{python3}
+import os
+import re
+from ftplib import FTP
+from os.path import abspath
+
+from PySide6.QtWidgets import QDialog, QTableWidgetItem, QAbstractItemView, QFileDialog
+
+from dialogs.createdialog import CreateDialog
+from dialogs.errordialog import ErrorDialog
+from dialogs.loaderdialog import LoaderDialog
+from dialogs.renamedialog import RenameDialog
+from uicompiled.explorer import Ui_Dialog as UiExplorer
+
+
+def show_error(error: str, parent=None):
+    error_dialog = ErrorDialog(str(error), parent)
+    error_dialog.exec()
+
+
+class ExplorerDialog(QDialog):
+    def __init__(self, ftp: FTP, parent=None):
+        super().__init__(parent)
+        self.ui = UiExplorer()
+        self.ui.setupUi(self)
+        self.__ftp = ftp
+        self.ui.inputCurrentDir.returnPressed.connect(self.change_directory)
+        self.ui.contents.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.ui.contents.cellDoubleClicked.connect(self.cell_double_clicked)
+        self.ui.contents.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.ui.buttonDownload.clicked.connect(self.button_download_clicked)
+        self.ui.buttonUpload.clicked.connect(self.button_upload_clicked)
+        self.ui.buttonCreateDir.clicked.connect(self.button_folder_created_clicked)
+        self.ui.buttonRemove.clicked.connect(self.button_delete_clicked)
+        self.ui.buttonRename.clicked.connect(self.button_rename_clicked)
+        self.__is_folder = []
+        self.update_list()
+
+    def update_list(self):
+        self.ui.inputCurrentDir.setText(self.__ftp.pwd())
+
+        current_index = -1
+
+        def line_extractor(line: str):
+            if line.startswith("total"):
+                self.ui.contents.clearContents()
+                self.ui.contents.setRowCount(0)
+                self.__is_folder = []
+                return
+            nonlocal current_index
+
+            if current_index == -1:
+                current_index += 1
+                return
+
+            line_split = re.split(r'[ ]+', line)
+            self.ui.contents.insertRow(self.ui.contents.rowCount())
+            self.ui.contents.setItem(current_index, 0, QTableWidgetItem(line_split[-1]))
+            self.ui.contents.setItem(current_index, 1,
+                                     QTableWidgetItem("" if line_split[0].startswith("d") else line_split[4]))
+            self.ui.contents.setItem(current_index, 2, QTableWidgetItem(" ".join(line_split[5:8])))
+            self.__is_folder.append(line_split[0].startswith("d"))
+            current_index += 1
+
+        self.__ftp.retrlines("LIST", line_extractor)
+
+    def change_directory(self, new_place: str = None):
+        if new_place is not None:
+            self.ui.inputCurrentDir.setText(new_place)
+
+        self.ui.inputCurrentDir.setText(abspath(self.ui.inputCurrentDir.text()))
+
+        try:
+            self.__ftp.cwd(self.ui.inputCurrentDir.text())
+        except Exception as e:
+            show_error(f"Невозможно переключиться на директорию '{self.ui.inputCurrentDir.text()}'")
+
+        self.update_list()
+
+    def cell_double_clicked(self):
+        selected_items = self.ui.contents.selectedItems()
+        if len(selected_items) == 0:
+            return
+
+        selected_item = selected_items[0]
+
+        if self.__is_folder[selected_item.row()]:
+            self.change_directory(
+                f"{self.ui.inputCurrentDir.text()}/{self.ui.contents.item(selected_item.row(), 0).text()}")
+        else:
+            self.save_file(self.ui.contents.item(selected_item.row(), 0).text())
+
+    def button_download_clicked(self):
+        selected_items = self.ui.contents.selectedItems()
+        if len(selected_items) == 0:
+            show_error("Выберите файл для сохранения в таблице")
+            return
+
+        selected_item = selected_items[0]
+        if self.__is_folder[selected_item.row()]:
+            show_error("Невозможно сохранить папку, выберите файл")
+            return
+
+        self.save_file(self.ui.contents.item(selected_item.row(), 0).text())
+
+    def save_file(self, file_name):
+        (save_file_name, _) = QFileDialog.getSaveFileName(self,
+                                                          "Сохранить файл",
+                                                          os.getcwd() + "/" + file_name,
+                                                          "Все файлы (*)"
+                                                          )
+
+        if save_file_name == "":
+            return
+
+        def inner_func():
+            with open(save_file_name, "wb") as fp:
+                self.__ftp.retrbinary(f"RETR {file_name}", fp.write)
+
+        loader_dialog = LoaderDialog(inner_func)
+        try:
+            loader_dialog.show()
+            loader_dialog.get_result()
+        except Exception as e:
+            show_error(str(e))
+            loader_dialog.close()
+
+    def button_upload_clicked(self):
+        (upload_file_path, _) = QFileDialog.getOpenFileName(self,
+                                                            "Загрузить файл",
+                                                            os.getcwd(),
+                                                            "*.*"
+                                                            )
+
+        if upload_file_path == "":
+            return
+
+        def inner_func():
+            with open(upload_file_path, "rb") as fp:
+                self.__ftp.storbinary(f"STOU {upload_file_path.split('/')[-1]}", fp)
+
+        loader_dialog = LoaderDialog(inner_func)
+        try:
+            loader_dialog.show()
+            loader_dialog.get_result()
+        except Exception as e:
+            show_error(str(e))
+            loader_dialog.close()
+
+        self.update_list()
+
+    def button_folder_created_clicked(self):
+        create_dir = CreateDialog(self)
+        return_code = create_dir.exec()
+        if return_code == QDialog.DialogCode.Rejected:
+            return
+
+        self.__ftp.mkd(create_dir.get_name())
+        if not self.__ftp.lastresp.startswith("2"):
+            show_error(f"Не удалось создать папку")
+
+        self.update_list()
+
+    def button_delete_clicked(self):
+        selected_items = self.ui.contents.selectedItems()
+        if len(selected_items) == 0:
+            show_error("Выберите файл или папку для удаления в таблице")
+            return
+
+        selected_item = selected_items[0]
+        if self.__is_folder[selected_item.row()]:
+            self.delete_folder(self.ui.contents.item(selected_item.row(), 0).text())
+        else:
+            self.delete_file(self.ui.contents.item(selected_item.row(), 0).text())
+
+    def delete_file(self, file_name: str):
+        self.__ftp.delete(file_name)
+        if not self.__ftp.lastresp.startswith("2"):
+            show_error(f"Не удалось удалить файл {self.__ftp.lastresp}")
+
+        self.update_list()
+
+    def delete_folder(self, folder_name: str):
+        self.__ftp.rmd(folder_name)
+        if not self.__ftp.lastresp.startswith("2"):
+            show_error(f"Не удалось удалить папку {self.__ftp.lastresp}")
+
+        self.update_list()
+
+    def button_rename_clicked(self):
+        selected_items = self.ui.contents.selectedItems()
+        if len(selected_items) == 0:
+            show_error("Выберите файл или папку для переименования в таблице")
+            return
+
+        selected_item = selected_items[0]
+
+        rename_dialog = RenameDialog(self.ui.contents.item(selected_item.row(), 0).text(), self)
+        rename_dialog.exec()
+
+        self.__ftp.rename(self.ui.contents.item(selected_item.row(), 0).text(),
+                                     rename_dialog.get_name())
+        if not self.__ftp.lastresp.startswith("2"):
+            show_error(f"Не удалось переименовать {self.ui.contents.item(selected_item.row(), 0)} в {rename_dialog.get_name()}")
+
+        self.update_list()
+\end{minted}
+\mintinline{Java}|examples/example-client/dialogs/loaderdialog.py|
+\begin{minted}{python3}
+from PySide6.QtWidgets import QDialog
+from typing import Callable, Any
+
+from uicompiled.loader import Ui_Dialog as UiLoader
+
+class LoaderDialog(QDialog):
+    def __init__(self, job: Callable[[], Any], parent = None):
+        super().__init__(parent)
+        self.ui = UiLoader()
+        self.ui.setupUi(self)
+        self.__job = job
+
+    def get_result(self):
+        result = self.__job()
+        self.done(0)
+        return result
+\end{minted}
+\mintinline{Java}|examples/example-client/dialogs/renamedialog.py|
+\begin{minted}{python3}
+from PySide6.QtWidgets import QDialog
+
+from uicompiled.rename import Ui_Dialog as UiRename
+
+class RenameDialog(QDialog):
+    def __init__(self, old_name: str = None, parent = None):
+        super().__init__()
+        self.ui = UiRename()
+        self.ui.setupUi(self)
+        self.ui.buttonBox.accepted.connect(self.accept)
+        self.ui.buttonBox.rejected.connect(self.reject)
+        if old_name is not None:
+            self.ui.inputNewName.setText(old_name)
+
+    def get_name(self):
+        return self.ui.inputNewName.text()
+\end{minted}
+\mintinline{Java}|examples/example-client/ui/connect.ui|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>647</width>
+    <height>626</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Подключение к серверу</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Подключение к серверу</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Адрес</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="inputServerAddress">
+       <property name="inputMask">
+        <string>000.000.000.000</string>
+       </property>
+       <property name="text">
+        <string>127.0.0.1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Порт</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="inputServerPort">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>21</string>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Дата-подключение</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="inputIsPassive">
+       <property name="text">
+        <string>Пассивный режим</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="dataConnectionInputs">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Используемый адрес</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="inputDataAddress">
+         <property name="inputMask">
+          <string>000.000.000.000</string>
+         </property>
+         <property name="text">
+          <string>127.0.0.1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Используемый порт</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="inputDataPort">
+         <property name="text">
+          <string>22</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="styleSheet">
+        <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Данные пользователя</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Логин</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="inputLogin"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Пароль</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="inputPassword">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QPushButton" name="buttonConnect">
+     <property name="text">
+      <string>Подключиться</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+\end{minted}
+\mintinline{Java}|examples/example-client/ui/create.ui|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>166</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Новая папка</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Введите имя новой папки</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>32</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Имя папки</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="inputNewName"/>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+\end{minted}
+\mintinline{Java}|examples/example-client/ui/error.ui|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Что-то пошло не так</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Что-то пошло не так T-T</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Произошла ошибка при попытке выполнить действие:</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="closeButton">
+     <property name="text">
+      <string>Закрыть</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+\end{minted}
+\mintinline{Java}|examples/example-client/ui/explorer.ui|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>685</width>
+    <height>622</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Проводник</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="buttonDownload">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Сохранить файл</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(61, 56, 70);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/assets/download.svg</normaloff>:/assets/download.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonUpload">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Загрузить файл</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(61, 56, 70);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/assets/upload.svg</normaloff>:/assets/upload.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonCreateDir">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Добавить папку</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(61, 56, 70);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/assets/create.svg</normaloff>:/assets/create.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonRemove">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Удалить</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(61, 56, 70);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/assets/delete.svg</normaloff>:/assets/delete.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonRename">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Переименовать</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(61, 56, 70);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/assets/rename.svg</normaloff>:/assets/rename.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="inputCurrentDir"/>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="contents">
+     <property name="columnCount">
+      <number>3</number>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Имя</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignLeading|AlignVCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Размер</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignLeading|AlignVCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Последнее изменение</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignLeading|AlignVCenter</set>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
+\end{minted}
+\mintinline{Java}|examples/example-client/ui/loader.ui|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>284</width>
+    <height>130</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Загрузка...</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Подождите, операция выполняется...</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+\end{minted}
+\mintinline{Java}|examples/example-client/ui/rename.ui|
+\begin{minted}{XML}
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>163</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Переименовать</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Arial&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Введите новое имя</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Имя файла/папки</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="inputNewName"/>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+\end{minted}
 \end{document}
