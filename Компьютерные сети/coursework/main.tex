@@ -1,0 +1,2589 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize, tabsize=4}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize, tabsize=4}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=3cm,right=1.5cm,
+top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{capt-of}
+\usepackage{caption} %заголовки плавающих объектов
+\usepackage{tocloft}
+\usepackage{indentfirst}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\titleformat*{\section}{\centering\bfseries}
+\titleformat*{\subsection}{\centering\bfseries}
+\titleformat*{\subsubsection}{\centering\bfseries}
+\newcommand{\anonsection}[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Add dots between section titles and page numbers
+\renewcommand{\cftsecpagefont}{\normalfont} % Set the font for section page numbers
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\newbox\namebox
+\newdimen\signboxdim
+
+\def\signature#1{%
+    \setbox\namebox=\hbox{#1}
+    \signboxdim=\dimexpr(\wd\namebox+1cm)
+    \parbox[t]{\signboxdim}{%
+        \centering
+%           \mbox{}\leaders\hbox to .4em{\hss.\hss}\hskip\nameboxdim\mbox{}\\   % for dots
+            \hrulefill\\    % for a line
+            #1
+        \par}%
+    }
+\pretolerance10000
+
+\setlength{\parskip}{0cm}
+\setlength{\parindent}{1.25cm}
+
+\begin{document}
+\linespread{1.5}
+\justifying
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            КУРСОВОЙ ПРОЕКТ}}\\
+    \normalsize{
+        по дисциплине: Компьютерные сети \\
+        тема: «Разработка FTP клиент-серверного приложения»}
+\end{center}
+\vfill
+\begin{center}
+    Автор работы \signature{\small{(подпись)}} Пахомов Владислав Андреевич ПВ-223\bigbreak
+    Руководитель проекта \signature{\small{(подпись)}} Панченко Максим Владимирович
+\end{center}
+\vfill
+\begin{center}
+    Оценка \signature{}
+\end{center}
+\vfill\begin{center}
+    Белгород 2025 г.
+\end{center}
+\newpage
+
+\renewcommand{\contentsname}{Оглавление}
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+\setlength{\parindent}{1.25cm}
+
+\section{Введение}
+
+Передача файлов на сегодняшний день является одним из самых важных 
+сценариев использования компьютерной сети. Перечислим лишь несколько из сценариев:
+\begin{itemize}
+\item \textbf{Интернет}. Ежедневно пользователи
+интернета посещают миллиарды сайтов и загружают копии 
+сайтов на портативные и стационарные устройства. В свою очередь 
+сайты могут выполнять большое количество функций, как образовательных
+так и развлекательных. 
+\item \textbf{Домашняя локальная сеть}. Ещё одним сценарием передачи файлов между 
+компьютерами является формирование локальной сети. Например, 
+в доме можно установить NAS - специализированный компьютер, который 
+выполняет функции хранения файлов, разграничения ролей, резервного копирования. 
+Пользователи локальной сети должны иметь доступ как загружать данные 
+на домашний сервер, так и получать данные с домашнего сервера. Файлы могут иметь различный характер, 
+например это может быть домашний фотоархив или видеозаписи, исполняемые файлы, 
+текстовые документы. 
+\item \textbf{Нейронные сети}. Ещё одним сценарием использования компьютерных 
+сетей может являться организация работы в высоконагруженных системах. 
+Например, в сегодняшние дни всё больше набирает популярность использование нейронных
+сетей. Для обучения нейронных сетей требуются большие вычислительные
+мощности. Но также для таких систем требуются и большое хранилище данных, 
+дело в том что нейронные сети обучаются на большом количестве датасетов - наборов данных, 
+которые нужно где-то хранить. Для этого и есть компьютерные сети - они позволяют
+распределить нагрузку и создать сетькомьютеров, 
+которая позволяет эффективно хранить данные и использовать их. В случае нейронных сетей
+также может появляться дополнительная нагрузка в виде интерпретации данных, так как
+нейронные сети не могут работать с сырыми данными напрямую, их необходимо закодировать
+в бинарную последовательность а также представить в памяти в соответствующем виде. 
+И так как сегодня нейронные сети используются в очень большом спектре задач, 
+хранилища должны уметь подстраиваться под выбранный формат данных.
+\end{itemize}
+
+Задача передачи файлов была актуальной и сохраняет свою актуальность
+по сегодняшний день. В связи с этим было разработано множество протоколов, 
+которые позволяют эффективно организовать передачу файлов.
+
+\textbf{Цель работы} заключается в исследовании популярных протоколов передачи данных, 
+а также создания клиент-серверного приложения для управления файлами на удалённом 
+компьютере на основе протокола FTP.
+
+\textbf{Задачи}
+\begin{itemize}
+  \item Исследовать известные протоколы передачи данных, их сильные и слабые стороны
+  \item Разработать сервер
+  \begin{itemize}
+    \item Выбрать подходящий стек технологий
+    \item Выполнить декомпозицию задач
+    \item Разработать архитектуру приложения
+    \item Разработать серверное приложение
+  \end{itemize}
+  \item Разработать клиент
+  \begin{itemize}
+    \item Выбрать подходящий стек технологий
+    \item Выполнить декомпозицию задач
+    \item Разработать архитектуру приложения
+    \item Разработать клиентское приложение
+  \end{itemize}
+  \item Выполнить анализ функционала клиент-серверного взаимодействия
+\end{itemize}
+
+\newpage
+
+\section{Анализ протоколов передачи данных}
+Как уже было сказано ранее, в компьютерных сетях передача файлов - очень
+популярная задача. В связи с этим существует множество протоколов, которые 
+подходят для решения конкретных специфических задач. Перечислим некоторые из них.
+
+\subsection{FTP}
+FTP - один из самых старых и самых распространённых протоколов. За полвека 
+протокол постоянно изменялся и расширялся под главенством Internet Engineering Task Force.
+
+Впервые протокол FTP появился в 1971 году как один из механизмов передачи
+файлов в RFC-114 и применялся для обмена файлами в MIT.
+
+В дальнейшем протокол дополнялся и дорабатывался, RFC-294 ввёл возможность
+изменения типа передаваемых данных. RFC-354 закрепил задачу протокола как
+протокол для эффективной и надёжной передачи данных между устройствами сети в сети ARPANET, 
+в 1973 с появлением RFC-454 протокол закрепился официально.
+
+Следующим большим скачком для протокола стал переход от основного используемого
+протокола для обмена данными между устройствами сети от NCP к TCP вместе с 
+RFC-765. 
+
+На сегодняшний день актуальным описанием для протокола является RFC-959, это описание
+в основном вводит некоторые дополнительные команды для более удобной работы с каталогами, 
+команду уникального сохранения файла и получение информации о системе.
+
+В дальнейшем выходили только дополнения к текущему описанию. Так, RFC-2640 вводит 
+кодировку UTF-8, которая используется многими современными компьютерами сегодня.
+Стандарт RFC-2228 вводит более широкие возможности для обеспечения безопасности
+при передаче файлов.
+
+\textbf{Положительные стороны}
+\begin{itemize}
+\item Протокол FTP имеет очень широкую поддержку, имеет множество рабочих проверенных
+временем решений, большинство компьютеров имеют поддержку FTP, в том числе
+и на системном уровне, то есть нет необходимости устанавливать стороннее программное
+обеспечение для использования FTP. 
+\item Очень хорошая совместимость со старыми компьютерами. Реализации FTP есть как
+для старых так и для современных компьютеров. Кроме того, протокол FTP поддерживает
+очень большое количество способов передачи файлов, что позволит запустить сервер
+на множестве старых систем, вроде компьтютеров IBM. Такие случаи редки сегодня, 
+однако они позволят администрировать устаревшие системы, которые по сегодняшний день
+всё ещё являются частью множества бизнес процессов.
+\item Поддержка многих способов передачи файлов. Протокол может передавать и получать данные 
+как постранично, так и в скомпрессированном виде. 
+\item Относительная простота протокола для пользователя. Изначально FTP разрабатывался
+как консольное приложение, поэтому множество ответов имеют понятное описание, так 
+же как и команды выражаются относительно просты в освоении и понимании. 
+\end{itemize}
+\textbf{Отрицательные стороны}
+\begin{itemize}
+\item Большинство команд протокола при условии использования современных систем 
+просто мусорные, вряд ли сегодня найдётся устройство, которое будет использовать
+в качестве системной кодировки EBCDIC или обычный ASCII.
+\item Протокол не подходит для автоматизации. В сегодняшнем мире пользователю
+приятней всего использовать понятный и интуитивный графический интерфейс, однако
+как уже было сказано ранее, протокол заточен для использования в консоли, из-за
+чего возникает множество проблем. Например, команда вывода списка файлов в текущей директории
+платформоспецифична, что вызывает трудности в интерпретации для оформления графического интерфейса
+в зависимости от того, на какой машине запущен протокол.
+\item Протокол не предназначен для нагруженных систем. Протокол использует два соединения - 
+одно для передачи данных, а второе для передачи команд (порт 21 и 20 соответственно). 
+В нагруженных системах с большим количеством соединение это непозволительная роскошь.
+\item Безопасность. Протокол в текущем описании никак не шифрует данные, любой может
+подключиться к сети и прослушать пакеты, из-за чего существует угроза несанкционированного
+доступа к данным.  
+\item Некое моральное устаревание протокола нивелируется новыми стандартами, дополняющими 
+протокол. Однако заставить пересесть множество уже отлаженных серверов на старых стандартах
+на новые и неисследованные команды может быть экономически неоправданно и технологически сложно, 
+в том числе и при оптимизации процессов.
+\end{itemize}
+
+Протокол FTP хорошо отлажен и проверен временем, он подходит для консольной работы
+на старых системах. Однако для построения новых систем рекомендуется использовать 
+более современные протоколы.
+
+\subsection{SFTP}
+
+На смену протоколу FTP пришёл протокол SFTP, который решает большинство проблем протокола FTP. 
+
+Этот протокол был разработан The OpenSSH Project, его описание можно 
+найти в расширении к описанию протокола SSH в RFC-4253 от 2006 года. В этом и первое основное 
+отличие протокола FTP, SFTP работает поверх SSH, в то время как FTP работает
+на устаревшем протоколе Telnet.
+
+SFTP не является дополнением FTP, хотя и берёт очень много из его функционала. 
+Протокол SFTP нужно рассматривать как совершенно новый переработанный протокол 
+для современных систем.
+
+Протокол SFTP берёт очень много из соединения по SSH, его основной особенностью
+стала перекочевавшая из SFTP повышенная безопасность, большое количество доступных
+методов шифрования. 
+
+\textbf{Положительные стороны}
+\begin{itemize}
+\item Безопасность. Как уже было сказано ранее, протокол SFTP обеспечивает гораздо
+большую безопасность, чем FTP, позволяя передавать данные, например, с использованием
+ассиметричного шифрования.
+\item Протокол SFTP использует одно соединение, а не два, как в FTP. Это делает работу
+в высоконагруженных системах более удобной, нежели в FTP, так как для передачи используется
+только один порт.
+\item Расширенный функционал. SFTP дополняет возможности FTP, позволяя например 
+получать атрибуты файлов. 
+\item Протокол SFTP не создавался для работы в консоли, ответы сервера не заточены для 
+под конкретную операционную систему, а также предоставляется гораздо большеее количество
+данных, что позволяет легко распарсить полученные данные и представить их в графическом 
+виде. 
+\end{itemize}
+\textbf{Отрицательные стороны}
+\begin{itemize}
+\item Протокол SFTP гораздо сложнее запрограммировать. Расширенный функционал
+и требования к безопасности ведут к повышенной нагрузке при написании функционала, 
+что может занять большее количество времени у программистов и следовательно
+большие расходы при реализации и отладке собственного SFTP сервера.
+\item Из-за повышенной сложности, большего количество шагов для подготовки к передаче
+и кодировании данных возникают дополнительная нагрузка как на клиент, так и на сервер,
+вследствие чего передача файлов может работать медленнее. 
+\end{itemize}
+
+Несмотря на повышенную вычислительную нагрузку а также стоимость разработки, 
+протокол SFTP - это настоящее и будущее для манипуляции файловой системой сервера.
+В первую очередь, этот протокол обеспечивает высокую безопасность, что позволяет 
+работать с сервером в публичной сети. Протокол FTP пусть и проще в исполнении и быстрее, 
+однако безопасно может использоваться в хорошо изолированных локальных сетях.
+
+\subsection{SCP}
+Протокол SCP был также разработан The OpenSSH Project.
+
+В 2019 коду протокол был признан OpenSSH как устаревший, в последней версии 
+SCP используется SFTP для передачи файлов. 
+
+Отличительной способностью SCP является его относительная простота. Он также
+работает на SSH, однако предлагает гораздо более узкий функционах
+
+\textbf{Положительные стороны}
+\begin{itemize}
+\item Безопасность. Протокол SCP работает на основе SSH, а значит может использовать надёжное
+ассиметричное шифрование. 
+\item Протокол SCP гораздо менее громоздок по сравнению с SFTP. Он содержит одну единственную 
+команду - скопировать указанный файл или получить его. Из-за этого его гораздо легче
+запрограммировать, он гораздо меньше нагружает как сервер так и клиент. Узкий спектр
+задач протокола позволяет решать конкретную задачу более эффективно.
+\end{itemize}
+\textbf{Отрицательные стороны}
+\begin{itemize}
+\item Уменьшенный функционал протокола привёл к некоторым проблемам с безопасностью. Так, согласно
+CVE-2019-6111 SCP-клиент не проверяет пути полученных файлов, и поэтому вредоносный SCP-сервер 
+может перезаписать файлы на клиенте. SFTP протокол может принимать только целые пути, в то время 
+как SCP клиент может выбрать файл по определённому паттерну.
+\end{itemize}
+
+Протокол SCP подходит, если нужно быстро передать файл от одного компьютера на другой. На данный 
+момент этот протокол признан небезопасным и при использовании SCP используется SFTP. 
+
+\subsection{HTTP/HTTPS}
+Протокол HTTP, так же как и FTP, прожил очень долгую историю развития, однако в отличие
+от своего современника, сегодняшний интернет без HTTP/HTTPS незаменим.
+
+Именно при помощи HTTP сегодня происходит передача большинства файлов в интернете: 
+загружаются миллионы HTML, CSS, JS, JSON, XML, медиафайлов. 
+
+HTTP/1.0 впервые был описан в 1997 году в RFC-2068. Он описывал формат передачи данных, 
+заголовки, коды ответов. Также в HTTP/1.0 появилась важная особенность, позволяющая 
+обмениваться данными - появилась возможность задавать MIME-тип ответа и размер ответа, 
+что позволило передавать файлы как от клиента так и получать их от сервера. Также
+появился в дополнение к методу GET метод POST, который позволял редактировать состояние
+сервера.
+
+HTTP/1.1 - самый известный на данный момент протокол. Он обеспечил необходимую безопасность
+при передаче данных, введя опциональное SSL/TLS ассиметричное кодирование данных (протокол HTTPS). Также
+новый стандарт добавил новые методы взаимодействия.
+
+\textbf{Положительные стороны}
+\begin{itemize}
+\item Безопасность. Протокол поддерживает безопасное соединение с использованием шифрования, 
+что позволяет безопасно передавать данные.
+\item Простота. В отличие от громоздкой настройки SFTP сервера, с HTTP сервером
+можно начинать работу без предварительной настройки.
+\item Большая гибкость. Обмен информации с использованием HTTP/HTTPS очень гибок и зависит 
+исключительно от реализации веб-сервера. 
+\item Широкая поддержка. На современном рынке существует большое количество браузеров, которые
+умеют эффективно и отлаженно выполнять HTTP запросы, обрабатывать их и использовать мощности 
+современных устройств максимально эффективно. Также существуют браузеры и для старых систем, 
+которые также могут использовать как безопасный так и небезопасный вариант HTTP. Существует
+большое количество фрейморков и библиотек, позволяющих создать свой сервер (FastAPI, Flask, Django, 
+Spring, Poem, Express.js)
+\item Простота в реализации. Веб-сервер гораздо проще написать, чем FTP или SFTP сервер, что
+позволяет бизнесу создавать бюджетные быстроразвивающиеся решения.
+\end{itemize}
+\textbf{Отрицательные стороны}
+\begin{itemize}
+\item Отсутствие сессии. Преимущество всех вышеперечисленных протоколов являлось то, что пользователь
+всегда находился в контексте сессии, например у сессии была рабочая директория и пользователь без дополнительных средств проверки. 
+HTTP лишён такой возможности, из-за чего программистам приходится обеспечивать эту сессию вручную, например при помощи Session-Cookie, 
+JWT-токена и др.
+\item Необходимость разрыва соединения. После успешного получения ответа от сервера соединение немедленно 
+разрывается в HTTP. Открытие нового сокета для общения с сервером требует дополнительных затрат.
+\end{itemize}
+
+HTTP/HTTPS - очень гибкий, простой и, следовательно, дешёвый протокол. Так же как в компьютерных 
+сетях победил не совсем оптимальный но дешёвый Ethernet, в качестве прикладного протокола для обмена файлов
+сегодня лидирует HTTP.
+
+\newpage
+
+\section{Разработка клиент-серверного приложения}
+\subsection{Разработка сервера}
+Одним из преимуществ протокола HTTP является его гибкость, возможность создавать 
+любое количество команд и модифицировать их поведение. 
+
+Текущим решениям FTP этого не хватает, пусть они и являются надёжными и отлаженными, однако
+не предоставляют возможности кастомизации, переопределения поведения.
+
+Именно на эти концепции и был сделан акцент при разработке FTP сервера, были позаимствованы
+некоторые паттерны современных веб-серверов. 
+
+Для разделения слоёв приложения было выделено три слоя: CtrlFTP-Core, CtrlFTP-Dependencies и сам сервер. 
+Рассмотрим все три слоя ниже
+
+\subsubsection{Выбор стека}
+В качестве языка программирования был выбран язык программирования Java. 
+Java очень давно находится на рынке, кроме того фреймворк Spring для Java
+сегодня используется многими компаниями для создания высоконагруженных
+веб-серверов, то есть Java множество лет использовалась для создания серверов.
+
+В качестве ORM для проекта был выбран Hibernate, так как он является основным
+инструментом на выбранном языке программирования для манипуляирования базы данных.
+
+В качестве системы сборки был выбран Gradle, так как он хорошо себя зарекомендовал
+на рынке как система для сборки проектов на Java. 
+
+\subsubsection{Слой Core}
+Этот слой позволяет выстроить базовую работу сервера, которая позволит серверу определять
+команды, которые он должен выполнять, а также зависимости в командах. 
+
+\textbf{Команды}
+
+CtrlFTP-Core содержит классы, которые позволяют создать свой сервер. Каждая команда создаётся
+при помощи аннотации \mintinline{Java}|@Command|, которая находится в пакете \mintinline{Java}|rchat.info.ctrlftp.core.annotations.Command|.
+Например:
+\begin{minted}{Java}
+public class ServiceService {
+    @Command(name = "NOOP")
+    public static Response noop() {
+        return new Response(ResponseTypes.COMMAND_OK, "Glad to work with ya, human 'fella!");
+    }
+}
+\end{minted}
+
+Таким образом можно определить FTP-команду NOOP, которая возвращает код OK (200) вместе с сообщением
+\mintinline{Java}|Glad to work with ya, human 'fella!|. Каждая такая команда должна быть статична, а также 
+должна возвращать класс Response из пакета \mintinline{Java}|rchat.info.ctrlftp.core.responses|
+
+Работа с аннотациями в Java происходит при помощи Reflections API. FTP сервер открывает сокет и ждёт сообщения.
+Когда это сообщение приходит, формируется новая виртуальная нить, которая обрабатывает запросы пользователя. 
+Когда пользователь отправил сообщение, сопровождающееся переносом строки, сервер просканирует все доступные 
+ему команды и будет искать команду с соответствующим именем. В этом примере, если пользователь пришлёт
+команду NOOP, сервер проанализирует все классы-контролеры и их методы, найдёт статический метод 
+с именем NOOP (нечувствительно к регистру) и вызовет этот метод. 
+
+Метод должен вернуть Response, который сервер должен перенаправить клиенту, выполнившему запрос.
+
+\textbf{Зависимости}
+Сейчас метод noop достаточно скучен, он не может получать параметр а также оригинальную команду от пользователя.
+
+Для таких случаев CtrlFTP предоставляет систему Dependency Injection, рассмотрим её на примере.
+
+Каждый метод может принимать следующие зависимости:
+\begin{itemize}
+  \item \mintinline{Java}|String| - команда в "сыром" виде передаётся в метод 
+  \item \mintinline{Java}|Session| - класс текущей сессии из пакета \mintinline{Java}|rchat.info.ctrlftp.core|
+  \item \mintinline{Java}|Server| - класс текущего сервера из пакета \mintinline{Java}|rchat.info.ctrlftp.core|
+  \item \mintinline{Java}|AbstractDependency| - зависимость, разработанная самим разработчиком, мы рассмотрим этот механизм позже
+\end{itemize}
+
+Зависимость внедряется в метод когда мы передаём параметр в метод в случае команд, например так:
+
+\begin{minted}{Java}
+public class ServiceService {
+    @Command(name = "NOOP")
+    public static Response noop(String command) {
+        return new Response(ResponseTypes.COMMAND_OK, "Glad to work with ya, human 'fella!");
+    }
+}
+\end{minted}
+
+Теперь мы можем получить доступ к "сырой" команде, которую отправил пользователь на сервер. 
+
+Библиотека CtrlFTP также позволяет написать собственные зависимости, которые также могут включать 
+в себя другие зависимости, взаимодействовать с ними. Создать свою зависимость можно при помощи
+\mintinline{Java}|@AbstractDependency| и аннотации \mintinline{Java}|@Dependency|
+из пакета \mintinline{Java}|rchat.info.ctrlftp.core.dependencies|. 
+Аннотация принимает в качестве аргумента уровень зависимости, на уровне которого она будет 
+существовать как объект. На данный момент доступно три уровня:
+\begin{itemize}
+  \item \mintinline{Java}|Global| - зависимость используется всё время существования сервера, уникальна для каждого сервера
+  \item \mintinline{Java}|Session| - зависимость используется всё время существования сессии, уникальна для каждой сессии
+  \item \mintinline{Java}|Command| - зависимость используется всё время существования команды, уникальна для каждой команды
+\end{itemize}
+
+Для создания зависимостей используется публичный конструктор, в котором, как и в команде, зависимости 
+передаются в качестве параметров. 
+
+Есть и определённые ограничения, связанные с зависимостями разных уровней. Так, например, зависимость 
+глобального уровня не может получить доступ к зависимости сессионного или командного уровня. В то время как
+зависимость командного уровня может обратиться к зависимости глобального уровня. Также нельзя ссылаться 
+на саму себя, рекурсивные зависимости также недопустимы. 
+
+Текущие ограничения связаны также с работой Reflections API. Специальный класс \mintinline{Java}|DependencyManager|, который
+существует на трёх уровнях - сессии, сервера и команды, выполняет функции внедрения необходимых зависимостей в команду и 
+в другие зависимости. При поступлении списка аргументов менеджер зависимостей менеджер сначала проверяет, какой уровень у 
+переданной зависимости. Если это зависимость его уровня, он проходит по списку всех своих зависимостей и "запоминает" найденную
+зависимость. Иначе он пытается рекуррентно создать зависимость. То есть, берёт параметры из конструктора зависимости, 
+снова вызывает метод, который ищет эти зависимости, конструирует объект-зависимость и сохраняет у себя, чтобы в дальнейшем
+использовать её. 
+
+\begin{center}
+\includegraphics[width=90mm]{dep_level}
+\end{center}
+
+Выбранный подход может привести к бесконечной рекурсии, поэтому метод отслеживает глубину своей рекурсии и выбрсывает исключение, 
+если она слишком большая. Также при попытке сконструировать самого себя можно попасть в бесконечную рекурсию.
+
+Если же зависимость находится уровнем выше, чем текущая зависимость, то менеджер зависимостей просит у родительского 
+менеджера зависимостей найти эту зависимость. Если же запрашиваемая зависимость находится на нижнем уровне, метод выбросит
+исключение. 
+
+Менеджер зависимостей воспринимает класс строки как зависимость командного уровня, сессию как зависимость сессионного уровня
+и сервер как зависимость глобального уровня. 
+
+\begin{center}
+\includegraphics[width=110mm]{dep_multi_level}
+\end{center}
+
+\noindent
+\begin{tabular}{|c|c|c|c|c|c|c|}
+  \hline
+  & String & Session & Server & \begin{tabular}{c}Уровень\\команды\end{tabular} & \begin{tabular}{c}Уровень\\сессии\end{tabular} & \begin{tabular}{c}Уровень\\глобальный\end{tabular} \\
+  \hline
+  \begin{tabular}{c}Уровень\\команды\end{tabular} & + & + & + & + & + & + \\
+  \hline
+  \begin{tabular}{c}Уровень\\сессии\end{tabular} & - & + & + & - & + & + \\
+  \hline
+  \begin{tabular}{c}Уровень\\глобальный\end{tabular} & - & - & + & - & - & + \\
+  \hline
+  Команда & + & + & + & + & + & + \\
+  \hline
+\end{tabular}\bigbreak
+
+Можно заметить, что сейчас наследование от AbstractDependency бесполезно - это пустой класс, ничего не делающий. 
+Однако в будущем возможно он будет использован для пост- и предпроцессинга ввода/вывода.
+
+Пример зависимости:
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.deserializer;
+
+/**
+ * A dependency to parse single string after a command name
+ */
+public class SingleStringDeserializer extends BaseDeserializer<SingleStringDeserialized> {
+    public SingleStringDeserializer(String command) {
+        super(command);
+    }
+
+    @Override
+    public SingleStringDeserialized deserialize(String command) {
+        var firstSpaceIndex = command.indexOf(' ');
+
+        return new SingleStringDeserialized(firstSpaceIndex == -1 ? "" : command.substring(firstSpaceIndex + 1));
+    }
+}
+\end{minted}
+
+Эта зависимость принимает команду и оставляет только её аргумент, иногда очень полезная зависимость, если нужно извлечь
+только аргумент.
+
+\textbf{Запуск сервера}
+Сервер можно запустить при помощи конструктора, который принимает конфигурационные файлы
+\begin{minted}{Java}
+package rchat.info.ctrlftp.examplebasic;
+
+import rchat.info.ctrlftp.core.Server;
+
+import java.io.IOException;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
+        var u = new Server(List.of("dependencies.xml"));
+        u.mainLoop();
+    }
+}
+\end{minted}
+
+Путь к конфигурационному файлу - это имя ресурса Java. Он представляет из себя XML-файл, который
+декларирует контролеры (сервисы) и зависимости для сервера. Именно в указанных классах сервер 
+будет искать методы-команды и зависимости. Он может выглядеть так
+\begin{minted}{XML}
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <services>
+        <service>path.to.class.with.commands.ServiceClass</service>
+        ...
+    </services>
+    <dependencies>
+        <dependency>path.to.dependency.class.DependencyClass</dependency>
+        ...
+    </dependencies>
+</config>
+\end{minted}
+
+Файл конфигурации содержит корень \mintinline{XML}|<config>|, который содержит в себе
+список сервисов \mintinline{XML}|<services>| и список зависимостей \mintinline{XML}|<dependencies>|.
+
+\subsubsection{Слой Dependencies}
+Пакет \mintinline{Java}|rchat.info.ctrlftp.dependencies| предоставляет зависимости, которые могут 
+быть полезны при разработке FTP сервера. 
+
+\textbf{Аутентификация}
+Класс \mintinline{Java}|BaseAuthenticationDependency| позволяет проверить, аутентифицирован ли вошедший
+пользователь и позволяет ему выйти. Абстракция не включает в себя ввод логина и пароля, 
+так как разработчик может захотеть позволить анонимный доступ к файловой системе. Метод 
+\mintinline{Java}|authenticate| возвращает \mintinline{Java}|AuthenticationResult|, который содержит информацию
+о том, аутентифицирован ли пользователь, информацию об аутентификации и ошибку, если она произошла
+при проверке пользователя.
+
+\textbf{Десериализатор}
+Класс-десериализатор предназначен для расшифровки пользовательского ввода, парсинга команд. 
+Класс \mintinline{Java}|BaseDeserializer| расшифровывает полученную команду. Реализация 
+расшифровки предоставлена разработчику. Есть также подготовленный заранее
+\mintinline{Java}|SingleStringDeserializer|, который предназначен для частых случаев
+расшифровки единственного аргумента после названия команды.
+
+\textbf{Передача файлов}
+Передача файлов является одним из ключевых функционалов работы FTP сервера. Класс 
+
+\section{Работа приложения}
+
+Протестировать портал можно на адресе http://82.97.246.215/
+
+Ссылка на репозиторий: https://github.com/IAmProgrammist/BookSTU
+
+\section{Вывод о проделанной работе}
+
+\newpage
+
+\section{Список источников и литературы}
+\begin{enumerate}
+    \item Django Documentation [Электронный ресурс] \\Режим доступа: https://docs.djangoproject.com/en/5.1/
+    \item Django REST framework [Электронный ресурс] \\Режим доступа: https://www.django-rest-framework.org/
+    \item React [Электронный ресурс] \\Режим доступа: https://react.dev/
+    \item Redux Toolkit [Электронный ресурс] \\Режим доступа: https://redux-toolkit.js.org/rtk-query/overview
+    \item React Hook Form [Электронный ресурс] \\Режим доступа: https://react-hook-form.com/docs/useform
+\end{enumerate}
+
+\section{Список источников и литературы}
+\begin{enumerate}
+    \item Django Documentation [Электронный ресурс] \\Режим доступа: https://docs.djangoproject.com/en/5.1/
+    \item Django REST framework [Электронный ресурс] \\Режим доступа: https://www.django-rest-framework.org/
+    \item React [Электронный ресурс] \\Режим доступа: https://react.dev/
+    \item Redux Toolkit [Электронный ресурс] \\Режим доступа: https://redux-toolkit.js.org/rtk-query/overview
+    \item React Hook Form [Электронный ресурс] \\Режим доступа: https://react-hook-form.com/docs/useform
+\end{enumerate}
+
+\iffalse
+\section{Приложения}
+\subsection{Приложение 1. Исходный код библиотеки CtrlFTP Core}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/annotations/Command.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.annotations;
+
+import java.lang.annotation.*;
+
+/**
+ * A method annotated with {@link Command} would be called when a command with a
+ * corresponding {@link Command#name} is sent. The namecheck is case-insensitive.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@Inherited
+public @interface Command {
+    /**
+     * A command name
+     */
+    public String name();
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/annotations/Dependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.annotations;
+
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+
+import java.lang.annotation.*;
+
+/**
+ * A class annotated with {@link Dependency} will be able to be injected into
+ * commands annotated by {@link Command} and dependency methods.
+ * Level of dependency existence is passed using parameter {@link Dependency#level}
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Inherited
+public @interface Dependency {
+    /**
+     * Sets the level of dependency. Defaults to {@link DependencyLevel#SESSION}
+     */
+    public DependencyLevel level() default DependencyLevel.SESSION;
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/dependencies/AbstractDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.dependencies;
+
+public abstract class AbstractDependency {
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/dependencies/DependencyLevel.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.dependencies;
+
+public enum DependencyLevel {
+    /**
+     * A dependency will be unique for server and will exist while server runs
+     */
+    GLOBAL,
+    /**
+     * A dependency will be unique for session and will exist while session exists
+     */
+    SESSION,
+    /**
+     * A dependency will be unique for command and will exist while command executes
+     */
+    COMMAND
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/dependencies/DependencyManager.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.dependencies;
+
+import rchat.info.ctrlftp.core.Server;
+import rchat.info.ctrlftp.core.Session;
+import rchat.info.ctrlftp.core.annotations.Dependency;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DependencyManager {
+    private final DependencyLevel level;
+    private DependencyManager parentResolver = null;
+    private List<AbstractDependency> dependencies;
+    private final String command;
+    private final Server serverContext;
+    private final Session sessionContext;
+
+    /**
+     * This constructor may be used for creating global level dependency resolver.
+     * A parent is not specified for this level
+     *
+     * @param context a server context
+     */
+    public DependencyManager(Server context) {
+        this.level = DependencyLevel.GLOBAL;
+        this.dependencies = new ArrayList<>();
+        this.command = null;
+        this.serverContext = context;
+        this.sessionContext = null;
+
+        linkDependencies(context);
+    }
+
+    /**
+     * This constructor is used for creating any intermediate-leveled dependency resolver.
+     * Lookup {@link DependencyManager#DependencyManager(Server)}  DependencyResolver} to
+     * create global-leveled dependency resolver and
+     * {@link DependencyManager#DependencyManager(Server, String, DependencyManager)}  DependencyResolver} for
+     * creating command-leveled dependency resolver
+     *
+     * @param context        a server context
+     * @param level          a level
+     * @param parentResolver a parent-level resolver
+     */
+    public DependencyManager(Server context, Session sessionContext, DependencyLevel level, DependencyManager parentResolver) {
+        this.level = level;
+        this.dependencies = new ArrayList<>();
+        this.parentResolver = parentResolver;
+        this.command = null;
+        this.serverContext = context;
+        this.sessionContext = sessionContext;
+        if (areParentAndChildLevelsNotCompatible()) {
+            throw new RuntimeException(
+                    "A parent dependency resolver shouldn't have upper level. " +
+                            "Parent level: " + this.parentResolver.level.name() + " (" + this.parentResolver.level.ordinal() + ") " +
+                            "current level: " + this.level.name() + " (" + this.level.ordinal() + ")");
+        }
+
+        linkDependencies(context);
+    }
+
+    /**
+     * A dependency resolver could be created for a command scope. The difference for this resolver
+     * is that command string should be passed and processed by dependencies.
+     *
+     * @param context        a server context
+     * @param command        a raw command coming from client
+     * @param parentResolver a parent-level resolver
+     */
+    public DependencyManager(Server context, Session sessionContext, String command, DependencyManager parentResolver) {
+        this.level = DependencyLevel.COMMAND;
+        this.dependencies = new ArrayList<>();
+        this.parentResolver = parentResolver;
+        this.command = command;
+        this.serverContext = context;
+        this.sessionContext = sessionContext;
+        if (areParentAndChildLevelsNotCompatible()) {
+            throw new RuntimeException(
+                    "A parent dependency resolver shouldn't have upper level. " +
+                            "Parent level: " + this.parentResolver.level.name() + " (" + this.parentResolver.level.ordinal() + ") " +
+                            "current level: " + this.level.name() + " (" + this.level.ordinal() + ")");
+        }
+
+        linkDependencies(context);
+    }
+
+    /**
+     * Checks if parent and current resolvers levels are compatible
+     *
+     * @return true if they are not compatible. Amogus tun dun dun dun dun dun dun
+     * dududun. PUM BUM. Tun-dun-dun-dun-dun-dun-DUN! DU-du-du-DU-du-du-DUN!
+     */
+    private boolean areParentAndChildLevelsNotCompatible() {
+        return this.parentResolver.level.ordinal() >= this.level.ordinal();
+    }
+
+    /**
+     * Finds dependency classes with level that equals to dependency resolver level
+     *
+     * @param context a server context
+     * @return a list of suitable classes
+     */
+    private List<Class<? extends AbstractDependency>> getDependenciesForCurrentResolver(Server context) {
+        return context.getDependencyClasses().stream()
+                .filter(aClass -> {
+                    var annotation = aClass.getAnnotation(Dependency.class);
+                    if (annotation == null) return false;
+
+                    return annotation.level() == this.level;
+                })
+                .toList();
+    }
+
+    /**
+     * Searches for dependencies in dependency manager and paren dependency managers
+     *
+     * @param dependencyClass a class to search for
+     * @return dependency with fitting class
+     */
+    protected AbstractDependency getDependency(Class<?> dependencyClass) {
+        for (var dependency : this.dependencies) {
+            if (dependency.getClass().equals(dependencyClass)) {
+                return dependency;
+            }
+        }
+
+        return parentResolver != null ? parentResolver.getDependency(dependencyClass) : null;
+    }
+
+    /**
+     * Finds objects for parameters
+     *
+     * @param parameterList a list of parameters
+     * @return a list of objects: Strings and AbstractDependencies to be injected
+     */
+    public List<Object> getDependenciesForParameters(Parameter[] parameterList) {
+        return getDependenciesForParameters(parameterList, 0);
+    }
+
+    /**
+     * Finds objects for parameters
+     *
+     * @param parameterList a list of parameters
+     * @param depth         a recursive depth
+     * @return a list of objects: Strings and AbstractDependencies to be injected
+     */
+    private List<Object> getDependenciesForParameters(Parameter[] parameterList, int depth) {
+        var constructorArgs = new ArrayList<Object>();
+
+        for (var parameter : parameterList) {
+            if (parameter.getType().equals(String.class)) {
+                if (level == DependencyLevel.COMMAND) {
+                    constructorArgs.add(command);
+                } else {
+                    throw new RuntimeException("A dependency " + parameter.getClass() + " with not command-level " +
+                            level + " can't have a String as a parameter");
+                }
+            } else if (Server.class.isAssignableFrom(parameter.getType())) {
+                constructorArgs.add(this.serverContext);
+            } else if (Session.class.isAssignableFrom(parameter.getType())) {
+                if (sessionContext != null) {
+                    constructorArgs.add(this.sessionContext);
+                } else {
+                    throw new RuntimeException("A session context is not available now");
+                }
+            } else {
+                var dependencyClass = parameter.getType();
+
+                if (AbstractDependency.class.isAssignableFrom(dependencyClass)) {
+                    var dependencyClassAnnotation = dependencyClass.getAnnotation(Dependency.class);
+
+                    if (dependencyClassAnnotation == null) {
+                        throw new RuntimeException("A @Dependency annotation is missing on " + dependencyClass);
+                    } else if (dependencyClassAnnotation.level().ordinal() > level.ordinal()) {
+                        throw new RuntimeException("You can't require upper-level dependencies from lower-level dependencies");
+                    } else {
+                        var dependencyObject = getDependency(dependencyClass);
+
+                        if (dependencyObject == null && dependencyClassAnnotation.level().ordinal() == level.ordinal()) {
+                            this.dependencies.add((AbstractDependency) constructDependency(dependencyClass, depth + 1));
+
+                            dependencyObject = getDependency(dependencyClass);
+
+                            if (dependencyObject == null) {
+                                throw new RuntimeException("Couldn't inject dependency");
+                            }
+                        }
+
+                        constructorArgs.add(dependencyObject);
+                    }
+                } else {
+                    throw new RuntimeException("A dependency should be inherited from a base class AbstractDependency and " +
+                            "contain @Dependency annotation " + dependencyClass);
+                }
+            }
+        }
+
+        return constructorArgs;
+    }
+
+    /**
+     * Constructs dependencies and searches for sub-dependencies
+     *
+     * @param classToInject a dependency class to inject
+     * @param depth         a recursive depth
+     * @return a constructed object
+     */
+    private Object constructDependency(Class<?> classToInject, int depth) {
+        if (depth >= 512) {
+            throw new RuntimeException("Injection depth exceeded limits (512 iterations), " +
+                    "probably you have recursive dependencies");
+        }
+
+        if (!AbstractDependency.class.isAssignableFrom(classToInject)) {
+            throw new RuntimeException("A dependency should be inherited from AbstractDependency " + classToInject);
+        }
+
+        if (classToInject.getConstructors().length != 1) {
+            throw new RuntimeException("A dependency should contain single constructor which parameters should " +
+                    "be inherited from AbstractDependency or be a String object for DependencyLevel command");
+        }
+
+        var constructor = classToInject.getConstructors()[0];
+
+        try {
+            return constructor.newInstance(getDependenciesForParameters(constructor.getParameters(), depth).toArray());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Initializes dependencies and executes dependency injection for dependency
+     *
+     * @param context a server context
+     */
+    private void linkDependencies(Server context) {
+        this.dependencies.clear();
+
+        for (var dependency : getDependenciesForCurrentResolver(context)) {
+            if (getDependency(dependency) == null) {
+                this.dependencies.add((AbstractDependency) constructDependency(dependency, 0));
+            }
+        }
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/reflections/ClassesLoader.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.reflections;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * A utility class which purpose is to load classes for services and dependencies
+ */
+public class ClassesLoader {
+    public static void loadDependencies(Set<Class<? extends AbstractDependency>> dependencyClasses,
+                                        NodeList nodes) throws ClassNotFoundException {
+        for (int i = 0; i < nodes.getLength(); i++) {
+            if (!nodes.item(i).getNodeName().equals("dependency"))
+                continue;
+            var loadedClass = Class.forName(nodes.item(i).getChildNodes().item(0).getNodeValue());
+            if (!AbstractDependency.class.isAssignableFrom(loadedClass))
+                throw new ClassNotFoundException("Class " + loadedClass + " should be inherited from AbstractDependency");
+
+            dependencyClasses.add((Class<? extends AbstractDependency>) loadedClass);
+        }
+    }
+
+    public static void loadServices(Set<Class<?>> serviceClasses,
+                                        NodeList nodes) throws ClassNotFoundException {
+        for (int i = 0; i < nodes.getLength(); i++) {
+            if (!nodes.item(i).getNodeName().equals("service"))
+                continue;
+            var loadedClass = Class.forName(nodes.item(i).getChildNodes().item(0).getNodeValue());
+
+            serviceClasses.add(loadedClass);
+        }
+    }
+
+    /**
+     * Utility class to load services and dependencies from config files
+     * @param serviceClasses a link for a set of service classes
+     * @param dependencyClasses a link for a set of dependency classes
+     * @param configFiles array of config files
+     */
+    public static void load(Set<Class<?>> serviceClasses, Set<Class<? extends AbstractDependency>> dependencyClasses,
+                            List<String> configFiles) {
+        for (var configFilePath : configFiles) {
+            try {
+                InputStream in = ClassesLoader.class.getClassLoader().getResourceAsStream(configFilePath);
+                DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+                Document doc = docBuilder.parse(in);
+
+                var root = doc.getDocumentElement();
+                var nodes = root.getChildNodes();
+                for (int i = 0; i < nodes.getLength(); i++) {
+                    if (nodes.item(i).getNodeName().equalsIgnoreCase("dependencies")) {
+                        loadDependencies(dependencyClasses, nodes.item(i).getChildNodes());
+                    } else if (nodes.item(i).getNodeName().equalsIgnoreCase("services")) {
+                        loadServices(serviceClasses, nodes.item(i).getChildNodes());
+                    }
+                }
+            } catch (ParserConfigurationException | IOException | SAXException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/reflections/MethodResolver.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.reflections;
+
+import rchat.info.ctrlftp.core.Server;
+import rchat.info.ctrlftp.core.annotations.Command;
+
+import java.lang.reflect.Method;
+import java.util.Optional;
+
+/**
+ * An utility class to find methods by command name
+ */
+public class MethodResolver {
+    /**
+     * A method for finding corresponding method to process command
+     *
+     * @param serverContext a server context
+     * @param name a name of a command
+     * @return method to be called
+     */
+    public static Optional<Method> findMethod(Server serverContext, String name) {
+        var services = serverContext.getServiceClasses();
+
+        for (var serviceClass : services) {
+            for (var serviceMethod : serviceClass.getMethods()) {
+                Command c = serviceMethod.getAnnotation(Command.class);
+
+                if (c != null && name.equalsIgnoreCase(c.name())) return Optional.of(serviceMethod);
+            }
+        }
+
+        return Optional.empty();
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/responses/Response.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.responses;
+
+/**
+ * A Response class to send back to user some data
+ */
+public class Response {
+    private ResponseTypes type;
+    private String message = "Message not provided";
+
+    /**
+     * A constructor of {@link Response}. You can use {@link Response#Response(ResponseTypes)}
+     * to use default message for selected type
+     *
+     * @param type a return type
+     * @param message a custom message
+     */
+    public Response(ResponseTypes type, String message) {
+        this.type = type;
+        this.message = message;
+    }
+
+    /**
+     * A constructor of {@link Response}, a message is selected for specified
+     * type automatically
+     *
+     * @param type a return type
+     */
+    public Response(ResponseTypes type) {
+        this.type = type;
+    }
+
+    /**
+     * A method to print by socket connection to user
+     *
+     * @return a server response in a form of string to by passed by Telnet
+     */
+    public StringBuilder serialize() {
+        return new StringBuilder(
+                type.code + (message != null ?
+                        (" " + message.replaceAll("\r{0,1}\n", " "))
+                        : "Message not provided")
+                        + "\r\n");
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/responses/ResponseTypes.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core.responses;
+
+public enum ResponseTypes {
+    RESTART_MARKER(110),
+    SERVICE_READY_IN_N_MINUTES(120),
+    DATA_CONNECTION_ALREADY_OPEN(125),
+    ABOUT_TO_OPEN_CONNECTION(150),
+
+    COMMAND_OK(200),
+    NOT_IMPLEMENTED_SUPERFLUOUS(202),
+    SYSTEM_STATUS(211),
+    DIRECTORY_STATUS(212),
+    FILE_STATUS(213),
+    HELP_MESSAGE(214),
+    SYSTEM_TYPE(215),
+    SERVICE_READY_FOR_NEW_USER(220),
+    SERVICE_CLOSING_CONTROL_CONNECTION(221),
+    DATA_CONNECTION_OPEN(225),
+    CLOSING_DATA_CONNECTION(226),
+    ENTERING_PASSIVE_MODE(227),
+    AUTH_SUCCESS(230),
+    FILE_ACTION_OK(250),
+    PATHNAME_CREATED(257),
+
+    USERNAME_OK_NEED_PASS(331),
+    NEED_ACCOUNT_TO_LOGIN(332),
+    FILE_ACTION_PENDING_INFO(350),
+
+    SERVICE_NOT_AVAILABLE(421),
+    CANT_OPEN_DATA_CONNECTION(425),
+    TRANSFER_ABORTED(426),
+    FILE_BUSY(450),
+    ERROR_PROCESSING_ABORTED(451),
+    NOT_ENOUGH_STORAGE(452),
+
+    SYNTAX_ERROR(500),
+    BAD_PARAMETERS(501),
+    NOT_IMPLEMENTED(502),
+    BAD_SEQUENCE_OF_COMMANDS(503),
+    COMMAND_NOT_IMPLEMENTED_FOR_PARAMETER(504),
+    NOT_LOGGED_IN(530),
+    NEED_ACCOUNT_TO_STORE_FILES(532),
+    REQUESTED_ACTION_NOT_TAKEN(550),
+    PAGE_TYPE_UNKNOWN(551),
+    EXCEEDED_STORAGE_ALLOCATION(552),
+    FILENAME_NOT_ALLOWED(553);
+
+    public final int code;
+
+    ResponseTypes(int code) {
+        this.code = code;
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/Server.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core;
+
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyManager;
+import rchat.info.ctrlftp.core.reflections.ClassesLoader;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * An FTP server
+ */
+public class Server {
+    private ServerSocket serverSocket;
+    private ExecutorService sessions;
+    private DependencyManager dependencyManager;
+    private Set<Class<?>> serviceClasses;
+    private Set<Class<? extends AbstractDependency>> dependencyClasses;
+
+    public Server(List<String> configs) {
+        sessions = Executors.newVirtualThreadPerTaskExecutor();
+        serviceClasses = new HashSet<>();
+        dependencyClasses = new HashSet<>();
+        ClassesLoader.load(serviceClasses, dependencyClasses, configs);
+        dependencyManager = new DependencyManager(this);
+    }
+
+    public void mainLoop() throws IOException {
+        serverSocket = new ServerSocket(10021);
+        while (!serverSocket.isClosed()) {
+            Socket client = serverSocket.accept();
+            sessions.submit(new Session(this, client));
+        }
+    }
+
+    public void shutdown() {
+        sessions.shutdown();
+    }
+
+    public DependencyManager getDependencyManager() {
+        return dependencyManager;
+    }
+
+    public Set<Class<?>> getServiceClasses() {
+        return serviceClasses;
+    }
+
+    public Set<Class<? extends AbstractDependency>> getDependencyClasses() {
+        return dependencyClasses;
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-core/src/main/java/rchat/info/ctrlftp/core/Session.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.core;
+
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+import rchat.info.ctrlftp.core.dependencies.DependencyManager;
+import rchat.info.ctrlftp.core.reflections.MethodResolver;
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * A class that stores current session
+ */
+public class Session implements Runnable {
+    private Server serverContext;
+    private Socket client;
+    private StringBuilder inputBuffer;
+    private DependencyManager dependencyManager;
+
+    public Session(Server serverContext, Socket client) {
+        this.serverContext = serverContext;
+        this.client = client;
+        this.inputBuffer = new StringBuilder();
+        this.dependencyManager = new DependencyManager(serverContext,
+                this,
+                DependencyLevel.SESSION,
+                serverContext.getDependencyManager());
+    }
+
+    /**
+     * A method that finds required method,
+     * injects dependencies, launches method and
+     * sends back response
+     *
+     * @param command a raw command from a user
+     */
+    private Response launchMethod(String command) {
+        try {
+            var optionalMethod = MethodResolver.findMethod(this.serverContext, command.split(" ")[0]);
+            if (optionalMethod.isEmpty()) {
+                return new Response(ResponseTypes.NOT_IMPLEMENTED, "Method " + command + " not implemented");
+            }
+            var targetMethod = optionalMethod.get();
+
+            DependencyManager local = new DependencyManager(
+                    serverContext,
+                    this,
+                    command,
+                    this.dependencyManager);
+            var methodParameters = local.getDependenciesForParameters(targetMethod.getParameters());
+
+            return (Response) targetMethod.invoke(null, methodParameters.toArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(ResponseTypes.REQUESTED_ACTION_NOT_TAKEN);
+        }
+    }
+
+    /**
+     * A method that gets result from method launching and sends it to a user
+     *
+     * @param command a raw command from a user
+     */
+    private void processCommand(String command) throws IOException {
+        sendResponse(launchMethod(command));
+    }
+
+    public void sendResponse(Response response) throws IOException {
+        if (client.isClosed() || response == null) return;
+
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+        writer.write(response.serialize().toString());
+        writer.flush();
+    }
+
+    /**
+     * Disconnects from the current user
+     */
+    public void disconnect(Response reason) {
+        try {
+            sendResponse(reason);
+            client.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Gives user remote address
+     * @return user remote address
+     */
+    public SocketAddress getRemoteSocketAddress() {
+        if (client == null || !client.isConnected())
+            return null;
+
+        return client.getRemoteSocketAddress();
+    }
+
+    /**
+     * A main method that buffers user input and distinguishes raw command lines
+     */
+    @Override
+    public void run() {
+        try {
+            sendResponse(new Response(ResponseTypes.COMMAND_OK, "Connected succesfully"));
+            BufferedReader r = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
+            char[] buffer = new char[1024];
+            int read;
+            while ((read = r.read(buffer)) != -1) {
+                inputBuffer.append(new String(buffer, 0, read));
+
+                int newLinePosition;
+                while ((newLinePosition = inputBuffer.indexOf("\r\n")) != -1) {
+                    processCommand(inputBuffer.substring(0, newLinePosition));
+                    inputBuffer = new StringBuilder(inputBuffer.substring(newLinePosition + 2));
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+\end{minted}
+\subsection{Приложение 2. Исходный код библиотеки CtrlFTP Dependencies}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/authentication/AuthenticationResult.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.authentication;
+
+import rchat.info.ctrlftp.core.responses.Response;
+
+/**
+ * A class that describes authentication result (user info, cause of error and isAuthenticated flag)
+ */
+public record AuthenticationResult<UserInfo>(boolean isAuthenticated, Response cause, UserInfo authInfo) {
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/authentication/BaseAuthenticationDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.authentication;
+
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+
+/**
+ * A dependency for authentication. Has a session level. You should specify UserInfo
+ * type when overriding
+ */
+@Dependency(level = DependencyLevel.SESSION)
+public abstract class BaseAuthenticationDependency<UserInfo> extends AbstractDependency {
+    /**
+     * Checks user authentication. Is something is wrong or missing, return object contains
+     * cause of error
+     * @return result of authentication
+     */
+    public abstract AuthenticationResult<UserInfo> authenticate();
+
+    /**
+     * Logouts from the accout
+     */
+    public abstract void logout();
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/deserializer/BaseDeserializer.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.deserializer;
+
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+
+/**
+ * A dependency which deserializes and parses command arguments
+ * @param <DeserializeClass> a result deserialize class
+ */
+@Dependency(level = DependencyLevel.COMMAND)
+public abstract class BaseDeserializer<DeserializeClass> extends AbstractDependency {
+    private final DeserializeClass deserializeData;
+
+    public BaseDeserializer(String command) {
+        this.deserializeData = deserialize(command);
+    }
+
+    /**
+     * A deserialize method that parses command and returns DeserializeClass
+     * @param command a raw command
+     * @return deserialized data
+     */
+    protected abstract DeserializeClass deserialize(String command);
+
+    /**
+     * A method that returns args from command
+     * @return deserialized args from command
+     */
+    public DeserializeClass getDeserializeData() {
+        return deserializeData;
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/deserializer/SingleStringDeserialized.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.deserializer;
+
+public record SingleStringDeserialized(String arg) {}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/deserializer/SingleStringDeserializer.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.deserializer;
+
+/**
+ * A dependency to parse single string after a command name
+ */
+public class SingleStringDeserializer extends BaseDeserializer<SingleStringDeserialized> {
+    public SingleStringDeserializer(String command) {
+        super(command);
+    }
+
+    @Override
+    public SingleStringDeserialized deserialize(String command) {
+        var firstSpaceIndex = command.indexOf(' ');
+
+        return new SingleStringDeserialized(firstSpaceIndex == -1 ? "" : command.substring(firstSpaceIndex + 1));
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/filetransfer/AcceptEvent.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.filetransfer;
+
+/**
+ * An interface to call when file is accepted by
+ * file accept transfer dependency
+ *
+ * @param <DataClass> a program specific data class to store incoming data
+ */
+public interface AcceptEvent<DataClass> {
+    void onAccept(DataClass tempFile);
+
+    void onError(Exception e);
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/filetransfer/AcceptTransferDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.filetransfer;
+
+import rchat.info.ctrlftp.core.Session;
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.AbstractMap;
+
+/**
+ * Dependency to handle file transfering and accepting
+ *
+ * @param <Pipe> a piping class that transforms user input to readable data classes and backwards
+ * @param <DataClass> a data class that stores user input and output
+ */
+@Dependency(level = DependencyLevel.SESSION)
+public class AcceptTransferDependency<Pipe extends BasePipeDependency<DataClass>, DataClass> extends AbstractDependency {
+    private final Session session;
+    private AbstractMap.SimpleEntry<String, Integer> clientAddress = new AbstractMap.SimpleEntry<>("", 20);
+    private Socket clientSocket = null;
+    private ServerSocket server = null;
+    private Thread acceptTransferThread = null;
+    private final Pipe pipeClass;
+    private boolean isPassive = false;
+
+    public AcceptTransferDependency(Session session, Pipe pipeClass) {
+        this.session = session;
+        this.pipeClass = pipeClass;
+    }
+
+    /**
+     * Updates client address and port. Warning: stops current data connection if new client port is different
+     *
+     * @param address a new client address and port
+     */
+    public void setClientAddress(AbstractMap.SimpleEntry<String, Integer> address) throws IOException {
+        if (!this.clientAddress.equals(address))
+            disconnect();
+
+        this.clientAddress = address;
+    }
+
+    /**
+     * Sets mode passive or active. If current mode and passed mode are not equal, throws an error
+     *
+     * @param isPassive sets
+     */
+    public void setPassive(boolean isPassive) throws IOException {
+        if (this.isPassive != isPassive) {
+            try {
+                disconnect();
+            } catch (IOException _) {
+            }
+
+            if (isPassive) {
+                this.server = new ServerSocket(0);
+            } else {
+                this.server = null;
+            }
+
+            this.isPassive = isPassive;
+        }
+    }
+
+    public boolean isPassive() {
+        return isPassive;
+    }
+
+    /**
+     * Gets server info if it runs in passive mode
+     */
+    public AbstractMap.SimpleEntry<String, Integer> getServerInfo() throws UnknownHostException {
+        if (this.isPassive && this.server != null && !this.server.isClosed()) {
+            var remoteSocketAddress = session.getRemoteSocketAddress().toString();
+            return new AbstractMap.SimpleEntry<>(remoteSocketAddress.substring(1, remoteSocketAddress.indexOf(":")),
+                    this.server.getLocalPort());
+        }
+
+        return null;
+    }
+
+    /**
+     * Closes current connection and interrupts sending/accepting thread
+     *
+     * @throws IOException
+     */
+    public void disconnect() throws IOException {
+        if (this.acceptTransferThread != null && this.acceptTransferThread.isAlive()) {
+            this.acceptTransferThread.interrupt();
+        }
+        if (clientSocket != null && !clientSocket.isClosed()) {
+            clientSocket.close();
+        }
+    }
+
+    /**
+     * Connects this.clientSocket to a client data port in active mode and awaits for client
+     * connection in passive mode
+     *
+     * @throws IOException
+     */
+    private void connect() throws IOException {
+        if (clientSocket != null && !clientSocket.isClosed()) return;
+
+        if (this.isPassive) {
+            if (this.server == null) {
+                this.server = new ServerSocket(0);
+            }
+
+            clientSocket = this.server.accept();
+        } else {
+            if (this.server != null && !this.server.isClosed()) {
+                this.server.close();
+                this.server = null;
+            }
+
+            clientSocket = new Socket(
+                    this.clientAddress.getKey() == null ?
+                            this.session.getRemoteSocketAddress().toString() :
+                            this.clientAddress.getKey(),
+                    this.clientAddress.getValue());
+        }
+    }
+
+    /**
+     * Makes server to accept a file asyncrhonously.
+     *
+     * @param events calls onAccept method if file accepted
+     *               succesfully, or else onError
+     */
+    public void accept(AcceptEvent<DataClass> events) {
+        try {
+            if (this.acceptTransferThread != null && this.acceptTransferThread.isAlive()) {
+                throw new AcceptTransferIsBusy("Accept transfer is busy right now");
+            }
+
+            this.acceptTransferThread = Thread.ofVirtual().start(() -> {
+                InputStream clientInput = null;
+                try {
+                    connect();
+
+                    clientInput = this.clientSocket.getInputStream();
+                    var parsedData = this.pipeClass.pipeClientInputToDataClass(clientInput);
+                    events.onAccept(parsedData);
+                } catch (Exception e) {
+                    events.onError(e);
+                } finally {
+                    if (clientInput != null) {
+                        try {
+                            clientInput.close();
+                        } catch (IOException _) {
+
+                        }
+                    }
+                }
+
+                try {
+                    disconnect();
+                } catch (IOException _) {
+                }
+            });
+        } catch (Exception e) {
+            events.onError(e);
+        }
+    }
+
+    /**
+     * Sends a data to a client
+     *
+     * @param data a path to a data
+     * @param events a callback to call onError and onTransferred events
+     */
+    public void send(DataClass data, TransferEvent events) {
+        try {
+            if (this.acceptTransferThread != null && this.acceptTransferThread.isAlive()) {
+                throw new AcceptTransferIsBusy("Accept transfer is busy right now");
+            }
+
+            this.acceptTransferThread = Thread.ofVirtual().start(() -> {
+                OutputStream clientOutput = null;
+                try {
+                    connect();
+
+                    clientOutput = this.clientSocket.getOutputStream();
+                    this.pipeClass.pipeDataClassToClient(data, clientOutput);
+                    events.onTransferred();
+                } catch (Exception e) {
+                    events.onError(e);
+                } finally {
+                    if (clientOutput != null) {
+                        try {
+                            clientOutput.close();
+                        } catch (IOException _) {
+                        }
+                    }
+                }
+
+                try {
+                    disconnect();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (Exception e) {
+            events.onError(e);
+        }
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/filetransfer/AcceptTransferIsBusy.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.filetransfer;
+
+public class AcceptTransferIsBusy extends RuntimeException {
+    public AcceptTransferIsBusy(String message) {
+        super(message);
+    }
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/filetransfer/BasePipeDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.filetransfer;
+
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+/**
+ * The purpose of this class is transform client data of type A
+ * and transform it into system-specific data type and backwards
+ */
+@Dependency(level = DependencyLevel.SESSION)
+public abstract class BasePipeDependency<DataClass> extends AbstractDependency {
+    /**
+     * Pipes client specific input to a implementation specific data class
+     * @param client a client raw input
+     * @return parsed DataClass
+     */
+    public abstract DataClass pipeClientInputToDataClass(InputStream client);
+
+    /**
+     * Pipes specific data structure to a raw user content
+     * @param data a specific data structure
+     * @param client a client raw output
+     */
+    public abstract void pipeDataClassToClient(DataClass data, OutputStream client);
+}
+\end{minted}
+\mintinline{Java}|ctrlftp/ctrlftp-dependencies/src/main/java/rchat/info/ctrlftp/dependencies/filetransfer/TransferEvent.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dependencies.filetransfer;
+
+/**
+ * An interface to call when file is transfered by
+ * file accept transfer dependency
+ */
+public interface TransferEvent {
+    /**
+     * A callback
+     */
+    void onTransferred();
+
+    void onError(Exception e);
+}
+\end{minted}
+\subsection{Приложение 3. Исходный код FTP сервера}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/controllers/AuthenticationController.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.controllers;
+
+import rchat.info.ctrlftp.core.Session;
+import rchat.info.ctrlftp.core.annotations.Command;
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dbauth.dependencies.AuthenticationDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.FileAcceptTransferDependency;
+import rchat.info.ctrlftp.dependencies.deserializer.SingleStringDeserializer;
+
+import java.io.IOException;
+
+public class AuthenticationController {
+    @Command(name = "USER")
+    public static Response onUser(AuthenticationDependency auth, SingleStringDeserializer arg) {
+        auth.setLogin(arg.getDeserializeData().arg());
+
+        var authResponse = auth.authenticate();
+        return authResponse.cause();
+    }
+
+    @Command(name = "PASS")
+    public static Response onPassword(AuthenticationDependency auth, SingleStringDeserializer arg) {
+        auth.setPassword(arg.getDeserializeData().arg());
+
+        var authResponse = auth.authenticate();
+        return authResponse.cause();
+    }
+
+    @Command(name = "REIN")
+    public static Response onRein(AuthenticationDependency auth,
+                                  FileAcceptTransferDependency fileAcceptTransferDependency) {
+        try {
+            fileAcceptTransferDependency.disconnect();
+        } catch (IOException _) {
+        }
+        auth.logout();
+
+        return new Response(ResponseTypes.COMMAND_OK, "Logout succesfully");
+    }
+
+    @Command(name = "QUIT")
+    public static Response onQuit(AuthenticationDependency auth, Session systemSessionContext,
+                                  FileAcceptTransferDependency fileAcceptTransferDependency) {
+        try {
+            fileAcceptTransferDependency.disconnect();
+        } catch (IOException _) {
+        }
+        auth.logout();
+        systemSessionContext.disconnect(new Response(ResponseTypes.COMMAND_OK, "Quitted"));
+
+        return null;
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/controllers/FileAcceptTransferController.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.controllers;
+
+import rchat.info.ctrlftp.core.annotations.Command;
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dbauth.dependencies.AuthenticationDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.deserializers.DataPortDeserializer;
+import rchat.info.ctrlftp.dbauth.dependencies.FileAcceptTransferDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.FilePipeDependency;
+import rchat.info.ctrlftp.dependencies.deserializer.SingleStringDeserializer;
+
+import java.io.IOException;
+import java.util.AbstractMap;
+
+public class FileAcceptTransferController {
+    @Command(name = "PORT")
+    public static Response dataPort(
+            DataPortDeserializer dataPort,
+            FileAcceptTransferDependency fileAcceptTransferDependency,
+            AuthenticationDependency auth) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        if (dataPort.getDeserializeData() == null)
+            return new Response(ResponseTypes.BAD_PARAMETERS, "Invalid args");
+
+        try {
+            fileAcceptTransferDependency.setClientAddress(new AbstractMap.SimpleEntry<>(
+                    dataPort.getDeserializeData().ip(),
+                    dataPort.getDeserializeData().port()
+            ));
+        } catch (IOException e) {
+            return new Response(ResponseTypes.SERVICE_NOT_AVAILABLE, "Couldn't close current connection");
+        }
+
+        return new Response(ResponseTypes.COMMAND_OK);
+    }
+
+    @Command(name = "PASV")
+    public static Response setPassive(FileAcceptTransferDependency fileAcceptTransferDependency,
+                                      AuthenticationDependency auth) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        try {
+            fileAcceptTransferDependency.setPassive(true);
+            var serverInfo = fileAcceptTransferDependency.getServerInfo();
+            String[] ipBytes = serverInfo.getKey().split("\\.");
+
+            return new Response(ResponseTypes.ENTERING_PASSIVE_MODE, String.format("Entering Passive Mode (%s,%s,%s,%s,%d,%d)",
+                    ipBytes[0], ipBytes[1], ipBytes[2], ipBytes[3], serverInfo.getValue() >> 8,
+                    serverInfo.getValue() & 0xFF));
+        } catch (IOException e) {
+            return new Response(ResponseTypes.SERVICE_NOT_AVAILABLE, "Couldn't make current server passive");
+        }
+    }
+
+    @Command(name = "TYPE")
+    public static Response setType(AuthenticationDependency auth,
+                                   FilePipeDependency pipe,
+                                   SingleStringDeserializer arg) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        return pipe.setType(arg.getDeserializeData().arg());
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/controllers/NavigationController.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.controllers;
+
+import rchat.info.ctrlftp.core.Session;
+import rchat.info.ctrlftp.core.annotations.Command;
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dbauth.dependencies.FileAcceptTransferDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.FilePipeRecord;
+import rchat.info.ctrlftp.dbauth.dependencies.NavigationDependency;
+import rchat.info.ctrlftp.dependencies.deserializer.SingleStringDeserializer;
+import rchat.info.ctrlftp.dependencies.filetransfer.TransferEvent;
+import rchat.info.ctrlftp.dbauth.dependencies.AuthenticationDependency;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class NavigationController {
+    @Command(name = "PWD")
+    public static Response PWD(AuthenticationDependency auth,
+                               NavigationDependency navigation) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        return new Response(ResponseTypes.PATHNAME_CREATED, String.format("\"%s\" is current directory.",
+                navigation.getCurrentFolder().toString()
+                        .replace("\\", "/")));
+    }
+
+    @Command(name = "CWD")
+    public static Response CWD(AuthenticationDependency auth,
+                               NavigationDependency navigation,
+                               SingleStringDeserializer arg) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        try {
+            navigation.changeWorkingDirectory(arg.getDeserializeData().arg());
+
+            return new Response(ResponseTypes.PATHNAME_CREATED, String.format("\"%s\" is current directory.",
+                    navigation.getCurrentFolder().toString()
+                            .replace("\\", "/")));
+        } catch (Exception e) {
+            return new Response(ResponseTypes.BAD_PARAMETERS, "Bad filepath");
+        }
+    }
+
+    @Command(name = "LIST")
+    public static Response getList(AuthenticationDependency auth,
+                                   FileAcceptTransferDependency transfer,
+                                   NavigationDependency navigationDependency,
+                                   SingleStringDeserializer args,
+                                   Session session) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        try {
+            List<String> filesList;
+            if (args.getDeserializeData().arg().isEmpty()) {
+                filesList = navigationDependency.getFilesNames();
+            } else {
+                filesList = navigationDependency.getFilesNames(Paths.get(args.getDeserializeData().arg()));
+            }
+
+            String data = String.join("\r\n", filesList);
+            transfer.send(new FilePipeRecord(null, data), new TransferEvent() {
+                @Override
+                public void onTransferred() {
+                    try {
+                        session.sendResponse(
+                                new Response(ResponseTypes.COMMAND_OK, "A file sent succesfully")
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    e.printStackTrace();
+                    try {
+                        session.sendResponse(
+                                new Response(ResponseTypes.TRANSFER_ABORTED, "Failed to send a file")
+                        );
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            return new Response(ResponseTypes.FILENAME_NOT_ALLOWED, "Couldn't get folder contents");
+        }
+
+        return new Response(ResponseTypes.ABOUT_TO_OPEN_CONNECTION, "Ready to send data");
+    }
+
+    @Command(name = "NLST")
+    public static Response getListShort(AuthenticationDependency auth,
+                                        FileAcceptTransferDependency transfer,
+                                        NavigationDependency navigationDependency,
+                                        SingleStringDeserializer args,
+                                        Session session) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        try {
+            List<String> filesList;
+            if (args.getDeserializeData().arg().isEmpty()) {
+                filesList = navigationDependency.getFilesNamesShort();
+            } else {
+                filesList = navigationDependency.getFilesNamesShort(Paths.get(args.getDeserializeData().arg()));
+            }
+
+            String data = String.join("\r\n", filesList);
+            transfer.send(new FilePipeRecord(null, data), new TransferEvent() {
+                @Override
+                public void onTransferred() {
+                    try {
+                        session.sendResponse(
+                                new Response(ResponseTypes.COMMAND_OK, "A file sent succesfully")
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    e.printStackTrace();
+                    try {
+                        session.sendResponse(
+                                new Response(ResponseTypes.TRANSFER_ABORTED, "Failed to send a file")
+                        );
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            return new Response(ResponseTypes.FILENAME_NOT_ALLOWED, "Couldn't get folder contents");
+        }
+
+        return new Response(ResponseTypes.ABOUT_TO_OPEN_CONNECTION, "Ready to send data");
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/controllers/ServiceController.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.controllers;
+
+import rchat.info.ctrlftp.core.Session;
+import rchat.info.ctrlftp.core.annotations.Command;
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dbauth.dependencies.AuthenticationDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.FileAcceptTransferDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.FilePipeRecord;
+import rchat.info.ctrlftp.dbauth.dependencies.NavigationDependency;
+import rchat.info.ctrlftp.dbauth.dependencies.ServiceDependency;
+import rchat.info.ctrlftp.dependencies.deserializer.SingleStringDeserializer;
+import rchat.info.ctrlftp.dependencies.filetransfer.AcceptEvent;
+import rchat.info.ctrlftp.dependencies.filetransfer.TransferEvent;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
+public class ServiceController {
+    @Command(name = "SYST")
+    public static Response getSystemType(ServiceDependency serviceDependency) {
+        var osName = serviceDependency.getSystemName();
+        if (osName != null) {
+            return new Response(ResponseTypes.SYSTEM_TYPE, osName);
+        } else {
+            return new Response(ResponseTypes.NOT_IMPLEMENTED, "Unable to recognize current system");
+        }
+    }
+
+    @Command(name = "NOOP")
+    public static Response noop() {
+        return new Response(ResponseTypes.COMMAND_OK, "Glad to work with ya, human 'fella!");
+    }
+
+    @Command(name = "RETR")
+    public static Response getFile(
+            AuthenticationDependency auth,
+            FileAcceptTransferDependency fileTransfer,
+            NavigationDependency navigation,
+            SingleStringDeserializer args,
+            Session session
+    ) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navigation.getFile(args.getDeserializeData().arg());
+        if (!file.isFile())
+            return new Response(ResponseTypes.FILE_BUSY, "File doesnt exists at path");
+
+        fileTransfer.send(new FilePipeRecord(file, null), new TransferEvent() {
+            @Override
+            public void onTransferred() {
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_ACTION_OK, "File sent successfully"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_BUSY));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        return new Response(ResponseTypes.ABOUT_TO_OPEN_CONNECTION, "Ready to send data");
+    }
+
+    @Command(name = "STOR")
+    public static Response storeFile(
+            AuthenticationDependency auth,
+            FileAcceptTransferDependency fileTransfer,
+            NavigationDependency navigation,
+            SingleStringDeserializer args,
+            Session session
+    ) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navigation.getPathRelativeToCWD(args.getDeserializeData().arg());
+
+        fileTransfer.accept(new AcceptEvent<FilePipeRecord>() {
+            @Override
+            public void onAccept(FilePipeRecord tempFile) {
+                var oldFile = file.toFile();
+                oldFile.delete();
+                tempFile.iFile().renameTo(new File(oldFile.getAbsolutePath()));
+
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_ACTION_OK, "File moved successfully"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_BUSY));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        return new Response(ResponseTypes.ABOUT_TO_OPEN_CONNECTION, "Ready to send data");
+    }
+
+    @Command(name = "STOU")
+    public static Response storeUniqueFile(
+            AuthenticationDependency auth,
+            FileAcceptTransferDependency fileTransfer,
+            NavigationDependency navigation,
+            SingleStringDeserializer args,
+            Session session
+    ) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navigation.getPathRelativeToCWD(args.getDeserializeData().arg());
+
+        fileTransfer.accept(new AcceptEvent<FilePipeRecord>() {
+            private File getUniqueFile(String folderName, String searchedFilename) {
+                int num = 1;
+                String extension = getExtension(searchedFilename);
+                String filename = searchedFilename.substring(0, searchedFilename.lastIndexOf("."));
+                File file = new File(folderName, searchedFilename);
+                while (file.exists()) {
+                    searchedFilename = filename + "(" + (num++) + ")" + extension;
+                    file = new File(folderName, searchedFilename);
+                }
+                return file;
+            }
+
+            private String getExtension(String name) {
+                return name.substring(name.lastIndexOf("."));
+            }
+
+            @Override
+            public void onAccept(FilePipeRecord tempFile) {
+                var oldFile = file.toFile();
+                var uniqueFile = getUniqueFile(
+                        oldFile.getParent(),
+                        oldFile.getName()
+                );
+                tempFile.iFile().renameTo(uniqueFile);
+
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_ACTION_OK, String.format("\"%s\" saved with this name",
+                            uniqueFile.getName())));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_BUSY));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        return new Response(ResponseTypes.ABOUT_TO_OPEN_CONNECTION, "Ready to send data");
+    }
+
+    @Command(name = "APPE")
+    public static Response appendFile(
+            AuthenticationDependency auth,
+            FileAcceptTransferDependency fileTransfer,
+            NavigationDependency navigation,
+            SingleStringDeserializer args,
+            Session session
+    ) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navigation.getPathRelativeToCWD(args.getDeserializeData().arg());
+        if (!file.toFile().isFile())
+            return new Response(ResponseTypes.BAD_PARAMETERS, "Invalid filename");
+
+        fileTransfer.accept(new AcceptEvent<FilePipeRecord>() {
+            @Override
+            public void onAccept(FilePipeRecord tempFile) {
+                var oldFile = file.toFile();
+                if (oldFile.exists()) {
+                    tempFile.iFile().renameTo(new File(oldFile.getAbsolutePath()));
+                } else {
+                    try {
+                        Files.write(
+                                file,
+                                Files.readAllBytes(Paths.get(tempFile.iFile().getAbsoluteFile().toString())),
+                                StandardOpenOption.APPEND
+                        );
+                    } catch (IOException e) {
+                        try {
+                            session.sendResponse(new Response(ResponseTypes.FILENAME_NOT_ALLOWED, "Couldn't append a file"));
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_ACTION_OK, "File moved successfully"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                try {
+                    session.sendResponse(new Response(ResponseTypes.FILE_BUSY));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        return new Response(ResponseTypes.ABOUT_TO_OPEN_CONNECTION, "Ready to send data");
+    }
+
+    @Command(name = "RNFR")
+    public static Response renameFrom(
+            AuthenticationDependency auth,
+            NavigationDependency navigation,
+            SingleStringDeserializer args
+    ) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        navigation.setRenameFrom(args.getDeserializeData().arg());
+
+        return new Response(ResponseTypes.FILE_ACTION_PENDING_INFO, "Send rename to info");
+    }
+
+    @Command(name = "RNTO")
+    public static Response renameTo(
+            AuthenticationDependency auth,
+            NavigationDependency navigation,
+            SingleStringDeserializer args
+    ) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        return navigation.renameTo(args.getDeserializeData().arg());
+    }
+
+    @Command(name = "ABOR")
+    public static Response abort(
+            AuthenticationDependency auth,
+            FileAcceptTransferDependency transfer) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        try {
+            transfer.disconnect();
+        } catch (IOException e) {
+            return new Response(ResponseTypes.REQUESTED_ACTION_NOT_TAKEN, "Unable to abort file transfer");
+        }
+
+        return new Response(ResponseTypes.CLOSING_DATA_CONNECTION, "Closing data connection");
+    }
+
+    @Command(name = "DELE")
+    public static Response delete(
+            AuthenticationDependency auth,
+            NavigationDependency navi,
+            SingleStringDeserializer arg) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navi.getFile(arg.getDeserializeData().arg());
+        if (!file.exists() || !file.isFile() || !file.delete()) {
+            return new Response(ResponseTypes.FILE_BUSY, "File doesn't exists");
+        }
+
+        return new Response(ResponseTypes.FILE_ACTION_OK, "File deleted successfully");
+    }
+
+    static void deleteDir(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                deleteDir(f);
+            }
+        }
+        file.delete();
+    }
+
+    @Command(name = "RMD")
+    public static Response removeDirectory(
+            AuthenticationDependency auth,
+            NavigationDependency navi,
+            SingleStringDeserializer arg) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navi.getFile(arg.getDeserializeData().arg());
+        if (!file.exists() || !file.isDirectory()) {
+            return new Response(ResponseTypes.FILE_BUSY, "Folder doesn't exists");
+        }
+
+        deleteDir(file);
+
+        return new Response(ResponseTypes.FILE_ACTION_OK, "Directory deleted successfully");
+    }
+
+    @Command(name = "MKD")
+    public static Response makeDirectory(
+            AuthenticationDependency auth,
+            NavigationDependency navi,
+            SingleStringDeserializer arg) {
+        var authResult = auth.authenticate();
+        if (!authResult.isAuthenticated())
+            return authResult.cause();
+
+        var file = navi.getFile(arg.getDeserializeData().arg());
+        if (!file.mkdirs()) {
+            return new Response(ResponseTypes.FILE_BUSY, "Unable to create directory");
+        }
+
+        return new Response(ResponseTypes.FILE_ACTION_OK, "Directory created succesfully");
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/deserializers/DataPortDeserializer.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies.deserializers;
+
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+import rchat.info.ctrlftp.dependencies.deserializer.BaseDeserializer;
+import rchat.info.ctrlftp.dependencies.deserializer.SingleStringDeserializer;
+
+/**
+ * Deserializer for data port command
+ */
+@Dependency(level = DependencyLevel.COMMAND)
+public class DataPortDeserializer extends BaseDeserializer<DataPortDeserializer.DataPort> {
+    public DataPortDeserializer(SingleStringDeserializer deserializer) {
+        super(deserializer.getDeserializeData().arg());
+    }
+
+    @Override
+    public DataPort deserialize(String command) {
+        String[] bytesArgs = command.split(",");
+        if (bytesArgs.length == 6) {
+            String ip = String.format("%s.%s.%s.%s",
+                    bytesArgs[0], bytesArgs[1], bytesArgs[2], bytesArgs[3]);
+            Integer port = Integer.parseInt(bytesArgs[4]) << 8 + Integer.parseInt(bytesArgs[5]);
+
+            return new DataPort(ip, port);
+        }
+        return null;
+    }
+
+    public record DataPort(String ip, Integer port) {}
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/AuthenticationDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+import rchat.info.ctrlftp.core.responses.Response;
+import rchat.info.ctrlftp.core.responses.ResponseTypes;
+import rchat.info.ctrlftp.dbauth.dependencies.DatabaseDependency;
+import rchat.info.ctrlftp.dbauth.entities.UserEntity;
+import rchat.info.ctrlftp.dbauth.repositories.UserEntityRepository;
+import rchat.info.ctrlftp.dependencies.authentication.AuthenticationResult;
+import rchat.info.ctrlftp.dependencies.authentication.BaseAuthenticationDependency;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class AuthenticationDependency extends BaseAuthenticationDependency<UserEntity> {
+    private String login = null;
+    private String hashedPassword = null;
+    private UserEntity found = null;
+    private final MessageDigest messageDigest;
+    private final UserEntityRepository userEntityRepository;
+
+    public AuthenticationDependency(DatabaseDependency database) {
+        this.userEntityRepository = new UserEntityRepository(database.getDatabase());
+        try {
+            this.messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        messageDigest.update(password.getBytes());
+
+        this.hashedPassword = new String(messageDigest.digest());
+    }
+
+    @Override
+    public AuthenticationResult<UserEntity> authenticate() {
+        if (found != null) {
+            return new AuthenticationResult<>(
+                    true,
+                    new Response(ResponseTypes.AUTH_SUCCESS, String.format("You logged in successfully as '%s' (%d)",
+                            found.getLogin(), found.getId())),
+                    found);
+        }
+
+        if (login == null) {
+            return new AuthenticationResult<>(false,
+                    new Response(ResponseTypes.NEED_ACCOUNT_TO_LOGIN, "Please, provide login"),
+                    null);
+        }
+
+        if (hashedPassword == null) {
+            return new AuthenticationResult<>(false,
+                    new Response(ResponseTypes.USERNAME_OK_NEED_PASS, "Please, provide password"),
+                    null);
+        }
+
+        UserEntity foundUser = userEntityRepository.findUserEntityByLoginAndPassword(this.login, this.hashedPassword);
+        if (foundUser != null) {
+            this.found = foundUser;
+            this.login = null;
+            this.hashedPassword = null;
+            return new AuthenticationResult<>(
+                    true,
+                    new Response(ResponseTypes.AUTH_SUCCESS, String.format("You logged in successfully as '%s' (%d)",
+                            found.getLogin(), found.getId())),
+                    foundUser);
+        }
+
+        if (userEntityRepository.findUserEntityByLogin(this.login) != null) {
+            return new AuthenticationResult<>(true,
+                    new Response(ResponseTypes.NOT_LOGGED_IN, "Invalid password"),
+                    null);
+        }
+
+        UserEntity newUser = new UserEntity();
+        newUser.setLogin(this.login);
+        newUser.setHashPassword(this.hashedPassword);
+        userEntityRepository.addUser(newUser);
+
+        this.found = newUser;
+        this.login = null;
+        this.hashedPassword = null;
+
+        return new AuthenticationResult<>(
+                true,
+                new Response(ResponseTypes.AUTH_SUCCESS, String.format("You created account '%s' (%d)",
+                        found.getLogin(), found.getId())),
+                this.found);
+    }
+
+    @Override
+    public void logout() {
+        this.found = null;
+        this.login = null;
+        this.hashedPassword = null;
+    }
+
+    public Long getUserId() {
+        if (this.found == null) return null;
+
+        return this.found.getId();
+    }
+}
+\end{minted}
+\mintinline{Java}|examples/example-dbauth/src/main/java/rchat/info/ctrlftp/dbauth/dependencies/DatabaseDependency.java|
+\begin{minted}{Java}
+package rchat.info.ctrlftp.dbauth.dependencies;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import rchat.info.ctrlftp.core.annotations.Dependency;
+import rchat.info.ctrlftp.core.dependencies.AbstractDependency;
+import rchat.info.ctrlftp.core.dependencies.DependencyLevel;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Dependency(level = DependencyLevel.GLOBAL)
+public class DatabaseDependency extends AbstractDependency {
+    private static final EntityManagerFactory emf;
+    private EntityManager entityManager;
+
+    static {
+        Map<String, String> env = System.getenv();
+        Map<String, Object> configOverrides = new HashMap<String, Object>();
+        for (String envName : env.keySet()) {
+            if (envName.contains("DB_URL")) {
+                configOverrides.put("jakarta.persistence.jdbc.url", env.get(envName));
+            } else if (envName.contains("DB_USER")) {
+                configOverrides.put("jakarta.persistence.jdbc.user", env.get(envName));
+            } else if (envName.contains("DB_PASSWORD")) {
+                configOverrides.put("jakarta.persistence.jdbc.password", env.get(envName));
+            }
+        }
+
+        emf = Persistence.createEntityManagerFactory("ctrlftp-example-s3", configOverrides);
+    }
+
+    public DatabaseDependency() {
+        this.entityManager = emf.createEntityManager();
+    }
+
+    public EntityManager getDatabase() {
+        return this.entityManager;
+    }
+}
+\end{minted}
+\subsection{Приложение 4. Исходный код FTP клиента}
+\fi
+
+\end{document}
