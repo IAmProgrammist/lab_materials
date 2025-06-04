@@ -1,6 +1,6 @@
 ---
 created: 2025-02-24T10:26:42.4242+00:00
-modified: 2025-02-24T10:30:12.1212+00:00
+modified: 2025-06-04T10:27:58.5858+00:00
 title: Компьютерные сети
 tags:
   - Программирование
@@ -12,4 +12,5 @@ tags:
 
 Общие исходники:
 - [Отчёты](https://github.com/IAmProgrammist/lab_materials/tree/main/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D0%B5%20%D1%81%D0%B5%D1%82%D0%B8)
-- [Код](https://github.com/IAmProgrammist/comp_net)
+- [Код лабораторных работ](https://github.com/IAmProgrammist/comp_net)
+- [Код курсовой работы](https://github.com/IAmProgrammist/CtrlFTP/tree/main)
