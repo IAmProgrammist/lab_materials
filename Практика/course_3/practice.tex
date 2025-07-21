@@ -234,14 +234,250 @@ CI/CD включает в себя Pre-Commit-Hooks - действия, выпо
 отправкам новый статус.
 
 На фронтенде было принято решение сделать этот функционал в виде модального окна, всплывающего при 
-редактировании вакансии. 
+редактировании вакансии при выборе соответствующего статуса.
+
+\includegraphics[width=140mm]{vacancyclose}
+
+После обновления у всех связанных событий и отправок обновляется статус.
+
+\includegraphics[width=140mm]{eventclose}
+
 \subsection{Исправление ошибки на странице дедупликации}
+
+Ошибка была связана с компонентом SimpleList на клиенте. При обновлении библиотек 
+компонент начал обязательно требовать имя ресурса, в то время как ранее это было 
+опционально. Кроме того, в странице дедупликации этот компонент не должен запрашивать 
+пользователей с сервера, так что ему имя ресурса было не нужно. Баг исправлен, лист 
+дедупликации кандидатов заработал.
+
+\includegraphics[width=140mm]{can}
+
 \subsection{Исправление ошибки инвалидации кэша}
+
+Одной из особенностей React Admin является кеширование. Так например если вы загрузили лист ресурсов, 
+то при переходе на просмотр конкретного ресурса React Admin не будет вызывать вопрос снова для его получения. 
+Вместо этого будет использован результат из списка. Это возможно благодаря набору правил, согласно которым 
+каждый объект должен обязательно содержать id. Но этот метод даёт много ограничений. Так на странице активностей
+нам бы хотелось отображать прикреплённые артефакты. Эти артефакты прикрепляются из БД вместе с запросоом на 
+активность. Выбирать каждый раз артефакты для всех объектов в списке - большая потеря времени. Именно поэтому
+при выборе списка активностей список артефактов не прикрепляется. Из-за вышеообозначенного механизма при переходе
+на конкретную отправку список артефактов оставался пустым. 
+
+В качестве решения было принято использовать кастомный хук, который заставляет "забыть" React Admin о том, что 
+у него уже был такой ресурс. Он будет срабатывать каждый раз при посещении страницы, позволяя таким образом 
+всегда поддерживать актуальность данных. 
+
+\begin{minted}{js}
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useGetRecordId, useResourceContext } from 'react-admin';
+
+// Инвалидирует кэш для индивидуального запроса.
+// disableCache - флаг, отключен ли кеш.
+//
+// Можно использовать, например, если в списке ответ отличается от 
+// индивидуального ответа. 
+export function useGetOneDisableCache(disableCache: boolean = true) {
+    const queryClient = useQueryClient();
+    const resouce = useResourceContext();
+    const resouceId = useGetRecordId();
+
+    useEffect(() => {
+        if (!disableCache) return
+
+        queryClient.invalidateQueries({
+            predicate: (query) => {
+                return query.queryKey?.[0] === resouce &&
+                    query.queryKey?.[1] === "getOne" &&
+                    (query.queryKey?.[2] as any)?.id === resouceId
+            }
+        })
+    }, [queryClient, resouce, resouceId, disableCache]);
+}
+\end{minted}
+
+\subsection{Оптимизация запроса}
+Эта ошибка была связана с тем, как SQLAlchemy использует JOIN-ы других таблиц. 
+Для того чтобы присоединить таблицу обычно необходимо выполнить JOIN и выбрать признак по которому
+будет присоединяться запись. Однако если не указывать JOIN-ы, SQLAlchemy не будет ругаться. Он будет просто 
+выполнять декартово произведение каждой из таблиц, которая была когда-либо использована. 
+
+При подсчёте количества вакансий при использовании фильтра как раз и была допущена такая ошибка. Фильтр 
+фильтровал значения по полям других моделей даже с тем что эти таблицы не были присоединены, в итоге 
+результаты выбирались из всех таблиц (SELECT ... FROM table\_a, table\_b, table\_c...), что приводило 
+к неутешительному падению в производительности запроса. Баг был обнаружен и исправлен.
+
 \subsection{Сущность комментариев}
+Возникла необходимость комментарования некоторых сущностей для обеспечения более удобной 
+командной работы между HR-ами. Так как возможность комментирования должна была 
+использоваться не для одной сущности, а для нескольких (потенциально больше), было принято
+решение разработки универсального механизма, позволяющего добавить комментарии к любой 
+сущности по желанию с миниальными затратами времени.
+
 \subsubsection{Фабрика}
+Фабрика состоит из двух этапов. Для начала нам необходимо сгенерировать 
+модель для базы данных. Модель должна включать в себя комментарий, время его 
+создания, автора а также идентификатор сущности, на который он будет ссылаться.
+
+После чего можно будет приступить к созданию эндпоинтов. Для этого нам необходимо
+создать фильтр, который будет содержать идентификатор сущности. Создать схемы ответов 
+для автогенерации документации. Создать процессор запроса для упорядочивания и пагинации. 
+И после этого можно создать сами энпдоинты.
+
+Такой подход был выбран для минимизации конфликтов и подстройки под текущую ИС. Модель обязана
+быть включена в \_\_init\_\_.py файл в модуле с моделями, чтобы Alembic мог корректно её 
+считать и сгенерировать миграцию. А API - это задача уже для пакета с эндпоинтами. 
+Именно поэтому было выбрано такое разделение.
+
+\begin{minted}{python3}
+from typing import Annotated, Type
+from uuid import UUID
+
+from fastapi import APIRouter, Depends
+from sqlalchemy import types
+
+from app.core.comment.api import generate_comment_endpoints
+from app.core.comment.filter import generate_comment_filter
+from app.core.comment.model import generate_comment_model
+from app.core.comment.schema import generate_comment_schema
+from app.db import Base
+from app.deps.request_params.utils import RequestParams, parse_react_admin_params
+
+
+def comment_model_factory(
+    BaseModel: Type[Base], id_field_name: str = "id", id_field_type: Type = types.UUID
+) -> Base:
+    CommentModel = generate_comment_model(
+        BaseModel,
+        id_field_name,
+        id_field_type,
+    )
+
+    return CommentModel
+
+
+def comment_api_factory(
+    BaseModel: Type[Base],
+    CommentModel: Type[Base],
+    id_field_type: Type = UUID,
+) -> APIRouter:
+    # 2. Создать схемы
+    (CommentCreateSchema, CommentSchema) = generate_comment_schema(
+        BaseModel,
+        id_field_type,
+    )
+    # 3. Создать параметры для сортировок
+    CommentRequestParams = Annotated[
+        RequestParams, Depends(parse_react_admin_params(CommentModel))
+    ]
+    # 4. Создать фильтр для списка
+    CommentFilter = generate_comment_filter(
+        CommentModel,
+        BaseModel,
+        id_field_type,
+    )
+    # 5. Создать API
+    router = generate_comment_endpoints(
+        BaseModel,
+        CommentModel,
+        CommentCreateSchema,
+        CommentSchema,
+        CommentRequestParams,
+        CommentFilter,
+    )
+
+    return router
+
+\end{minted}
+
+Теперь чтобы добавить комментарии нужно совсем немного действий:
+\begin{minted}{python3}
+from app.core.comment import comment_model_factory
+from app.models import Candidate, Submit
+
+CandidateComment = comment_model_factory(Candidate)
+SubmitComment = comment_model_factory(Submit)
+\end{minted}
+\begin{minted}{python3}
+...
+logger = logging.getLogger()
+router = APIRouter(prefix="/candidate")
+router.include_router(
+    comment_api_factory(Candidate, CandidateComment),
+)
+...
+\end{minted}
+
+\includegraphics[width=140mm]{cant}
+
+Разработанная система позволяет легко и быстро добавить сущность комментариев для любой базовой сущности.
+
+Для клиента также был разработан универсальный компонент с секцией комментариев:
+
+\includegraphics[width=140mm]{kant}
+
 \subsubsection{Фейкер}
+
+Фейкер позволяет быстро добавить в локальную HRM-ку тестовые данные для быстрой демонстрации. Это бывает 
+удобно для просмотра того, как система себя поведёт при большей нагрузке. А ещё создаёт ощущение живости 
+ПО. Так выглядит один из генераторов для комментариев:
+
+\begin{minted}{python3}
+class CandidateCommentFabric:
+    def values(
+        self,
+        candidate_id_list: list[UUID],
+        user_id_list: list[UUID],
+        limit: int = 299,
+    ) -> list[CandidateComment]:
+        candidate_comment_list: list[CandidateComment] = []
+
+        for _ in tqdm(
+            range(limit),
+            desc="CandidateComment",
+            unit=" notes",
+            ascii=True,
+            colour="green",
+        ):
+            candidate_comment_list.append(
+                CandidateComment(
+                    user_id=random.choice(user_id_list),
+                    comment=faker.text(),
+                    entity_candidate_id=random.choice(candidate_id_list),
+                )
+            )
+        return candidate_comment_list
+
+    def add_data(
+        self,
+        session,
+        candidate_id_list: list[UUID],
+        user_id_list: list[UUID],
+    ) -> list[UUID]:
+        candidate_comments: list[CandidateComment] = self.values(
+            candidate_id_list, user_id_list
+        )
+        session.add_all(candidate_comments)
+        session.commit()
+        query = select(CandidateComment.id)
+        return session.execute(query).scalars().all()
+\end{minted}
+
 \subsubsection{Тестирование}
+Тестирование включает в себя написание интеграционных тестов и основное тестирование методов. Также 
+тестирование проводилось коллегой, что позволило выделить некоторые ошибки при разработке.
 \subsubsection{Доработки}
+Были выявлены ошибки при использовании API, например позволялось отправлять текст исключительно из 
+пробелов или пустой текст. На клиенте были выявлены пограничные случаи, когда у сущности не было комментариев.
+Был выявлен случай, если указан невалидный идентификатор родительской сущности, нужно возвращать 404. Сейчас 
+определение неопределено. Баги были исправлены.
 \section{Заключение}
+В ходе практики были получены знания, которые позволили развить не только умение в программировании и получении 
+настоящего коммерческого опыта ценного на рынке, но также и позволило сильно развить навыки общения и координации 
+при взаимодействии с коллегами. Была разработана дисциплина, позволяющая эффективно 
+принимать решения и выполнять задачи. 
+Были получены навыки использования современных библиотек и подходов к программированию WEB-сервисов, паттерны и 
+организация проектов, которая позволяет работать над ПО в команде.
+Опыт, полученный в компании "АНТАРА Н", невероятно ценнен. 
 
 \end{document}
