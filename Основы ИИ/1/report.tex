@@ -1,0 +1,503 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №1}}\\
+    \normalsize{
+        по дисциплине: Основы ИИ \\
+        тема: «Алгоритм отжига»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Твердохлеб Виталий Викторович
+}
+\vfill\begin{center}
+    Белгород 2025 г.
+\end{center}
+\newpage
+\underline{\textbf{Цель работы: }}разработка и исследование алгоритма отжига в процессе
+решения числовой задачи оптимизации.\\
+\begin{center}
+\textbf{Ход выполнения работы}
+\end{center}
+
+\includegraphics[width=140mm]{algorythm}\\
+
+\begin{minted}{Rust}
+use dioxus::prelude::*;
+
+use crate::components::{Field, GoHome, BUTTON_CLASSES, INPUT_CLASSES};
+use crate::utils::{generate_field, simulated_annealing, FIELD_SIZE};
+use dioxus_charts::LineChart;
+
+#[component]
+pub fn SimulatedAnnealingPage() -> Element {
+    let mut field = use_signal(|| generate_field(0));
+    let mut bad_decisions = use_signal(|| vec![0 as usize; 0]);
+    let mut energy = use_signal(|| vec![0 as usize; 0]);
+    let mut temperatures = use_signal(|| vec![0.0f64; 0]);
+
+    let mut max_temp = use_signal(|| "30.0".to_string());
+    let mut min_temp = use_signal(|| "0.5".to_string());
+    let mut lower_coef = use_signal(|| "0.98".to_string());
+    let mut queen_amount = use_signal(|| "20".to_string());
+    let mut steps_amount = use_signal(|| "100".to_string());
+
+    rsx! {
+        div {
+            class: "flex flex-col gap-4",
+            GoHome {  }
+            hr { 
+                class: "text-gray-900 dark:text-white"
+            }
+            h3 {
+                class: "text-gray-900 dark:text-white text-lg font-semibold",
+                "Входные значения"
+            }
+            input { 
+                class: INPUT_CLASSES, 
+                placeholder: "Максимальная температура",
+                type: "number",
+                min: "0.0",
+                step: "0.001",
+                value: "{max_temp}",
+                oninput: move |event| max_temp.set(event.value())
+            }
+            input { 
+                class: INPUT_CLASSES, 
+                placeholder: "Минимальная температура",
+                type: "number",
+                min: "0.0",
+                step: "0.001",
+                value: "{min_temp}",
+                oninput: move |event| min_temp.set(event.value())
+            }
+            input { 
+                class: INPUT_CLASSES, 
+                placeholder: "Коэффициент понижения температуры",
+                type: "number",
+                min: "0",
+                max: "1",
+                step: "0.001",
+                value: "{lower_coef}",
+                oninput: move |event| lower_coef.set(event.value())
+            }
+            input { 
+                class: INPUT_CLASSES, 
+                placeholder: "Количество ферзей",
+                type: "number",
+                min: 1,
+                max: FIELD_SIZE * FIELD_SIZE,
+                value: "{queen_amount}",
+                oninput: move |event| queen_amount.set(event.value())
+            }
+            input { 
+                class: INPUT_CLASSES, 
+                placeholder: "Количество шагов при постоянном значении температуры",
+                type: "number",
+                min: 1,
+                value: "{steps_amount}",
+                oninput: move |event| steps_amount.set(event.value())
+            }
+            button {
+                class: BUTTON_CLASSES,
+                onclick: move |_| {
+                    let max_temp = max_temp().parse::<f64>().unwrap();
+                    let min_temp = min_temp().parse::<f64>().unwrap();
+                    let lower_coef = lower_coef().parse::<f64>().unwrap();
+                    let queen_amount = queen_amount().parse::<usize>().unwrap();
+                    let steps_amount = steps_amount().parse::<usize>().unwrap();
+                    
+                    let result = simulated_annealing(max_temp, min_temp, lower_coef, queen_amount, steps_amount);
+                    field.set(result.best_field);
+                    bad_decisions.set(result.bad_decisions);
+                    energy.set(result.energy);
+                    temperatures.set(result.temperatures);
+                },
+                "Запустить симуляцию"
+            }
+            hr { 
+                class: "text-gray-900 dark:text-white"
+            }
+            h3 {
+                class: "text-gray-900 dark:text-white text-lg font-semibold",
+                "Шахматная доска"
+            }
+            Field {
+                field: field()
+            }
+            hr { 
+                class: "text-gray-900 dark:text-white"
+            }
+            h3 {
+                class: "text-gray-900 dark:text-white text-lg font-semibold",
+                "Графики"
+            }
+            div {
+                class: "bg-gray-100 border border-solid border-grey-800 rounded p-4",
+                LineChart {
+                    width: "100%",
+                    height: "100%",
+                    padding_top: 30,
+                    padding_left: 50,
+                    padding_right: 90,
+                    padding_bottom: 30,
+                    show_grid_ticks: true,
+                    show_dotted_grid: false,
+                    label_interpolation: (|v| format!("{v}")) as fn(f32) -> String,
+                    series: vec![bad_decisions().into_iter().map(|val| val as f32).collect()],
+                    labels: bad_decisions().into_iter().enumerate().map(|(_, idx)| idx.to_string()).collect::<Vec<_>>(),
+                }
+                p {
+                    class: "text-center font-semibold",
+                    "Плохие решения"
+                }
+            }
+            div {
+                class: "bg-gray-100 border border-solid border-grey-800 rounded p-4",
+                LineChart {
+                    width: "100%",
+                    height: "100%",
+                    padding_top: 30,
+                    padding_left: 50,
+                    padding_right: 90,
+                    padding_bottom: 30,
+                    show_grid_ticks: true,
+                    show_dotted_grid: false,
+                    label_interpolation: (|v| format!("{v}")) as fn(f32) -> String,
+                    series: vec![energy().into_iter().map(|val| val as f32).collect()],
+                    labels: energy().into_iter().enumerate().map(|(_, idx)| idx.to_string()).collect::<Vec<_>>(),
+                }
+                p {
+                    class: "text-center font-semibold",
+                    "Энергия лучшего решения"
+                }
+            }
+            div {
+                class: "bg-gray-100 border border-solid border-grey-800 rounded p-4",
+                LineChart {
+                    width: "100%",
+                    height: "100%",
+                    padding_top: 30,
+                    padding_left: 50,
+                    padding_right: 90,
+                    padding_bottom: 30,
+                    show_grid_ticks: true,
+                    show_dotted_grid: false,
+                    label_interpolation: (|v| format!("{v}")) as fn(f32) -> String,
+                    series: vec![temperatures().into_iter().map(|val| val as f32).collect()],
+                    labels: temperatures().into_iter().enumerate().map(|(_, idx)| idx.to_string()).collect::<Vec<_>>(),
+                }
+                p {
+                    class: "text-center font-semibold",
+                    "Температура"
+                }
+            }
+        }
+    }
+}
+\end{minted}
+
+\begin{minted}{Rust}
+use dioxus::prelude::*;
+
+use crate::utils::FIELD_SIZE;
+
+#[derive(Props, PartialEq, Clone)]
+pub struct FieldProps {
+    field: [[bool; FIELD_SIZE]; FIELD_SIZE]
+}
+
+#[component]
+pub fn Field(props: FieldProps) -> Element {    
+    let columns_amount = match props.field.get(0) {
+        Some(field_row) => field_row.len(),
+        None => 0,
+    };
+
+    rsx! {
+        div {
+            class: "grid grid-cols-20 grid-rows-20 gap-1",
+            for i in (0..props.field.len()) {
+                for j in (0..columns_amount) {
+                    div { 
+                        class: "rounded-md border-solid border border-gray-300 min-h-6",
+                        if *props.field.get(i as usize).unwrap().get(j as usize).unwrap() { "👑" } else { "" }
+                    }
+                }
+            }
+        }
+    }
+}
+\end{minted}
+
+\begin{minted}{Rust}
+use rand::{self, Rng};
+
+pub const FIELD_SIZE: usize = 20;
+const MAX_ITERATIONS: usize = 10_000;
+
+pub struct SimulatedAnnealingReport {
+    pub best_field: [[bool; FIELD_SIZE]; FIELD_SIZE],
+    pub bad_decisions: Vec<usize>,
+    pub energy: Vec<usize>,
+    pub temperatures: Vec<f64>
+}
+
+macro_rules! unwrap_or_return {
+    ( $e:expr ) => {
+        match $e {
+            Ok(x) => x,
+            Err(_) => return,
+        }
+    }
+}
+
+pub fn pick_not_taken_place(field_of_queens: &[[bool; FIELD_SIZE]; FIELD_SIZE]) -> Result<(usize, usize), Box<&str>> {
+    let mut rng = rand::rng();
+    let mut current_iteration = 0;
+
+    loop {
+        let (inner_rand_i, inner_rand_j) = (rng.random_range(0..FIELD_SIZE), rng.random_range(0..FIELD_SIZE));
+        if !field_of_queens[inner_rand_i][inner_rand_j] {
+            return Ok((inner_rand_i, inner_rand_j));
+        }
+        current_iteration += 1;
+        if current_iteration > MAX_ITERATIONS {
+            return Err(Box::new("Failed to find not taken place"));
+        }
+    };
+}
+
+pub fn pick_taken_place(field_of_queens: &[[bool; FIELD_SIZE]; FIELD_SIZE]) -> Result<(usize, usize), Box<&str>> {
+    let mut rng = rand::rng();
+    let mut current_iteration = 0;
+
+    loop {
+        let (inner_rand_i, inner_rand_j) = (rng.random_range(0..FIELD_SIZE), rng.random_range(0..FIELD_SIZE));
+        if field_of_queens[inner_rand_i][inner_rand_j] {
+            return Ok((inner_rand_i, inner_rand_j));
+        }
+        current_iteration += 1;
+        if current_iteration > MAX_ITERATIONS {
+            return Err(Box::new("Failed to find taken place"));
+        }
+    };
+}
+
+/**
+ * Генерирует поле с ферзями. Случайный подход - не самый лучший. Но так как мы обычно будем
+ * работать с маленьким количеством ферзей, то не страшно
+ */
+pub fn generate_field(queens_amount: usize) -> [[bool; FIELD_SIZE]; FIELD_SIZE] {
+    let mut field_of_queens = [[false; FIELD_SIZE]; FIELD_SIZE];
+
+    for _ in (0..queens_amount) {
+        match pick_not_taken_place(&field_of_queens) {
+            Ok((rand_i, rand_j)) => {
+                field_of_queens[rand_i][rand_j] = true;
+            },
+            Err(_err) => {
+                continue;
+            }
+        }
+    }
+
+    field_of_queens
+}
+
+/**
+ * Перемещает ферзя в случайное место
+ */
+pub fn move_random_queen(field_of_queens: &mut [[bool; FIELD_SIZE]; FIELD_SIZE]) {
+    let (free_i, free_j) = unwrap_or_return!(pick_not_taken_place(&field_of_queens));
+    let (taken_i, taken_j) = unwrap_or_return!(pick_taken_place(&field_of_queens));
+
+    field_of_queens[free_i][free_j] = true;
+    field_of_queens[taken_i][taken_j] = false;
+}
+
+pub fn compute_energy(field_of_queens: &[[bool; FIELD_SIZE]; FIELD_SIZE]) -> usize {
+    let mut energy: usize = 0;
+    
+    for i in 0..FIELD_SIZE {
+        for j in 0..FIELD_SIZE {
+            if !field_of_queens[i][j] {
+                continue;
+            }
+
+            for k in 0..FIELD_SIZE {
+                if field_of_queens[k][j] && k != i {
+                    energy += 1;
+                }
+
+                if field_of_queens[i][k] && k != j {
+                    energy += 1;
+                }
+                
+                if k != 0 {
+                    if i >= k && j >= k && field_of_queens[i - k][j - k] {
+                        energy += 1;
+                    } 
+                    if i + k < FIELD_SIZE && j >= k && field_of_queens[i + k][j - k] {
+                        energy += 1;
+                    } 
+                    if i >= k && j + k < FIELD_SIZE && field_of_queens[i - k][j + k] {
+                        energy += 1;
+                    } 
+                    if i + k < FIELD_SIZE && j + k < FIELD_SIZE && field_of_queens[i + k][j + k] {
+                        energy += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    energy
+}
+
+pub fn simulated_annealing(max_temp: f64,
+                    min_temp: f64,
+                    lower_coef: f64,
+                    queen_amount: usize,
+                    steps_amount: usize) -> SimulatedAnnealingReport {
+    let mut rng = rand::rng();
+    let mut current = generate_field(queen_amount);
+    let mut current_energy = compute_energy(&current);
+    let mut temp: f64 = max_temp;
+    let mut report: SimulatedAnnealingReport = SimulatedAnnealingReport { 
+        best_field: [[false; FIELD_SIZE]; FIELD_SIZE], 
+        bad_decisions: vec![], 
+        energy: vec![], 
+        temperatures: vec![] 
+    };
+
+    while temp > min_temp {
+        let mut bads: usize = 0;
+
+        for _ in 0..steps_amount {
+            let mut worker = current;
+            move_random_queen(&mut worker);
+            let worker_energy = compute_energy(&worker);
+
+            if worker_energy < current_energy {
+                current = worker;
+                current_energy = worker_energy;
+            } else {
+                let delta = worker_energy - current_energy;
+                let probability = (-(delta as f64) / temp).exp();
+                if rng.random_range(0.0f64..1.0f64) < probability {
+                    current = worker;
+                    current_energy = worker_energy;
+                    bads += 1;
+                }
+            }
+        }
+
+        report.temperatures.push(temp);
+        report.bad_decisions.push(bads);
+        report.energy.push(current_energy);
+        temp *= lower_coef;
+    }
+
+    report.best_field = current;
+    report
+}
+\end{minted}
+
+\href{https://github.com/IAmProgrammist/ai_basics/tree/lab1}{Ссылка на репозиторий}\\
+
+Опыт №1: обычный сценарий\\
+\includegraphics[width=140mm]{report1}\\
+Обычный сценарий. В результате можем получить ответ, который всё ещё является не оптимальным. По графикам видно, что 
+энергия решения потихоньку падает с понижением температуры. Вероятность принятия плохих решений тоже падает.\bigbreak
+
+Опыт №2: у кузнеца дедлайн\\
+\includegraphics[width=140mm]{report2}\\
+Теперь сделаем минимальную температуру высокой. Результат получился гораздо хуже. Решение не успело остыть, 
+в нём очень высокая энергия. Это слишком большая минимальная температура. Даже по доске можно заметить, 
+что в ней очень много конфликтов.\bigbreak
+
+Опыт №3: "Сентябрь горит"\\
+\includegraphics[width=140mm]{report3}\\
+Сделаем максимальную температуру высокой. В начале решение перегрето и создаёт много решений с большой энергией, 
+неправильных решений. Первые итерации практически бесполезны, поэтому для данного случая максимальную
+температуру следует понизить.\bigbreak
+
+Опыт №4: шоковое охлаждение\\
+\includegraphics[width=140mm]{report4}\\
+Уменьшим коэффициент понижения температуры. В целом, мы вышли на значения энергии как при нормальных параметрах (около 15 конфликтов). 
+Но рекомендуется использовать больший коэффициент, плавное снижение температуры даёт плавный и стабилный поиск минимума.\bigbreak
+
+Опыт №5: семь раз отмерь, и ещё семь раз, и ещё...\\
+\includegraphics[width=140mm]{report51}\\
+\includegraphics[width=140mm]{report52}\\
+Попробуем "поиграть" с количеством итераций на одну температуру. Ожидаемо при увеличении итераций количество 
+плохих решений будет увеличиваться и наоборот. Однако при большем количестве итераций получается более плавный 
+и более точный поиск решения с минимальной энергией (7 против 15 конфликтов).\bigbreak
+
+
+\textbf{Вывод: } в ходе лабораторной работы разработали и исследовади алгоритм отжига в процессе
+решения числовой задачи оптимизации. Алгоритм отжига может быть эффективен в тех случаях, когда 
+не получается явно найти функцию проивзодной. Алгоритм отжига во многом полагается на метод Монте-Карло, 
+когда мы буквально подбираем решение случайным образом. Такое ограничение ограничивает точность и сильно зависит
+от случая. К тому же такой подход может быть очень медленным и требовать большое количество итераций. 
+Алгоритм отжига может и не найти решение вовсе. 
+
+\end{document}
