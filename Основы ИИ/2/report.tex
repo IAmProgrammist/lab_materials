@@ -1,0 +1,277 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{array}
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+	\parbox{.45\textwidth}{#1}
+} 
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}
+    \small{
+        \textbf{МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ РОCCИЙCКОЙ ФЕДЕРАЦИИ}\\
+        ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ\\ВЫCШЕГО ОБРАЗОВАНИЯ \\
+        \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ ТЕХНОЛОГИЧЕCКИЙ\\УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+        \bigbreak
+        \includegraphics[width=70mm]{log}\\
+        ИНСТИТУТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ И УПРАВЛЯЮЩИХ СИСТЕМ\\}
+\end{center}
+
+\vfill
+\begin{center}
+    \large{
+        \textbf{
+            Лабораторная работа №2}}\\
+    \normalsize{
+        по дисциплине: Основы ИИ \\
+        тема: «Алгоритм теории адаптивного резонанса»}
+\end{center}
+\vfill
+\hfill\textbox{
+    Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+    \bigbreak
+    Проверили: \\пр. Твердохлеб Виталий Викторович
+}
+\vfill\begin{center}
+    Белгород 2025 г.
+\end{center}
+\newpage
+\underline{\textbf{Цель работы: }}изучение методики описания и технологии разработки
+алгоритма ART1 (Adaptive Resonance Theory) на примере решения задачи
+классификации.\\
+\begin{center}
+\textbf{Ход выполнения работы}
+\end{center}
+
+\includegraphics[width=140mm]{algorythm}\\
+
+\begin{minted}{Rust}
+use core::f64;
+use std::error::Error;
+
+use crate::utils::{ART1Clusters, ART1Database, ART1Config};
+
+pub fn art1(database: &ART1Database, config: &ART1Config) -> Result<ART1Clusters, Box<dyn Error>> {
+    let mut art1_clusters = ART1Clusters { clusters: vec![] };
+
+    if database.dimension == 0 || database.dataset.len() == 0 {
+        return Ok(art1_clusters);
+    }
+
+    // Создаём первый кластер с единственным вектором-прототипом -- первым элементом из списка.
+    create_cluster(config, &mut art1_clusters, database.dataset[0])?;
+
+    // Инициализируем кластеры
+    for database_element in database.dataset.iter() {
+        // Найти подходящий кластер
+        match find_fitting_cluster(database, config, &art1_clusters, *database_element)? {
+            Some(cluster_index) => {
+                // Если кластер найден, то модифицируем вектор-прототип
+                art1_clusters.clusters[cluster_index][0] &= *database_element;
+            },
+            None => {
+                // Иначе, пытаемся создать новый кластер
+                if let Err(error) = create_cluster(&config, &mut art1_clusters, *database_element) {
+                    eprintln!("{error}")
+                }
+            }
+        }
+    }
+
+    // Распределяем элементы базы данных по полученным кластерам
+    for database_element in database.dataset.iter() {
+        // Найти подходящий кластер
+        if let Some(cluster_index) = find_closest_cluster(database, config, &art1_clusters, *database_element)? {
+            // Если кластер найден, то модифицируем вектор-прототип
+            push_cluster(&mut art1_clusters, cluster_index, *database_element)?;
+        }
+    }
+
+    Ok(art1_clusters)
+}
+
+fn create_cluster(
+    config: &ART1Config,
+    clusters: &mut ART1Clusters,
+    prototype: u64
+) -> Result<(), Box<dyn Error>> {
+    if clusters.clusters.len() >= config.max_clusters {
+        return Err(format!("Clusters are overflowing. Consider expanding").into());
+    }
+
+    clusters
+        .clusters
+        .push(vec![prototype]);
+
+    Ok(())
+}
+
+fn push_cluster(
+    clusters: &mut ART1Clusters,
+    cluster_index: usize,
+    value: u64
+) -> Result<(), Box<dyn Error>> {
+    if cluster_index >= clusters.clusters.len() {
+        return Err(format!("A cluster with index {cluster_index} doesn't exists").into());
+    }
+
+    clusters.clusters[cluster_index].push(value);
+    Ok(())
+}
+
+// Найти подходящий кластер
+fn find_fitting_cluster(
+    database: &ART1Database,
+    config: &ART1Config,
+    clusters: &ART1Clusters,
+    value: u64
+) -> Result<Option<usize>, Box<dyn Error>> {
+    for cluster_index in 0..clusters.clusters.len() {
+        if clusters.clusters[cluster_index].len() == 0 {
+            return Err("Prototype is missing in cluster".into());
+        }
+
+        let prototype = clusters.clusters[cluster_index][0];
+
+        // Проводим проверку на схожесть и на внимание
+        if check_similarity(database, config, prototype, value) && 
+        check_attention(config, prototype, value) {
+            return Ok(Some(cluster_index));
+        }
+    }
+
+    Ok(None)
+}
+
+
+// Найти самый подходящий кластер, даже если он подходит не очень сильно
+fn find_closest_cluster(
+    database: &ART1Database,
+    config: &ART1Config,
+    clusters: &ART1Clusters,
+    value: u64
+) -> Result<Option<usize>, Box<dyn Error>> {
+    let mut closest_val = -f64::INFINITY;
+    let mut closest_val_ind: Option<usize> = None;
+
+    for cluster_index in 0..clusters.clusters.len() {
+        if clusters.clusters[cluster_index].len() == 0 {
+            return Err("Prototype is missing in cluster".into());
+        }
+
+        let prototype = clusters.clusters[cluster_index][0];
+
+        // Проводим проверку на схожесть и на внимание
+        let similarity = check_similarity_diff(database, config, prototype, value);
+        if similarity > closest_val {
+            closest_val = similarity;
+            closest_val_ind = Some(cluster_index);
+        }
+    }
+
+    Ok(closest_val_ind)
+}
+
+// Проверка на схожесть
+fn check_similarity(
+    database: &ART1Database,
+    config: &ART1Config,
+    prototype: u64,
+    value: u64,
+) -> bool {
+    check_similarity_diff(database, config, prototype, value) > 0.
+}
+
+fn check_similarity_diff(
+    database: &ART1Database,
+    config: &ART1Config,
+    prototype: u64,
+    value: u64,
+) -> f64 {
+    ((prototype & value).count_ones() as f64 / (config.beta + prototype.count_ones() as f64))
+        - (value.count_ones() as f64 / (config.beta + database.dimension as f64))
+}
+
+// Проверка на внимание
+fn check_attention(
+    config: &ART1Config,
+    prototype: u64,
+    value: u64,
+) -> bool {
+    ((prototype & value).count_ones() as f64 / value.count_ones() as f64) < config.attention
+}
+\end{minted}
+
+\href{https://github.com/IAmProgrammist/ai_basics/tree/lab2}{Ссылка на репозиторий}\\
+
+Опыт №1: обычный сценарий\\
+$N = 100$\\
+$\beta = 1$\\
+$\rho = 0,7$\\
+\includegraphics[width=140mm]{report1}\\
+Обычный сценарий. В результате получили равномерную кластеризацию.\bigbreak
+
+Опыт №2: изменение $\beta$-параметра\\
+$N = 100$\\
+$\beta = 0,1 / 10$\\
+$\rho = 0,7$\\
+\includegraphics[width=140mm]{report2}\\
+Попробуем уменьшить и увеличить параметр $\beta$. В основном, кластеризация не изменилась очень сильно. Однако при уменьшении этого параметра
+должно отдаваться предпочтение первым кластерам. При увеличении - наоброт.\bigbreak
+
+Опыт №3: СДВГ\\
+$N = 100$\\
+$\beta = 1$\\
+$\rho = 0,01$\\
+\includegraphics[width=140mm]{report3}\\
+Попробуем уменьшить параметр $\rho$. Количество кластеров уменьшилось, и они стали более общими.\bigbreak
+
+Опыт №5: ОКР\\
+$N = 100$\\
+$\beta = 1$\\
+$\rho = 1$\\
+\includegraphics[width=140mm]{report4}\\
+Попробуем увеличить параметр $\rho$. Разбиение сильно изменилось и "сломалось". Теперь кластеры состоят только
+из самих элементов. Высокий параметр внимательности делает кластеризацию бесполезной.\bigbreak
+
+
+\textbf{Вывод: } в ходе лабораторной работы изучили методики описания и технологии разработки
+алгоритма ART1 (Adaptive Resonance Theory) на примере решения задачи
+классификации.
+
+\end{document}
