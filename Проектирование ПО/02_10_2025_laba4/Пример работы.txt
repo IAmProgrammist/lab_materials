@@ -1,0 +1,11 @@
+   Compiling calculator v0.1.0 (C:\Users\vladi\Workspace\Лабы\PV-223\02_10_2025_laba4\calculator)
+    Finished `release` profile [optimized] target(s) in 1.02s
+     Running `target\release\calculator.exe`
+Введите выражение: 
+89 * 8 - 5
+Ответ: 707
+Введите выражение:
+diajw
+Выражение содержит ошибки: invalid float literal
+Вы можете ввести help для получения помощи
+Введите выражение:
