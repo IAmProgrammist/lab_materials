@@ -1,0 +1,391 @@
+    Checking calculator v0.1.0 (C:\Users\vladi\Workspace\Лабы\PV-223\02_10_2025_laba4\calculator)
+warning: the function has a cognitive complexity of (11/0)
+  --> src\service\rpnsolver\solver.rs:10:8
+   |
+10 |     fn infix_to_postfix(tokens: Vec<Token>) -> Result<VecDeque<Token>, Box<dyn Error>> {
+   |        ^^^^^^^^^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+   = note: requested on the command line with `-W clippy::cognitive-complexity`
+
+warning: the function has a cognitive complexity of (3/0)
+  --> src\service\rpnsolver\solver.rs:84:8
+   |
+84 |     fn solve_postfix(mut tokens: VecDeque<Token>) -> Result<f64, Box<dyn Error>> {
+   |        ^^^^^^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\solver.rs:105:8
+    |
+105 |     fn solve(&self, expression: &str) -> Result<String, Box<dyn Error>>{
+    |        ^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+ --> src\service\rpnsolver\tokens.rs:9:8
+  |
+9 |     fn is_left_bracket(&self) -> bool {
+  |        ^^^^^^^^^^^^^^^
+  |
+  = help: you could split it up into multiple smaller functions
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:13:8
+   |
+13 |     fn is_right_bracket(&self) -> bool {
+   |        ^^^^^^^^^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:25:12
+   |
+25 |     pub fn matches(token_raw: &String) -> bool {
+   |            ^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:29:8
+   |
+29 |     fn get() -> &'static dyn OperationTrait {
+   |        ^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:35:8
+   |
+35 |     fn get_priority(&self) -> usize {
+   |        ^^^^^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:39:8
+   |
+39 |     fn compute(&self, arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+   |        ^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:54:12
+   |
+54 |     pub fn matches(token_raw: &String) -> bool {
+   |            ^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:58:8
+   |
+58 |     fn get() -> &'static dyn OperationTrait {
+   |        ^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:64:8
+   |
+64 |     fn get_priority(&self) -> usize {
+   |        ^^^^^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:68:8
+   |
+68 |     fn compute(&self, arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+   |        ^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:85:12
+   |
+85 |     pub fn matches(token_raw: &String) -> bool {
+   |            ^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:89:8
+   |
+89 |     fn get() -> &'static dyn OperationTrait {
+   |        ^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:95:8
+   |
+95 |     fn get_priority(&self) -> usize {
+   |        ^^^^^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+  --> src\service\rpnsolver\tokens.rs:99:8
+   |
+99 |     fn compute(&self, arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+   |        ^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:114:12
+    |
+114 |     pub fn matches(token_raw: &String) -> bool {
+    |            ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:118:8
+    |
+118 |     fn get() -> &'static dyn OperationTrait {
+    |        ^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:124:8
+    |
+124 |     fn get_priority(&self) -> usize {
+    |        ^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:128:8
+    |
+128 |     fn compute(&self, arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+    |        ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:146:12
+    |
+146 |     pub fn matches(token_raw: &String) -> bool {
+    |            ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:150:8
+    |
+150 |     fn get() -> &'static dyn OperationTrait {
+    |        ^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:156:8
+    |
+156 |     fn get_priority(&self) -> usize {
+    |        ^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:160:8
+    |
+160 |     fn is_left_bracket(&self) -> bool {
+    |        ^^^^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:164:8
+    |
+164 |     fn compute(&self, _arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+    |        ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:177:12
+    |
+177 |     pub fn matches(token_raw: &String) -> bool {
+    |            ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:181:8
+    |
+181 |     fn get() -> &'static dyn OperationTrait {
+    |        ^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:187:8
+    |
+187 |     fn get_priority(&self) -> usize {
+    |        ^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:191:8
+    |
+191 |     fn is_right_bracket(&self) -> bool {
+    |        ^^^^^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:195:8
+    |
+195 |     fn compute(&self, _arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+    |        ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:208:12
+    |
+208 |     pub fn matches(_token_raw: &str) -> bool {
+    |            ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:212:8
+    |
+212 |     fn get() -> &'static dyn OperationTrait {
+    |        ^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:218:8
+    |
+218 |     fn get_priority(&self) -> usize {
+    |        ^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:222:8
+    |
+222 |     fn compute(&self, _arguments: &mut VecDeque<f64>) -> Result<f64, Box<dyn Error>> {
+    |        ^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:241:12
+    |
+241 |     pub fn get_number(&self) -> Result<f64, Box<dyn Error>> {
+    |            ^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:249:12
+    |
+249 |     pub fn get_operation(&self) -> Result<&'static dyn OperationTrait, Box<dyn Error>> {
+    |            ^^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (4/0)
+   --> src\service\rpnsolver\tokens.rs:261:8
+    |
+261 |     fn match_operation(operation: &String) -> Option<&'static dyn OperationTrait> {
+    |        ^^^^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+   --> src\service\rpnsolver\tokens.rs:279:8
+    |
+279 |     fn parse_number(number: &str) -> Result<Option<f64>, Box<dyn Error>> {
+    |        ^^^^^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (6/0)
+   --> src\service\rpnsolver\tokens.rs:287:12
+    |
+287 |     pub fn tokenize(expression: &str) -> Result<Vec<Token>, Box<dyn Error>> {
+    |            ^^^^^^^^
+    |
+    = help: you could split it up into multiple smaller functions
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+ --> src\controller\console.rs:8:12
+  |
+8 |     pub fn new(solver: &'_ dyn ISolver) -> ConsoleController<'_> {
+  |            ^^^
+  |
+  = help: you could split it up into multiple smaller functions
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (4/0)
+  --> src\controller\console.rs:12:12
+   |
+12 |     pub fn mainloop(self) {
+   |            ^^^^^^^^
+   |
+   = help: you could split it up into multiple smaller functions
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: the function has a cognitive complexity of (1/0)
+ --> src\main.rs:7:4
+  |
+7 | fn main() {
+  |    ^^^^
+  |
+  = help: you could split it up into multiple smaller functions
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity
+
+warning: `calculator` (bin "calculator") generated 43 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.20s

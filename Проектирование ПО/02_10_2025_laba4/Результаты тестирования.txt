@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src\main.rs (target\debug\deps\calculator-25c267e8c814d3b0.exe)
+
+running 7 tests
+test service::rpnsolver::tokens::tests::run_divide ... ok
+test service::rpnsolver::solver::tests::run_infix_to_postfix ... ok
+test service::rpnsolver::solver::tests::run_solve ... ok
+test service::rpnsolver::tokens::tests::run_minus ... ok
+test service::rpnsolver::tokens::tests::run_multiply ... ok
+test service::rpnsolver::tokens::tests::run_plus ... ok
+test service::rpnsolver::tokens::tests::run_tokenizer ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
