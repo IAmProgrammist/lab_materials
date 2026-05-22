@@ -1689,7 +1689,438 @@ playlist\_song. Важно отметить, что плейлист ссыла�
 
 \section{Разработка алгоритмов и программного обеспечения}
 
-Ох ребятки это просто смэрдь дай бог вам жизни
+Продиктованные ранее архитектурные решения а также выбор определённого стека технологий позволяет выстроить
+определённую структуру сервиса.
+
+Сервер использует в качестве хранилища базу данных Postgres, поддерживая её актуальность при помощи 
+средств Alembic а также SQLAlchemy для создания запросов и работы с непосредственными объектами. Эту задачу выполняет
+самый низкоуровневый компонент - репозиторий. 
+
+Сервис содержит бизнес логику, которая обрабатывает входные данные
+и выполняет вызовы к репозиториям, другим сервисам или системным модулям. 
+
+Модули, отвечающие за объявление интерфейса общения с сервисом, обеспечиваются при помощи библиотеки FastAPI. Эта же
+библиотека позволяет использовать паттерн инъекции зависимостей в виде репозиториев, сервисов и прочего. 
+
+Фронтенд использует для отрисовки React, в то время как его бизнес логика содержится в относительно простых
+классах. Механизм инъекции зависимостей обеспечивается механизмом контекстов.
+
+Для передачи запросов на сервер и клиент используется Nginx, который задаёт пути для отображения документации сервера или же
+для получения статических файлов сайта. Задаётся также reverse-proxy Nginx сервер, который будет проксировать запросы на 
+экземпляры фронтенда или же сервера. 
+
+Для контейнеризации всех приложений используется Docker, а для создания инфраструктуры вокруг этих образов используется
+Docker Compose. 
+
+Рассмотрим каждый из компонентов более детально
+
+\subsection{Разработка сервера}
+
+Рассмотрим устройство сервера на примере пользовательских сценариев с композициями
+
+\subsubsection{Слой хранения данных}
+
+Модель, которая будет непосредственно храниться в репозитории, описывается обычным классом и полями из пакета sqlalchemy. 
+Каждая модель наследуется от базовой модели RWModel, представленной в листинге~\ref{lst:modelsbase}, 
+которая автоматически свойство \_\_tablename\_\_. Это свойство позволяет определить, как будет называться схема внутри базы данных.
+
+\begin{lstlisting}[caption={Базовый класс для моделей базы данных}, label={lst:modelsbase}, language=Python]
+from sqlalchemy.orm import declarative_base, declared_attr
+
+
+class RWModel:
+    @declared_attr
+    def __tablename__(cls) -> str:
+        return cls.__name__.lower()
+
+    __name__: str
+
+
+RWModel = declarative_base(cls=RWModel)
+\end{lstlisting}
+
+Сама модель уже будет содержать непосредственно как поля, так и средства специфичные для ORM. Рассмотрим более подробно, как описывается
+модель в листинге~\ref{lst:modelssong}. 
+
+\begin{lstlisting}[caption={Базовый класс для моделей базы данных}, label={lst:modelssong}, language=Python]
+class Song(RWModel):
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    song_releases: Mapped[list["SongRelease"]] = relationship(back_populates="song", lazy="selectin")
+    comments: Mapped[list["Comment"]] = relationship(secondary=comment_song, lazy="selectin")
+    playlists: Mapped[list["PlaylistSong"]] = relationship(back_populates="song", lazy="selectin")
+\end{lstlisting}
+
+Обычные поля могут быть заданы явно при помощи 
+mapped\_column, так и только при помощи дженерика Mapped. В случае поля id, например, мы дополнительно указываем функцию-генератор а также
+указываем тот факт, что это идентифицирующее поле при помощи primary\_key. Существуют и другие способы задания типа поля, вроде объекта Field, 
+однако этот способ является устаревшим. Важно отметить, что с точки зрения языка мы задаём не сколько поля объекта, сколько статичные 
+значения внутри класса Song. Потом уже сам SQLAlchemy на основе этого шаблона строит сам объект. 
+
+Отношения в SQLAlchemy реализуются различными способами. Наиболее современный способ - использование relationship. Он позволяет установить
+способ дозапроса объектов при помощи lazy, а также указать способ обратного обращения в объекте, на который он ссылается. 
+
+Например, модель песни позволяет дозапросить её релизы, а это значит, что в модели SongRelease должно появиться свойство song, которое задаётся
+back\_populates. И так же SongRelease должна задать обратную связь, объявив поле song и указав в back\_populates значения song\_releases, что и 
+показано в листинге~\ref{lst:modelssongrelease}. Поле 
+relationship таким образом позволяет задавать бинарные отношения между объектами.
+
+\begin{lstlisting}[caption={Модель релиза песни}, label={lst:modelssongrelease}, language=Python]
+class SongRelease(RWModel):
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    song_id: Mapped[UUID] = mapped_column(ForeignKey("song.id", ondelete="CASCADE"), index=True, nullable=True)
+    song: Mapped["Song"] = relationship(back_populates="song_releases", lazy="selectin")
+    created_at = Column(DateTime, server_default=text("now()"), index=True)
+    name: Mapped[str]
+    tag: Mapped[str]
+    description: Mapped[str]
+    bpm: Mapped[int]
+    key: Mapped[str]
+    lyrics: Mapped[str]
+    authors: Mapped[list["Author"]] = relationship(secondary=song_release_author, lazy="selectin")
+    groups: Mapped[list["Group"]] = relationship(secondary=song_release_group, lazy="selectin")
+    files: Mapped[list["SongReleaseFile"]] = relationship(back_populates="song_release", lazy="selectin")
+\end{lstlisting}
+
+Данный вид связи описывает связь вида 1 к N, однако на практике часто возникает необходимость создания записей вида 
+N к N. В реляционных базах данных на данный случай существует паттерн, заключающийся в том, что для обеспечения такой
+связи добавляется ещё одна схема с двумя связями 1 к N к целевым схемам. Такую связь в SQLAlchemy можно создать относительно легко, 
+как показано в листинге~\ref{lst:modelsntonsimple}, так и, если необходимо добавить дополнительную информацию относительно самой связи, 
+при помощи создания обычной полноценной схемы, как показано в листинге~\ref{lst:modelsntoncomplex}. Первая объявляет простую схему, связывающую
+релизы композиции и авторов.
+
+\begin{lstlisting}[caption={Простая модель для обеспечения связи N к N}, label={lst:modelsntonsimple}, language=Python]
+song_release_author = Table(
+    "song_release_author",
+    RWModel.metadata,
+    Column("song_release_id", ForeignKey("song_release.id", ondelete="CASCADE"), primary_key=True),
+    Column("author_id", ForeignKey("author.id", ondelete="CASCADE"), primary_key=True),
+)
+\end{lstlisting}
+
+Вторая же схема кроме задания связи между релизом песни и файлом так же задаёт и признак основного файла в релизе композиции primary. 
+
+\begin{lstlisting}[caption={Усложнённая модель для обеспечения связи N к N}, label={lst:modelsntoncomplex}, language=Python]
+class SongReleaseFile(RWModel):
+    song_release_id: Mapped[UUID] = mapped_column(ForeignKey("song_release.id", ondelete="CASCADE"), index=True, primary_key=True)
+    file_id: Mapped[UUID] = mapped_column(ForeignKey("file.id", ondelete="RESTRICT"), index=True, primary_key=True)
+    primary: Mapped[bool]
+
+    song_release: Mapped["SongRelease"] = relationship(back_populates="files", lazy="selectin")
+    file: Mapped["File"] = relationship(back_populates="song_releases", lazy="selectin")
+
+\end{lstlisting}
+
+Одним из способов сохранения целостности базы данных является задание определённых ограничений, или же Constraint. Эти ограничения
+обеспечивают целостность базы данных. Первые базы данных очень часто пользовались этими ограничениями. Это могли быть ограничения на дату, 
+на значения или любые другие сложные ограничения. На текущий момент в разработке роль ограничений прямо в базе данных стала сильно меньше,
+так как они содержат бизнес-логику, которая находится в другом месте в приложении - в сервисе. Однако полностью ограничения не ушли, 
+например отношения задаются как раз при помощи таких ограничений. И есть множество способов разрешения нарушения этих ограничений, которые 
+в SQLAlchemy в поле типа ForeignKey задаются при помощи параметров ondelete, onupdate, которые могут принимать специфичные для 
+базы данных значения вроде CASCADE, SET NULL, RESTRICT, NO ACTION. CASCADE говорит о том, что при удалении или изменении связной записи связанную
+запись необходимо удалить, SET NULL - установить в поле значение NULL, RESTRICT полностью запрещает операцию и потребует ручного 
+обеспечения целостности базы данных, а NO ACTION ничего не делает с записью. Например в листинге~\ref{lst:modelsntoncomplex} поле file\_id - 
+это внешний ключ, и при удалении файла из базы данных с таким идентификатором все записи, связывающие этот файл с релизом, будут также удалены.
+
+Существует несколько причин, почему такая часть бизнес логики не выносится в предназначенный сервис. 
+Как минимум, это удобно. Ручная проверка целостности таблицы заняла бы очень много времени. А валидация полей и значений вручную приносит больше
+пользы, чем вреда, так как теперь эти правила можно хранить в изменяемом пространстве без необходимости выполнять миграции базы данных. 
+В итоге, так или иначе, можно прийти к выводу, что любой архитектурный паттерн не является "серебрянной пулей", решающей все проблемы, и
+слепое следование паттерну может привести только к усложнению проекта. Задача разработчика - адекватно оценивать положительные и отрицательные
+стороны своего выбора.
+
+Файл \_\_init\_\_.py экспортирует все модели, делая их доступными в других файлах, как показано в листинге~\ref{lst:modelsexport}. 
+
+\begin{lstlisting}[caption={Экспорт моделей}, label={lst:modelsexport}, language=Python]
+from .author import Author
+from .comment import Comment
+from .comment_song import comment_song
+from .file import File
+from .group import Group
+from .group_author import group_author
+from .playlist import Playlist
+from .playlist_song import PlaylistSong
+from .song import Song
+from .song_release import SongRelease
+from .song_release_author import song_release_author
+from .song_release_file import SongReleaseFile
+from .song_release_group import song_release_group
+from .user import User
+\end{lstlisting}
+
+Начало работы Alembic начинается с конфигурационного скрипта, описанном в листинге~\ref{lst:alembicconf}. 
+Наиболее важным пунктом является script\_location. Он задаёт, где будет находиться окружение Alembic, в котором
+будут анализироваться модели, где будут находиться сами миграции и прочее. 
+
+\begin{lstlisting}[caption={Конфигурация Alembic}, label={lst:alembicconf}]
+[alembic]
+script_location = app/database/migraions
+prepend_sys_path = .
+version_path_separator = os
+
+[loggers]
+keys = root,sqlalchemy,alembic
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARN
+handlers = console
+qualname =
+
+...
+\end{lstlisting}
+
+Само окружение содержит файл env.py, который запускает процесс мигрирования. Большая его часть сгенерирована автоматически, и самым
+важным моментом является определение ссылки на базу данных, которая берётся из настроек, а тажке метаданные для анализа Alembic. 
+Согласно листингу~\ref{lst:modelsbase}, класс RWModel снабжается дополнительными полями благодаря вызову declarative\_base. Одним из таких
+значения является значение metadata, сохранённого в target\_metadata. Это поле содержит все схемы созданных моделей и позволяет выполнять запросы в виде отношений. И так как
+все классы наследуются от одного единственного класса RWModel, metadata у наследников этого класса общая. Этот объект Alembic и 
+использует для определения целевого состояния базы данных, как показано в листинге~\ref{lst:alembicenv}.
+
+\begin{lstlisting}[caption={Конфигурация окружения Alembic}, label={lst:alembicenv}, language=Python]
+SETTINGS = get_app_settings()
+DATABASE_URL = SETTINGS.db_url
+
+config = context.config
+
+fileConfig(config.config_file_name)
+
+target_metadata = RWModel.metadata
+
+config.set_main_option("sqlalchemy.url", str(DATABASE_URL))
+\end{lstlisting}
+
+В результате получаются автоматически сгенерированные файлы миграции, которые впоследствии запускаются при помощи инструмента в 
+командной строке для апгрейда или же даунгрейда текущей базы данных. Пример такой миграции есть в листинге~\ref{lst:alembicversionexample}, эта миграция
+создаёт таблицу авторов при апгрейде и удаляет её при откате.
+
+\begin{lstlisting}[caption={Пример миграции Alembic}, label={lst:alembicversionexample}, language=Python]
+def upgrade() -> None:
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.create_table(
+        "author",
+        sa.Column("id", sa.Uuid(), nullable=False),
+        sa.Column("name", sa.String(), nullable=False),
+        sa.Column("description", sa.String(), nullable=False),
+        sa.Column("file_id", sa.Uuid(), nullable=False),
+        sa.ForeignKeyConstraint(
+            ["file_id"],
+            ["file.id"],
+        ),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    # ### end Alembic commands ###
+
+def downgrade() -> None:
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table("author")
+    # ### end Alembic commands ###
+\end{lstlisting}
+
+Таким образом, сформировали наиболее абстрактный слой, обеспечивающий хранение бизнес сущностей. Следующим вопросом при организации кода
+становится вопрос, как обеспечить работу с моделями внутри приложения? Как уже было обозначно ранее, для подключения зависимостей внутри приложения
+используется паттрен FastAPI инъекции зависимостей. При таком способе необходимые зависимости подключаются в эндпоинт. 
+
+Первым этапом в данном приложении является сама инициализация соединения с базой данных. После этого соединение базы данных сохраняется в контексте
+FastAPI приложения. Этот процесс представлен в листинге~\ref{lst:initdb},
+
+\begin{lstlisting}[caption={Инициализация соединения с базой данных}, label={lst:initdb}, language=Python]
+logger = logging.getLogger(__name__)
+
+
+async def connect_to_db(app: FastAPI, settings: AppSettings) -> None:
+    logger.info("Connecting to database...")
+
+    engine = create_async_engine(url=str(settings.db_url), pool_size=50, max_overflow=0, echo=True, future=True)
+    async_session_factory = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False, autoflush=True)
+    app.state.pool = async_session_factory
+
+    logger.info("Connected to database.")
+
+
+async def close_db_connection(app: FastAPI) -> None:
+    logger.info("Closing database connection...")
+
+    # app.state.pool.close_all()
+
+    logger.info("Database connection closed.")
+\end{lstlisting}
+
+При самой инициализации приложения FastAPI вызываются эти методы, которые обеспечивают подключение к базе данных. В дальнейшем
+для получения доступа к подключению базы данных используется простая функция, которая может быть использована в качестве 
+аргумента функции Depends, которая уже и возвращает подключение к базе данных, как показано в листинге~\ref{lst:getdb},
+
+\begin{lstlisting}[caption={Функции для инъекции зависимостей для работы с базой данных}, label={lst:getdb}, language=Python]
+def _get_db_session(request: Request) -> AsyncSession:
+    return request.app.state.pool
+
+
+async def _get_connection_from_session(
+    pool: AsyncSession = Depends(_get_db_session),
+) -> AsyncGenerator[AsyncSession, None]:
+    async with pool() as session:
+        yield session
+
+
+def get_repository(
+    repo_type: type[BaseRepository],
+) -> Callable[[AsyncSession], BaseRepository]:
+    def _get_repo(
+        session: AsyncSession = Depends(_get_connection_from_session),
+    ) -> BaseRepository:
+        return repo_type(session)
+
+    return _get_repo
+\end{lstlisting}
+
+Работы непосредственной работы с базой данных выполняет репозиторий. Для его получения внутри эндпоинтов используется генератор функции
+get\_repository, обозначенный так же в листинге~\ref{lst:getdb}, который и возвращает реализацию репозитория. Базовый же репозиторий принимает
+в себя только сессию, базовый класс описан в листинге~\ref{lst:baserepo}
+
+\begin{lstlisting}[caption={Базовый репозиторий}, label={lst:getdb}, language=Python]
+class BaseRepository:
+    """Base Repository for all repositories."""
+
+    def __init__(self, conn: AsyncSession) -> None:
+        self._conn = conn
+
+    @property
+    def connection(self) -> AsyncSession:
+        return self._conn
+\end{lstlisting}
+
+Таким образом, всё готово для объявления своего репозитория и для работы с моделями. Рассмотрим несколько методов такого репозитория, он представлен
+в листинге~\ref{lst:songrepoex}. 
+
+\begin{lstlisting}[caption={Методы в репозитории песен}, label={lst:songrepoex}, language=Python]
+@db_error_handler
+async def get_song_releases_short(self, *, filter_: SongFilter, pagination: SongPagination, sort: SongSort, song_id: UUID) -> list[Song]:
+	query = select(SongRelease).filter(SongRelease.song_id == song_id)
+
+	query = append_to_statement(statement=query, model=SongRelease, filter_=filter_, pagination=pagination, sort=sort)
+
+	songs = (await self.connection.execute(query)).scalars()
+
+	return songs
+
+@db_error_handler
+async def create_song(self):
+	created_song = Song()
+	self.connection.add(created_song)
+	await self.connection.commit()
+	await self.connection.refresh(created_song)
+	return created_song
+\end{lstlisting}
+
+SQLAlchemy позволяет сконструировать запрос перед выполнением в базе данных с использованием паттерна ORM. То есть, при конструировании запроса
+мы напрямую общаемся с полями объекта, а не с рядами таблицы. Затем сам запрос выполняется уже непосредственно при помощи соединения из родительского
+репозитория. Метод get\_song\_releases\_short в листинге~\ref{lst:songrepoex} позволяет получить короткое описание релизов с учётом фильтров, 
+пагинации и сортировки. Метод же create\_song позволяет создать запись в таблице. Важно отметить, что в отличие от первого метода, он явно
+вызывает сохранение в базе данных а также обновляет внутреннюю модель при помощи refresh.
+
+\subsubsection{Валидация входных и выходных параметров, схемы}
+
+При рассмотрении листинга~\ref{lst:songrepoex} были упомянуты такие понятия как фильтрация, пагинация и сортировка. Перед рассмотрением
+сервисов сначала рассмотрим схемы. Схемы определяют, что может прислать пользователь - формат данных, их тип, другие ограничения - а также, 
+что может отдать сам сервер в качестве ответа. Строгое определение схем позволяет документировать поведение интерфейса приложения, а значит 
+воспользоваться механизмами автогенерации кода в других приложениях для обеспечения удобства взаимодействия с сервисом. 
+
+Схемы можно классифицировать по потоку данных (входные, выходные данные), а также входные схемы можно классифицировать по их назначению (фильтрация, 
+пагинация, сортировка, доменные данные). Схемы для выходных данных определяют, что сервер должен отдать в качестве ответа. Важно отметить, что поля выходных 
+данных могут (а в идеале, должны) отличаться от названий полей моделей. В качестве примера возьмём схему для получения укороченной информации о песне. Схемы представлены
+в листинге~\ref{lst:songshortresponse}
+\begin{lstlisting}[caption={Схемы для получения укороченной информации о песне}, label={lst:songshortresponse}, language=Python]
+class AuthorShortOutNested(BaseModel):
+    id: UUID
+    name: str
+
+
+class GroupShortOutNested(BaseModel):
+    id: UUID
+    name: str
+
+
+class SongShortOutData(BaseModel):
+    song_id: UUID
+    id: UUID
+    tag: str
+    name: str
+    authors: list[AuthorShortOutNested]
+    groups: list[GroupShortOutNested]
+    duration: int | None
+\end{lstlisting}
+
+Здесь можно увидеть, что схема сильно отличается от того, что находится в базе данных. Если следовать логике базы данных, согласно листингам~\ref{lst:modelssongrelease} и ~\ref{lst:modelssong}, 
+как минимум, в ответе должно было бы гораздо больше данных, а сами данные должны быть гораздо более вложенными. Такое расхождение связано с тем, что 
+схемы создаются под конкретные пользовательские истории. Пользователю не нужно знать вообще всю информацию, ему нужно знать только ту информацию, что
+представлена в схеме. 
+
+Почему просто не отдавать/принимать модели для базы данных? Это в том числе и требования безопасности. Если мы будем использовать одни и те же схемы, 
+существует риск компрометации схемы базы данных, а значит и повышения риска утечки данных. Кроме того, сама модель внутри базы данных может кардинально
+меняться с течением времени, в то время как разработчики графических интерфейсов будут не готовы отреагировать достаточно быстро на изменения
+ответов или запросов. Поэтому сервер часто занимается, с первого взгляда, довольно бесполезной задачей перекладывания данных из одной схемы
+в другую. Но такой излишний код в будущем обеспечит расширяемость и поддерживаемость продукта.
+
+На основе этих схем уже создаются оркестрирующие схемы, которые будет непосредственно возвращать сервер. Пример таких ответов находится в листинге~\ref{lst:finalresponse}
+\begin{lstlisting}[caption={Оркестрирующая схема ответа}, label={lst:finalresponse}, language=Python]
+class SongListResponse(ApiResponse):
+    message: str = "Song API Response"
+    data: list[SongShortOutData]
+    detail: dict[str, Any] | None = {"key": "val"}
+
+
+class SongShortResponse(ApiResponse):
+    message: str = "Song API Response"
+    data: SongShortOutData
+    detail: dict[str, Any] | None = {"key": "val"}
+\end{lstlisting}
+
+Входные параметры так же определяются схемами. При создании доменных схем необходимо так же учитывать различные виды входных данных. Некоторые
+объекты возможно передать только текстовыми данными, вроде общепринятого JSON. Однако некоторые данные можно создать исключительно при помощи
+FormData API. Это специализированный формат, позволяющий обмениваться файлами между клиентом и сервером. Использование этого API имеет некоторые ограничения. 
+Например, он плохо поддерживает структурированные данные, вроде вложенных объектов и массивов. Для примера, рассмотрим схему создания песни, представленной
+в листинге~\ref{lst:createsong}. Эта схема принимает несколько файлов, поэтому files\_file, files\_leading и files\_audio\_custom\_codec - это массивы. Ввиду 
+ограниченности формата FormData, files\_leading и files\_audio\_custom\_codec приходится вручную разбивать и перепроверять, что каждый из объектов действительно
+является булевым значением в методах separate\_by\_comma\_files\_leading и separate\_by\_comma\_files\_audio\_custom\_codec. Здесь же можно обнаружить
+кастомное правило, вроде check\_files\_size, которое позволяет провалидировать равенство размеров массивов. Более простые случаи, описывающие
+ограничения по длине и типу данных описаны в полях выше, вроде SongName. 
+
+Ещё один вид входных данных позволяет регулировать результаты выдачи списков домена. Фильтрация, пагинация и сортировка выполняется при помощи расширения
+пакета Pydantic, с помощью которого и были созданы схемы выше, Pydantic Filters. Этот пакет также предоставляет автоматический инструмент для расширения
+запросов - в листинге~\ref{lst:songrepoex} это вызов метода append\_to\_statement. Сами схемы контроля выдачи данных представлены в листинге~\ref{lst:controllist}
+\begin{lstlisting}[caption={Оркестрирующая схема ответа}, label={lst:controllist}, language=Python]
+class SongFilter(BaseFilter):
+    id__in: list[UUID] | None
+    tag__in: list[str] | None
+    bpm__in: list[int] | None
+    key__in: list[str] | None
+    authors_id__in: list[UUID] | None
+    groups_id__in: list[UUID] | None
+    q: str | None = SearchField(target=["name", "tag", "key"])
+
+
+class SongPagination(PagePagination):
+    pass
+
+
+SongOrderByLiteral = Literal["id", "name", "tag", "key", "bpm"]
+
+
+class SongSort(BaseSort):
+    sort_by: SongOrderByLiteral | None = None
+\end{lstlisting}
+
+Так, например, SongFilter умеет сортировать по списку идентификаторов, тегов, BPM и др. А поиск по строке выполняется по полям name, tag и key. Сортировка
+выполняется по полям id, name, tag, key, bpm.
+
+Таким образом, представленные схемы позволяют контролировать и валидировать поток входящих/выходящих данных.
+
+\subsubsection{Сервисы}
+
 
 \appendix
 
@@ -1808,6 +2239,53 @@ playlist\_song. Важно отметить, что плейлист ссыла�
 \subsection{Порядок контроля и приёмки}
 
 В качестве тестирования продукта используется Smoke-тестирование а также оценка шумности аудиокодека.
+
+\section{Листинги разработанных схем для создания композиции}
+
+\begin{lstlisting}[caption={Схема создания композиции}, label={lst:createsong}, language=Python]
+SongName = Field(min_length=1, max_length=1024)
+SongTag = Field(min_length=0, max_length=256)
+SongDescription = Field(min_length=0, max_length=8192)
+SongKey = Field(min_length=1, max_length=32)
+SongLyrics = Field(min_length=0, max_length=8192)
+SongBPM = Field(gt=0)
+
+
+# Модели для создания
+class SongInCreate(SongBase):
+    name: str = SongName
+    tag: str | None = SongTag
+    description: str = SongDescription
+    bpm: int | None = SongBPM
+    key: str | None = SongKey
+    lyrics: str | None = SongLyrics
+    files_file: list[UploadFile]
+    files_leading: list[bool]
+    # Использовать кастомный кодек для хранения аудио
+    files_audio_custom_codec: list[bool]
+    authors: list[UUID]
+    groups: list[UUID]
+
+    @field_validator("files_leading", mode="before")
+    def separate_by_comma_files_leading(cls, value):
+        if isinstance(value, list) and isinstance(value[0], str):
+            return [bool(leading) for leading in value[0].split(",")]
+
+        return value
+
+    @field_validator("files_audio_custom_codec", mode="before")
+    def separate_by_comma_files_audio_custom_codec(cls, value):
+        if isinstance(value, list) and isinstance(value[0], str):
+            return [bool(leading) for leading in value[0].split(",")]
+
+        return value
+
+    @model_validator(mode="after")
+    def check_files_size(self) -> "SongInCreate":
+        if len(self.files_file) != len(self.files_leading) or len(self.files_file) != len(self.files_audio_custom_codec):
+            raise ValueError("Files array and files leadings should be of a same size")
+        return self
+\end{lstlisting}
 
 \newcounter{lastPageNumber}
 \setcounter{lastPageNumber}{\value{page}} % Сохраняем номер последней значащей страницы
