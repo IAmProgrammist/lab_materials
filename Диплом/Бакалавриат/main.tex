@@ -2121,6 +2121,258 @@ class SongSort(BaseSort):
 
 \subsubsection{Сервисы}
 
+Основная задача сервисов - это преобразование потока данных. Именно сервисы содержат самую ценную бизнес-логику. Они задают правила, 
+по которым работает приложение, обращаются к хранилищу данных.
+
+Сервисы, как и схемы, создаются из пользовательских сценариев. Например, для песни это могут быть сценарии получения, создания, 
+удаления, изменения. Часто в больших проектах декомпозиция идёт ещё дальше, и каждый отдельный сервис объединяется не по принципу
+домена, а по принципу набора действий. Так, например, получение песни в текущем приложении можно было бы вынести в отдельный сервис, 
+так как он содержит очень много бизнес-логики, обработку очереди при выборе с учётом тэга. Однако проект не очень большой, 
+поэтому дальнейшую декомпозицию можно будет выполнить при усложнении и дополнении кодовой базы.
+
+Сервис, как и репозиторий, подключается при помощи инъекции, следовательно необходимо предоставить абстрактный сервис а также
+функцию, которая сможет быть использована в качестве аргумента Depends. Базовый сервис представлен в листинге~\ref{lst:baseservice}. Он содержит
+опциональное подключение к базе данных для покрытия случаев, когда репозиторий может предоставлять не все необходимые методы. 
+
+\begin{lstlisting}[caption={Базовый сервис}, label={lst:baseservice}, language=Python]
+from sqlalchemy.ext.asyncio import AsyncSession
+
+
+class BaseService:
+    def __init__(self, db: AsyncSession = None):
+        self.db = db
+
+\end{lstlisting}
+
+Метод для подключения сервиса при помощи инъекции, представленный в листинге~\ref{lst:depinjservice}, даже не использует подключение к базе данных.
+Он возвращает функцию, которая конструирует сервис и которая может быть использована внутри Depends.
+
+\begin{lstlisting}[caption={Функция для инъекции сервиса}, label={lst:depinjservice}, language=Python]
+from collections.abc import Callable
+
+from app.services.base import BaseService
+
+
+def get_service(service_type: type[BaseService]) -> Callable[[], BaseService]:
+    def _get_service() -> BaseService:
+        return service_type()
+
+    return _get_service
+
+\end{lstlisting}
+
+Методы сервиса можно разделить на два вида: это внутренний метод, а также метод, 
+который непосредственно вызывается извне. Внутренние методы часто оперируют собственными необработанными объектами, в то время
+методы, вызываемые извне, возвращают схему с ответом. 
+
+Одной из функций приложения является предоставления возможности создания продвинутых плейлистов на основе тегов. Рассмотрим 
+в качестве примера функцию, которая выбирает эти треки для плейлиста, представленный в листинге~\ref{lst:getplaylist}.
+
+Для начала необходимо получить сам плейлист, для этого есть метод репозитория get\_playlist\_by\_id, код которого представлен в листинге~\ref{lst:getplaylistrepo}. 
+Рассмотрим его более детально. Метод get\_playlist\_by\_id выбирает плейлисты и песни с указанием isouter=True (это значит, что даже если у песни не будет найдено песни, она 
+всё равно будет присоединена). Также присоединяются все релизы песни, относящиеся к песне а также дополнительные данные, включая авторов, группы и файлы. 
+Также необходимо отметить использование order\_by. Дело в том, что нам необходимо отражать только самые новые релизы, которые соответствуют тэгу, чтобы происходила 
+возможность обновления трека по тэгу. Таким образом происходит автоматическое обновление песни во всех плейлистах. Вызов filter позволяет выбирать только необходимые плейлисты, 
+а limit обозначает, что будет выбран только один единственный плейлист, что нам и необходимо. 
+
+\begin{lstlisting}[caption={Метод репозитория для получения плейлиста}, label={lst:depinjservice}, language=Python]
+@db_error_handler
+async def get_playlist_by_id(self, *, playlist_id: UUID) -> Playlist:
+	playlist = (
+		await self.connection.execute(
+			select(Playlist)
+			.join(Playlist.songs, isouter=True)
+			.join(PlaylistSong.song)
+			.join(Song.song_releases, isouter=True)
+			.join(SongRelease.authors, isouter=True)
+			.join(SongRelease.groups, isouter=True)
+			.join(SongRelease.files)
+			.join(SongReleaseFile.file)
+			.order_by(SongRelease.created_at.desc())
+			.filter(Playlist.id == playlist_id)
+			.limit(1)
+		)
+	).scalar()
+
+	return playlist
+\end{lstlisting}
+
+Вернёмся к листингу~\ref{lst:getplaylist}. Основную ценность собой представляет внутренняя функция track\_mapper\_function, задача которого - преобразование
+треков внутри плейлиста. Как уже было обозначено ранее, плейлист содержит песни со всеми релизами, которые когда-либо выходили. Однако нам необходимо выбрать
+только одну единственную композицию согласно фильтру. Фильтрация на соответствие выполняется при помощи функции filter\_song\_releases\_according\_to\_filter. 
+Рассмотрим её более подробно в листинге~\ref{lst:filtersongreleasesaccordingtofilter}
+
+\begin{lstlisting}[caption={Функция фильтрация релизов по текстовому фильтру}, label={lst:filtersongreleasesaccordingtofilter}, language=Python]
+def filter_song_releases_according_to_filter(songs: list[SongRelease], filter: str) -> list[SongRelease]:
+    if filter == "":
+        return songs
+
+    return [song for song in songs if str(song.id) == filter or song.tag == filter]
+\end{lstlisting}
+
+Функция устроена очень просто. Если фильтр пустой, то мы возвращаем все песни - всё подходит под пустой фильтр. Иначе же выполняется
+фильтрация по id песни или же по её тегу. 
+
+В будущем эта функция может усложняться и дополняться. Несмотря на её крайне маленький размер, она представляет критическую ценность для проекта. 
+
+Задача фильтрации композиций в плейлисте имеет большое значение для проекта. В будущем при увеличении количества пользователей необходимо предусмотреть
+функции кеширования ответов при помощи установления заголовков Cache-Control или же при помощи отдельного сервиса, который предоставляет 
+возможность хранения данных прямо в оперативной памяти - Redis. Необходимо также рассмотреть возможность введения различных способов индексации и 
+переноса этой логики в слой репозитория, так как линейный поиск может быть достаточно медленным.
+
+Вернёмся к листингу~\ref{lst:getplaylist}. Если полученный список треков пустой, он возвращает модель описывающую отсутствие трека. Нам всё ещё
+важно показывать даже отсутствующие треки на случай, если они не найдены, чтобы пользователь мог понять, что он, например, опечатался при введении фильтра.
+Если же список непустой, функция берёт самый свежий трек и получает ведущий файл у этого трека. После получения всей необходимой информации
+внутренняя функция выполняет преобразование и возвращает схему.  
+
+Рассмотрим листинг~\ref{lst:getleadingaudiofile}, в котором представлен метод get\_leading\_audio\_file.
+
+\begin{lstlisting}[caption={Метод для получения ведущего аудиофайла}, label={lst:getleadingaudiofile}, language=Python]
+def get_leading_audio_file(self, files: list[SongReleaseFile]) -> SongReleaseFile | None:
+        return next((x for x in files if x.primary and x.file.mime.startswith("audio/")), None)
+\end{lstlisting}
+
+Это тоже относительно простой метод. Вычисление ведущего файла выполняется при помощи значения поля primary а также 
+его mime-типа. 
+
+Существует также необходимость определения главного изображения, что позволит задать изображение для релиза композиции. В этом методе
+логика аналогичная, однако проверка mime-типа выполняется уже с другим значением "image/". 
+
+Таким образом, сервис преобразует данные и инкапсулирует внутри себя всю бизнес-логику.
+
+\subsubsection{Внешний интерфейс}
+
+Внешний интерфейс может быть представлен различными способами. Это может быть и графическое приложение, и программа для работы с командной 
+строкой. Раннее описанная декомпозиция позволяет подключить любой интерфейс для взаимодействия с сервисами. Согласно
+архитектуре приложения, интерфейсом для взаимодействия был выбран HTTP, следовательно для взаимодействия с пользователем 
+используются HTTP эндпоинты. FastAPI предоставляет быстрый и лёгкий способ для создания таких эндпоинтов при помощи роутеров. 
+
+Роутер самого высокого уровня определяется в файле \_\_init\_\_.py, содержимое этого файла представлено в листинге~\ref{lst:apiv1init}, который уже включает в себя роутеры из дочерних файлов. 
+\begin{lstlisting}[caption={Верхнеуровневый роутер}, label={lst:apiv1init}, language=Python]
+from fastapi import APIRouter
+
+from app.api.v1 import auth, author, files, group, playlist, song, users
+
+api_router = APIRouter()
+api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
+api_router.include_router(users.router, prefix="/users", tags=["users"])
+api_router.include_router(files.router, prefix="/files", tags=["files"])
+api_router.include_router(author.router, prefix="/authors", tags=["authors"])
+api_router.include_router(group.router, prefix="/groups", tags=["groups"])
+api_router.include_router(song.router, prefix="/songs", tags=["songs"])
+api_router.include_router(playlist.router, prefix="/playlists", tags=["playlists"])
+\end{lstlisting}
+
+Одна из особенностей при объявлении роутера - это версионирование. Так, в текущем приложении представлена только API версии 1. Однако
+в будущем после большого рефакторинга схем может потребоваться введение совершенно другой версии API, которая сильно будет отличаться
+от предыдущей версии. Но для сохранения возможности взаимодействия с сервисом и постепенной миграции фронтенда может оставаться относительно
+неизменное API предыдущей версии.
+
+Сами эндпоинты объявляются при помощи декоратора, который регистрирует этот эндпоинт. Эндпоинт представляет собой обычную функцию, 
+которая возвращает объект соответствующего типа. Пример такого эндпоинта описан в листинге~\ref{lst:endpointexample}
+\begin{lstlisting}[caption={Пример эндпоинта}, label={lst:endpointexample}, language=Python]
+router = APIRouter()
+
+@router.get("/{author_id}", status_code=HTTP_200_OK, responses=ERROR_RESPONSES, name="get_author", response_model=AuthorResponse)
+async def get_author(
+    *, author_service: AuthorsService = Depends(get_service(AuthorsService)), author_repository: AuthorsRepository = Depends(get_repository(AuthorsRepository)), author_id: UUID
+) -> AuthorResponse:
+    response = await author_service.get_author_by_id(author_id=author_id, author_repo=author_repository)
+
+    return await handle_result(response)
+\end{lstlisting}
+
+В эндпоинте задаётся тип возвращаемых данных, коды ошибок, в него внедряются все необходимые зависимости. Содержимое сервиса часто 
+тривиально и представляет собой вызов метода внутри сервиса. 
+
+FastAPI предоставляет возможность автоматической генерации документации на основании описанных роутеров для HTTP. Он генерирует 
+OpenAPI документацию, представляющую из себя JSON файл с описанием API, а затем инструменты вроде Swagger-UI позволяют сгенерировать
+сайт, позволяющий просмотреть содержимое API и взаимодействовать с ним. Фрагмент документации представлен на рисунке~\ref{fig:pic3_1}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/pic3_1.png}
+	\caption{Документация API, авторский материал}
+	\label{fig:pic3_1}
+\end{figure}
+
+\subsubsection{Авторизация}
+
+Существует несколько основных способов реализации авторизации в веб-приложениях. В данном приложении для авторизации пользователя
+используется заголовок Header со сгенерированным токеном JWT, его структура представлена на рисунке~\ref{fig:pic3_2}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/pic3_2.png}
+	\caption{Структура JWT-токена [6]}
+	\label{fig:pic3_2}
+\end{figure}
+
+JWT токен - это строка, которая состоит из трёх компонентов. 
+Первый компонент - это описание самого JWT токена. В нём может храниться способ шифрования. Второй компонент - это то, что 
+позволяет идентифицировать пользователя. Обычно он содержит идентификационные данные, вроде уникального ID, почты, имени и другой
+информации о пользователе. Третий компонент - это подпись. Подпись, используя алгоритм из первого сегмента, преобразует соединённый 
+заголовок и описание токена через точку с использованием некоторого секретного ключа. Шифрование может быть как симметричным, так и
+ассиметричным. Алгоритмы с симметричным шифрованием, вроде HS256, для кодирования и декодирования используют один и тот же секретный
+ключ. При этом способе у конечного пользователя нет никакого способа проверить подпись, а сам секретный ключ должен храниться исключительно
+в приложении, которое занимается генерацией и проверкой токена. Безопасность и удобство таких методов ниже, так как валидацию 
+ключа может выполнить только сервер. Однако такой способ математически проще. 
+
+При ассиметричном шифровании приватный ключ позволяет зашифровать информацию, а публичный - расшифровать. Приватный ключ хранится на сервисе, 
+который позволяет авторизоваться, а компрометация приватного ключа несёт риск, так как злоумышленник сможет генерировать ключи в любой момент.
+Публичный ключ же доступен любому. Он позвволяет декодировать подпись и, сравнив её с содержимым первых двух сегментов JWT токена, проверить
+подлинность подписи. Такие алгоритмы математически являются более сложными. 
+
+В приложении в качестве алгоритма при генерации подписи выбран симметричный HS256. Так как приложение не является микросервисным и выполняет
+свою конкретную задачу, в нём можно консолидировать задачи выдачи токенов и проверки, а получение информации о пользователе можно 
+выполнять через специальный эндпоинт. Большой необходимости в ассиметричном шифровании нет. 
+
+Библиотека FastAPI не предоставляет собственного инструмента для внедрения аутентификации, это минималистичная библиотека, которая выполняет
+функции именно создания API. Для возможности идентификации пользователя необходима разработка собственного сервиса. 
+
+\begin{lstlisting}[caption={Функции для создания JWT}, label={lst:createjwt}, language=Python]
+def create_token(
+    *,
+    content: dict[str, str],
+    secret_key: str,
+    expires_delta: timedelta | None = timedelta(minutes=36000),
+):
+    to_encode = content.copy()
+    expire = datetime.now(UTC) + expires_delta
+    to_encode.update(TokenBase(exp=expire, sub=JWT_SUBJECT).model_dump())
+
+    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=ALGORITHM)
+    return encoded_jwt
+
+def create_token_for_user(user: User, secret_key: str) -> UserTokenData:
+    token_user_dict = TokenUser(id=user.id, username=user.username, email=user.email).model_dump()
+    created_token = create_token(
+        content=token_user_dict,
+        secret_key=secret_key,
+    )
+    return UserTokenData(access_token=created_token, token_type=TOKEN_TYPE)
+\end{lstlisting}
+
+
+В листинге~\ref{lst:createjwt} описаны методы, которые позволяют создать JWT токен, позволяющий идентифицировать пользователя. Для создания токена
+используется библиотека Python JWT. Полезное содержимое токена включает идентификатор, имя пользователя а также его почту. Эти методы
+могут использоваться в пользовательских сценариях регистрации и авторизации. В листинге~\ref{lst:decodejwt} представлен обратный процесс
+декодирования JWT токена с помощью той же библиотеки JWT с указанием секретного ключа и алгоритма. 
+
+\begin{lstlisting}[caption={Функции для декодирования JWT}, label={lst:decodejwt}, language=Python]
+def get_user_from_token(token: str, secret_key: str) -> str:
+    try:
+        decoded_user = jwt.decode(token, secret_key, algorithms=ALGORITHM)
+        return TokenUser(**decoded_user)
+
+    except JWTError as decode_error:
+        raise ValueError("unable to decode") from decode_error
+    except ValidationError as validation_error:
+        raise ValueError("invalid token") from validation_error
+\end{lstlisting}
+
+Необходимо также рассмотреть вопрос хранения пользователя внутри базы данных и проверки его пароля. 
+Пароль пользователя хранится в виде хэша и соли - специальной строки, котоая пе
 
 \appendix
 
@@ -2285,6 +2537,60 @@ class SongInCreate(SongBase):
         if len(self.files_file) != len(self.files_leading) or len(self.files_file) != len(self.files_audio_custom_codec):
             raise ValueError("Files array and files leadings should be of a same size")
         return self
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Метод получения содержимого плейлиста}, label={lst:getplaylist}, language=Python]
+@return_service
+async def get_playlist_by_id(
+	self, playlist_id: UUID, playlist_repo: PlaylistsRepository = Depends(get_repository(PlaylistsRepository)), song_service: SongsService = Depends(get_service(SongsService))
+) -> PlaylistDetailedResponse:
+	playlist = await playlist_repo.get_playlist_by_id(playlist_id=playlist_id)
+	if not playlist:
+		return response_4xx(
+			status_code=HTTP_404_NOT_FOUND,
+			context={"reason": constant.FAIL_PLAYLIST_NOT_FOUND},
+		)
+
+	def track_mapper_function(track: PlaylistSong):
+		fitting_release = filter_song_releases_according_to_filter(track.song.song_releases, track.filter)
+		if len(fitting_release) == 0:
+			return PlaylistExtendedOutTracks(
+				id=track.song.id,
+				version=None,
+				name="Песня не найдена. Уточните фильтр",
+				filter=track.filter,
+				groups=[],
+				authors=[],
+				duration=None,
+				sound_file_id=None,
+			)
+
+		fitting_track = fitting_release[-1]
+
+		leading_audio = song_service.get_leading_audio_file(fitting_track.files)
+
+		return PlaylistExtendedOutTracks(
+			id=track.song.id,
+			version=fitting_track.id,
+			name=fitting_track.name,
+			filter=track.filter,
+			groups=[PlaylistExtendedOutGroups(id=group.id, name=group.name) for group in fitting_track.groups],
+			authors=[PlaylistExtendedOutAuthors(id=author.id, name=author.name) for author in fitting_track.authors],
+			duration=leading_audio.file.duration if leading_audio else None,
+			sound_file_id=leading_audio.file_id if leading_audio else None,
+		)
+
+	return dict(
+		status_code=HTTP_200_OK,
+		content={
+			"message": constant.SUCCESS_PLAYLIST_FOUND,
+			"data": jsonable_encoder(
+				PlaylistExtendedOutData(
+					id=playlist.id, name=playlist.name, description=playlist.description, file_id=playlist.file_id, tracks=[track_mapper_function(track) for track in playlist.songs]
+				)
+			),
+		},
+	)
 \end{lstlisting}
 
 \newcounter{lastPageNumber}
