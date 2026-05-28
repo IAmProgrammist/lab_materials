@@ -1,0 +1,153 @@
+\documentclass[a4paper, 12pt, oneside]{article}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0cm}
+
+\usepackage[english,russian]{babel}
+\usepackage{titlesec}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{standalone}
+\usepackage{minted}
+\setmintedinline{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\setminted{frame=lines, framesep=2mm, baselinestretch=1.5, bgcolor=LightGray, breaklines,fontsize=\scriptsize}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[left=3cm,right=1.5cm,
+    top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage{ upgreek }
+\usepackage[shortlabels]{enumitem}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{titlesec}
+
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+\usepackage{fontspec}
+\usepackage{booktabs}
+\usetikzlibrary{backgrounds}
+\usepackage{capt-of}
+\usepackage{caption} %заголовки плавающих объектов
+
+\captionsetup[figure]{name=Рисунок}
+
+\newcounter{labeltablecounter}
+\renewcommand{\thelabeltablecounter}{
+    \arabic{labeltablecounter}
+}
+
+\DeclareCaptionFormat{tablecaption}
+{
+    \begin{flushright}
+        \textit{#1}
+    \end{flushright}
+    \begin{center}
+        \textbf{#3}
+    \end{center}
+}
+
+\DeclareCaptionFormat{imagecaption}
+{%
+    #1#2#3
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\graphicspath{ {./images/} }
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+\setmonofont{Consolas}
+\setmainfont{Times New Roman}
+
+\newcommand\textbox[1]{
+    \parbox{.45\textwidth}{#1}
+}
+
+\newcommand\makenewfig[3] {
+    \captionsetup{format=imagecaption}
+    \begin{center}
+        #1
+        \nopagebreak
+        \captionof{figure}{#2}
+        \nopagebreak
+        \label{#3}
+    \end{center}
+}
+
+\newcommand\labeltable[3] {
+    \captionsetup{format=tablecaption}
+    \begin{table}[H]
+        \caption{#2}
+        \begin{center}
+            #1
+        \end{center}
+        \label{#3}
+    \end{table}
+}
+
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+\newcommand{\anonsection}[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+
+\newcommand{\specialcell}[2][c]{%
+    \begin{tabular}[#1]{@{}c@{}}
+        #2
+    \end{tabular}}
+
+\begin{document}
+    \linespread{1.5}
+    \setlength{\parskip}{0cm}
+
+    \pagenumbering{gobble}
+
+    \justifying
+    \begin{center}
+        \small{
+            МИНИCТЕРCТВО НАУКИ И ВЫCШЕГО ОБРАЗОВАНИЯ \\РОCCИЙCКОЙ ФЕДЕРАЦИИ
+            \bigbreak
+            ФЕДЕРАЛЬНОЕ ГОCУДАРCТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫCШЕГО ОБРАЗОВАНИЯ \\
+            \bigbreak
+            \textbf{«БЕЛГОРОДCКИЙ ГОCУДАРCТВЕННЫЙ \\ТЕХНОЛОГИЧЕCКИЙ УНИВЕРCИТЕТ им. В. Г. ШУХОВА»\\ (БГТУ им. В.Г. Шухова)} \\
+            \bigbreak
+            Кафедра программного обеспечения вычислительной техники и автоматизированных систем\\}
+    \end{center}
+
+    \vfill
+    \begin{center}
+        \large{
+            \textbf{
+                Учебно-ознакомительная практика}}\\
+        \normalsize{
+            по дисциплине: Основы программирования
+        }
+    \end{center}
+    \vfill
+    \hfill\textbox{
+        Выполнил: ст. группы ПВ-223\\Пахомов Владислав Андреевич
+        \bigbreak
+        Проверили: Новожен Никита Викторович\\
+        Черников Сергей Викторович
+    }
+    \vfill\begin{center}
+              Белгород 2023 г.
+    \end{center}
+    \newpage
+    \renewcommand{\contentsname}{Оглавление}
+    \tableofcontents\newpage
+    
+
+\end{document}
