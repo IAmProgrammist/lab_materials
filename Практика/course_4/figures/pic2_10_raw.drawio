@@ -1,0 +1,236 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="COx7_7Mv66rfmER36Vy3">
+    <mxGraphModel dx="3666" dy="1647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="LiI5dmypMo3cRImXjmV_-56" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="learner" vertex="1">
+          <mxGeometry height="1210" width="1310" x="-20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-1" parent="1" style="html=1;whiteSpace=wrap;" value="get_device() -&amp;gt; str" vertex="1">
+          <mxGeometry height="50" width="210" x="400" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-2" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="AudioAutoencode(nn.Module)" vertex="1">
+          <mxGeometry height="208" width="210" x="810" y="371" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-3" parent="LiI5dmypMo3cRImXjmV_-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ encoder: nn.Sequential" vertex="1">
+          <mxGeometry height="26" width="210" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-4" parent="LiI5dmypMo3cRImXjmV_-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ decoder: nn.Sequential" vertex="1">
+          <mxGeometry height="26" width="210" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-5" parent="LiI5dmypMo3cRImXjmV_-2" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="210" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-6" parent="LiI5dmypMo3cRImXjmV_-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ __init__(input_dim: int, latent_dim: int, hidden_dims: list)" vertex="1">
+          <mxGeometry height="44" width="210" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-7" parent="LiI5dmypMo3cRImXjmV_-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ encode(x: Tensor) -&amp;gt; Tensor" vertex="1">
+          <mxGeometry height="26" width="210" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-8" parent="LiI5dmypMo3cRImXjmV_-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ decode(x: Tensor) -&amp;gt; Tensor" vertex="1">
+          <mxGeometry height="26" width="210" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-9" parent="LiI5dmypMo3cRImXjmV_-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ forward(x: Tensor) -&amp;gt; Tensor" vertex="1">
+          <mxGeometry height="26" width="210" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-10" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="MSEAutoencoderLoss(nn.Module)" vertex="1">
+          <mxGeometry height="150" width="210" x="140" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-11" parent="LiI5dmypMo3cRImXjmV_-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ mse: MSELoss" vertex="1">
+          <mxGeometry height="26" width="210" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-12" parent="LiI5dmypMo3cRImXjmV_-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ lw: int" vertex="1">
+          <mxGeometry height="26" width="210" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-13" parent="LiI5dmypMo3cRImXjmV_-10" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="210" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-14" parent="LiI5dmypMo3cRImXjmV_-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ __init__(latent_weight: int)" vertex="1">
+          <mxGeometry height="26" width="210" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-15" parent="LiI5dmypMo3cRImXjmV_-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ forward(x_hat: Tensor, x: Tensor, z: Tensor) -&amp;gt; Tensor" vertex="1">
+          <mxGeometry height="38" width="210" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-16" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="BinFileDataset(Dataset)" vertex="1">
+          <mxGeometry height="170" width="210" x="140" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-17" parent="LiI5dmypMo3cRImXjmV_-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ mse: MSELoss" vertex="1">
+          <mxGeometry height="26" width="210" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-18" parent="LiI5dmypMo3cRImXjmV_-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ lw: int" vertex="1">
+          <mxGeometry height="26" width="210" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-19" parent="LiI5dmypMo3cRImXjmV_-16" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="210" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-20" parent="LiI5dmypMo3cRImXjmV_-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ __init__(root_dir: str)" vertex="1">
+          <mxGeometry height="26" width="210" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-21" parent="LiI5dmypMo3cRImXjmV_-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ __len__() -&amp;gt; int" vertex="1">
+          <mxGeometry height="28" width="210" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-22" parent="LiI5dmypMo3cRImXjmV_-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ __getitem__(idx: int) -&amp;gt; Tensor" vertex="1">
+          <mxGeometry height="30" width="210" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-23" parent="1" style="html=1;whiteSpace=wrap;" value="load_bin_file(path: str) -&amp;gt; Tensor" vertex="1">
+          <mxGeometry height="50" width="210" x="690" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-24" parent="1" style="html=1;whiteSpace=wrap;" value="save_bin_file(bits_tensor: Tensor, path: str)" vertex="1">
+          <mxGeometry height="50" width="210" x="894" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-25" parent="1" style="html=1;whiteSpace=wrap;" value="save_latent(z: Tensor, path: str)" vertex="1">
+          <mxGeometry height="50" width="210" x="894" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-26" parent="1" style="html=1;whiteSpace=wrap;" value="reconstruction_quality(x_hat: Tensor, x: Tensor)" vertex="1">
+          <mxGeometry height="50" width="210" x="140" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-27" parent="1" style="html=1;whiteSpace=wrap;" value="save_model(model: AudioAutoencoder, path, meta: dict)" vertex="1">
+          <mxGeometry height="50" width="210" x="130" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-28" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-29" parent="1" style="html=1;whiteSpace=wrap;" value="load_model(path: str, device: str) -&amp;gt; AudioAutoencoder" vertex="1">
+          <mxGeometry height="50" width="210" x="570" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-30" parent="1" style="html=1;whiteSpace=wrap;" value="load_meta(path: str, device: str)" vertex="1">
+          <mxGeometry height="50" width="210" x="530" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-31" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="LiI5dmypMo3cRImXjmV_-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="505" y="640" />
+              <mxPoint x="505" y="640" />
+            </Array>
+            <mxPoint x="370" y="750" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-32" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="LiI5dmypMo3cRImXjmV_-30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="750" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-33" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="245" y="760" />
+              <mxPoint x="490" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-34" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="795" />
+              <mxPoint x="60" y="165" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-35" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="795" />
+              <mxPoint x="60" y="355" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-36" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-26">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="795" />
+              <mxPoint x="60" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-37" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="795" />
+              <mxPoint x="60" y="645" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-38" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="245" y="710" />
+              <mxPoint x="430" y="710" />
+              <mxPoint x="430" y="610" />
+              <mxPoint x="915" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-39" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="245" y="710" />
+              <mxPoint x="430" y="710" />
+              <mxPoint x="430" y="550" />
+              <mxPoint x="675" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-40" parent="1" style="html=1;whiteSpace=wrap;" value="run_train(args: dict)" vertex="1">
+          <mxGeometry height="50" width="210" x="140" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-41" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="765" y="485" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-42" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-43" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-44" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-45" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="765" y="550" />
+              <mxPoint x="675" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-46" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-47" parent="1" style="html=1;whiteSpace=wrap;" value="run_predict(args: dict)" vertex="1">
+          <mxGeometry height="50" width="210" x="660" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-48" parent="1" style="html=1;whiteSpace=wrap;" value="run_read(args: dict)" vertex="1">
+          <mxGeometry height="50" width="210" x="400" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-49" parent="1" style="html=1;whiteSpace=wrap;" value="build_parser() -&amp;gt; ArgumentParser" vertex="1">
+          <mxGeometry height="50" width="210" x="220" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-50" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-51" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-40">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="880" />
+              <mxPoint x="245" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-52" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-53" edge="1" parent="1" source="LiI5dmypMo3cRImXjmV_-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="LiI5dmypMo3cRImXjmV_-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LiI5dmypMo3cRImXjmV_-54" parent="1" style="html=1;whiteSpace=wrap;" value="main()" vertex="1">
+          <mxGeometry height="50" width="210" x="530" y="1110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
