@@ -2432,6 +2432,199 @@ PyTorch nn.Linear, обозначающий полную связь. А для �
 
 \subsection{Разработка фронтенда}
 
+В качестве основной библиотеки для построения графического интерфейса был выбран React. React позволяет декомпозировать большое приложение 
+на переиспользуемые независимые компоненты. Возьмём в качестве примера компонент для отображения группы. 
+Каждый из компонентов может быть разделён на несколько составляющих: его интерфейс, его стилизация и его вёрстка. 
+
+Интерфейс описывает, по какому контракту с ним могут работать другие компоненты. Это могут входные параметры, для React дополнительно 
+это может быть описание свойства ref, возвращаемый тип. Так например, в листинге~\ref{lst:componentparams} представлен один из способов объявления типа в 
+TypeScript - интерфейсы. 
+
+\begin{lstlisting}[caption={Интерфейс компонента группы}, label={lst:componentparams}]
+export interface GroupProps {
+    id: string
+    name: string
+    imageURL: string
+    redirect?: boolean
+}
+\end{lstlisting}
+
+Для отображения группы будет достаточно её идентификатора, имени и аватарки группы. Также дополнительно можно указать опциональный флаг redirect, который
+позволяет по клику на группу перейти на её страницу.
+
+Стилизация компонента выполняется при помощи обычных CSS файлов, пример стилизации компонента представлен в листинге~\ref{lst:componentstyles}. 
+
+\begin{lstlisting}[caption={Стилизация компонента группы}, label={lst:componentstyles}]
+.group.group--small {
+    padding: 0;
+    overflow: hidden;
+
+    .card-header img {
+        width: 100%;
+        height: 12.5rem;
+        object-fit: cover;
+    }
+
+    .group-title {
+        font: var(--font-h3);
+        padding: var(--spaces-x6);
+    }
+}
+\end{lstlisting}
+
+Одной из особенностей проекта заключается использование CSS-переменных. CSS-переменные - это переменные, которые можно использовать внутри CSS. В данном
+проекте использование CSS переменных ограничивается выносом этих в эти переменные цветовые токены, анимации, тени, отступы, шроифты. Однако
+CSS-переменные имеют гораздо более широкое использование в более крупных проектах. Так, например, для переиспользуемого компонента кнопки так же можно задать
+свои переменные, которые можно переопределить, что позволит выполнять глубокую модификацию компонентов.
+
+Вынос цвета в отдельные переменные также поддерживается многими браузерами и позволяет, например, быстро изменять оформление приложения в зависимости от, например, 
+изменившейся темы. Так на рисунке~\ref{fig:pic3_3} можно увидеть, что в зависимости от предпочтений пользователя в теме приложение может быть как светлым, так и 
+тёмным. Переключение же на тему в большинстве современных браузеров вроде Chrome будет выполняться автоматически.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/pic3_3.png}
+	\caption{Различные виды интерфейса, авторский материал}
+	\label{fig:pic3_3}
+\end{figure}
+
+Вёрстка непосредственно описывает, какие HTML-элементы будут использованы внутри страницы а также позволяет выполнять композицию
+с другими компонентами при помощи использования TSX - специального синтаксиса React + TypeScript. Именно здесь соединяются 
+переиспользуемые компоненты, интерфейс взаимодействия с компонентом а также его стиль. Пример вёрстки компонента представлен в листинге~\ref{lst:componentlayout}. 
+
+\begin{lstlisting}[caption={Вёрстка компонента группы}, label={lst:componentlayout}]
+import { useNavigate } from "react-router"
+import { Card, CardHeader, CardTitle } from "shared/ui/Card"
+import "./group.css"
+import type { GroupProps } from "./types"
+
+export const Group = ({id, name, imageURL, redirect = false}: GroupProps) => {
+    const navigate = useNavigate();
+    
+    return <Card clickable={redirect} onClick={() => {
+        if (!redirect) return;
+
+        navigate(`/groups/view/${id}`);
+    }} className="group group--small">
+        <CardHeader className="group-header">
+            <img src={imageURL}/>
+        </CardHeader>
+        <CardTitle className="group-title">
+            {name}
+        </CardTitle>
+    </Card>
+}
+\end{lstlisting}
+
+Сами компоненты React могут быть гораздо сложнее. Они могут содержать состояние, могут подключать хуки, использовать useEffect для пописки на внешнее
+состояние а также useMemo и useCallback для мемоизации функций. Компонент группы, описанный выше, должен быть максимально простым, так как он находится в 
+слое entities для обеспечения поддержки приложения.
+
+Одной из основных задач при проектировании фронтенда заключалась в защите бизнес-слоя от специфичных для библиотек функций и методов. Например, для React
+такими способами будет являться хранение состояния внутри useState компонента. При миграции приложения на другой движок бизнес логика будет претерпевать необходимость
+переноса на другую библиотеку, что может повредить её а также займёт очень много времени. Именно поэтому сервисы в данном приложении часто являются самыми
+обычными классами с непосредственными методами для использования, а инъекция зависимости в React происходит при помощи системы контекстов. Предоставлением контекста
+занимается самый высокий слой - app. Пример предоставления контекста представлен в листинге~\ref{lst:setcontext}.
+
+\begin{lstlisting}[caption={Предоставление сервиса в контексте}, label={lst:setcontext}]
+import { useState, type ReactNode } from "react"
+import { GroupsContextProvider as LibGroupsContextProvider } from "features/groups/lib/GroupsContextProvider"
+import { GroupService } from "features/groups/model/groupservice"
+import { useAuthService } from "features/auth/ui/useAuthService"
+import { GroupApi } from "features/groups/model/groupapi"
+
+export const GroupsContextProvider = ({children}: {children: ReactNode}) => {
+    const authService = useAuthService();
+    const [api] = useState(new GroupApi())
+    const [service] = useState(new GroupService(api, authService));
+    
+    return <LibGroupsContextProvider service={service}>
+        {children}
+    </LibGroupsContextProvider>
+}
+\end{lstlisting}
+
+Теперь в любом месте приложение может получить доступ к сервису и использовать его методы при помощи отдельного хука useContext, пример такого хука представлен 
+в листинге~\ref{lst:getcontext}.
+
+\begin{lstlisting}[caption={Получение контекста в приложении}, label={lst:getcontext}]
+import { useContext } from "react"
+import { GroupsContext } from "./groupsContext"
+
+export const useGroupsService = () => {
+    const service = useContext(GroupsContext);
+
+    return {service}
+}
+\end{lstlisting}
+
+Пусть слой сервиса и должен быть максимально простым и предоставлять возможность модульности, в ней всё ещё можно применять концепции
+реактивности, присущие библиотеке React. Такую реактивность обеспечивает библиотека RxJS. Библиотека RxJS, на самом деле, в своей идее
+является очень простой. Существует некий отслеживаемый Observable объект, на который мы можем подписываться, получая объект Subscription.
+Далее мы можем отменить эту подписку. Это основная концепция, которая очень сильно расширяется дополнительными операторами, которые предоставляет
+как сам RxJS, так и его расширения, работающими в концепции функционального программирования. В листинге~\ref{lst:rxjsisnuts}, в котором представлен
+элемент сервиса плеера, описывается несколько реактивных переменных а также инициализация этих переменных. RxJS умеет даже подписываться на состояния
+компонентов работающих с событиями через addEventListener при помощи fromEvent.
+
+\begin{lstlisting}[caption={Использование RxJS для обеспечения реактивного состояния}, label={lst:rxjsisnuts}]
+...
+readonly paused$: Observable<boolean>
+readonly volume$: Observable<number>
+readonly currentTime$: Observable<number>
+readonly duration$: Observable<number>
+readonly playing$: Observable<PlayingType>
+readonly queue$: Observable<{index: number, items: SongReleaseData[], orderType: PlaylistOrderState}>
+constructor(repository: PlayerRepository, authService: IAuthService) {
+	this._repository = repository
+	this._authService = authService
+
+	const player = this._repository.player as HTMLAudioElement;
+	this.paused$ = merge(
+		fromEvent(player, "play").pipe(map(() => false)),
+		fromEvent(player, "pause").pipe(map(() => true))
+	).pipe(startWith(player?.paused))
+	this.volume$ = fromEvent(player, "volumechange").pipe(map(() => player?.volume), startWith(player?.volume))
+	this.currentTime$ = fromEvent(player, "timeupdate").pipe(map(() => player?.currentTime), startWith(player?.currentTime))
+	this.duration$ = fromEvent(player, "durationchange").pipe(map(() => player?.duration), startWith(player?.duration))
+	this.playing$ = this._repository.playing$.asObservable();
+	this.queue$ = this._repository.playQueue$.asObservable();
+...
+\end{lstlisting}
+
+Далее уже сам React может подписаться на это состояние внутри для переноса реативного состояния в собственное реактивное отслеживание
+состояние при помощи хуков библиотеки observable-hooks, как показано в листинге~\ref{lst:rxjsisnuts2}
+
+\begin{lstlisting}[caption={Перенос RxJS подписки в React в компонент плеера}, label={lst:rxjsisnuts2}]
+export const Player = () => {
+    const playerService = usePlayerContext();
+    const {service: songService} = useSongsService();
+
+    const currentTime = useObservableState(playerService.currentTime$.pipe(sampleTime(500))) || 0;
+    const paused = useObservableState(playerService.paused$);
+    const duration = useObservableState(playerService.duration$) || 0;
+    const volume = useObservableState(playerService.volume$);
+    const trackPlaying = useObservableState(playerService.playing$);
+    const playlistPlaying = useObservableState(playerService.queue$);
+...
+\end{lstlisting}
+
+Разные фреймворки и библиотеки позволяют по-разному интегрироваться с RxJS. Например, для Angular эта библиотека является нативной 
+и подписки легко переносятся в сигналы, а для Vue используется @vueuse/rxjs.
+
+\subsection{Тестирование}
+
+При разработке выполнялось Smoke-тестирование, проверяющие основные сценарии согласно пунктам А.4.1 приложения. 
+
+Важно также отметить, что в ходе разработки алгоритма сжатия аудиоданных проводилось тестирование полученных моделей нейронных сетей. 
+Для проверки использовалась такая метрика как SNR, позволяющая определить соотношение чистого сигнала к шуму, а также процент 
+достаточно близких амплитуд к исходным (количество амплитуд отличающихся максимум на 20\%, 10\%, 5\%). 
+
+Если SNR является более близкой к субъективному восприятию аудиоданных, то процент показывает, насколько нейронная сеть хорошо справляется
+с общим восстановлением. На рисунке~\ref{fig:pic3_4} представлена статистика обучения для наиболее удачной нейронной сети, достигшей наивысшего
+результата в SNR=~17db. Это соотношение достаточно для получения различимой речи.
+
+
+
 
 \appendix
 
