@@ -113,7 +113,6 @@
   \vspace{0.4em}
   \textbf{Задачи:}
   \begin{enumerate}
-    \item Разработка или поиск методов оптимизированного хранения аудиоданных.
     \item Разработка архитектуры и программного обеспечения для хранения аудиоданных.
     \item Тестирование разработанного программного обеспечения для хранения аудиоданных.
     \item Создание руководства пользователя разработанного программного обеспечения
@@ -144,16 +143,6 @@
         \item Встроенный аудиоплеер с управлением очередью
       \end{itemize}
   \end{columns}
-
-  \vspace{0.4em}
-  \begin{block}{Нефункциональные требования (из ТЗ)}
-    \fontsize{8}{9}\selectfont
-    GPU $\geq$16\,ГБ VRAM~~$\cdot$~~
-    RAM $\geq$32\,ГБ~~$\cdot$~~
-    Диск $\geq$1\,ТБ~~$\cdot$~~
-    Канал $\geq$10\,ГБит/с~~$\cdot$~~
-    Восстановление $\leq$1\,ч
-  \end{block}
 \end{frame}
 
 % ---- СЛАЙД 4: Актуальность ----
@@ -212,37 +201,19 @@
 % ---- СЛАЙД 6: Технологии ----
 \begin{frame}{Используемые технологии, инструменты и библиотеки}
   \begin{columns}[t]
-    \column{0.33\textwidth}
+    \column{0.5\textwidth}
       \textbf{Backend}
       \begin{itemize}
-        \item Python / FastAPI
-        \item PostgreSQL + SQLAlchemy
-        \item PyTorch + CUDA
-        \item NVIDIA Container Toolkit
-        \item Nginx (reverse proxy)
-        \item Docker / Docker Compose
-        \item Pydantic (валидация)
-        \item Python-JWT
+        \item \includegraphics[width=40mm]{figures/logos/fastapi.png}
+        \item \includegraphics[width=40mm]{figures/logos/images.jpeg}
+        \item \includegraphics[width=40mm]{figures/logos/Docker_Logo.png}
       \end{itemize}
-    \column{0.33\textwidth}
+    \column{0.5\textwidth}
       \textbf{Frontend}
       \begin{itemize}
-        \item JavaScript / React
-        \item RxJS (бизнес-логика)
-        \item Vite (сборка)
-        \item pnpm
-        \item Yup + react-hook-form
-        \item ts-pattern
-        \item Feature-Sliced Design
-      \end{itemize}
-    \column{0.34\textwidth}
-      \textbf{Протоколы и стандарты}
-      \begin{itemize}
-        \item REST API
-        \item WebSocket + STOMP
-        \item HTTP Chunked Transfer
-        \item JWT / HS256
-        \item FLAC + нейросетевой кодек
+        \item \includegraphics[width=40mm]{figures/logos/react.png}
+        \item \includegraphics[width=40mm]{figures/logos/images (1).jpeg}
+        \item \includegraphics[width=40mm]{figures/logos/i.png}
       \end{itemize}
   \end{columns}
 \end{frame}
@@ -252,15 +223,7 @@
   \begin{columns}[t]
     \column{0.5\textwidth}
       \textbf{Бизнес-сущности (БД):}
-      \begin{itemize}
-        \item \texttt{users} --- хэш пароля + соль
-        \item \texttt{author}, \texttt{group}, \texttt{author\_group}
-        \item \texttt{song} --- идентификатор (неизменяем)
-        \item \texttt{song\_release} --- версия: тег, BPM, тональность, слова, файлы
-        \item \texttt{file} --- MIME, имя, длительность; тело на диске
-        \item \texttt{playlist}, \texttt{playlist\_song} --- фильтр по тегу/версии
-        \item \texttt{comment}, \texttt{comment\_song} --- чат
-      \end{itemize}
+      \includegraphics[width=60mm]{figures/pic2_5.png}
     \column{0.5\textwidth}
       \textbf{Аудиоданные:}
       \begin{itemize}
@@ -270,32 +233,6 @@
         \item После кодирования: сжатый бинарный формат
         \item При передаче: HTTP Chunked Transfer
         \item Распаковка: потоковая, без ожидания всего файла
-      \end{itemize}
-  \end{columns}
-\end{frame}
-
-% ---- СЛАЙД 8: Входные/выходные параметры ----
-\begin{frame}{Описание входных и выходных параметров системы}
-  \begin{columns}[t]
-    \column{0.5\textwidth}
-      \textbf{Входные параметры:}
-      \begin{itemize}
-        \item \textbf{Аутентификация:} email, пароль
-        \item \textbf{Сущности:} имя, описание, аватар, связи
-        \item \textbf{Релиз:} тег, BPM, тональность, слова, файлы, флаг ведущего файла
-        \item \textbf{Плейлист:} имя, описание, \{song\_id, фильтр\}
-        \item \textbf{Файл:} multipart, флаг сжатия кодеком
-        \item \textbf{Плеер:} id версии / плейлиста
-      \end{itemize}
-    \column{0.5\textwidth}
-      \textbf{Выходные параметры:}
-      \begin{itemize}
-        \item \textbf{API:} JSON (Pydantic-схемы)
-        \item \textbf{Файл:} скачивание по ссылке
-        \item \textbf{Аудио (кодек):} HTTP Chunked, потоковые фреймы
-        \item \textbf{JWT:} Access Token (HS256), содержит id, username, email
-        \item \textbf{Healthcheck:} \texttt{200 OK}
-        \item \textbf{Документация:} Swagger / OpenAPI (авто)
       \end{itemize}
   \end{columns}
 \end{frame}
@@ -333,24 +270,21 @@
 % ---- СЛАЙД 10: Архитектура ----
 \begin{frame}{Декомпозиция и архитектура ПО}
   \begin{columns}[t]
-    \column{0.5\textwidth}
+    \column{0.33\textwidth}
       \textbf{Системная архитектура (монолит):}
       \begin{center}
         \includegraphics[width=40mm]{figures/networkstruct.png}
       \end{center}
-      \begin{itemize}\setlength{\itemsep}{1pt}
-        \item Nginx → Backend / Frontend
-        \item Backend → PostgreSQL + FS
-        \item NVIDIA Runtime для PyTorch
-      \end{itemize}
-    \column{0.5\textwidth}
+    \column{0.34\textwidth}
       \textbf{Архитектура сервера:}
       \begin{center}
         \includegraphics[width=40mm]{figures/pic2_7.png}
       \end{center}
-      Repository → Service → Router\\[0.2em]
-      \textbf{Фронтенд: Feature Sliced Design}\\
-      {\small\texttt{Shared → Entity → Features → Widgets → Pages → App}}
+    \column{0.33\textwidth}
+      \textbf{Архитектура клиента:}
+      \begin{center}
+        \includegraphics[width=40mm]{figures/pic2_13.png}
+      \end{center}
   \end{columns}
 
   \vspace{0.3em}
@@ -421,23 +355,16 @@
     \column{0.5\textwidth}
       \textbf{Формы:}
       \begin{center}
-        \includegraphics[width=60mm]{figures/pic3_12.png}\\[0.4em]
+        \includegraphics[width=50mm]{figures/pic3_12.png}\\
+        \includegraphics[width=50mm]{figures/pic3_5.png}\\
       \end{center}
     \column{0.5\textwidth}
       \textbf{Основные экраны:}
       \begin{center}
-        \includegraphics[width=60mm]{figures/pic3_15.png}\\[0.4em]
+        \includegraphics[width=50mm]{figures/pic3_15.png}\\
+        \includegraphics[width=50mm]{figures/pic3_3.png}\\
       \end{center}
   \end{columns}
-
-  \vspace{0.4em}
-  \textbf{Ключевые UI-компоненты:}
-  \begin{itemize}
-    \item Карточки авторов/групп с формами редактирования
-    \item Страница композиции: история версий, чат, файлы, плейлисты
-    \item Плейлист с умным фильтром (тег / id / последняя версия)
-    \item Плеер: shuffle / loop / очередь / громкость / перемотка
-  \end{itemize}
 \end{frame}
 
 % ---- СЛАЙД 14: Результаты экспериментов и тестирования ----
@@ -471,20 +398,12 @@
 \begin{frame}{Заключение}
   \textbf{В ходе работы разработан и протестирован сервис BackTrack:}
   \begin{itemize}
-    \item \textbf{Исследованы} алгоритмы хранения аудио (FLAC, MP3, AAC, Opus); выбрана гибридная схема FLAC + автоэнкодер
+    \item \textbf{Исследованы} алгоритмы хранения аудио (FLAC, MP3, AAC, Opus); возможности использования гибридной схемы FLAC + автоэнкодер
     \item \textbf{Разработан} сервер на FastAPI + PyTorch + NVIDIA CUDA
     \item \textbf{Разработан} фронтенд на React + RxJS (Feature Sliced Design)
-    \item \textbf{Реализован} собственный формат с потоковой распаковкой
-    \item \textbf{Достигнуто} SNR~=~17\,дБ при сжатии $\times 2$
     \item \textbf{Проведено} Smoke-тестирование всех функциональных требований
     \item \textbf{Составлено} руководство пользователя
   \end{itemize}
-
-  \vspace{0.3em}
-  \begin{block}{Преимущества разработанного ПО}
-    \fontsize{8.5}{10}\selectfont
-    Self-hosted~$\cdot$~Версионирование без удаления~$\cdot$~Умные плейлисты~$\cdot$~Потоковая распаковка~$\cdot$~Открытый REST API
-  \end{block}
 \end{frame}
 
 \end{document}
