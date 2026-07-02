@@ -110,16 +110,16 @@
 
 % ---- СЛАЙД 2: Цель и задачи ----
 \begin{frame}{Цель и задачи ВКР}
-  \begin{block}{Цель работы}
-    хранение аудиоданных с применением алгоритмов упаковки и потоковой разработки а 
-    также их метаданных.
+  \begin{block}{Цель работы}    
+    предоставление платформы совместной разработки и доступа к композициям, включающей хранение аудиоданных, их метаданных с применением алгоритмов упаковки и потоковой распаковки.
   \end{block}
 
   \vspace{0.4em}
   \textbf{Задачи:}
   \begin{enumerate}
+    \item Обзор существующих решений.
     \item Разработка архитектуры и программного обеспечения для хранения аудиоданных.
-    \item Разработка способа хранения аудиоданных с возможностью упаковки и потоковой распаковки.
+    \item Разработка модуля хранения аудиоданных с возможностью упаковки и потоковой распаковки.
     \item Тестирование разработанного программного обеспечения для хранения аудиоданных.
   \end{enumerate}
 \end{frame}
@@ -186,7 +186,7 @@
   \end{tabularx}
   \end{center}
   \vspace{0.2em}
-  {\fontsize{7.5}{9}\selectfont Git и DropBox решают одну задачу; Splice перешёл на маркетплейс сэмплов; Boombox.io близок, но не имеет версионирования и собственного кодека.}
+  {\fontsize{7.5}{9}\selectfont Git и DropBox решают одну задачу; Splice перешёл на маркетплейс сэмплов; Boombox.io близок, но не имеет версионирования.}
 \end{frame}
 
 % ---- СЛАЙД 6: Технологии ----
@@ -207,7 +207,7 @@
     \column{0.5\textwidth}
       \textbf{Frontend}
       \begin{itemize}
-        \item JavaScript / React
+        \item TypeScript / React
         \item RxJS (бизнес-логика)
         \item Vite (сборка)
         \item pnpm
@@ -295,11 +295,11 @@
   \begin{columns}[t]
     \column{0.5\textwidth}
       \begin{center}
-        \includegraphics[width=40mm]{figures/decode_stream.png}
+        \includegraphics[width=42mm]{figures/decode_stream.png}
       \end{center}
     \column{0.5\textwidth}
       \begin{center}
-        \includegraphics[width=60mm]{figures/deciodechunk.png}
+        \includegraphics[width=70mm]{figures/deciodechunk.png}
       \end{center}
   \end{columns}
 \end{frame}
@@ -375,12 +375,12 @@
 \begin{frame}{Заключение}
   \textbf{В ходе работы разработан и протестирован сервис BackTrack:}
   \begin{itemize}
-    \item \textbf{Исследованы} алгоритмы хранения аудио (FLAC, MP3, AAC, Opus); возможности использования гибридной схемы хранения аудиоданных с применением кодека FLAC и автоэнкодера
-    \item \textbf{Разработан} сервер на FastAPI + PyTorch + NVIDIA CUDA
-    \item \textbf{Разработан} фронтенд на React + RxJS (Feature Sliced Design)
-    \item \textbf{Проведено} Smoke-тестирование всех функциональных требований
-    \item \textbf{Составлено} руководство пользователя
+    \item Выполнен обзор существующих решений
+    \item Разработана архитектура и программное обеспечение для хранения аудиоданных.
+    \item Разработан модуль хранения аудиоданных с возможностью упаковки и потоковой распаковки.
+    \item Протестировано программное обеспечение для хранения аудиоданных.
   \end{itemize}
+  Поставленная цель была достигнута
 \end{frame}
 
 \end{document}
