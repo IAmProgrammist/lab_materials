@@ -40,12 +40,18 @@
 \setlength{\leftmargini}{1em}
 \setlength{\leftmarginii}{0.8em}
 
+% (removed invalid \setbeamersize call) bottom margin change reverted
+
 % ---- Футер: короткая подпись + номер страниц ----
-\setbeamertemplate{footline}{
+% Reserve space so footline doesn't overlap content
+\setbeamertemplate{footline}{%
   \leavevmode
   \hbox{%
-    \begin{beamercolorbox}[wd=1\paperwidth,ht=2.2ex,dp=1.2ex,leftskip=.3cm]{footline}%
+    \begin{beamercolorbox}[wd=.84\paperwidth,ht=2.2ex,dp=1.2ex,leftskip=.3cm]{footline}%
       \fontsize{6.5}{7}\selectfont Пахомов В.А. --- Разработка сервиса хранения аудиоданных
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.16\paperwidth,ht=2.2ex,dp=1.2ex,left,leftskip=1.6cm]{footline}%
+      \fontsize{6.5}{7}\selectfont \insertframenumber{} / \inserttotalframenumber
     \end{beamercolorbox}%
   }%
 }
@@ -105,18 +111,16 @@
 % ---- СЛАЙД 2: Цель и задачи ----
 \begin{frame}{Цель и задачи ВКР}
   \begin{block}{Цель работы}
-    Разработка сервиса, позволяющего управлять процессами разработки музыкальных
-    композиций: хранить, версионировать и распространять аудиоданные, в том числе
-    с применением собственного алгоритма упаковки и потоковой распаковки.
+    хранение аудиоданных с применением алгоритмов упаковки и потоковой разработки а 
+    также их метаданных.
   \end{block}
 
   \vspace{0.4em}
   \textbf{Задачи:}
   \begin{enumerate}
     \item Разработка архитектуры и программного обеспечения для хранения аудиоданных.
+    \item Разработка способа хранения аудиоданных с возможностью упаковки и потоковой распаковки.
     \item Тестирование разработанного программного обеспечения для хранения аудиоданных.
-    \item Создание руководства пользователя разработанного программного обеспечения
-          для хранения аудиоданных.
   \end{enumerate}
 \end{frame}
 
@@ -127,7 +131,7 @@
     \column{0.5\textwidth}
       \begin{itemize}
         \item Аутентификация и регистрация пользователей
-        \item CRUD-операции над авторами и группами
+        \item CRUD-операции над метаданными
         \item Создание и версионирование композиций
         \begin{itemize}
           \item[\textendash] Запрет на удаление; только новый релиз
@@ -137,9 +141,9 @@
       \end{itemize}
     \column{0.5\textwidth}
       \begin{itemize}
-        \item Умные плейлисты с фильтрацией по тегу/версии
+        \item Плейлисты с возможность фильтрации песен по тегу/версии
         \item Хранение файлов с проприетарным кодеком
-        \item Потоковая распаковка аудиоданных (chunked)
+        \item Потоковая распаковка аудиоданных
         \item Встроенный аудиоплеер с управлением очередью
       \end{itemize}
   \end{columns}
@@ -148,23 +152,14 @@
 % ---- СЛАЙД 4: Актуальность ----
 \begin{frame}{Актуальность работы и обоснование разработки}
   \begin{columns}[t]
-    \column{0.5\textwidth}
-      \textbf{Проблемы рынка:}
+    \column{1\textwidth}
+      \textbf{Проблемы:}
       \begin{itemize}
         \item Стриминг использует треть россиян, аудитория растёт
         \item Продюсеры хранят проекты в локальных папках
         \item Утеря носителя~--- потеря всех наработок
         \item Нет инструментов версионирования и совместной работы
         \item Готовые сервисы узкоспециализированы
-      \end{itemize}
-    \column{0.5\textwidth}
-      \textbf{Что даёт разрабатываемый сервис:}
-      \begin{itemize}
-        \item Централизованное облачное хранилище
-        \item Версионирование без права удаления
-        \item Теги (\textit{Demo, Live, Release})
-        \item Умные плейлисты для разных заказчиков
-        \item Self-hosted: конфиденциальность данных
       \end{itemize}
   \end{columns}
 \end{frame}
@@ -188,10 +183,6 @@
     \hline
     Чат / комментарии       & +   & --  & --  & + \\
     \hline
-    Self-hosted             & +   & --  & --  & + \\
-    \hline
-    Удобство для продюсера  & --  & +   & $\pm$ & + \\
-    \hline
   \end{tabularx}
   \end{center}
   \vspace{0.2em}
@@ -204,27 +195,40 @@
     \column{0.5\textwidth}
       \textbf{Backend}
       \begin{itemize}
-        \item \includegraphics[width=40mm]{figures/logos/fastapi.png}
-        \item \includegraphics[width=40mm]{figures/logos/images.jpeg}
-        \item \includegraphics[width=40mm]{figures/logos/Docker_Logo.png}
+        \item Python / FastAPI
+        \item PostgreSQL + SQLAlchemy
+        \item PyTorch + CUDA
+        \item NVIDIA Container Toolkit
+        \item Nginx (reverse proxy)
+        \item Docker / Docker Compose
+        \item Pydantic (валидация)
+        \item Python-JWT
       \end{itemize}
     \column{0.5\textwidth}
       \textbf{Frontend}
       \begin{itemize}
-        \item \includegraphics[width=40mm]{figures/logos/react.png}
-        \item \includegraphics[width=40mm]{figures/logos/images (1).jpeg}
-        \item \includegraphics[width=40mm]{figures/logos/i.png}
+        \item JavaScript / React
+        \item RxJS (бизнес-логика)
+        \item Vite (сборка)
+        \item pnpm
+        \item Yup + react-hook-form
+        \item ts-pattern
+        \item Feature-Sliced Design
       \end{itemize}
   \end{columns}
 \end{frame}
 
 % ---- СЛАЙД 7: Описание данных ----
-\begin{frame}{Описание обрабатываемых данных, форматы и структура}
+\begin{frame}{Описание обрабатываемых данных, форматы и структура -- модели базы данных}
+  \begin{center}
+      \includegraphics[width=142mm]{figures/presentation_schema.png}
+    \end{center}
+\end{frame}
+
+% ---- СЛАЙД 8: Описание данных ----
+\begin{frame}{Описание обрабатываемых данных, форматы и структура -- аудиоданные}
   \begin{columns}[t]
-    \column{0.5\textwidth}
-      \textbf{Бизнес-сущности (БД):}
-      \includegraphics[width=60mm]{figures/pic2_5.png}
-    \column{0.5\textwidth}
+    \column{1\textwidth}
       \textbf{Аудиоданные:}
       \begin{itemize}
         \item Входной формат: WAV (PCM mono)
@@ -238,32 +242,35 @@
 \end{frame}
 
 % ---- СЛАЙД 9: Математические модели ----
-\begin{frame}{Математические модели, методы и алгоритмы}
+\begin{frame}{Математические модели, методы и алгоритмы -- энкодер}
+  \begin{center}
+    \includegraphics[width=150mm]{figures/encoder.png}
+  \end{center}
   \begin{columns}[t]
-    \column{0.55\textwidth}
-      \textbf{Автоэнкодер (нейросетевой кодек):}
-      \begin{itemize}
-        \item Вход: фрейм $x \in \mathbb{R}^{16384}$ (0,37с, 44,1\,кГц, моно)
-        \item Энкодер: $z = f_\theta(x)$,~~$z \in \mathbb{R}^{8192}$~~(сжатие $\times 2$)
-        \item Декодер: $\hat{x} = g_\phi(z)$
-        \item Функция потерь: MSE + спектральная
-        \item Активатор: LeakyReLU
-        \item 589\,824\,000 весов; VRAM $\geq$ 16\,ГБ
-      \end{itemize}
-      \vspace{0.2em}
-      \textbf{Гибрид с FLAC:}
-      \begin{itemize}
-        \item FLAC (кодер Хаффмана) + автоэнкодер
-        \item Целевой коэффициент сжатия: $\times 2$
-      \end{itemize}
-    \column{0.45\textwidth}
-      \textbf{Структура сети:}
-      \begin{center}
-        \includegraphics[width=60mm]{figures/pic2_2.png}
-      \end{center}
-      \vspace{0.3em}
-      \textbf{Перцептрон (свёрточные слои):}\\[0.2em]
-      Локальные фильтры уменьшают число связей~--- входной слой масштабируется без квадратичного роста параметров.
+    \column{1\textwidth}
+      \textbf{Энкодер:}
+      \begin{enumerate}
+        \item Фрагмент аудиоданных преобразуется в вектор из 16\,384 амплитуд выраженных числами от -1 до 1 .
+        \item Энкодер, состоящий из полносвязного слоя и функции активации LeakyReLU, сжимает пространство входного вектора до 8\,192 значений.
+        \item Полученный вектор -- латент. Представляет собой сжатую версию входного фрагмента аудиоданных в 2 раза.
+      \end{enumerate}
+  \end{columns}
+\end{frame}
+
+% ---- СЛАЙД 9.5: Математические модели ----
+\begin{frame}{Математические модели, методы и алгоритмы -- декодер}
+  \begin{center}
+    \includegraphics[width=150mm]{figures/decoder.png}
+  \end{center}
+  \begin{columns}[t]
+    \column{1\textwidth}
+      \textbf{Декодер:}
+      \begin{enumerate}
+        \setcounter{enumi}{3}
+        \item Латент -- полносвязный слой.
+        \item Декодер, состоящий из двух полносвязных слоёв и функции активации LeakyReLU, расширяет пространство латентного вектора до 16\,384 значений.
+        \item Полученный вектор, так же являющийся вектором амплитуд от -1 до 1, преобразуется обратно в фрагмент аудиоданных.
+      \end{enumerate}
   \end{columns}
 \end{frame}
 
@@ -290,81 +297,31 @@
   \vspace{0.3em}
 \end{frame}
 
-% ---- СЛАЙД 11: Системные требования ----
-\begin{frame}{Системные требования}
-  \begin{columns}[t]
-    \column{0.5\textwidth}
-      \textbf{Аппаратура (сервер):}
-      \begin{itemize}
-        \item CUDA GPU $\geq$16\,ГБ VRAM
-        \item ОЗУ $\geq$32\,ГБ
-        \item Диск $\geq$1\,ТБ
-        \item Канал $\geq$10\,ГБит/с
-      \end{itemize}
-      \vspace{0.4em}
-      \textbf{Клиент:}
-      \begin{itemize}
-        \item Современный браузер
-        \item Канал $\geq$10\,МБит/с
-      \end{itemize}
-    \column{0.5\textwidth}
-      \textbf{ПО (сервер):}
-      \begin{itemize}
-        \item ОС: Linux (Docker-совместимая)
-        \item Docker + Docker Compose
-        \item NVIDIA Container Toolkit
-        \item CUDA $\geq$ 13.0
-        \item Python $\geq$3.10
-        \item Node.js (сборка фронтенда)
-      \end{itemize}
-      \vspace{0.3em}
-      Восстановление после отказа: $\leq$1\,часа (ТЗ А.4.2.в)
-  \end{columns}
+% ---- СЛАЙД 13: Внешний вид ----
+\begin{frame}{Внешний вид программы}
+  \begin{center}
+  \includegraphics[width=115mm]{figures/pic3_12.png}
+  \end{center}
 \end{frame}
-
-% ---- СЛАЙД 12: Информационная безопасность ----
-\begin{frame}{Методы обеспечения информационной безопасности}
-  \begin{columns}[t]
-    \column{0.5\textwidth}
-      \textbf{Аутентификация и авторизация:}
-      \begin{itemize}
-        \item JWT в заголовке \texttt{Authorization}
-        \item Алгоритм подписи: HS256
-        \item Payload: \texttt{id}, \texttt{username}, \texttt{email}
-        \item Пароль: bcrypt-хэш + случайная соль
-        \item Множественные итерации соли (защита от брутфорса)
-      \end{itemize}
-    \column{0.5\textwidth}
-      \textbf{Защита транспорта и клиента:}
-      \begin{itemize}
-        \item Pydantic --- валидация всех вх./вых. данных
-        \item Авторизация на уровне STOMP WebSocket
-        \item Файлы вне БД --- сокращение атакуемой поверхности
-        \item Self-hosted: данные не покидают инфраструктуру
-      \end{itemize}
-  \end{columns}
-  \vspace{0.3em}
-  {\fontsize{8.5}{10}\selectfont
-  JWT хранится в RAM клиента --- CSRF нерелевантен.
-  Схемы запросов и ответов разделены во избежание утечки внутренних данных.}
+% ---- СЛАЙД 13: Внешний вид ----
+\begin{frame}{Внешний вид программы}
+  \begin{center}
+  \includegraphics[width=115mm]{figures/pic3_5.png}
+  \end{center}
 \end{frame}
 
 % ---- СЛАЙД 13: Внешний вид ----
 \begin{frame}{Внешний вид программы}
-  \begin{columns}[t]
-    \column{0.5\textwidth}
-      \textbf{Формы:}
-      \begin{center}
-        \includegraphics[width=50mm]{figures/pic3_12.png}\\
-        \includegraphics[width=50mm]{figures/pic3_5.png}\\
-      \end{center}
-    \column{0.5\textwidth}
-      \textbf{Основные экраны:}
-      \begin{center}
-        \includegraphics[width=50mm]{figures/pic3_15.png}\\
-        \includegraphics[width=50mm]{figures/pic3_3.png}\\
-      \end{center}
-  \end{columns}
+  \begin{center}
+  \includegraphics[width=115mm]{figures/pic3_15.png}
+  \end{center}
+\end{frame}
+
+% ---- СЛАЙД 13: Внешний вид ----
+\begin{frame}{Внешний вид программы}
+  \begin{center}
+  \includegraphics[width=115mm]{figures/pic3_3.png}
+  \end{center}
 \end{frame}
 
 % ---- СЛАЙД 14: Результаты экспериментов и тестирования ----
@@ -378,6 +335,7 @@
         \item Модель не достигла минимума --- возможно дообучение
         \item Спектральная функция потерь: качество падало с эпохами
         \item Увеличение нейронов в скрытом слое не оправдало затрат
+        \item Итоговое коэффициент сжатия по сравнению с FLAC: \textasciitilde1,41
       \end{itemize}
     \column{0.45\textwidth}
       \textbf{Smoke-тестирование:}
@@ -398,7 +356,7 @@
 \begin{frame}{Заключение}
   \textbf{В ходе работы разработан и протестирован сервис BackTrack:}
   \begin{itemize}
-    \item \textbf{Исследованы} алгоритмы хранения аудио (FLAC, MP3, AAC, Opus); возможности использования гибридной схемы FLAC + автоэнкодер
+    \item \textbf{Исследованы} алгоритмы хранения аудио (FLAC, MP3, AAC, Opus); возможности использования гибридной схемы хранения аудиоданных с применением кодека FLAC и автоэнкодера
     \item \textbf{Разработан} сервер на FastAPI + PyTorch + NVIDIA CUDA
     \item \textbf{Разработан} фронтенд на React + RxJS (Feature Sliced Design)
     \item \textbf{Проведено} Smoke-тестирование всех функциональных требований
