@@ -1,0 +1,736 @@
+% Разработчики: сотрудники кафедры программного обеспечения вычислительной техники и автоматизированных систем БГТУ им. В.Г. Шухова
+%
+% Данный стилевой файл устанавливает требования к форматированию дипломных работ и магистерских диссертаций кафедры ПОВТАС БГТУ им. В.Г. Шухова
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bstunote}[2025/07/08 v1.0 Стиль оформления выпускных квалификационных работ БГТУ им. В.Г. Шухова]
+
+\RequirePackage{xkeyval} % Для работы с ключевыми опциями
+
+\makeatletter
+
+\newif\ifdraw@stamps% Нужно ли рисовать рамки
+\draw@stampstrue
+
+% Дополнительный сдвиг рамки от границ листа (изменяется, если принтер не может печатать близко к границе листа)
+\newlength{\Frame@Right@Shift} % От правой границы листа
+\setlength{\Frame@Right@Shift}{1mm}
+\newlength{\Frame@Bottom@Shift} % От нижней границы листа
+\setlength{\Frame@Bottom@Shift}{1mm}
+\newlength{\Frame@Top@Shift} % От верхней границы листа
+\setlength{\Frame@Top@Shift}{1mm}
+
+\define@key{bstunote}{drawstamps}[true]{\csname draw@stamps#1\endcsname}%
+
+% Обрабатываем опции
+\ProcessOptionsX<bstunote>%
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Рисование штампов -------------------------------------------------------
+%%% -------------------------------------------------------------------------------------
+\RequirePackage{graphicx}
+
+\newcommand{\Stamp@GrafI}{1}
+
+\newcommand{\Stamp@GrafVII}{\thepage}
+\newcommand{\Stamp@GrafVIII}{8}
+\newcommand{\Stamp@GrafIX}{9}
+
+\newcommand{\Stamp@ColumnX@RowI}{10-1}
+\newcommand{\Stamp@ColumnX@RowII}{10-2}
+\newcommand{\Stamp@ColumnX@RowIV}{10-4}
+\newcommand{\Stamp@ColumnX@RowV}{10-5}
+\newcommand{\Stamp@ColumnX@RowVI}{10-6}
+
+\newcommand{\Stamp@ColumnXI@RowI}{11-1}
+\newcommand{\Stamp@ColumnXI@RowII}{11-2}
+\newcommand{\Stamp@ColumnXI@RowIV}{11-4}
+\newcommand{\Stamp@ColumnXI@RowV}{11-5}
+\newcommand{\Stamp@ColumnXI@RowVI}{11-6}
+
+\newcommand{\Stamp@ColumnXIII@RowI}{13-1}
+\newcommand{\Stamp@ColumnXIII@RowII}{13-2}
+\newcommand{\Stamp@ColumnXIII@RowIV}{13-4}
+\newcommand{\Stamp@ColumnXIII@RowV}{13-5}
+\newcommand{\Stamp@ColumnXIII@RowVI}{13-6}
+
+\newcommand{\Stamp@GrafXIV}{14}
+\newcommand{\Stamp@GrafXV}{15}
+\newcommand{\Stamp@GrafXVI}{16}
+\newcommand{\Stamp@GrafXVII}{17}
+\newcommand{\Stamp@GrafXVIII}{18}
+
+\newcommand{\Stamp@Litera}{Lit.}		
+\newcommand{\Stamp@Sheet}{List}
+\newcommand{\Stamp@Sheets}{Listov}
+
+\newcommand{\Stamp@GrafIV@LI}{}
+\newcommand{\Stamp@GrafIV@LII}{}
+\newcommand{\Stamp@GrafIV@LIII}{}
+
+\newlength{\Stamp@Line@Thick}
+\newlength{\Stamp@Line@Thin}
+\setlength{\Stamp@Line@Thick}{.4mm}
+\setlength{\Stamp@Line@Thin}{.2mm}
+
+%%% Большой штамп по форме 2 согласно ГОСТ 2.104-2006
+\newcommand{\Stamp@Form@II}{%
+	\setlength{\unitlength}{1mm}%
+	\begin{picture}(0,0)(0,0)
+		\setlength{\fboxsep}{0pt} % Отступ рамки от текста
+		\linethickness{\Stamp@Line@Thick}
+		\put(0,0){\framebox(\dimexpr 185mm - \Frame@Right@Shift \relax, \dimexpr 287mm - \Frame@Bottom@Shift - \Frame@Top@Shift \relax){}}
+		\put(0,40){\line(1,0){\dimexpr 185mm - \Frame@Right@Shift \relax}}
+		\put(0,30){\line(1,0){65}}
+		\put(0,25){\line(1,0){\dimexpr 185mm - \Frame@Right@Shift \relax}}
+		\linethickness{\Stamp@Line@Thin}
+		\put(0,35){\line(1,0){65}}
+		\multiput(0,20)(0,-5){4}{\line(1,0){65}}
+		\linethickness{\Stamp@Line@Thick}
+		%\put(0,0){\line(0,1){40}}
+		\put(7,25){\line(0,1){15}}
+		\put(17,0){\line(0,1){40}}
+		\put(40,0){\line(0,1){40}}
+		\put(55,0){\line(0,1){40}}
+		\put(65,0){\line(0,1){40}}
+		\put(66, 0){\parbox[b][25mm][c]{\dimexpr 70mm - \Frame@Right@Shift - 2mm\relax}{\centering \Stamp@GrafI }} % \fcolorbox{green}{white}{\parbox...}
+		\put(66, 25){\parbox[b][15mm][c]{\dimexpr 120mm - \Frame@Right@Shift - 2mm\relax}{\centering \Stamp@GrafII }}
+		% Правый нижний блок
+		\put(\dimexpr 135mm - \Frame@Right@Shift \relax, 0) {%
+			% Литеры
+            		\put(0, 15)  {\put(0, 1){\makebox[5mm][c]{\Stamp@GrafIV@LI}}}
+            		\put(5, 15)  {\put(0, 1){\makebox[5mm][c]{\Stamp@GrafIV@LII}}}
+            		\put(10, 15) {\put(0, 1){\makebox[5mm][c]{\Stamp@GrafIV@LIII}}}
+			\put(0,0){\line(0,1){25}}
+			\put(5,15){\line(0,1){5}}
+			\put(10,15){\line(0,1){5}}			
+			\put(15,15){\line(0,1){10}}
+			\put(30,15){\line(0,1){10}}	
+			\put(0,20){\line(1,0){50mm}}
+			\put(0,15){\line(1,0){50mm}}			
+			\put(15, 15){\parbox[b][5mm][c]{15mm}{\centering\Stamp@GrafVII}}
+			\put(30, 15){\parbox[b][5mm][c]{20mm}{\centering\Stamp@GrafVIII}}
+			\put(0, 20){\put(0, 1) {\makebox[15mm][c]{\Stamp@Litera}}}		
+			\put(15, 20){\put(0, 1){\makebox[15mm][c]{\Stamp@Sheet}}}
+			\put(30, 20){\put(0, 1){\makebox[20mm][c]{\Stamp@Sheets}}}
+			\put(0, 0){\parbox[b][15mm][c]{50mm}{\centering \Stamp@GrafIX}}
+	    	}
+		% Графа 10. Должности (характер работы)
+		\put(0, 20)  {\put(0.5, 1){\makebox{\Stamp@ColumnX@RowI}}}
+		\put(0, 15)  {\put(0.5, 1){\makebox{\Stamp@ColumnX@RowII}}}
+		\put(0, 10)  {\put(0.5, 1){\makebox{\Stamp@ColumnX@RowIV}}}
+		\put(0, 5)   {\put(0.5, 1){\makebox{\Stamp@ColumnX@RowV}}}
+		\put(0, 0)   {\put(0.5, 1){\makebox{\Stamp@ColumnX@RowVI}}}
+		% Графа 11. Фамилии лиц, подписавших документ
+		\put(17, 20) {\put(0.5, 1){\makebox{\Stamp@ColumnXI@RowI}}}
+		\put(17, 15) {\put(0.5, 1){\makebox{\Stamp@ColumnXI@RowII}}}
+		\put(17, 10) {\put(0.5, 1){\makebox{\Stamp@ColumnXI@RowIV}}}
+		\put(17, 5)  {\put(0.5, 1){\makebox{\Stamp@ColumnXI@RowV}}}
+		\put(17, 0)  {\put(0.5, 1){\makebox{\Stamp@ColumnXI@RowVI}}}
+		% Графа 13. Даты подписания
+		\put(55, 20) {\put(0.3, 1){\resizebox{9.4mm}{!}{\Stamp@ColumnXIII@RowI\hspace{0.1pt}}}}
+		\put(55, 15) {\put(0.3, 1){\resizebox{9.4mm}{!}{\Stamp@ColumnXIII@RowII\hspace{0.1pt}}}}	
+		\put(55, 10) {\put(0.3, 1){\resizebox{9.4mm}{!}{\Stamp@ColumnXIII@RowIV\hspace{0.1pt}}}}
+		\put(55, 5)  {\put(0.3, 1){\resizebox{9.4mm}{!}{\Stamp@ColumnXIII@RowV\hspace{0.1pt}}}}
+		\put(55, 0)  {\put(0.3, 1){\resizebox{9.4mm}{!}{\Stamp@ColumnXIII@RowVI\hspace{0.1pt}}}}
+		
+		\put(0, 25)  {\put(0, 1){\makebox[7mm][c] {\Stamp@GrafXIV}}}
+		\put(7, 25)  {\put(0, 1){\makebox[10mm][c]{\Stamp@GrafXV}}}
+		\put(17, 25) {\put(0, 1){\makebox[23mm][c]{\Stamp@GrafXVI}}}
+		\put(40, 25) {\put(0, 1){\makebox[15mm][c]{\Stamp@GrafXVII}}}
+		\put(55, 25) {\put(0, 1){\makebox[10mm][c]{\Stamp@GrafXVIII}}}
+	\end{picture}}
+
+
+%% Маленький штамп по форме 2а
+\newcommand{\Stamp@Form@IIa}{%
+	\setlength{\unitlength}{1mm}%
+	\begin{picture}(0,0)(0,0)%
+		\setlength{\fboxsep}{0pt} % Отступ рамки от текста
+		\linethickness{\Stamp@Line@Thick}
+		\put(0,0){\framebox(\dimexpr 185mm - \Frame@Right@Shift \relax, \dimexpr 287mm - \Frame@Bottom@Shift - \Frame@Top@Shift \relax){}}
+		\put(0,15){\line(1,0){\dimexpr 185mm - \Frame@Right@Shift \relax}}
+		\put(\dimexpr 175mm - \Frame@Right@Shift \relax,8){\line(1,0){10}}
+		\put(0,5){\line(1,0){65}}
+		\linethickness{\Stamp@Line@Thin}
+		\put(0,10){\line(1,0){65}}
+		\linethickness{\Stamp@Line@Thick}
+		%\put(0,0){\line(0,1){15}}
+		\put(7,0){\line(0,1){15}}
+		\put(17,0){\line(0,1){15}}
+		\put(40,0){\line(0,1){15}}
+		\put(55,0){\line(0,1){15}}
+		\put(65,0){\line(0,1){15}}
+		\put(\dimexpr 175mm - \Frame@Right@Shift \relax,0){\line(0,1){15}}
+		\put(67, -0.1){\parbox[b][15mm][c]{\dimexpr 110mm - \Frame@Right@Shift - 4mm \relax}{\centering \Stamp@GrafII}}
+		\put(\dimexpr 175mm - \Frame@Right@Shift \relax, 8){\put(0, 1){\makebox[10mm]{\Stamp@Sheet}}}
+		\put(\dimexpr 175mm - \Frame@Right@Shift \relax, 0){\parbox[b][8mm][c]{10mm}{\centering\Stamp@GrafVII}}
+		\put(0, 0)  {\put(0, 1){\makebox[7mm][c] {\Stamp@GrafXIV}}}
+		\put(7, 0)  {\put(0, 1){\makebox[10mm][c]{\Stamp@GrafXV}}}
+		\put(17, 0) {\put(0, 1){\makebox[23mm][c]{\Stamp@GrafXVI}}}
+		\put(40, 0) {\put(0, 1){\makebox[15mm][c]{\Stamp@GrafXVII}}}
+		\put(55, 0) {\put(0, 1){\makebox[10mm][c]{\Stamp@GrafXVIII}}}
+	\end{picture}}
+
+
+% Флаг, который равен значению "истина", если верстается первая страница раздела
+% или "ложь" в противном случае
+\newif\ifSection@Start
+
+% Флаг, который означает, что пора рисовать рамки (после титульных листов)
+\newif\ifBegin@Draw@Stamps
+\Begin@Draw@Stampsfalse % Инициализируем его значением "ложь"
+
+\RequirePackage{atbegshi}
+
+% Функция выполняется после вёрстки очередной страницы
+\AtBeginShipout{%
+	\AtBeginShipoutUpperLeft{%
+		\ifBegin@Draw@Stamps%		
+			\ifSection@Start
+			\begin{picture}(0, 0)%
+				\put(20mm, \dimexpr -\paperheight + 5mm + \Frame@Bottom@Shift \relax){\Stamp@Form@II}%
+			\end{picture}%
+			\Raise@Border{25mm} % Опустить обратно нижний колонтитул			
+			% Сбрасываем флаг, чтобы на следующих страницах рисовались маленькие штампы
+			\global\Section@Startfalse
+			\else
+			% Если это не начало раздела, то рисуем маленькие штампы 
+			\begin{picture}(0, 0)%
+				\put(20mm, \dimexpr -\paperheight + 5mm + \Frame@Bottom@Shift \relax){\Stamp@Form@IIa}%
+			\end{picture}%
+			\fi
+		\fi
+	}
+}
+
+
+% Команда сдвигает нижний колонтитул по вертикали
+\newcommand{\Raise@Border}[1]{
+	\global\advance\vsize #1 % Сдвинуть нижний колонтитул
+	\global\setlength{\@colht}{\vsize}
+	\global\setlength{\@colroom}{\vsize}
+}
+
+% Действия, выполняемые в начале каждого раздела
+\newcommand\everysection[1]{
+	
+	\typeout{Вёрстка раздела "#1"}
+	
+	% Перед началом раздела обязательно переходим на новую страницу
+	\clearpage
+	
+	% Сохраняем текущее название раздела
+	\global\def\theStampSection{#1}
+	
+	\ifdraw@stamps
+	
+		% Начинаем рисовать рамки
+		\Begin@Draw@Stampstrue
+		
+		% Устанавливаем флаг для рисования большой рамки
+		\global\Section@Starttrue
+		
+		% Приподнимаем текст над большой рамкой
+		\Raise@Border{-25mm}
+	\fi
+	
+	% Сбрасываем счётчик картинок
+	\setcounter{figure}{0} 
+	
+	% Сбрасываем счётчик таблиц
+	\setcounter{table}{0}
+	
+	% Сбрасываем счётчик листингов
+	\setcounter{lstlisting}{0} 
+	
+}
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Настройка заголовков ----------------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+% Переопределение команды для создания заголовков разделов
+\renewcommand{\section}{%
+	\@ifstar%
+	{%
+		\@ifnextchar[%
+		{\b@section@opt@star}% Команда \section*[Раздел 1]{Раздел 1} с двумя аргументами со звёздочкой
+		{\b@section@star}% Команда \section*{Раздел 1} с одним аргументом со звёздочкой
+	}%
+	{%
+		\@ifnextchar[%
+		{\b@section@opt}% Команда \section[Раздел 1]{Раздел 1} с двумя аргументами без звёздочки
+		{\b@section}% Команда \section{Раздел 1} с одним аргументом без звёздочки
+	}%
+}%
+
+% Команда для запрещения переносов по слогам внутри блока
+\newcommand\without@hyphen{\setlength{\hyphenpenalty}{10000}\sloppy}
+
+% Команда задаёт основной формат заголовков всех разделов, кроме приложений
+\newcommand\b@startsection{
+	\@startsection{section}{1}{\parindent}%
+	{-3.5ex \@plus -1ex \@minus -0.2ex}% Отступ перед заголовком
+	{0.1ex \@plus 0.2ex}% Отступ после заголовка
+	{\without@hyphen\fontsize{15pt}{20pt}\selectfont\bfseries}% Стиль заголовка
+}
+
+% Команда \section со звёздочкой с одним аргументом (с номером раздела)
+\newcommand{\b@section@star}[1]{%
+	\everysection{#1}%
+	\b@startsection*{#1}%
+}
+
+% Команда \section без звёздочки с одним аргументом (с номером раздела)
+\newcommand{\b@section}[1]{%
+	\everysection{#1}%	
+	\b@startsection{#1}%
+}
+
+% Команда \section без звёздочки с двумя аргументами (с номером и опциональным заголовком)
+\def\b@section@opt[#1]#2{%
+	\everysection{#2}%
+	\b@startsection[#1]{#2}%
+}
+
+% Команда \section со звёздочкой с двумя аргументами (с номером и опциональным заголовком)
+\def\b@section@opt@star[#1]#2{%
+	\everysection{#2}%
+	\refstepcounter{section} % Создаём якорь для оглавления
+	\addtocounter{section}{-1}	
+	\addcontentsline{toc}{section}{#1}% Добавляем в оглавление опциональный заголовок
+	\b@startsection*{#2}
+}
+
+% Подзаголовки
+\renewcommand\subsection{\@startsection{subsection}{2}{\parindent}%
+ 	{-1.5ex\@plus -1ex \@minus -.2ex}%
+	{0.1ex \@plus .2ex}%
+	{\without@hyphen\fontsize{14.5pt}{19pt}\selectfont\bfseries}}
+	
+% Подподзаголовки
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\parindent}%
+	{-1.5ex\@plus -1ex \@minus -.2ex}%
+	{0.1ex \@plus .2ex}%
+	{\without@hyphen\normalfont\bfseries}}
+
+% Отступ между номером и название раздела
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname\hspace{0.5em}}
+
+% Название текущего раздела (секции)
+\newcommand{\theStampSection}{}
+
+% В штампе пишем название раздела
+\newcommand{\Stamp@GrafII}{\StampSectionFont\selectfont\setlength{\hyphenpenalty}{0}\theStampSection}
+
+\makeatother
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Настройка подписей к картинкам ------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+\RequirePackage{caption}
+
+% Ссылка на картинку имеет формат: <Номер раздела>.<Номер картинки>
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+% В качестве разделителя используем тире 
+\DeclareCaptionLabelSeparator{dashsep}{~--~}
+
+\captionsetup[figure]{
+	font=small,
+	labelfont=md,	% Обычный шрифт
+	justification=centering,
+	labelsep=dashsep, % Разделитель - тире
+	singlelinecheck=false,
+	margin=30pt, % Отступ слева и справа
+	skip=10pt,	% Отступ от картинки до надписи
+	name=\rufigurename
+}
+
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Настройка подписей к таблицам -------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+% Ссылка на таблицу в формате: <Номер раздела>.<Номер таблицы>
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+\captionsetup[table]{% Настройки только для таблиц
+	font=small,
+	labelfont=md,	% Обычный шрифт
+	justification=raggedright,
+	labelsep=dashsep, % Разделитель - тире
+	singlelinecheck=false,
+	skip=0pt     % Отступ от таблицы до подписи
+}
+
+% Для правильных ссылок на таблицы в pdf-документах
+\def\theHtable{\thetable}
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Настройка листингов -----------------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+\RequirePackage{listings}
+
+\AtBeginDocument{
+	\renewcommand{\thelstlisting}{\thesection.\arabic{lstlisting}}
+}
+
+\renewcommand{\lstlistingname}{Program}
+
+% Настройка подписей для листингов
+\captionsetup[lstlisting]{
+	labelsep=dashsep,          % Разделитель - тире
+	font=small,                % Маленький шрифт, как для рисунков/таблиц
+	labelfont=md,			   % Обычный шрифт
+	justification=raggedright, % Выравнивание подписи по левому краю
+	margin=0.5cm,              % Отступ подписи слева	
+	singlelinecheck=false      % Не применять особое форматирование для однострочных подписей
+}
+
+
+% Основной стиль для листингов
+\lstdefinestyle{baselistings}{%
+	basicstyle=\ttfamily\footnotesize, % Моноширинный шрифт, уменьшенный размер
+	frame=single, % Рамка вокруг листинга
+	backgroundcolor=\color{gray!10}, % Светло-серый фон
+	keywordstyle=\bfseries\color{blue!70!black}, % Стиль ключевых слов: полужирный синий цвет (70% насыщенности черного + синий) 
+	commentstyle=\itshape\color{gray!60},% Стиль комментариев: курсив, светло-серый цвет
+	stringstyle=\color{red!70!black}, % Стиль строк: красный цвет (70% насыщенности черного + красный)
+	numbers=left,                 % Номера строк слева 
+	numberstyle=\tiny\color{gray},% Номера строк пишем серым цветом
+	xleftmargin=2em,         % Отступ слева
+	xrightmargin=1em,        % Отступ справа
+	showstringspaces=false,  % Не показывать пробелы в строках
+	tabsize=2,               % Размер табуляции: 2 пробела
+	breakatwhitespace=false, % Перенос строк только на пробелах
+	columns=fullflexible,    % Гибкие колонки для лучшего выравнивания
+	keepspaces=true,         % Сохранять пробелы в коде
+	breakautoindent=true,    % Автоматический отступ при переносе строк
+	breakindent=1em,         % Величина отступа при переносе: 1em
+	breaklines=true,         % Перенос длинных строк	
+	% Символ в конце перенесенной строки: серая стрелка с пробелом
+	postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
+	extendedchars=\true      % Включаем для отображения символов кириллицы в pdflatex
+}
+
+% Устанавливаем стиль baselistings по умолчанию
+\lstset{style=baselistings}
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Настройка нумерации формул ----------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+\RequirePackage{amsmath}
+\numberwithin{equation}{section} % Добавляем в ссылку на формулу номер секции (раздела) 
+
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Нумерация буквами согласно ГОСТ -----------------------------------------
+%%% -------------------------------------------------------------------------------------
+\makeatletter
+% Нумерация приложений
+% Согласно ГОСТ Р 2.105—2019 исключаем буквы Ё, 3, Й, О, Ч, Ь, Ы, Ъ.
+\newcommand{\Azbuk}[1]{%
+	\ifcase\expandafter\csname c@#1\endcsname%
+	\or А%
+	\or Б%
+	\or В%
+	\or Г%
+	\or Д%
+	\or Е%
+	\or Ж%
+	\or И%
+	\or К%
+	\or Л%
+	\or М%
+	\or Н%
+	\or П%
+	\or Р%
+	\or С%
+	\or Т%
+	\or У%
+	\or Ф%
+	\or Х%
+	\or Ц%
+	\or Ш%
+	\or Щ%
+	\or Э%
+	\or Ю%
+	\or Я%
+	\else ?%
+	\fi%
+}%
+
+% Нумерация перечислений
+% Согласно ГОСТ Р 2.105—2019 исключаем буквы ё, з, й, о, ч, ь, ы, ъ.
+\newcommand{\azbuk}[1]{%
+	\ifcase\expandafter\csname c@#1\endcsname%
+	\or а%
+	\or б%
+	\or в%
+	\or г%
+	\or д%
+	\or е%
+	\or ж%
+	\or и%
+	\or к%
+	\or л%
+	\or м%
+	\or н%
+	\or п%
+	\or р%
+	\or с%
+	\or т%
+	\or у%
+	\or ф%
+	\or х%
+	\or ц%
+	\or ш%
+	\or щ%
+	\or э%
+	\or ю%
+	\or я%
+	\else ?%
+	\fi%
+}%
+\makeatother
+
+\RequirePackage{enumitem}
+
+% Делаем команду совместимой с enumitem
+\AddEnumerateCounter{\azbuk}{\@azbuk}{а}
+\AddEnumerateCounter{\Azbuk}{\@Azbuk}{а}
+
+% Применяем ко всем перечислениям
+\setlist[enumerate]{
+	label=\azbuk*),
+	noitemsep,       % Без отступов
+	itemsep=0pt,     % Доп. настройки (опционально)
+	topsep=0pt,      % Отступы между пунктами
+	labelsep=4pt	 % Расстояние от номера до первого слова
+}
+
+% Перечисления второго уровня
+\setlist[enumerate, 2]{label=\arabic*), leftmargin=0.65cm} % Второй уровень: 1), 2)
+\setlist[enumerate, 3]{label=\arabic{enumii}.\arabic*), leftmargin=1.2cm} % Третий уровень: 1.1), 1.2)
+
+% Настройка маркированных списков
+\setlist[itemize]{label=-, noitemsep, itemsep=0pt, topsep=0pt, labelsep=4pt} % Все маркеры заменены на дефисы
+\setlist[itemize, 2]{leftmargin=0.65cm}
+\setlist[itemize, 3]{leftmargin=1.2cm}
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Настройка приложений ----------------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+\makeatletter
+
+\newcommand{\theappendix}{\Azbuk{section}}
+
+% Команда для формирования заголовка приложения
+\newcommand{\appendix@title}[1]{%
+	{\centering\textbf{#1}\par}% Пишем заголовок приложения по центру
+	\vspace{0.3em}% Добавляем вертикальный отступ после заголовка
+}%
+
+% Команда \section без звёздочки с одним аргументом  для создания заголовка приложения (с буквой приложения)
+\newcommand{\b@appendix@section}[1]{%
+	\clearpage%
+	\refstepcounter{section}% Увеличиваем счётчик секций	
+	\everysection{\ruappendixname \ \theappendix}%
+	\addcontentsline{toc}{section}{\ruappendixname\ \theappendix\ #1}% Добавляем в содержание
+	\appendix@title{\ruappendixname\ \theappendix\\#1}% Формируем заголовок
+}
+
+% Команда \section со звёздочкой с одним аргументом для создания заголовка приложения (с буквой приложения)
+\newcommand{\b@appendix@section@star}[1]{%
+	\clearpage%	
+	\everysection{\ruappendixname}%
+	\appendix@title{\ruappendixname\\#1}% Формируем заголовок
+}
+
+
+% Команда \section без звёздочки с двумя аргументами (с номером и опциональным заголовком) для приложения
+\def\b@appendix@section@opt[#1]#2{%
+	\clearpage%
+	\everysection{\ruappendixname \ \theappendix}%
+	\refstepcounter{section}% Увеличиваем счётчик секций
+	\addcontentsline{toc}{section}{#1}% Добавляем в оглавление опциональный заголовок
+	\appendix@title{\ruappendixname\ \theappendix\\#2}% Формируем заголовок
+}
+
+% Команда \section со звёздочкой с двумя аргументами (с номером и опциональным заголовком) для приложения
+\def\b@appendix@section@opt@star[#1]#2{%
+	\clearpage%
+	\everysection{\ruappendixname}%
+	\refstepcounter{section} % Создаём якорь для оглавления
+	\addtocounter{section}{-1}
+	\addcontentsline{toc}{section}{#1}% Добавляем в оглавление опциональный заголовок
+	\appendix@title{\ruappendixname\\#2}% Формируем заголовок
+}
+
+% Команда секционирования для приложений
+\newcommand{\appendix@section}{%
+	\@ifstar%
+	{%
+		\@ifnextchar[%
+		{\b@appendix@section@opt@star}% Команда \section*[Раздел 1]{Раздел 1} с двумя аргументами со звёздочкой
+		{\b@appendix@section@star}% Команда \section*{Раздел 1} с одним аргументом со звёздочкой
+	}%
+	{%
+		\@ifnextchar[%
+		{\b@appendix@section@opt}% Команда \section[Раздел 1]{Раздел 1} с двумя аргументами без звёздочки
+		{\b@appendix@section}% Команда \section{Раздел 1} с одним аргументом без звёздочки
+	}%
+}%
+
+\let\oldappendix\appendix
+\renewcommand{\appendix}{
+	\clearpage
+	\oldappendix
+	\let\old@section\section
+	% Переопределение команды \section для создания заголовков приложений
+	\renewcommand{\section}{\appendix@section}
+	
+	% Разделы нумеруем прописными буквами русского алфавита
+	\renewcommand{\thesection}{\Azbuk{section}}
+	
+}
+
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Команды для настройки оглавления ----------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+% Задаём свой стиль оглавления для заголовков первого уровня (section)
+\renewcommand{\l@section}[2]{%
+	\@dottedtocline{1}{0em}{1.5em}{\textbf{#1}}{#2}
+}
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Команды для настройки списка литературы ---------------------------------
+%%% -------------------------------------------------------------------------------------
+
+
+\renewcommand{\@biblabel}[1]{#1.} % Точка после номера литературного источника
+
+%%% -------------------------------------------------------------------------------------
+%%% ----------- Команды для заполнения штампов ------------------------------------------
+%%% -------------------------------------------------------------------------------------
+
+\newcommand{\StampFontFamily}{}
+
+% Настройка шрифта текста в штампе
+\newcommand{\StampFont}[1]{
+	\renewcommand{\StampFontFamily}{#1}
+}
+
+% Основной шрифт в штампе
+\newcommand{\Stamp@BaseFont}{\fontsize{11pt}{11pt}\normalfont\StampFontFamily}
+
+% Отдельный шрифт для названия раздела
+\newcommand{\StampSectionFont}{\fontsize{14pt}{11pt}\normalfont\StampFontFamily}
+
+% Автор ВКР
+\newcommand{\StampAuthor}[2] {
+	\renewcommand{\Stamp@ColumnXI@RowI}{\Stamp@BaseFont\selectfont#1}
+	\renewcommand{\Stamp@ColumnXIII@RowI}{\Stamp@BaseFont\selectfont#2}
+}
+
+% Руководитель
+\newcommand{\StampCheckBy}[2] {
+	\renewcommand{\Stamp@ColumnXI@RowII}{\Stamp@BaseFont\selectfont#1}
+	\renewcommand{\Stamp@ColumnXIII@RowII}{\Stamp@BaseFont\selectfont#2}
+}
+
+% Консультант
+\newcommand{\StampConsultant}[2] {
+	\renewcommand{\Stamp@ColumnXI@RowIV}{\Stamp@BaseFont\selectfont#1}
+	\renewcommand{\Stamp@ColumnXIII@RowIV}{\Stamp@BaseFont\selectfont#2}
+}
+
+% Проверяющий нормконтроль
+\newcommand{\StampNormControl}[2] {
+	\renewcommand{\Stamp@ColumnXI@RowV}{\Stamp@BaseFont\selectfont#1}
+	\renewcommand{\Stamp@ColumnXIII@RowV}{\Stamp@BaseFont\selectfont#2}
+}
+
+% Зав. кафедрой
+\newcommand{\StampApprovedBy}[2] {
+	\renewcommand{\Stamp@ColumnXI@RowVI}{\Stamp@BaseFont\selectfont#1}
+	\renewcommand{\Stamp@ColumnXIII@RowVI}{\Stamp@BaseFont\selectfont#2}
+}
+
+% Название работы
+\newcommand{\StampWorkTheme}[1] {
+	\renewcommand{\Stamp@GrafI}{\Stamp@BaseFont\fontsize{13pt}{11pt}\selectfont\setlength{\hyphenpenalty}{0} #1}
+}
+
+% Название главы
+\newcommand{\StampSection}[1] {
+	\renewcommand{\theStampSection}{#1}
+}
+
+% Название организации
+\newcommand{\StampOrganization}[1] {
+	\renewcommand{\Stamp@GrafIX}{\Stamp@BaseFont\fontsize{11pt}{11pt}\selectfont #1}
+}
+
+% Команды для управления нумерацией страниц
+\pagestyle{empty}% Отключение нумерации страниц
+\pagenumbering{gobble}% Отключить нумерацию страниц
+\advance\footskip -6mm% Приподнять номер страницы в нижнем колонтитуле
+\def\initpagenumbering{
+	\pagenumbering{arabic}% Включить нумерацию страниц арабскими цифрами
+	\ifdraw@stamps% Если рисуем штампы
+		\pagestyle{empty}% В колонтитулах номер страницы не ставится
+	\else% Если не рисуем штампы
+		\pagestyle{plain}% Номер страницы - внизу по центру 
+	\fi%
+}%
+
+
+% Пакет включает красную строку в первом абзаце каждого раздела
+\RequirePackage{indentfirst}
+\setlength{\parindent}{1.25cm} % Отступ красной строки равен 12,5 мм
+
+\linespread{1.25} % Полуторный интервал
+
+\newcommand{\rucontentsname}{СОДЕРЖАНИЕ}%
+\newcommand{\ruappendixname}{ПРИЛОЖЕНИЕ}%
+\newcommand{\rufigurename}{Рисунок}% Подпись для рисунков
+\newcommand{\rubibliographyname}{СПИСОК ЛИТЕРАТУРЫ}
+
+\renewcommand{\Stamp@Litera}{\Stamp@BaseFont\selectfont Лит.}
+\renewcommand{\Stamp@Sheet}{\Stamp@BaseFont\selectfont Лист}
+\renewcommand{\Stamp@Sheets}{\Stamp@BaseFont\selectfont Листов}
+\renewcommand{\Stamp@GrafVII}{\Stamp@BaseFont\selectfont \thepage}
+
+\RequirePackage{lastpage}
+\renewcommand{\Stamp@GrafVIII}{\Stamp@BaseFont\selectfont \pageref{LastPage}}
+
+\StampConsultant{}{\quad}
+\renewcommand{\Stamp@GrafXIV}{\Stamp@BaseFont\selectfont Изм.}
+\renewcommand{\Stamp@GrafXV}{\Stamp@BaseFont\selectfont Лист}
+\renewcommand{\Stamp@GrafXVI}{\Stamp@BaseFont\selectfont \textnumero{} докум.}
+\renewcommand{\Stamp@GrafXVII}{\Stamp@BaseFont\selectfont Подп.}
+\renewcommand{\Stamp@GrafXVIII}{\Stamp@BaseFont\selectfont Дата}
+
+\renewcommand{\Stamp@ColumnX@RowI}{\Stamp@BaseFont\selectfont Разраб.}
+\renewcommand{\Stamp@ColumnX@RowII}{\Stamp@BaseFont\selectfont Руковод.}
+\renewcommand{\Stamp@ColumnX@RowIV}{\Stamp@BaseFont\selectfont Консул.}
+\renewcommand{\Stamp@ColumnX@RowV}{\Stamp@BaseFont\selectfont Н. контр.}
+\renewcommand{\Stamp@ColumnX@RowVI}{\Stamp@BaseFont\selectfont Зав. каф.}
+
+\makeatother
+
+
+% Конец файла
+\endinput
+
+

@@ -1,0 +1,134 @@
+% !TeX program = lualatex
+
+\documentclass[14pt]{extarticle}
+\usepackage[drawstamps=true]{bstunote}
+\usepackage[a4paper, left=23mm, right=9mm, top=9mm, bottom=24mm]{geometry}
+\usepackage[english, russian]{babel}
+
+% Включаем гиперссылки в оглавлении
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=green!70!black,hypertexnames=false]{hyperref}
+\usepackage{lipsum}
+
+\usepackage{fontspec}
+
+\defaultfontfeatures{Mapping=tex-text}
+
+% Шрифт в рамках
+\newfontface{\GOSTFontFamily}{GOST-type-A} [ % Название шрифта, который будет в рамках
+Path = ./fonts/,
+Extension = .ttf,
+FakeSlant=0.3 	% Используем искусственный наклон
+]
+
+% Шрифт с засечками
+\setmainfont{PT-Astra-Serif}[
+Path = ./fonts/PT-Astra-Serif/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+ItalicFont = *-Italic,
+BoldItalicFont = *-BoldItalic]
+
+% Шрифт без засечек
+\setsansfont{PT-Astra-Sans}[
+Path = ./fonts/PT-Astra-Sans/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+ItalicFont = *-Italic,
+BoldItalicFont = *-BoldItalic]
+
+% Моноширинный шрифт
+\setmonofont{PT-Mono}[
+Path = ./fonts/PT-Mono/,
+Extension = .ttf,
+BoldFont = *-Bold,
+UprightFont = *-Regular,
+Scale=0.9
+]
+
+% В LuaLaTeX включаем продвинутую микротипографику 
+\usepackage[protrusion=true, expansion=true]{microtype}
+
+\StampAuthor{Иванов И.И.}{3.06.26\,}
+\StampCheckBy{Осипов О.В.}{3.06.26\,}
+\StampNormControl{Бондаренко Т.В.}{11.06.26\,}
+\StampApprovedBy{Поляков В.М.}{25.06.26\,}
+\StampWorkTheme{Разработка программного обеспечения для прогнозирования погоды на основе анализа спутниковых снимков с использованием методов машинного обучения}
+\StampOrganization{БГТУ~им.~В.Г.~Шухова, \makebox{ПВ-222}}
+\StampFont{\GOSTFontFamily}
+
+\begin{document}
+
+\newgeometry{left=3cm, right=1.5cm, top=1.5cm, bottom=1.5cm}
+\begin{titlepage}
+	\centering % Горизонтальное центрирование
+	{\small
+	\textbf{МИНОБРНАУКИ РОССИИ} \\[0.5em]
+	ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ 
+	ВЫСШЕГО ОБРАЗОВАНИЯ \\[0.3em]
+	\textbf{<<БЕЛГОРОДСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНОЛОГИЧЕСКИЙ\\УНИВЕРСИТЕТ~им.~В.Г.~ШУХОВА>>}\\
+	\textbf{(БГТУ~им.~В.Г.~Шухова)}}
+	\vspace*{\fill}\par % Вертикальный отступ (заполняет пространство)
+	% Здесь размещаем содержимое титульного листа
+	{\Large\bfseries Название документа\par}
+	\vspace{2cm}
+	{\normalsize Автор: Иванов Иван Иванович\par}
+	\vspace{\fill} % Ещё один вертикальный отступ
+	{\normalsize Белгород \the\year \ г. \par}
+\end{titlepage}
+\restoregeometry
+\initpagenumbering
+\setcounter{page}{2}
+
+\section*{OПРЕДЕЛЕНИЯ, СOКРAЩЕНИЯ И OБOЗНAЧЕНИЯ}
+\par РФ -- Российская Федерация.
+\par СВО -- специальная военная операция.
+\par ВУЗ -- высшее учебное заведение.
+\par API (Application Programming Interface) -- программный интерфейс, обеспечивающий взаимодействие между компонентами программного обеспечения.
+\par RGB (red, green, blue) -- цветовой формат машинной графики, основанный на смешении компонентов красного, зелёного и синего цветов.
+\par WWW (World Wide Web) -- всемирная паутина, система взаимосвязанных гипертекстовых документов.
+
+% Содержание
+\renewcommand{\contentsname}{\rucontentsname}
+\tableofcontents
+
+\section*[ВВЕДЕНИЕ]{ВВЕДЕНИЕ}
+\lipsum[1-10]
+\section{АНАЛИЗ СОСТОЯНИЯ ИССЛЕДОВАНИЙ И РАЗРАБОТОК В ОБЛАСТИ ПРОГНОЗИРОВАНИЯ ПОГОДЫ}
+\lipsum[11]
+\subsection{Обзор работ в области прогнозирования погоды}
+\subsection{Обзор существующих аналогов, методов и технологий разработки программ для прогнозирования погоды}
+\subsection{Объект и предмет исследования}
+\subsection{Постановка задачи прогнозирования погоды методом машинного обучения}
+\subsection{Практическая и теоретическая значимость работы}
+\subsection{Используемые методы и технологии разработки ПО}
+\subsection{Описание методов прогнозирования погоды с использованием машинного обучения}
+%\subsection{Краткие теоретические сведения}
+
+\lipsum[21-30]
+\section{РАЗРАБОТКА АРХИТЕКТУРЫ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ДЛЯ ПРОГНОЗИРОВАНИЯ ПОГОДЫ}
+\lipsum[31-40]
+\section{РАЗРАБОТКА АЛГОРИТМОВ И ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ДЛЯ ПРОГНОЗИРОВАНИЯ ПОГОДЫ}
+\lipsum[41-50]
+\section*[ЗАКЛЮЧЕНИЕ]{ЗАКЛЮЧЕНИЕ}
+\lipsum[51-60]
+
+\newpage
+% Оформление списка литературы
+\renewcommand{\refname}{\rubibliographyname} % Заголовок
+\phantomsection
+\addcontentsline{toc}{section}{\rubibliographyname}% Добавим список литературы в оглавление
+\begin{thebibliography}{99}
+	\bibitem{gost19201}
+	\textbf{ГОСТ 19.201-78.} Техническое задание. Требования к содержанию и оформлению.  -- Введ. 1980-01-01. -- Москва : Стандартинформ, 2010. --~4~с.
+\end{thebibliography}
+
+% ПРИЛОЖЕНИЯ
+\appendix
+
+\section{Блок-схемы основных алгоритмов прогнозирования погоды}
+\lipsum[1-10]
+\section{Листинги разработанных подпрограмм для прогнозирования погоды}
+\lipsum[11-20]
+\end{document}

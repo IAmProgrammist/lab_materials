@@ -1,0 +1,66 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="4mlXpPK9eY71yQmH6qtj">
+    <mxGraphModel dx="1728" dy="2172" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="td7tQOq7Zx_JNS5aVNRs-13" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="audio_manager" vertex="1">
+          <mxGeometry height="590" width="680" x="50" y="-1120" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="AudioManager" vertex="1">
+          <mxGeometry height="290" width="160" x="150" y="-875" as="geometry">
+            <mxRectangle height="30" width="120" x="180" y="190" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--2" parent="J2qgH73hfR7MZMYMHBd--1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ device: str" vertex="1">
+          <mxGeometry height="26" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--5" parent="J2qgH73hfR7MZMYMHBd--1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ model: AudioAutoencoder" vertex="1">
+          <mxGeometry height="26" width="160" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--3" parent="J2qgH73hfR7MZMYMHBd--1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--4" parent="J2qgH73hfR7MZMYMHBd--1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ encode(from_file: str, to_file: str)" vertex="1">
+          <mxGeometry height="44" width="160" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--6" parent="J2qgH73hfR7MZMYMHBd--1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ _decode_chunk(mode: int, buf: butes, index: int, sample_rate: int) -&amp;gt; bytes | None" vertex="1">
+          <mxGeometry height="70" width="160" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--7" parent="J2qgH73hfR7MZMYMHBd--1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ async decode_stream(from_file: str) -&amp;gt; Generator[bytes]" vertex="1">
+          <mxGeometry height="60" width="160" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--8" parent="J2qgH73hfR7MZMYMHBd--1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ get_meta(file: str)" vertex="1">
+          <mxGeometry height="30" width="160" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--17" edge="1" parent="1" source="J2qgH73hfR7MZMYMHBd--9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="J2qgH73hfR7MZMYMHBd--15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="td7tQOq7Zx_JNS5aVNRs-17" edge="1" parent="1" source="J2qgH73hfR7MZMYMHBd--9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="J2qgH73hfR7MZMYMHBd--1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--9" parent="1" style="html=1;whiteSpace=wrap;" value="async get_wave_meta(audio_manager: AudioManager, from_file: str) -&amp;gt; int | None" vertex="1">
+          <mxGeometry height="50" width="250" x="90" y="-1055" as="geometry" />
+        </mxCell>
+        <mxCell id="td7tQOq7Zx_JNS5aVNRs-14" edge="1" parent="1" source="J2qgH73hfR7MZMYMHBd--12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="J2qgH73hfR7MZMYMHBd--15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="td7tQOq7Zx_JNS5aVNRs-15" edge="1" parent="1" source="J2qgH73hfR7MZMYMHBd--12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="J2qgH73hfR7MZMYMHBd--1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--12" parent="1" style="html=1;whiteSpace=wrap;" value="async decode_stream_to_wave(audio_manager: AudioManager, from_file: str, skip: int = 0, until: int = math.inf) -&amp;gt; Generator[bytes]" vertex="1">
+          <mxGeometry height="60" width="250" x="430" y="-945" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--15" parent="1" style="html=1;whiteSpace=wrap;" value="get_wav_header(sample_rate: int, bits_per_sample: int, channels: int, num_samples: int)" vertex="1">
+          <mxGeometry height="50" width="250" x="440" y="-1055" as="geometry" />
+        </mxCell>
+        <mxCell id="td7tQOq7Zx_JNS5aVNRs-16" edge="1" parent="1" source="J2qgH73hfR7MZMYMHBd--18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="J2qgH73hfR7MZMYMHBd--1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J2qgH73hfR7MZMYMHBd--18" parent="1" style="html=1;whiteSpace=wrap;" value="async decode(audio_manager: AudioManager, from_file: str, to_file: str)" vertex="1">
+          <mxGeometry height="50" width="250" x="410" y="-655" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

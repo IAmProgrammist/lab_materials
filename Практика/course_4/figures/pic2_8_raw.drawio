@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="ptiDvq4rek_aKFnY4Dgw">
+    <mxGraphModel dx="2338" dy="1356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-11" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="encode_audio" vertex="1">
+          <mxGeometry height="430" width="590" x="50" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-1" parent="1" style="html=1;whiteSpace=wrap;" value="read_wav_to_mono(filepath: str) -&amp;gt; tuple[bytes, int, int]" vertex="1">
+          <mxGeometry height="50" width="210" x="240" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-2" parent="1" style="html=1;whiteSpace=wrap;" value="slice_bytes(data: bytes, slice_size: int) -&amp;gt; list[bytes]" vertex="1">
+          <mxGeometry height="50" width="210" x="420" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-4" parent="1" style="html=1;whiteSpace=wrap;" value="write_binary_slice(output_path: str, chunk: bytes, metadata: dict)" vertex="1">
+          <mxGeometry height="50" width="210" x="70" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-8" edge="1" parent="1" source="CqXKsOXF2mOdFeO6DdGv-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="CqXKsOXF2mOdFeO6DdGv-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-9" edge="1" parent="1" source="CqXKsOXF2mOdFeO6DdGv-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="CqXKsOXF2mOdFeO6DdGv-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-10" edge="1" parent="1" source="CqXKsOXF2mOdFeO6DdGv-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="CqXKsOXF2mOdFeO6DdGv-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-5" parent="1" style="html=1;whiteSpace=wrap;" value="process_folder(input_folder: str, output_folder: str, slice_size: int)" vertex="1">
+          <mxGeometry height="50" width="210" x="240" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-7" edge="1" parent="1" source="CqXKsOXF2mOdFeO6DdGv-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="CqXKsOXF2mOdFeO6DdGv-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CqXKsOXF2mOdFeO6DdGv-6" parent="1" style="html=1;whiteSpace=wrap;" value="main()" vertex="1">
+          <mxGeometry height="50" width="210" x="240" y="220" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

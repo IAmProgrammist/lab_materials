@@ -1,0 +1,95 @@
+% !TeX program = pdflatex
+
+\documentclass[14pt]{extarticle}
+\usepackage[drawstamps=true]{bstunote}
+\usepackage[a4paper, left=23mm, right=9mm, top=9mm, bottom=24mm]{geometry}
+\usepackage[english, russian]{babel}
+
+\usepackage[T2A]{fontenc}	% Используем кириллицу в PDFLaTeX
+\usepackage[utf8]{inputenc} % Кодировка исходного файла в PDFLaTeX - UTF-8
+
+% Включаем гиперссылки в оглавлении
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=green!70!black,hypertexnames=false]{hyperref}
+\usepackage{lipsum}
+
+\StampAuthor{Иванов И.И.}{3.06.26\,}
+\StampCheckBy{Осипов О.В.}{3.06.26\,}
+\StampNormControl{\fontsize{9.5pt}{6pt}\selectfont Бондаренко\kern0.1emТ\kern-0.2em.В\kern-0.1em.}{11.06.26\,}
+\StampApprovedBy{Поляков В.М.}{25.06.26\,}
+\StampWorkTheme{\fontsize{11pt}{10pt}\selectfont Разработка программного обеспечения для прог\-нозирования погоды на основе анализа спутниковых снимков с ис\-пользованием методов машинного обучения}
+\StampOrganization{БГТУ~им.~В.Г.~Шухова, \makebox{ПВ-222}}
+\StampFont{\fontencoding{T2A}\fontfamily{cmss}\fontshape{it}\selectfont}
+
+\begin{document}
+\newgeometry{left=3cm, right=1.5cm, top=1.5cm, bottom=1.5cm}
+\begin{titlepage}
+	\centering % Горизонтальное центрирование
+	{\small
+	\textbf{МИНОБРНАУКИ РОССИИ} \\[0.5em]
+	ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ 
+	ВЫСШЕГО ОБРАЗОВАНИЯ \\[0.3em]
+	\textbf{<<БЕЛГОРОДСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНОЛОГИЧЕСКИЙ\\УНИВЕРСИТЕТ~им.~В.Г.~ШУХОВА>>}\\
+	\textbf{(БГТУ~им.~В.Г.~Шухова)}}
+	\vspace*{\fill}\par % Вертикальный отступ (заполняет пространство)
+	% Здесь размещаем содержимое титульного листа
+	{\Large\bfseries Название документа\par}
+	\vspace{2cm}
+	{\normalsize Автор: Иванов Иван Иванович\par}
+	\vspace{\fill} % Ещё один вертикальный отступ
+	{\normalsize Белгород \the\year \ г. \par}
+\end{titlepage}
+\restoregeometry
+\initpagenumbering
+\setcounter{page}{2}
+
+\section*{OПРЕДЕЛЕНИЯ, СOКРAЩЕНИЯ И OБOЗНAЧЕНИЯ}
+\par РФ -- Российская Федерация.
+\par СВО -- специальная военная операция.
+\par ВУЗ -- высшее учебное заведение.
+\par API (Application Programming Interface) -- программный интерфейс, обеспечивающий взаимодействие между компонентами программного обеспечения.
+\par RGB (red, green, blue) -- цветовой формат машинной графики, основанный на смешении компонентов красного, зелёного и синего цветов.
+\par WWW (World Wide Web) -- всемирная паутина, система взаимосвязанных гипертекстовых документов.
+
+% Содержание
+\renewcommand{\contentsname}{\rucontentsname}
+\tableofcontents
+
+\section*[ВВЕДЕНИЕ]{ВВЕДЕНИЕ}
+\lipsum[1-10]
+\section{АНАЛИЗ СОСТОЯНИЯ ИССЛЕДОВАНИЙ И РАЗРАБОТОК В ОБЛАСТИ ПРОГНОЗИРОВАНИЯ ПОГОДЫ}
+\lipsum[11]
+\subsection{Обзор работ в области прогнозирования погоды}
+\subsection{Обзор существующих аналогов, методов и технологий разработки программ для прогнозирования погоды}
+\subsection{Объект и предмет исследования}
+\subsection{Постановка задачи прогнозирования погоды методом машинного обучения}
+\subsection{Практическая и теоретическая значимость работы}
+\subsection{Используемые методы и технологии разработки ПО}
+\subsection{Описание методов прогнозирования погоды с использованием машинного обучения}
+%\subsection{Краткие теоретические сведения}
+
+\lipsum[21-30]
+\section{РАЗРАБОТКА АРХИТЕКТУРЫ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ДЛЯ ПРОГНОЗИРОВАНИЯ ПОГОДЫ}
+\lipsum[31-40]
+\section{РАЗРАБОТКА АЛГОРИТМОВ И ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ДЛЯ ПРОГНОЗИРОВАНИЯ ПОГОДЫ}
+\lipsum[41-50]
+\section*[ЗАКЛЮЧЕНИЕ]{ЗАКЛЮЧЕНИЕ}
+\lipsum[51-60]
+
+\newpage
+% Оформление списка литературы
+\renewcommand{\refname}{\rubibliographyname} % Заголовок
+\phantomsection
+\addcontentsline{toc}{section}{\rubibliographyname}% Добавим список литературы в оглавление
+\begin{thebibliography}{99}
+	\bibitem{gost19201}
+	\textbf{ГОСТ 19.201-78.} Техническое задание. Требования к содержанию и оформлению.  -- Введ. 1980-01-01. -- Москва : Стандартинформ, 2010. --~4~с.
+\end{thebibliography}
+
+% ПРИЛОЖЕНИЯ
+\appendix
+
+\section{Блок-схемы основных алгоритмов прогнозирования погоды}
+\lipsum[1-10]
+\section{Листинги разработанных подпрограмм для прогнозирования погоды}
+\lipsum[11-20]
+\end{document}
